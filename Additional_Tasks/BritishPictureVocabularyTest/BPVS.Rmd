@@ -1,0 +1,293 @@
+---
+title: "BPVS"
+author: "Eva Reindl"
+date: "5 5 2020"
+output: word_document
+---
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+BPVS <-read.csv("BPVS.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+names(BPVS)[1] <- "ID"
+str(BPVS)
+```
+There are 156 children in the dataset.
+
+# Dropouts
+```{r}
+BPVS.dropout<-subset(BPVS, Dropout. =="yes")
+```
+There are **7 dropouts**:
+
+- for 5 children, no basal set could be established. For two of those children, it was suspected that the children answered wrongly on purpose.
+- 1 child stopped the game
+- for 1 child, the raw score was so low that the standardized score could not be calculated.
+
+# Valid data
+```{r}
+BPVS.clean<-subset(BPVS, Dropout. =="no")
+```
+There are **149 children** with valid data.
+
+# Sample description
+## Gender distribution
+```{r}
+table(BPVS.clean$Gender)
+```
+There are 79 girls and 70 boys.
+
+## Age
+### Age at beginning of testing (which was basis for calculation of scores)
+```{r}
+mean(BPVS.clean$Age_months)
+sd(BPVS.clean$Age_months)
+min(BPVS.clean$Age_months)
+max(BPVS.clean$Age_months)
+hist(BPVS.clean$Age_months)
+table(BPVS.clean$Age_group)
+```
+The children who contributed data to the BPVS were on average 49.15 months (SD = 6.82, range 35-70) at the beginning of testing. There were 
+
+- 1 2-year-old (scores caluclated as if child was 3)
+- 62 3-year-olds
+- 79 4-year-olds
+- 7 5-year-olds
+
+### Age in the middle of testing 
+```{r}
+mean(BPVS.clean$Midtesting_age_months)
+sd(BPVS.clean$Midtesting_age_months)
+min(BPVS.clean$Midtesting_age_months)
+max(BPVS.clean$Midtesting_age_months)
+hist(BPVS.clean$Midtesting_age_months)
+table(BPVS.clean$Midtesting_age_group)
+```
+The children who contributed data to the BPVS were on average **50.21 months (SD = 6.77, range 36-72)** in the middle of testing. There were 
+
+- 60 3-year-olds
+- 77 4-year-olds
+- 10 5-year-olds
+- 1 6-year-old
+
+### Mediansplit young/old based on entire sample of test battery children 
+median is 49 months, "young" children are <= 49 months, "old" children are >49 months
+```{r}
+table(BPVS.clean$Mediansplit_midtesting_entiresample)
+```
+There were **70 young** children and **79 old** children.
+
+
+# BPVS score
+## Across the entire sample
+```{r}
+mean(BPVS.clean$BPVS_StandardizedScore)
+sd(BPVS.clean$BPVS_StandardizedScore)
+min(BPVS.clean$BPVS_StandardizedScore)
+max(BPVS.clean$BPVS_StandardizedScore)
+hist(BPVS.clean$BPVS_StandardizedScore)
+shapiro.test(BPVS.clean$BPVS_StandardizedScore)
+```
+Across the entire sample, the average BPVS standardized score was **104.33 (SD = 12.61, range 77-126)**. The distribution of the variable was bimodal and is not normally distributed, W = 0.959, p < .001.
+
+## By gender
+```{r}
+tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$Gender, mean)
+tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$Gender, sd)
+tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$Gender, min)
+tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$Gender, max)
+```
+
+- Girls (n = 79): M = 103.71 (SD = 11.98, range 82-126)
+- Boys (n = 70): M = 105.03 (SD = 13.34, range 77-126)
+
+## By age groups at midtesting
+```{r}
+tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$Midtesting_age_group, mean)
+tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$Midtesting_age_group, sd)
+tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$Midtesting_age_group, min)
+tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$Midtesting_age_group, max)
+```
+
+- 3y (n = 60): M = 100.03 (SD = 11.79, range 80-122)
+- 4y (n = 77): M = 107.66 (SD = 12.21, range 77-126)
+- 5y (n = 10): M = 107.10 (SD = 13.26, range 77-122)
+- 6y (n = 1): 94
+
+## By mediansplit age
+```{r}
+tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$Mediansplit_midtesting_entiresample, mean)
+tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$Mediansplit_midtesting_entiresample, sd)
+tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$Mediansplit_midtesting_entiresample, min)
+tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$Mediansplit_midtesting_entiresample, max)
+```
+
+- young (n = 70): M = 100.80 (SD = 12.46, range 80-123)
+- old (n = 79): M = 107.45 (SD = 11.96, range 77-126)
+
+## By testing location (Edinburgh vs Fife):
+```{r}
+table(BPVS.clean$TestingLocation)
+tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$TestingLocation, mean)
+tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$TestingLocation, sd)
+tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$TestingLocation, min)
+tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$TestingLocation, max)
+```
+
+- Edinburgh (n = 67): M = 107.24 (SD = 12.56, range 77-126)
+- Fife (n = 82): M = 101.95 (SD = 12.21, range 77-125)
+
+### We then look at the age distribution of Edinburgh and Fife.
+```{r}
+table(BPVS.clean$TestingLocation, BPVS.clean$Midtesting_age_group)
+tapply(BPVS.clean$Midtesting_age_months, BPVS.clean$TestingLocation, mean)
+tapply(BPVS.clean$Midtesting_age_months, BPVS.clean$TestingLocation, sd)
+tapply(BPVS.clean$Midtesting_age_months, BPVS.clean$TestingLocation, min)
+tapply(BPVS.clean$Midtesting_age_months, BPVS.clean$TestingLocation, max)
+```
+
+- Edinburgh: 25 3y, 41 4y. M = 49.83 months (SD = 5.83, range 36-58)
+- Fife: 35 3y, 36 4y 10 5y, 1 6y. M = 50.52 months (SD = 7.48, range 36-72)
+
+
+### Can the BPVS score be predicted by testing location, above age?
+```{r}
+library(lme4)
+BPVS.clean$z.age=as.vector(scale(BPVS.clean$Midtesting_age_months))#transform age to mean of 0 and SD of 1
+mean(BPVS.clean$z.age)#check whether it has worked
+sd(BPVS.clean$z.age)
+res<-lm(BPVS_StandardizedScore ~ z.age + TestingLocation, data = BPVS.clean)
+```
+
+#### Check of assumptions
+1) Normality of residuals
+```{r}
+hist(residuals(res), probability=T)
+
+#add line:
+x=seq(from=min(residuals(res)),
+to=max(residuals(res)), length.out=100)
+lines(x=x, y=dnorm(x, mean=0,
+sd=sd(residuals(res))))
+
+#a safer option is to look at the qq plot:
+qqnorm(residuals(res));qqline(residuals(res))
+
+plot(residuals(res))
+```
+Not really normal, but only slightly skewed, so probably ok? The qq-plot reveals that large values are too large - see also the histogram.
+
+2) Homogeneity of residuals
+```{r}
+plot(fitted(res), residuals(res), pch=19)
+```
+A pattern is visible after all - this might be problematic.
+
+3) Is there a correlation between absolute residuals and fitted values?
+```{r}
+cor.test(fitted(res), abs(residuals(res)))
+```
+No, so this seems ok.
+
+4) Influence diagnostics
+DFFits
+```{r}
+dffits(res)
+max(abs(dffits(res)))
+hist(dffits(res))
+plot(dffits(res))
+```
+DFFit: Values around 2 are reason to worry, but all our values are below 0.5, so this is ok.
+
+DFBetas
+```{r}
+round(cbind(coefficients(res), coefficients(res)+
+t(apply(X=dfbeta(res), MARGIN=2, FUN=range))), 5)
+
+plot(dfbeta(res)[,1])#needs to be done by column
+plot(dfbeta(res)[,2])
+plot(dfbeta(res)[,3])
+```
+DFBeta: looks good, little variation.
+
+Cook's distance
+```{r}
+max(cooks.distance(res))
+plot(cooks.distance(res))
+```
+Cook's distance: values above 1 are reason to worry, but our maximum value is 0.07.
+
+
+Leverage
+```{r}
+max(as.vector(influence(res)$hat))
+plot(as.vector(influence(res)$hat))
+
+length(coefficients(res))# this is calculating k, which is the number of predictors
+2*(3+1)/149 
+3*(3+1)/149 
+```
+Leverage: values > 2*(k+1)/n or > 3*(k+1)/n are a reason to worry (k = number of predictors); in our case the thresholds are 0.05 and 0.08, and our max value is 0.08, so this is just ok.
+
+
+```{r}
+null<-lm(BPVS_StandardizedScore ~ 1, data = BPVS.clean)
+anova(null, res, test="Chisq")
+summary(res)
+drop1(res)
+cbind(coefficients(res), confint(res))
+```
+Together, age in months and testing location can explain the BPVS scores better than a model just containing the intercept, X2(2) = 2621.8, p < .001.
+There is a significant effect of age (X2(1) = 1590.9, p = .001) and testing location (X2(1) = 1162.1, p = .005). With each standard deviation increase in age, the BPVS standardized score increases by 3.28 (95% CI [1.34; 5.23])units. When moving from Edinburgh to Fife, the expected score for a child of mean age decreases by 5.62 (95% CI [1.72; 9.52])units.
+
+### Plot the effect of testing location
+```{r}
+library(ggplot2)
+
+p1<-  ggplot(
+  data=BPVS.clean, aes(x=rep(1, 149), y=BPVS_StandardizedScore, fill = TestingLocation))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(60,130)+
+  xlim(0,2)+
+  labs(x="Testing Location",y="BPVS Standardized Score")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("BPVS Score by Testing Location")
+
+p1 +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5) + scale_size_area(max_size=10)+
+  scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 67", "Fife, n = 82"))
+```
+
+## We further examine the distribution of the standardised score in each testing location subset.
+First we create a subset for each testing location.
+```{r}
+Edi<-subset(BPVS.clean, TestingLocation =="Edinburgh")
+Fife<-subset(BPVS.clean, TestingLocation =="Fife")
+```
+
+```{r}
+hist(Edi$BPVS_StandardizedScore)
+shapiro.test(Edi$BPVS_StandardizedScore)#not normally distributed
+
+hist(Fife$BPVS_StandardizedScore)
+shapiro.test(Fife$BPVS_StandardizedScore)#not normally distributed
+
+wilcox.test(BPVS.clean$BPVS_StandardizedScore ~ BPVS.clean$TestingLocation, alternative = "greater")
+```
+For the Fife children, the distribution is bimodal, which is not the case for the Edinburgh children.
