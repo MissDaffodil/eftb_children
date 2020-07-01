@@ -1,0 +1,1062 @@
+---
+title: "WM_grid"
+author: "Eva Reindl"
+date: "31 3 2020"
+output: word_document
+---
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+WM.grid <-read.csv("WM_grid.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+names(WM.grid)[1] <- "ID"
+names(WM.grid)[17] <- "SecondTaskCorrect"
+names(WM.grid)[15] <- "NrSearchesUntilRewardFound"
+names(WM.grid)[28] <- "GotToy"
+
+#recode variables
+WM.grid$Age_group <- as.factor(WM.grid$Age_group)#this converts a variable classified as continuous into a categorical variable
+WM.grid$ID <- as.factor(WM.grid$ID)#this converts a variable classified as continuous into a categorical variable
+levels(WM.grid$Age_group)
+
+str(WM.grid)
+```
+
+# Dropouts
+```{r}
+dropouts<-subset(WM.grid, Dropout == "yes")
+```
+We have 3 dropouts (2 children stopped after 5 test trials, 1 in the middle of the 8th test trial.
+
+# Select the test trials and remove dropouts
+```{r}
+test.trials<-subset(WM.grid, Phase == "Test" & Dropout == "no")
+ID.WM<-aggregate(distance_c01 ~ ID, test.trials, mean)
+```
+Final **sample size is 127**.
+
+# Which children to include?
+We eventually decided to include children who have completed 75% (i.e., 9) of the test trials. Before deciding this, we wanted to know whether performance in trials 1-4 is different from performance in trials 5-12, and thus we wanted to explore whether we could cut the test length (either here to include children who stopped earlier or with regard to future administrations of this test).
+For this analysis, we need to **remove the children who have fewer than 12 trials**. 
+
+## Is performance in trials 1-4 comparable to performance in trials 5-12?
+### Performance in trials 1-4
+```{r}
+test.trials.complete<-subset(WM.grid, Phase == "Test" & Dropout == "no" & StoppedGame == "no")
+#Select test trials 1-4
+trials1to4<-subset(test.trials.complete, Trial == "1" | Trial == "2" | Trial == "3" | Trial == "4")
+
+#the aggregate function says: for each ID, calculate the mean for the variable distance_c01. 
+#the output is another dataframe
+meandistance.1to4<- aggregate(distance_c01 ~ ID, trials1to4, mean)
+#for this dataframe, we ask for the mean of the means!
+mean(meandistance.1to4$distance_c01)
+sd(meandistance.1to4$distance_c01)
+min(meandistance.1to4$distance_c01)
+max(meandistance.1to4$distance_c01)
+```
+Aggregating over trials 1 to 4, the mean distance was 0.78 (SD = 0.46, range 0-2.04).
+
+### Performance in trials 5-12
+```{r}
+#Select test trials 5-12
+trials5to12<-subset(test.trials.complete, Trial == "5" | Trial == "6" | Trial == "7" | Trial == "8" | Trial == "9" | Trial == "10" | Trial == "11" | Trial == "12")
+
+#the aggregate function says: for each ID, calculate the mean for the variable distance_c01. 
+#the output is another dataframe
+meandistance.5to12<- aggregate(distance_c01 ~ ID, trials5to12, mean)
+#for this dataframe, we ask for the mean of the means!
+mean(meandistance.5to12$distance_c01)
+sd(meandistance.5to12$distance_c01)
+min(meandistance.5to12$distance_c01)
+max(meandistance.5to12$distance_c01)
+```
+Aggregating over trials 5 to 12, the mean distance was 0.87 (SD = 0.32, range 0.12-1.68).
+
+
+### Comparison performance in trials 1-4 and 5-12
+```{r}
+hist(meandistance.1to4$distance_c01)
+shapiro.test(meandistance.1to4$distance_c01)#is not normally distributed
+
+hist(meandistance.5to12$distance_c01)
+shapiro.test(meandistance.5to12$distance_c01)#is normally distributed
+
+wilcox.test(meandistance.1to4$distance_c01, 
+       meandistance.5to12$distance_c01,
+       paired = TRUE, alternative = "two.sided")#performance in trials 1-4 and in trials 5-12 is significantly different from each other
+
+wilcox.test(meandistance.1to4$distance_c01, 
+       meandistance.5to12$distance_c01,
+       paired = TRUE, alternative = "two.sided")
+```
+Performance in Trials 1-4 and 5-12 is significantly different from each other (paired samples Wilcoxon test, V = 2908.5, p = .022.
+
+
+
+What about we make the split at 6 trials?
+
+## Is performance in trials 1-6 comparable to performance in trials 7-12?
+### Performance in trials 1-6
+We do the same again...
+```{r}
+#Select test trials 1-6
+trials1to6<-subset(test.trials.complete, Trial == "1" | Trial == "2" | Trial == "3" | Trial == "4" | Trial == "5" | Trial == "6")
+
+#the aggregate function says: for each ID, calculate the mean for the variable distance_c01. 
+#the output is another dataframe
+meandistance.1to6<- aggregate(distance_c01 ~ ID, trials1to6, mean)
+#for this dataframe, we ask for the mean of the means!
+mean(meandistance.1to6$distance_c01)
+sd(meandistance.1to6$distance_c01)
+min(meandistance.1to6$distance_c01)
+max(meandistance.1to6$distance_c01)
+```
+Aggregating over trials 1 to 7, the mean distance was 0.78 (SD = 0.42, range 0-1.90).
+
+
+### Performance in trials 7-12
+```{r}
+#Select test trials 7-12
+trials7to12<-subset(test.trials.complete, Trial == "7" | Trial == "8" | Trial == "9" | Trial == "10" | Trial == "11" | Trial == "12")
+
+#the aggregate function says: for each ID, calculate the mean for the variable distance_c01. 
+#the output is another dataframe
+meandistance.7to12<- aggregate(distance_c01 ~ ID, trials7to12, mean)
+#for this dataframe, we ask for the mean of the means!
+mean(meandistance.7to12$distance_c01)
+sd(meandistance.7to12$distance_c01)
+min(meandistance.7to12$distance_c01)
+max(meandistance.7to12$distance_c01)
+```
+Aggregating over trials 1 to 7, the mean distance was 0.90 (SD = 0.35, range 0.17-1.97).
+
+
+### Comparison performance in trials 1-6 and 7-12
+```{r}
+hist(meandistance.1to6$distance_c01)
+shapiro.test(meandistance.1to6$distance_c01)#is not normally distributed
+
+hist(meandistance.7to12$distance_c01)
+shapiro.test(meandistance.7to12$distance_c01)#is normally distributed
+
+wilcox.test(meandistance.1to6$distance_c01, 
+       meandistance.7to12$distance_c01,
+       paired = TRUE, alternative = "two.sided")#performance in trials 1-6 and in trials 7-12 is significantly different from each other
+
+wilcox.test(meandistance.1to6$distance_c01, 
+       meandistance.7to12$distance_c01,
+       paired = TRUE, alternative = "two.sided")
+```
+Performance in Trials 1-6 and 7-12 is significantly different from each other (paired samples Wilcoxon test, V = 2771, p = .012).
+
+
+
+What about we make the split at 8 trials?
+
+## Is performance in trials 1-8 comparable to performance in trials 9-12?
+### Performance in trials 1-6
+We do the same again...
+```{r}
+#Select test trials 1-8
+trials1to8<-subset(test.trials.complete, Trial == "1" | Trial == "2" | Trial == "3" | Trial == "4" | Trial == "5" | Trial == "6" | Trial == "7" | Trial == "8")
+
+#the aggregate function says: for each ID, calculate the mean for the variable distance_c01. 
+#the output is another dataframe
+meandistance.1to8<- aggregate(distance_c01 ~ ID, trials1to8, mean)
+#for this dataframe, we ask for the mean of the means!
+mean(meandistance.1to8$distance_c01)
+sd(meandistance.1to8$distance_c01)
+min(meandistance.1to8$distance_c01)
+max(meandistance.1to8$distance_c01)
+```
+Aggregating over trials 1 to 8, the mean distance was 0.83 (SD = 0.38, range 0.12-1.98).
+
+
+### Performance in trials 9-12
+```{r}
+#Select test trials 9-12
+trials9to12<-subset(test.trials.complete, Trial == "9" | Trial == "10" | Trial == "11" | Trial == "12")
+
+#the aggregate function says: for each ID, calculate the mean for the variable distance_c01. 
+#the output is another dataframe
+meandistance.9to12<- aggregate(distance_c01 ~ ID, trials9to12, mean)
+#for this dataframe, we ask for the mean of the means!
+mean(meandistance.9to12$distance_c01)
+sd(meandistance.9to12$distance_c01)
+min(meandistance.9to12$distance_c01)
+max(meandistance.9to12$distance_c01)
+```
+Aggregating over trials 1 to 8, the mean distance was 0.86 (SD = 0.38, range 0.25-1.82).
+
+
+### Comparison performance in trials 1-8 and 9-12
+```{r}
+hist(meandistance.1to8$distance_c01)
+shapiro.test(meandistance.1to8$distance_c01)#is not normally distributed
+
+hist(meandistance.9to12$distance_c01)
+shapiro.test(meandistance.9to12$distance_c01)#is not normally distributed
+
+wilcox.test(meandistance.1to8$distance_c01, 
+       meandistance.9to12$distance_c01,
+       paired = TRUE, alternative = "two.sided")#performance in trials 1-8 and in trials 9-12 is not different from each other
+wilcox.test(meandistance.1to8$distance_c01, 
+       meandistance.9to12$distance_c01,
+       paired = TRUE, alternative = "two.sided")
+```
+Performance in Trials 1-8 and 9-12 is not different from each other (paired samples Wilcoxon test, V = 3463.5, p = .463). Therefore, **in the future, this task could potentially be shortened to 8 instead of 12 trials**.
+
+# Sample description
+## Gender distribution
+```{r}
+test.trials.t1 <- subset(test.trials, Trial == "1")
+table(test.trials.t1$Gender)
+table(test.trials.t1$Gender, test.trials.t1$AgeGroup_midtesting)
+
+boys <- subset(test.trials.t1, Gender == "m")
+girls <- subset(test.trials.t1, Gender == "f")
+
+hist(boys$AgeMonths_midtesting)
+shapiro.test(boys$AgeMonths_midtesting)#normally distributed
+hist(girls$AgeMonths_midtesting)
+shapiro.test(girls$AgeMonths_midtesting)#not normally distributed
+
+wilcox.test(test.trials.t1$AgeMonths_midtesting ~ test.trials.t1$Gender, alternative = "two.sided")
+```
+There are **70 girls** and **57 boys**.
+
+- Girls: 34 3y, 29 4y, 7 5y
+- Boys: 21 3y, 32 4y, 3 5y, 1 6y
+
+There is no difference in the age distribution between boys and girls.
+
+## Age
+### Age at beginning of testing
+```{r}
+mean(test.trials.t1$Age_months)
+sd(test.trials.t1$Age_months)
+min(test.trials.t1$Age_months)
+max(test.trials.t1$Age_months)
+
+table(test.trials.t1$Age_group)
+```
+At the beginning of testing, the children who had valid data on the WM grid task were on average 48.83 months (SD = 6.90, range 36-70) old. There were 58 3-year-olds, 62 4-year-olds, and 7 5-year-olds.
+
+### Age in the middle of testing
+```{r}
+mean(test.trials.t1$AgeMonths_midtesting)
+sd(test.trials.t1$AgeMonths_midtesting)
+min(test.trials.t1$AgeMonths_midtesting)
+max(test.trials.t1$AgeMonths_midtesting)
+
+table(test.trials.t1$AgeGroup_midtesting)
+```
+In the middle of testing, the children who had valid data on the WM grid task were on average **49.90 months (SD = 6.86, range 36-72)** old. There were 
+
+- 55 3-year-olds
+- 61 4-year-olds
+- 10 5-year-olds
+- 1 6-year-old
+
+### Age mediansplit by entire sample
+Median is 49 months
+```{r}
+table(test.trials.t1$Mediansplit_midtesting_entiresample)
+```
+There are **65 young** and **62 old** children.
+
+## Testing Location
+```{r}
+table(test.trials.t1$TestingLocation)
+
+Fife<- subset(test.trials.t1, TestingLocation == "Fife")
+Edinburgh<- subset(test.trials.t1, TestingLocation == "Edinburgh")
+
+shapiro.test(Fife$AgeMonths_midtesting)#not normally distributed
+hist(Fife$AgeMonths_midtesting,
+     main="Histogram for Mean distance between reward and first choice in test trials", 
+     xlab="Mean distance", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(36,80))
+
+shapiro.test(Edinburgh$AgeMonths_midtesting)#normally distributed
+hist(Edinburgh$AgeMonths_midtesting,
+     main="Histogram for Mean distance between reward and first choice in test trials", 
+     xlab="Mean distance", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(36,80))
+
+wilcox.test(test.trials.t1$AgeMonths_midtesting ~ test.trials.t1$TestingLocation, alternative = "two.sided")
+```
+69 children were from the Fife area, 58 children were from Edinburgh. There is no difference in the age distribution between the two locations, two-sided Wilcoxon test, W = 1904, p = .640.
+
+### Testing location and age
+```{r}
+table(test.trials.t1$TestingLocation, test.trials.t1$AgeGroup_midtesting)
+```
+Fife: 
+
+- 3y: 31
+- 4y: 27
+- 5y: 10
+- 6y: 1
+
+Edinburgh:
+
+- 3y: 24
+- 4y: 34
+
+# Warm-up
+## Mean number of toys won over the two warm-up trials
+```{r}
+warm.up <- subset(WM.grid, Phase == "Warm-up" & Dropout == "no")
+
+GotToy <- aggregate(GotToy ~ ID, warm.up, sum)
+
+mean(GotToy$GotToy)
+sd(GotToy$GotToy)
+min(GotToy$GotToy)
+max(GotToy$GotToy)
+```
+In the two warm-up trials, children won on average 1.87 (SD = 0.36, range 0-2) toys.
+
+## Mean number of searches in the two warm-up trials
+```{r}
+#select those trials where children actually found the toy
+warm.up.successfulsearches <- subset(warm.up, NrSearchesUntilRewardFound != "4")
+
+NrSearches<- aggregate(NrSearchesUntilRewardFound ~ ID, warm.up.successfulsearches, mean)
+
+mean(NrSearches$NrSearchesUntilRewardFound)
+sd(NrSearches$NrSearchesUntilRewardFound)
+min(NrSearches$NrSearchesUntilRewardFound)
+max(NrSearches$NrSearchesUntilRewardFound)
+```
+Out of 254 warm-up trials, children were successful in 238 (94%). In those 238 warm-up trials where children were successful, children needed on average 1.13 (SD = 0.31, range 1-3) searches to find the toy.
+
+
+### In how many warm-up trials did children not find the toy?
+```{r}
+#select those trials where children actually found the toy
+warm.up.unsuccessfulsearches <- subset(warm.up, NrSearchesUntilRewardFound == "4")
+```
+Out of 254 warm-up trials, there were only 16 (6%) in which the children did not get the toy.
+
+# How many searches were done?
+```{r}
+table(test.trials$NrSearchesUntilRewardFound)
+```
+There were 1518 test trials across 127 children. Out of these, 669 (44%) consisted of a single search, i.e., children got the toy in their first search. 210 trials (14%) consisted of two searches, 98 trials (6%) consisted of 3 searches, and in 541 trials (36%) children did not find the toy (i.e., they reached the maximum number of 3 searches and did not find the toy in the third search either).
+
+## By age groups
+```{r}
+table(test.trials$NrSearchesUntilRewardFound, test.trials$AgeGroup_midtesting)
+```
+
+- 3-year-olds: 656 searches in total, out of which 257 (39%) are 1 search, 90 (14%) are 2 searches, 48 (7%) are 3 searches, and in 261 (40%) searches the toy was not found.
+- 4-year-olds: 730 searches in total, out of which 344 (47%) are 1 search, 103 (14%) are 2 searches, 44 (6%) are 3 searches, and in 239 (33%) searches the toy was not found.
+- 5-year-olds: 120 searches in total, out of which 60 (50%) are 1 search, 15 (12%) are 2 searches, 6 (5%) are 3 searches, and in 39 (32%) searches the toy was not found.
+- 6-year-old: 12 searches in total, out of which 8 (67%) are 1 search, 2 (17%) are 2 searches, and in 2 (17%) searches the toy was not found.
+
+## By age mediansplit
+```{r}
+table(test.trials$NrSearchesUntilRewardFound, test.trials$Mediansplit_midtesting_entiresample)
+```
+
+- young: 774 searches in total, out of which 307 (40%) are 1 search, 105 (13%) are 2 searches, 59 (8%) are 3 searches, and in 303 (39%) searches the toy was not found.
+- old: 744 searches in total, out of which 362 (49%) are 1 search, 105 (14%) are 2 searches, 39 (5%) are 3 searches, and in 238 (32%) searches the toy was not found.
+
+# How did children perform in the distractor task?
+```{r}
+table(test.trials$SecondTaskCorrect)
+```
+Out of the 1518 test trials, in 1259 trials (83%) children found the sticker in their first try of solving the distractor task. In 258 trials (17%) children failed to find the sticker.
+
+## By age groups
+```{r}
+table(test.trials$SecondTaskCorrect, test.trials$AgeGroup_midtesting)
+```
+
+- 3y: out of the 656 test trials, in 520 (79%) children found the sticker, in 136 they did not.
+- 4y: out of the 729 test trials, in 622 (85%) children found the sticker, in 107 they did not.
+- 5y: out of the 120 test trials, in 107 (89%) children found the sticker, in 13 they did not.
+- 6y: out of the 12 test trials, in 10 (83%) the child found the sticker, in 2 they did not.
+
+## By age mediansplit
+```{r}
+table(test.trials$SecondTaskCorrect, test.trials$Mediansplit_midtesting_entiresample)
+```
+
+- young: out of the 774 test trials, in 621 (80%) children found the sticker, in 153 they did not.
+- old: out of the 743 test trials, in 638 (86%) children found the sticker, in 105 they did not.
+
+# DV: Average distance across test trials
+## Across the sample
+```{r}
+#the aggregate function says: for each ID, calculate the mean for the variable distance_c01. 
+#the output is another dataframe
+meandistance<- aggregate(distance_c01 ~ ID, test.trials, mean)
+#for this dataframe, we ask for the mean of the means!
+mean(meandistance$distance_c01)
+sd(meandistance$distance_c01)
+min(meandistance$distance_c01)
+max(meandistance$distance_c01)
+
+hist(meandistance$distance_c01,
+     main="Histogram for Mean distance between reward and first choice in test trials", 
+     xlab="Mean distance", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,3.7))
+shapiro.test(meandistance$distance_c01)#normally distributed
+```
+The mean distance from the reward was 0.84 (SD = 0.31, range 0.17-1.60). The DV is normally distributed, W = 0.987, p = .251.
+
+Boxplot:
+```{r}
+library(ggplot2)
+
+p<-  ggplot(
+  data=meandistance, aes(x=rep(1, 127), y=distance_c01)) +
+  geom_boxplot(outlier.colour = "black")+
+  ylim(0,2)+
+  xlim(0,2)+
+  labs(x="",y="Mean distance from reward")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Grid")
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=1.667, linetype="dashed", color = "red") + geom_count()
+```
+
+### Do children perform significantly below chance?
+#### Test against all cells
+Christoph's simulation is based on 1000000 iterations of 12 random choices of a cell on the 4x4 grid. The distance between these random choices and the hiding location of the reward was then calculated. The mean distance of the these random choices from the  reward is used as the hypothetical chance value.
+```{r}
+t.test(meandistance$distance_c01, mu=1.954, alternative = "two.sided")
+```
+Mean distance vs chance value (1.954): M = 0.84 (SD = 0.31, range 0.17-1.60) is significantly better than chance, t(126) = -40.65, p < .001.
+
+#### Test against inner cell preference
+The simulation is identical to the aforementioned one but only the inner cells are sampled, resulting in a smaller average distance from the reward.
+```{r}
+t.test(meandistance$distance_c01, mu=1.667, alternative = "two.sided")
+```
+Mean distance between chosen box and baited cell vs chance value (inner cells only: 1.667): M = 0.84 (SD = 0.31, range 0.17-1.60) is significantly better than chance, t(126) = -30.14, p < .001.
+
+## By age groups
+We would like to display the boxplot split by age groups. For this, we will need data in the wide format. So we load the dataframa (with fewer columns) which we can easily convert. In that dataframe, we made a new column that groups all the children aged 49 months or younger as "young" and all children above 49 months as "old".
+```{r}
+#LOAD DATA
+WM.grid.short <-read.csv("WM grid task short.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+str(WM.grid.short)
+names(WM.grid.short)[1] <- "ID"
+
+Wm.grid.short.test.trials<-subset(WM.grid.short, Phase == "Test" & Dropout == "no")
+```
+
+Convert the data
+```{r}
+library(tidyr)
+
+Grid.short <- spread(Wm.grid.short.test.trials, Trial, AverageDistanceAcrossTestTrials)
+str(Grid.short)
+names(Grid.short)[1] <- "ID"
+names(Grid.short)[11] <- "distance"
+str(Grid.short)
+
+mean(Grid.short$distance)#check
+```
+
+```{r}
+tapply(Grid.short$distance, Grid.short$AgeGroup_midtesting, mean)
+tapply(Grid.short$distance, Grid.short$AgeGroup_midtesting, sd)
+tapply(Grid.short$distance, Grid.short$AgeGroup_midtesting, min)
+tapply(Grid.short$distance, Grid.short$AgeGroup_midtesting, max)
+
+three<- subset(Grid.short, AgeGroup_midtesting == "3")
+four<- subset(Grid.short, AgeGroup_midtesting == "4")
+five<- subset(Grid.short, AgeGroup_midtesting == "5")
+
+shapiro.test(three$distance)#normally distributed
+hist(three$distance,
+     main="3-year-olds", 
+     xlab="Mean distance", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,3.7))
+
+shapiro.test(four$distance)#normally distributed
+hist(four$distance,
+     main="4-year-olds", 
+     xlab="Mean distance", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,3.7))
+
+shapiro.test(five$distance)#normally distributed
+hist(five$distance,
+     main="5-year-olds", 
+     xlab="Mean distance", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,3.7))
+```
+
+- 3y (n = 55): M = 0.93 (SD = 0.29, range 0.45-1.60)
+- 4y (n = 61): M = 0.79 (SD = 0.31, range 0.17-1.40)
+- 5y (n = 10): M = 0.72 (SD = 0.32, range 0.33-1.34)
+- 6y (n = 1): 0.47
+
+### Do children perform significantly below chance?
+#### Test against all cells
+```{r}
+t.test(three$distance, mu=1.954, alternative = "two.sided")
+t.test(four$distance, mu=1.954, alternative = "two.sided")
+t.test(five$distance, mu=1.954, alternative = "two.sided")
+```
+
+- 3y: Mean distance (0.93) vs chance value (1.954): significantly better than chance, t(54) = -26.30, p < .001.
+- 4y: Mean distance (0.79) vs chance value (1.954): significantly better than chance, t(60) = -29.69, p < .001.
+- 5y: Mean distance (0.72) vs chance value (1.954): significantly better than chance, t(9) = -12.19, p < .001.
+
+
+#### Test against inner cell preference
+The simulation is identical to the aforementioned one but only the inner cells are sampled, resulting in a smaller average distance from the reward.
+```{r}
+t.test(three$distance, mu=1.667, alternative = "two.sided")
+t.test(four$distance, mu=1.667, alternative = "two.sided")
+t.test(five$distance, mu=1.667, alternative = "two.sided")
+```
+- 3y: Mean distance (0.93) vs chance value (1.954): significantly better than chance, t(54) = -18.91, p < .001.
+- 4y: Mean distance (0.79) vs chance value (1.954): significantly better than chance, t(60) = -22.37, p < .001.
+- 5y: Mean distance (0.72) vs chance value (1.954): significantly better than chance, t(9) = -9.36, p < .001.
+
+Boxplot:
+```{r}
+library(ggplot2)
+
+p1<-ggplot(data=Grid.short, aes(x=AgeGroup_midtesting,y=distance)) +
+  geom_boxplot(aes(group=AgeGroup_midtesting, fill = as.factor(Grid.short$AgeGroup_midtesting)), outlier.colour = "black") + 
+      ylim(0,3)+
+  xlim(2.5,6.5)+
+  geom_point(alpha=0.3) +
+  labs(x="",y="Mean distance")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Grid: mean distance from reward per age group")
+
+p1 +  geom_hline(yintercept=1.667, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ 
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5)+
+  scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 55", "4 years, n = 61", "5 years, n = 10", "6 years, n = 1"))
+```
+
+
+## By mediansplit
+```{r}
+table(Grid.short$Mediansplit_midtesting_entiresample)
+
+tapply(Grid.short$distance, Grid.short$Mediansplit_midtesting_entiresample, mean)
+tapply(Grid.short$distance, Grid.short$Mediansplit_midtesting_entiresample, sd)
+tapply(Grid.short$distance, Grid.short$Mediansplit_midtesting_entiresample, min)
+tapply(Grid.short$distance, Grid.short$Mediansplit_midtesting_entiresample, max)
+
+young<- subset(Grid.short, Mediansplit_midtesting_entiresample == "young")
+old<- subset(Grid.short, Mediansplit_midtesting_entiresample == "old")
+
+shapiro.test(young$distance)#normally distributed
+hist(young$distance,
+     main="young", 
+     xlab="Mean distance", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,3.7))
+
+shapiro.test(old$distance)#normally distributed
+hist(old$distance,
+     main="old", 
+     xlab="Mean distance", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,3.7))
+
+t.test(Grid.short$distance ~ Grid.short$Mediansplit_midtesting_entiresample, paired = FALSE, alternative = "less")
+```
+
+- young (n = 65): M = 0.93 (SD = 0.28, range 0.45-1.60)
+- old (n = 62): M = 0.76 (SD = 0.31, range 0.17-1.40)
+
+Older children were significantly better than younger children, t(123) = - 3.22, p < .001.
+
+### Do children perform significantly below chance?
+#### Test against all cells
+
+```{r}
+t.test(young$distance, mu=1.954, alternative = "two.sided")
+t.test(old$distance, mu=1.954, alternative = "two.sided")
+```
+
+- young: M = 0.93 vs chance value (1.954): significantly better than chance, t(64) = -29.05, p < .001
+- old: M = 0.76 vs chance value (1.954): significantly better than chance, t(61) = -30.53, p < .001
+
+#### Test against inner cell preference
+The simulation is identical to the aforementioned one but only the inner cells are sampled from resulting in a smaller average distance from the food reward.
+```{r}
+t.test(young$distance, mu=1.667, alternative = "two.sided")
+t.test(old$distance, mu=1.667, alternative = "two.sided")
+```
+- young: M = 0.93 vs chance value (1.667): significantly better than chance, t(64) = -20.94, p < .001
+- old: M = 0.76 vs chance value (1.667): significantly better than chance, t(61) = -23.21, p < .001
+
+Boxplot:
+```{r}
+library(forcats)
+
+Grid.short$Mediansplit_midtesting_entiresample<-fct_relevel(Grid.short$Mediansplit_midtesting_entiresample, "young")
+#changes order of boxplots (young before old)
+
+p1<-  ggplot(
+  data=Grid.short, aes(x=rep(1, 127), y=distance, fill = Mediansplit_midtesting_entiresample))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,2)+
+  xlim(0,2)+
+  labs(x="",y="Mean distance")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Grid: Mean distance from reward by age mediansplit")
+
+#rep is from 1 to how many IDs there are; fill is the grouping variable
+#position dodge changes the space between the 2 boxplots
+
+p1 +  geom_hline(yintercept=1.667, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
+  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young (36-49 months), n = 65", "old (50-72 months), n = 62"))
+```
+
+## Plot distance against age as continuous variable
+```{r}
+p1<- ggplot(Grid.short, aes(x=AgeMonths_midtesting, y=distance)) + geom_point()
+
+p1 +  geom_hline(yintercept=1.954, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+
+## By testing location
+```{r}
+table(Grid.short$TestingLocation)
+
+tapply(Grid.short$distance, Grid.short$TestingLocation, mean)
+tapply(Grid.short$distance, Grid.short$TestingLocation, sd)
+tapply(Grid.short$distance, Grid.short$TestingLocation, min)
+tapply(Grid.short$distance, Grid.short$TestingLocation, max)
+
+Fife<- subset(Grid.short, TestingLocation == "Fife")
+Edinburgh<- subset(Grid.short, TestingLocation == "Edinburgh")
+
+
+shapiro.test(Fife$distance)#normally distributed
+hist(Fife$distance,
+     main="Fife", 
+     xlab="Mean distance", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,3.7))
+
+shapiro.test(Edinburgh$distance)#normally distributed
+hist(Edinburgh$distance,
+     main="Edinburgh", 
+     xlab="Mean distance", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,3.7))
+
+t.test(Grid.short$distance ~ Grid.short$TestingLocation, paired = FALSE, alternative = "less")
+```
+
+- Fife (n = 69): 0.88 (SD = 0.27, range 0.33-1.47)
+- Edinburgh (n = 58): 0.79 (SD = 0.34, range 0.17-1.60)
+
+Children in Edinburgh are significantly better than children in Fife, one-sided t-test, t(109.5) = -1.66, p = .05.
+
+Boxplot:
+```{r}
+p1<-  ggplot(
+  data=Grid.short, aes(x=rep(1, 127), y=distance, fill = TestingLocation))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,2)+
+  xlim(0,2)+
+  labs(x="",y="Mean distance")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Grid: Mean distance from reward by testing location")
+
+p1 +  geom_hline(yintercept=1.667, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
+  scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 58", "Fife, n = 69"))
+```
+
+# Cumulative number of toys retrieved
+```{r}
+#Trial 1
+WM.grid.trial1<-subset(test.trials, Trial == "1")
+#Trial 2
+WM.grid.trial2<-subset(test.trials, Trial == "2")
+#Trial 3
+WM.grid.trial3<-subset(test.trials, Trial == "3")
+#Trial 4
+WM.grid.trial4<-subset(test.trials, Trial == "4")
+#Trial 5
+WM.grid.trial5<-subset(test.trials, Trial == "5")
+#Trial 6
+WM.grid.trial6<-subset(test.trials, Trial == "6")
+#Trial 7
+WM.grid.trial7<-subset(test.trials, Trial == "7")
+#Trial 8
+WM.grid.trial8<-subset(test.trials, Trial == "8")
+#Trial 9
+WM.grid.trial9<-subset(test.trials, Trial == "9")
+#Trial 10
+WM.grid.trial10<-subset(test.trials, Trial == "10")
+#Trial 11
+WM.grid.trial11<-subset(test.trials, Trial == "11")
+#Trial 12
+WM.grid.trial12<-subset(test.trials, Trial == "12")
+```
+
+```{r}
+mean(WM.grid.trial1$Cumulative_SumofToys_TestTrials)#0.60
+sd(WM.grid.trial1$Cumulative_SumofToys_TestTrials)#0.49
+
+mean(WM.grid.trial2$Cumulative_SumofToys_TestTrials)#1.37
+sd(WM.grid.trial2$Cumulative_SumofToys_TestTrials)#0.63
+
+mean(WM.grid.trial3$Cumulative_SumofToys_TestTrials)#2.15
+sd(WM.grid.trial3$Cumulative_SumofToys_TestTrials)#0.78
+
+mean(WM.grid.trial4$Cumulative_SumofToys_TestTrials)#2.73
+sd(WM.grid.trial4$Cumulative_SumofToys_TestTrials)#0.95
+
+mean(WM.grid.trial5$Cumulative_SumofToys_TestTrials)#3.52
+sd(WM.grid.trial5$Cumulative_SumofToys_TestTrials)#1.10
+
+mean(WM.grid.trial6$Cumulative_SumofToys_TestTrials)#4.12
+sd(WM.grid.trial6$Cumulative_SumofToys_TestTrials)#1.23
+
+mean(WM.grid.trial7$Cumulative_SumofToys_TestTrials)#4.68
+sd(WM.grid.trial7$Cumulative_SumofToys_TestTrials)#1.40
+
+mean(WM.grid.trial8$Cumulative_SumofToys_TestTrials)#5.32
+sd(WM.grid.trial8$Cumulative_SumofToys_TestTrials)#1.50
+
+mean(WM.grid.trial9$Cumulative_SumofToys_TestTrials)#5.95
+sd(WM.grid.trial9$Cumulative_SumofToys_TestTrials)#1.63
+
+mean(WM.grid.trial10$Cumulative_SumofToys_TestTrials)#6.52
+sd(WM.grid.trial10$Cumulative_SumofToys_TestTrials)#1.71
+
+mean(WM.grid.trial11$Cumulative_SumofToys_TestTrials)#7.06
+sd(WM.grid.trial11$Cumulative_SumofToys_TestTrials)#1.84
+
+mean(WM.grid.trial12$Cumulative_SumofToys_TestTrials)#7.76
+sd(WM.grid.trial12$Cumulative_SumofToys_TestTrials)#1.93
+min(WM.grid.trial12$Cumulative_SumofToys_TestTrials)#3
+max(WM.grid.trial12$Cumulative_SumofToys_TestTrials)#12
+```
+We plug these numbers into a separate excel sheet.
+At the end of the test trials, children got on average 7.76 toys (SD 1.93, range 3-12).
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+CumulNrToys <-read.csv("Cumul_NrToys_Retrieved.csv",header=TRUE, sep = ";")
+names(CumulNrToys)[1] <- "Trial_nr"
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(CumulNrToys, aes(x=Trial_nr, y=Mean_NrToysRetrieved)) + 
+    geom_errorbar(aes(ymin=Mean_NrToysRetrieved-SD_NrToysRetrieved, ymax=Mean_NrToysRetrieved+SD_NrToysRetrieved), width=.1) +
+    geom_line() +
+    geom_point()+
+  ylim(0, 12)
+```
+
+
+# Cumulative average distance 
+```{r}
+mean(WM.grid.trial1$Cumulative_Average_Distance)#0.857
+sd(WM.grid.trial1$Cumulative_Average_Distance)#0.885
+
+mean(WM.grid.trial2$Cumulative_Average_Distance)#0.745
+sd(WM.grid.trial2$Cumulative_Average_Distance)#0.641
+
+mean(WM.grid.trial3$Cumulative_Average_Distance)#0.714
+sd(WM.grid.trial3$Cumulative_Average_Distance)#0.520
+
+mean(WM.grid.trial4$Cumulative_Average_Distance)#0.776
+sd(WM.grid.trial4$Cumulative_Average_Distance)#0.457
+
+mean(WM.grid.trial5$Cumulative_Average_Distance)#0.738
+sd(WM.grid.trial5$Cumulative_Average_Distance)#0.428
+
+mean(WM.grid.trial6$Cumulative_Average_Distance)#0.783
+sd(WM.grid.trial6$Cumulative_Average_Distance)#0.420
+
+mean(WM.grid.trial7$Cumulative_Average_Distance)#0.814
+sd(WM.grid.trial7$Cumulative_Average_Distance)#0.397
+
+mean(WM.grid.trial8$Cumulative_Average_Distance)#0.829
+sd(WM.grid.trial8$Cumulative_Average_Distance)#0.382
+
+mean(WM.grid.trial9$Cumulative_Average_Distance)#0.836
+sd(WM.grid.trial9$Cumulative_Average_Distance)#0.365
+
+mean(WM.grid.trial10$Cumulative_Average_Distance)#0.849
+sd(WM.grid.trial10$Cumulative_Average_Distance)#0.334
+
+mean(WM.grid.trial11$Cumulative_Average_Distance)#0.855
+sd(WM.grid.trial11$Cumulative_Average_Distance)#0.318
+
+mean(WM.grid.trial12$Cumulative_Average_Distance)#0.839
+sd(WM.grid.trial12$Cumulative_Average_Distance)#0.306
+```
+
+And the overall average distance is:
+```{r}
+mean(WM.grid.trial12$AverageDistanceAcrossTestTrials)#0.839
+sd(WM.grid.trial12$AverageDistanceAcrossTestTrials)#0.306
+min(WM.grid.trial12$AverageDistanceAcrossTestTrials)#0.167
+max(WM.grid.trial12$AverageDistanceAcrossTestTrials)#1.605
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+CumulAvDist <-read.csv("Cumul_AverageDistance.csv",header=TRUE, sep = ";")
+names(CumulAvDist)[1] <- "Trial_nr"
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(CumulAvDist, aes(x=Trial_nr, y=Mean_AverageDistance)) + 
+    geom_errorbar(aes(ymin=Mean_AverageDistance-SD_AverageDistance, ymax=Mean_AverageDistance+SD_AverageDistance), width=.1) +
+    geom_line() +
+    geom_point()+
+    geom_hline(yintercept=0.839)+
+  ylim(-0.2, 3.7)
+```
+
+
+# Can the distance be predicted by age?
+```{r}
+library(lme4)
+
+test.trials$z.age=as.vector(scale(test.trials$AgeMonths_midtesting))#transform age to mean of 0 and SD of 1
+mean(test.trials$z.age)#check whether it has worked
+sd(test.trials$z.age)
+
+test.trials$z.Trial=as.vector(scale(test.trials$Trial))#transform trial number to mean of 0 and SD of 1
+
+dist<-lmer(distance_c01 ~ z.age + z.Trial + z.age:z.Trial + (1+z.Trial|ID) + (1 + z.Trial + z.age|NurseryCode), data=test.trials, REML=FALSE)#singular fit
+
+#remove correlation between random effects
+dist<-lmer(distance_c01 ~ z.age + z.Trial + z.age:z.Trial + (1|ID) + (0+z.Trial|ID) + (1|NurseryCode) + (0 + z.Trial|NurseryCode) + (0 + z.age|NurseryCode), data=test.trials, REML=FALSE)#singular fit
+summary(dist)
+```
+The variance for the random slope of trial on ID and for the random slope of age on nursery code is effectively 0, so we remove these from the model.
+
+```{r}
+dist<-lmer(distance_c01 ~ z.age + z.Trial + z.age:z.Trial + (1|ID) + (1|NurseryCode) + (0 + z.Trial|NurseryCode), data=test.trials, REML=FALSE)#singular fit
+summary(dist)
+```
+
+```{r}
+null.dist<-lmer(distance_c01 ~ 1 + (1|ID) + (1|NurseryCode) + (0 + z.Trial|NurseryCode), data=test.trials, REML=FALSE)#singular fit
+anova(null.dist, dist, test="Chisq")
+```
+Together, trial number, age, and the interaction between trial number and age can explain the data significantly better than a null model only containing the intercept, X2(3) = 15.94, p = . 001.
+
+
+Effect of interaction
+```{r}
+dist.nointer<-lmer(distance_c01 ~ z.age + z.Trial + (1|ID) + (1|NurseryCode) + (0 + z.Trial|NurseryCode), data=test.trials, REML=FALSE)#singular fit
+
+anova(dist.nointer, dist, test="Chisq")
+```
+The interaction term did not significantly improve model fit, X2(1) = 0.432, p = .511, so we remove it from the model, and we enter trial (the non-z-trasnformed version, for better interpretability).
+
+
+New full model:
+```{r}
+dist<-lmer(distance_c01 ~ z.age + Trial + (1|ID) + (1|NurseryCode) + (0 + Trial|NurseryCode), data=test.trials, REML=FALSE)#singular fit
+
+null.dist<-lmer(distance_c01 ~ 1 + (1|ID) + (1|NurseryCode) + (0 + Trial|NurseryCode), data=test.trials, REML=FALSE)#singular fit
+
+anova(null.dist, dist, test="Chisq")#significant
+
+summary(dist)
+```
+The model including age and trial number can explain the data on distance significantly better than a model only containing the intercept, X2(2) = 16.67, p < .001. 
+
+We see that the variance for the random slope of trial on nursery code is effectively 0, so we exclude it from the model.
+```{r}
+dist<-lmer(distance_c01 ~ z.age + Trial + (1|ID) + (1|NurseryCode), data=test.trials, REML=FALSE)#singular fit
+
+null.dist<-lmer(distance_c01 ~ 1 + (1|ID) + (1|NurseryCode), data=test.trials, REML=FALSE)#singular fit
+
+anova(null.dist, dist, test="Chisq")#significant
+
+summary(dist)
+```
+The model including age and trial number can explain the data on distance significantly better than a model only containing the intercept, X2(2) = 16.67, p < .001. 
+
+We see that the variance of nursery is very small. However, we know from above that there is an effect of testing location (Fife/Edinburgh), so we modify the model to look for that difference.
+
+
+We aim to investigate the potential role of testing location.
+```{r}
+dist<-lmer(distance_c01 ~ z.age + Trial + TestingLocation + (1+Trial|ID), data=test.trials, REML=FALSE)#singular fit
+
+#remove correlation
+dist<-lmer(distance_c01 ~ z.age + Trial + TestingLocation + (1|ID) + (0+Trial|ID), data=test.trials, REML=FALSE)#singular fit
+summary(dist)
+```
+The variance for the random slope of trial on ID is effectively 0, so we exclude it from the model.
+```{r}
+dist<-lmer(distance_c01 ~ z.age + Trial + TestingLocation + (1|ID), data=test.trials, REML=FALSE)
+
+null.dist<-lmer(distance_c01 ~ 1 + (1|ID), data=test.trials, REML=FALSE)
+
+anova(null.dist, dist, test="Chisq")#significant
+summary(dist)
+```
+Together, age, trial number, and testing location explain the data significantly better than the null model, X(3) = 21.05, p < .001.
+
+**Effect of age**
+```{r}
+dist.noage<-lmer(distance_c01 ~ Trial + TestingLocation + (1|ID), data=test.trials, REML=FALSE)
+
+anova(dist.noage, dist, test="Chisq")#significant
+```
+Age has a significant effect on distance, X2(1) = 14.35, p < .001.
+
+**Effect of trial number**
+```{r}
+dist.notrial<-lmer(distance_c01 ~ z.age + TestingLocation + (1|ID), data=test.trials, REML=FALSE)
+
+anova(dist.notrial, dist, test="Chisq")#significant
+```
+Trial number has a significant effect on distance, X2(1) = 3.96, p = .047.
+
+**Effect of testing location**
+```{r}
+dist.noloc<-lmer(distance_c01 ~ z.age + Trial + (1|ID), data=test.trials, REML=FALSE)
+
+anova(dist.noloc, dist, test="Chisq")#significant
+```
+Location has a significant effect on distance, X2(1) = 4.37, p = .036.
+
+
+For each increase of 1 SD in age, the distance decreases (i.e., children get better) by 0.10. With each trial, distance gets longer (i.e., children get worse) by 0.01. Going from Edinburgh to Fife, the distance increases by 0.11.
+
+
+```{r}
+source("boot_glmm.r")#requires centering of all predictors apart the ones one is interested in. We are interested in both.
+test.trials$z.Trial=as.vector(scale(test.trials$Trial)) 
+
+dist<-lmer(distance_c01 ~ z.age + z.Trial + TestingLocation + (1|ID), data=test.trials, REML=FALSE)
+
+boot.res=boot.glmm.pred(model.res=dist, excl.warnings=T,
+nboots=1000, para=F, resol=12, use="z.Trial")
+```
+
+Plot effect of trial number on distance:
+```{r}
+plot.xvals=seq(from=min(test.trials$Trial), to=max(test.trials$Trial),length.out=24)
+
+ggplot(test.trials, aes(x=plot.xvals, y=boot.res$ci.predicted$fitted)) +
+  geom_jitter(aes(x=Trial, y=distance_c01, colour=Age_group))+ 
+  geom_ribbon(data=boot.res$ci.predicted, aes(x = plot.xvals, ymin=boot.res$ci.predicted$lower.cl, ymax=boot.res$ci.predicted$upper.cl), fill="grey", alpha=0.5)+
+geom_line(data=boot.res$ci.predicted, aes(x = plot.xvals, y=boot.res$ci.predicted$fitted), lty=2)+
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+  xlab("Trial number")+
+  ylab("Distance")+
+  xlim(0,13)+
+  geom_hline(yintercept=1.667, linetype="dashed", color = "red")
+```
+
+```{r}
+xx=aggregate(x=test.trials$distance_c01, by=test.trials[, c("TestingLocation", "Trial")],
+FUN=mean)
+
+xx$N=aggregate(x=test.trials$distance_c01, by=test.trials[, c("TestingLocation", "Trial")],
+FUN=length)$x
+
+par(mar=c(3, 3, 0.2, 0.2), mgp=c(1.7, 0.3, 0), las=1, tcl=-0.15)
+
+plot(x=test.trials$Trial, y=test.trials$distance_c01, pch=19, las=1, ylim=c(0, 3.7),
+xlab="Trial number", ylab="distance", cex=0.2*sqrt(xx$N))
+
+plot.xvals=seq(from=min(test.trials$Trial), to=max(test.trials$Trial),
+length.out=24)
+
+lines(x=plot.xvals, y=boot.res$ci.predicted$fitted,
+lty=2)
+lines(x=plot.xvals, y=boot.res$ci.predicted$lower.cl,
+lty=3)
+lines(x=plot.xvals, y=boot.res$ci.predicted$upper.cl,
+lty=3)
+```
+
+Plot, by mediansplit age 
+```{r}
+names(test.trials)[10] <- "Age_mediansplit"
+
+plot.xvals=seq(from=min(test.trials$Trial), to=max(test.trials$Trial),length.out=24)
+
+
+ggplot(test.trials, aes(x=plot.xvals, y=boot.res$ci.predicted$fitted)) +
+  geom_jitter(aes(x=Trial, y=distance_c01, colour=Age_mediansplit))+ 
+  geom_ribbon(data=boot.res$ci.predicted, aes(x = plot.xvals, ymin=boot.res$ci.predicted$lower.cl, ymax=boot.res$ci.predicted$upper.cl), fill="grey", alpha=0.5)+
+geom_line(data=boot.res$ci.predicted, aes(x = plot.xvals, y=boot.res$ci.predicted$fitted), lty=2)+
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+  xlab("Trial number")+
+  ylab("Distance")+
+  xlim(0,13)+
+  geom_hline(yintercept=1.667, linetype="dashed", color = "red")
+```
