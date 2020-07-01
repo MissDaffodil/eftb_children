@@ -1,0 +1,772 @@
+---
+title: "WM_Boxes"
+author: "Eva Reindl"
+date: "31 3 2020"
+output: word_document
+---
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+WM.boxes <-read.csv("WM_Boxes.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+#recode variables
+WM.boxes$Age_group <- as.factor(WM.boxes$Age_group)#this converts a variable classified as continuous into a categorical variable
+WM.boxes$AgeGroup_midtesting <- as.factor(WM.boxes$AgeGroup_midtesting)
+
+names(WM.boxes)[1] <- "ID"
+
+str(WM.boxes)
+```
+
+# Dropouts
+```{r}
+WM.boxes.dropout<- subset(WM.boxes, Dropout == "yes")
+```
+There is **1 dropout**. This child stopped after 4 test trials. This child will be removed from the analysis.
+
+# Valid data
+```{r}
+WM.boxes.valid<- subset(WM.boxes, Dropout == "no")
+
+WM.boxes.valid.TT1 <- subset(WM.boxes.valid, Condition == "test" & Trial_no =="1")
+```
+There are **148 valid datapoints**.
+
+# Description of sample
+## Gender distribution
+```{r}
+table(WM.boxes.valid.TT1$Gender)
+```
+There are 79 girls and 69 boys.
+
+## Age
+### Age at beginning of testing
+```{r}
+mean(WM.boxes.valid.TT1$Age_months)
+sd(WM.boxes.valid.TT1$Age_months)
+min(WM.boxes.valid.TT1$Age_months)
+max(WM.boxes.valid.TT1$Age_months)
+hist(WM.boxes$Age_months)
+
+table(WM.boxes.valid.TT1$Age_group)
+```
+At the beginning of testing, mean age was 48.81 months (SD = 6.87, range 36-70 months). There were 67 3-year-olds, 73 4-year-olds, and 8 5-year-olds.
+
+### Age in the middle of testing
+```{r}
+mean(WM.boxes.valid.TT1$AgeMonths_midtesting)
+sd(WM.boxes.valid.TT1$AgeMonths_midtesting)
+min(WM.boxes.valid.TT1$AgeMonths_midtesting)
+max(WM.boxes.valid.TT1$AgeMonths_midtesting)
+hist(WM.boxes.valid.TT1$AgeMonths_midtesting)
+
+table(WM.boxes.valid.TT1$AgeGroup_midtesting)
+```
+In the middle of testing, mean age was 49.92 months (SD = 6.81, range 36-72 months). There were 64 3-year-olds, 72 4-year-olds, 11 5-year-olds, and 1 6-year-old.
+
+### Age mediansplit by entire sample
+Median is 49 months
+```{r}
+table(WM.boxes.valid.TT1$Mediansplit_midtesting_entiresample)
+```
+There were **74 young** and **74 old** children.
+
+# Testing Location
+```{r}
+table(WM.boxes.valid.TT1$TestingLocation)
+```
+88 children were from the Fife area, 60 children were from Edinburgh.
+
+## Testing location and age
+```{r}
+table(WM.boxes.valid.TT1$TestingLocation, WM.boxes.valid.TT1$AgeGroup_midtesting)
+```
+Fife: 
+
+- 3y: 39
+- 4y: 37
+- 5y: 11
+- 6y: 1
+
+Edinburgh:
+
+- 3y: 25
+- 4y: 35
+
+
+# Warm-up: Number of correct trials
+## Across the sample
+```{r}
+table(WM.boxes.valid.TT1$Warm.up_NrCorrectTrials)
+```
+Out of the 148 children, *1**05 children (71%) had both warm-up trials correct**, 42 (28%) had 1 trial correct and 1 child had no warm-up trial correct.
+
+## By age groups (at midtesting)
+```{r}
+table(WM.boxes.valid.TT1$Warm.up_NrCorrectTrials, WM.boxes.valid.TT1$AgeGroup_midtesting)
+```
+
+- **3y (n = 64): 41 (64%)** had both trials correct, 23 (36%) had 1 trial correct
+- **4y (n = 72): 41 (75%)** had both trials correct, 23 (24%) had 1 trial correct, 1 child had no trial correct
+- 5y (n = 11): 41 (82%) had both trials correct, 2 (18%) had 1 trial correct
+- 6y (n = 1): had both trials correct
+
+## By mediansplit (entire sample)
+```{r}
+table(WM.boxes.valid.TT1$Warm.up_NrCorrectTrials, WM.boxes.valid.TT1$Mediansplit_midtesting_entiresample)
+```
+
+- **young (n = 74): 48 (65%)** had both trials correct, 26 (35%) had 1 trial correct
+- **old (n = 74): 57 (77%)** had both trials correct, 16 (22%) had 1 trial correct, 1 child had no trial correct
+
+
+# Number of correct searches
+## Across the sample
+```{r}
+mean(WM.boxes.valid.TT1$Test.NrCorrectSearches)
+sd(WM.boxes.valid.TT1$Test.NrCorrectSearches)
+min(WM.boxes.valid.TT1$Test.NrCorrectSearches)
+max(WM.boxes.valid.TT1$Test.NrCorrectSearches)
+quantile(WM.boxes.valid.TT1$Test.NrCorrectSearches)
+
+table(WM.boxes.valid.TT1$Test.NrCorrectSearches)
+
+hist(WM.boxes.valid.TT1$Test.NrCorrectSearches)
+shapiro.test(WM.boxes.valid.TT1$Test.NrCorrectSearches)
+```
+The mean number of correct searches in the test trials is 4.09 (SD = 1.44, range 1-8). 50% of the children have 4 searches or less correct. The DV is not normally distributed, W = 0.942, p < .001.
+
+### And the boxplot:
+```{r}
+library(ggplot2)
+
+p<-  ggplot(
+  data=WM.boxes.valid.TT1, aes(x=rep(1, 148), y=Test.NrCorrectSearches)) +
+  geom_boxplot(outlier.colour = "black")+
+  ylim(0,8)+
+  xlim(0,2)+
+  labs(x="",y="Number of correct searches")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Boxes")
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=2, linetype="dashed", color = "red") + geom_count()
+```
+
+### Does performance deviate from chance?
+Use "one-sample Wilcoxon signed rank test" (is a non-parametric alternative to one-sample t-test when the data cannot be assumed to be normally distributed. It’s used to determine whether the median of the sample is equal to a known standard value (i.e. theoretical value))
+
+The probability of getting a correct search on one platform by chance is 0.25. 0.25*8 = 2, so by chance, one should get 2 trials correct
+```{r}
+wilcox.test(WM.boxes.valid.TT1$Test.NrCorrectSearches, mu = 2)
+```
+Children's mean number of correct searches (4.09, SD = 1.44, range 1-8) is significantly higher than what we would expect by chance (2 trials correct), V = 7967, p < .001.
+
+
+## By mediansplit (based on entire sample)
+```{r}
+tapply(WM.boxes.valid.TT1$Test.NrCorrectSearches, WM.boxes.valid.TT1$Mediansplit_midtesting_entiresample, mean)
+tapply(WM.boxes.valid.TT1$Test.NrCorrectSearches, WM.boxes.valid.TT1$Mediansplit_midtesting_entiresample, sd)
+tapply(WM.boxes.valid.TT1$Test.NrCorrectSearches, WM.boxes.valid.TT1$Mediansplit_midtesting_entiresample, min)
+tapply(WM.boxes.valid.TT1$Test.NrCorrectSearches, WM.boxes.valid.TT1$Mediansplit_midtesting_entiresample, max)
+```
+
+- Young children (n = 74): M = 3.86 (SD = 1.51, range 1-8)
+- Old children (n = 74): M = 4.31 (SD = 1.33, range 1-7)
+
+```{r}
+old<-subset(WM.boxes.valid.TT1, Mediansplit_midtesting_entiresample =="old")
+young<-subset(WM.boxes.valid.TT1, Mediansplit_midtesting_entiresample =="young")
+
+hist(old$Test.NrCorrectSearches)
+shapiro.test(old$Test.NrCorrectSearches)#not normally distributed
+
+hist(young$Test.NrCorrectSearches)
+shapiro.test(young$Test.NrCorrectSearches)#not normally distributed
+
+wilcox.test(WM.boxes.valid.TT1$Test.NrCorrectSearches ~ WM.boxes.valid.TT1$Mediansplit_midtesting_entiresample, paired = FALSE, alternative = "greater")
+```
+The variable "number of correct searches" is not normally distributed (old: W = 0.929, p < .001; young: W = 0.935, p < .001).
+Older children perform significantly better than younger children (one-tailed Wilcoxon rank sum test, W = 3272, p = .018).
+
+### Does performance deviate from chance?
+```{r}
+wilcox.test(young$Test.NrCorrectSearches, mu = 2)
+wilcox.test(old$Test.NrCorrectSearches, mu = 2)
+```
+Performance of young children is significantly better than chance value (2), V = 1760, p < .001.
+Performance of old children is significantly better than chance value (2), V = 2270.5, p < .001.
+
+### Boxplot:
+```{r}
+library(forcats)
+
+WM.boxes.valid.TT1$Mediansplit_midtesting_entiresample<-fct_relevel(WM.boxes.valid.TT1$Mediansplit_midtesting_entiresample, "young")
+#changes order of boxplots (young before old)
+#note that as we change the levels of the age variable, we need to take this into account in subsequent Wilcoxon tests!
+
+p1<-  ggplot(
+  data=WM.boxes.valid.TT1, aes(x=rep(1, 148), y=Test.NrCorrectSearches, fill = Mediansplit_midtesting_entiresample))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,8)+
+  xlim(0,2)+
+  #scale_size(range = c(.01, 24))+
+  labs(x="",y="Number of correct searches")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Boxes: Number of correct searches by mediansplit age")
+
+#rep is from 1 to how many IDs there are; fill is the grouping variable
+#position dodge changes the space between the 2 boxplots
+
+p1 +  geom_hline(yintercept=2, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5) + scale_size_area(max_size=10)+
+  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young (36-49 months), n = 74", "old (50-72 months), n = 74"))
+
+#y intercept adds chance line
+#removes grey background, grid lines and x axis ticks
+#says dots should vary in size according to count, adds the individual points to both boxplots and also moves them in space, makes dots slightly transparent
+#changes label for the legend
+```
+
+## By age groups
+```{r}
+tapply(WM.boxes.valid.TT1$Test.NrCorrectSearches, WM.boxes.valid.TT1$AgeGroup_midtesting, mean)
+tapply(WM.boxes.valid.TT1$Test.NrCorrectSearches, WM.boxes.valid.TT1$AgeGroup_midtesting, sd)
+tapply(WM.boxes.valid.TT1$Test.NrCorrectSearches, WM.boxes.valid.TT1$AgeGroup_midtesting, min)
+tapply(WM.boxes.valid.TT1$Test.NrCorrectSearches, WM.boxes.valid.TT1$AgeGroup_midtesting, max)
+```
+
+- 3y (n = 64): M = 3.78 (SD = 1.46, range 1-7)
+- 4y (n = 72): M = 4.25 (SD = 1.41, range 1-8)
+- 5y (n = 11): M = 4.64 (SD = 1.12, range 3-6)
+- 6y (n = 1): 6
+
+
+```{r}
+three.years<-subset(WM.boxes.valid.TT1, AgeGroup_midtesting =="3")
+four.years<-subset(WM.boxes.valid.TT1, AgeGroup_midtesting =="4")
+
+
+hist(three.years$Test.NrCorrectSearches)
+shapiro.test(three.years$Test.NrCorrectSearches)#not normally distributed
+
+hist(four.years$Test.NrCorrectSearches)
+shapiro.test(four.years$Test.NrCorrectSearches)#not normally distributed
+
+#select only 3- and 4-year-olds
+WM.boxes.valid.TT1.threeandfour <- subset(WM.boxes.valid.TT1, AgeMonths_midtesting >= "36" & AgeMonths_midtesting <= "59")
+
+wilcox.test(WM.boxes.valid.TT1.threeandfour$Test.NrCorrectSearches ~ WM.boxes.valid.TT1.threeandfour$AgeGroup_midtesting, paired = FALSE, alternative = "less")
+```
+The variable "number of correct searches" is not normally distributed (3y: W = 0.929, p < .001; 4y: W = 0.946, p = .004).
+4-year-olds (M = 4.25, SD = 1.41, range 1-8) perform significantly better than 3-year-olds (M = 3.78, SD = 1.46, range 1-7) (one-tailed Wilcoxon rank sum test, W = 1876, p = .028).
+
+### Does performance deviate from chance?
+```{r}
+wilcox.test(three.years$Test.NrCorrectSearches, mu = 2)
+wilcox.test(four.years$Test.NrCorrectSearches, mu = 2)
+```
+Performance of 3-year-olds is significantly better than chance value (2), V = 1217.5, p < .001.
+Performance of 4-year-olds is significantly better than chance value (2), V = 2136, p < .001.
+
+### Boxplot:
+```{r}
+p1<-  ggplot(
+  data=WM.boxes.valid.TT1, aes(x=rep(1, 148), y=Test.NrCorrectSearches, fill = AgeGroup_midtesting))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,8)+
+  xlim(0,2)+
+  #scale_size(range = c(.01, 24))+
+  labs(x="",y="Number of correct searches")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Boxes: Number of correct searches by age groups")
+
+#rep is from 1 to how many IDs there are; fill is the grouping variable
+#position dodge changes the space between the 2 boxplots
+
+p1 +  geom_hline(yintercept=2, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5) + scale_size_area(max_size=10)+
+  scale_fill_discrete(name = "Age groups", labels = c("3-year-olds, n = 64", "4-year-olds, n = 72", "5-year-olds (n = 11)", "6-year-olds (n = 1)"))
+```
+
+## Plot number of correct searches against age as continuous variable
+```{r}
+p1<- ggplot(WM.boxes.valid.TT1, aes(x=AgeMonths_midtesting, y=Test.NrCorrectSearches)) + geom_point()
+
+p1 +  geom_hline(yintercept=2, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+
+## By testing location
+```{r}
+tapply(WM.boxes.valid.TT1$Test.NrCorrectSearches, WM.boxes.valid.TT1$TestingLocation, mean)
+tapply(WM.boxes.valid.TT1$Test.NrCorrectSearches, WM.boxes.valid.TT1$TestingLocation, sd)
+tapply(WM.boxes.valid.TT1$Test.NrCorrectSearches, WM.boxes.valid.TT1$TestingLocation, min)
+tapply(WM.boxes.valid.TT1$Test.NrCorrectSearches, WM.boxes.valid.TT1$TestingLocation, max)
+```
+
+- Fife (n = 88): M = 3.78 (SD = 1.33, range 1-7)
+- Edinburgh (n = 60): M = 4.53 (SD = 1.48, range 1-8)
+
+```{r}
+Fife<-subset(WM.boxes.valid.TT1, TestingLocation =="Fife")
+Edinburgh<-subset(WM.boxes.valid.TT1, TestingLocation =="Edinburgh")
+
+hist(Fife$Test.NrCorrectSearches)
+shapiro.test(Fife$Test.NrCorrectSearches)#not normally distributed
+
+hist(Edinburgh$Test.NrCorrectSearches)
+shapiro.test(Edinburgh$Test.NrCorrectSearches)#not normally distributed
+
+wilcox.test(WM.boxes.valid.TT1$Test.NrCorrectSearches ~ WM.boxes.valid.TT1$TestingLocation, paired = FALSE, alternative = "greater")
+```
+The variable "number of correct searches" is not normally distributed (Fife: W = 0.933, p < .001; Edinburgh: W = 0.936, p = .003).
+Edinburgh children perform significantly better than Fife children (one-tailed Wilcoxon rank sum test, W = 3428, p = .001).
+
+### Does performance deviate from chance?
+```{r}
+wilcox.test(Fife$Test.NrCorrectSearches, mu = 2)
+wilcox.test(Edinburgh$Test.NrCorrectSearches, mu = 2)
+```
+Performance of Fife children is significantly better than chance value (2), V = 2545, p < .001.
+Performance of old children is significantly better than chance value (2), V = 1533.5, p < .001.
+
+### Boxplot:
+```{r}
+p1<-  ggplot(
+  data=WM.boxes.valid.TT1, aes(x=rep(1, 148), y=Test.NrCorrectSearches, fill = TestingLocation))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,8)+
+  xlim(0,2)+
+  #scale_size(range = c(.01, 24))+
+  labs(x="",y="Number of correct searches")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Boxes: Number of correct searches by Testing location")
+
+#rep is from 1 to how many IDs there are; fill is the grouping variable
+#position dodge changes the space between the 2 boxplots
+
+p1 +  geom_hline(yintercept=2, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5) + scale_size_area(max_size=10)+
+  scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 60", "Fife, n = 88"))
+```
+
+
+
+# DV "Proportion correct"
+## Across the sample
+```{r}
+mean(WM.boxes.valid.TT1$ProportionCorrectinTest)
+sd(WM.boxes.valid.TT1$ProportionCorrectinTest)
+min(WM.boxes.valid.TT1$ProportionCorrectinTest)
+max(WM.boxes.valid.TT1$ProportionCorrectinTest)
+
+hist(WM.boxes.valid.TT1$ProportionCorrectinTest)
+shapiro.test(WM.boxes.valid.TT1$ProportionCorrectinTest)#not normally distributed
+
+table(WM.boxes.valid.TT1$ProportionCorrectinTest)
+```
+Children had on average **51.10% (SD = 17.97, range 12.5-100%)** of the trials correct. 
+This DV is **not normally distributed**, W = 0.942, p < .001.
+
+### Boxplot:
+```{r}
+p<-  ggplot(
+  data=WM.boxes.valid.TT1, aes(x=rep(1, 148), y=ProportionCorrectinTest)) +
+  geom_boxplot(outlier.colour = "black")+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Proportion of correct trials")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Boxes: Proportion of correct trials")
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=0.25, linetype="dashed", color = "red") + geom_count()
+```
+
+### Does performance deviate from chance?
+The percentage of success if choosing completely randomly would be 0.25 (one would get 2 out of 8 trials right, which is 2/8 = 1/4 = 0.25)
+```{r}
+wilcox.test(WM.boxes.valid.TT1$ProportionCorrectinTest, mu = 0.25)
+```
+Children's average proportion of trials correct (51.10%, SD = 17.97, range 12.5-100%) is **significantly higher than the proportion we would expect by chance (0.25)**, V = 7967, p < .001.
+
+
+## By mediansplit (based on entire sample)
+```{r}
+tapply(WM.boxes.valid.TT1$ProportionCorrectinTest, WM.boxes.valid.TT1$Mediansplit_midtesting_entiresample, mean)
+tapply(WM.boxes.valid.TT1$ProportionCorrectinTest, WM.boxes.valid.TT1$Mediansplit_midtesting_entiresample, sd)
+tapply(WM.boxes.valid.TT1$ProportionCorrectinTest, WM.boxes.valid.TT1$Mediansplit_midtesting_entiresample, min)
+tapply(WM.boxes.valid.TT1$ProportionCorrectinTest, WM.boxes.valid.TT1$Mediansplit_midtesting_entiresample, max)
+```
+
+- **Young** children (n = 74): **M = 48.31%** (SD = 18.89, range 12.5-1)
+- **Old** children (n = 74): **M = 53.88** (SD = 16.67, range 12.5-87.5)
+
+```{r}
+hist(old$ProportionCorrectinTest)
+shapiro.test(old$ProportionCorrectinTest)#not normally distributed
+
+hist(young$ProportionCorrectinTest)
+shapiro.test(young$Test.NrCorrectSearches)#not normally distributed
+
+#as above we changed the order of young and old children (before it was alphabetically and old came before young), now the young children come before the old children and so we have to choose "less" in the following test!
+wilcox.test(WM.boxes.valid.TT1$ProportionCorrectinTest ~ WM.boxes.valid.TT1$Mediansplit_midtesting_entiresample, paired = FALSE, alternative = "less")
+```
+The variable "proportion of correct searches" is not normally distributed (old: W = 0.929, p < .001; young: W = 0.935, p < .001).
+**Older children perform significantly better** than younger children (one-tailed Wilcoxon rank sum test, W = 2204, p = .018).
+
+### Does performance deviate from chance?
+```{r}
+wilcox.test(young$ProportionCorrectinTest, mu = .25)
+wilcox.test(old$ProportionCorrectinTest, mu = .25)
+```
+Performance of young children is significantly better than chance value (2), V = 1760, p < .001.
+Performance of old children is significantly better than chance value (2), V = 2270.5, p < .001.
+
+### Boxplot:
+```{r}
+p1<-  ggplot(
+  data=WM.boxes.valid.TT1, aes(x=rep(1, 148), y=ProportionCorrectinTest, fill = Mediansplit_midtesting_entiresample))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  #scale_size(range = c(.01, 24))+
+  labs(x="",y="Number of correct searches")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Boxes: Proportion of correct searches by mediansplit age")
+
+#rep is from 1 to how many IDs there are; fill is the grouping variable
+#position dodge changes the space between the 2 boxplots
+
+p1 +  geom_hline(yintercept=.25, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5) + scale_size_area(max_size=10)+
+  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young (36-49 months), n = 74", "old (50-72 months), n = 74"))
+```
+
+## By age groups
+```{r}
+tapply(WM.boxes.valid.TT1$ProportionCorrectinTest, WM.boxes.valid.TT1$AgeGroup_midtesting, mean)
+tapply(WM.boxes.valid.TT1$ProportionCorrectinTest, WM.boxes.valid.TT1$AgeGroup_midtesting, sd)
+tapply(WM.boxes.valid.TT1$ProportionCorrectinTest, WM.boxes.valid.TT1$AgeGroup_midtesting, min)
+tapply(WM.boxes.valid.TT1$ProportionCorrectinTest, WM.boxes.valid.TT1$AgeGroup_midtesting, max)
+```
+
+- **3y (n = 64): M = 47.26%** (SD = 18.29, range 12.5-87.5)
+- **4y (n = 72): M = 53.12%** (SD = 17.65, range 12.5-1)
+- 5y (n = 11): M = 57.95 (SD = 14.00, range 37.5-75.0)
+- 6y (n = 1): 75.0
+
+
+```{r}
+hist(three.years$ProportionCorrectinTest)
+shapiro.test(three.years$ProportionCorrectinTest)#not normally distributed
+
+hist(four.years$ProportionCorrectinTest)
+shapiro.test(four.years$ProportionCorrectinTest)#not normally distributed
+
+#select only 3- and 4-year-olds
+wilcox.test(WM.boxes.valid.TT1.threeandfour$ProportionCorrectinTest ~ WM.boxes.valid.TT1.threeandfour$AgeGroup_midtesting, paired = FALSE, alternative = "less")
+```
+The variable "proportion of correct searches" is not normally distributed (3y: W = 0.929, p = .001; 4y: W = 0.946, p = .004).
+4-year-olds (M = 53.12%, SD = 17.65, range 12.5-1) perform significantly better than 3-year-olds (M = 47.26%, SD = 18.29, range 12.5-87.5) (one-tailed Wilcoxon rank sum test, W = 1876, p = .028).
+
+### Does performance deviate from chance?
+```{r}
+wilcox.test(three.years$ProportionCorrectinTest, mu = 0.25)
+wilcox.test(four.years$ProportionCorrectinTest, mu = 0.25)
+```
+Performance of 3-year-olds is significantly better than chance value (0.25), V = 1217.5, p < .001.
+Performance of 4-year-olds is significantly better than chance value (0.25), V = 2136, p < .001.
+
+### Boxplot:
+```{r}
+p1<-  ggplot(
+  data=WM.boxes.valid.TT1, aes(x=rep(1, 148), y=ProportionCorrectinTest, fill = AgeGroup_midtesting))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Proportion of correct searches")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Boxes: Proportion of correct searches by age groups")
+
+#rep is from 1 to how many IDs there are; fill is the grouping variable
+#position dodge changes the space between the 2 boxplots
+
+p1 +  geom_hline(yintercept=0.25, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5) + scale_size_area(max_size=10)+
+  scale_fill_discrete(name = "Age groups", labels = c("3-year-olds, n = 64", "4-year-olds, n = 72", "5-year-olds (n = 11)", "6-year-olds (n = 1)"))
+```
+
+## Plot proportion of correct searches against age as continuous variable
+```{r}
+p1<- ggplot(WM.boxes.valid.TT1, aes(x=AgeMonths_midtesting, y=ProportionCorrectinTest)) + geom_point()
+
+p1 +  geom_hline(yintercept=0.25, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+
+## By testing location
+```{r}
+tapply(WM.boxes.valid.TT1$ProportionCorrectinTest, WM.boxes.valid.TT1$TestingLocation, mean)
+tapply(WM.boxes.valid.TT1$ProportionCorrectinTest, WM.boxes.valid.TT1$TestingLocation, sd)
+tapply(WM.boxes.valid.TT1$ProportionCorrectinTest, WM.boxes.valid.TT1$TestingLocation, min)
+tapply(WM.boxes.valid.TT1$ProportionCorrectinTest, WM.boxes.valid.TT1$TestingLocation, max)
+```
+
+- Fife (n = 88): M = 47.30% (SD = 16.68, range 12.5-87.5)
+- Edinburgh (n = 60): M = 56.67% (SD = 18.48, range 12.5-1)
+
+```{r}
+hist(Fife$ProportionCorrectinTest)
+shapiro.test(Fife$ProportionCorrectinTest)#not normally distributed
+
+hist(Edinburgh$ProportionCorrectinTest)
+shapiro.test(Edinburgh$ProportionCorrectinTest)#not normally distributed
+
+wilcox.test(WM.boxes.valid.TT1$ProportionCorrectinTest ~ WM.boxes.valid.TT1$TestingLocation, paired = FALSE, alternative = "greater")
+```
+The variable "proportion of correct searches" is not normally distributed (Fife: W = 0.933, p < .001; Edinburgh: W = 0.936, p = .003).
+Edinburgh children perform significantly better than Fife children (one-tailed Wilcoxon rank sum test, W = 3428, p = .001).
+
+### Does performance deviate from chance?
+```{r}
+wilcox.test(Fife$ProportionCorrectinTest, mu = 0.25)
+wilcox.test(Edinburgh$ProportionCorrectinTest, mu = 0.25)
+```
+Performance of Fife children is significantly better than chance value (0.25), V = 2545, p < .001.
+Performance of old children is significantly better than chance value (0.25), V = 1533.5, p < .001.
+
+### Boxplot:
+```{r}
+p1<-  ggplot(
+  data=WM.boxes.valid.TT1, aes(x=rep(1, 148), y=ProportionCorrectinTest, fill = TestingLocation))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Number of correct searches")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Boxes: Proportion of correct searches by Testing location")
+
+#rep is from 1 to how many IDs there are; fill is the grouping variable
+#position dodge changes the space between the 2 boxplots
+
+p1 +  geom_hline(yintercept=0.25, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5) + scale_size_area(max_size=10)+
+  scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 60", "Fife, n = 88"))
+```
+
+
+# Performance on platform 1
+## Mean number of mistakes on platform 1
+```{r}
+WM.boxes.valid.test <- subset (WM.boxes.valid, Condition == "test")
+
+#first look up the number of correct searches
+WM.boxes.nr.correctsearches.P1 <- aggregate(Correct_P1 ~ ID, WM.boxes.valid.test, sum)
+
+#then calculate 4 - "number of correct searches" to get number of mistakes
+WM_Boxes_NumberMistakesP1<-4-WM.boxes.nr.correctsearches.P1
+
+mean(WM_Boxes_NumberMistakesP1$Correct_P1)#note that here the column "correct_P1" is now the number of mistakes
+sd(WM_Boxes_NumberMistakesP1$Correct_P1)
+min(WM_Boxes_NumberMistakesP1$Correct_P1)
+max(WM_Boxes_NumberMistakesP1$Correct_P1)
+
+hist(WM_Boxes_NumberMistakesP1$Correct_P1)
+shapiro.test(WM_Boxes_NumberMistakesP1$Correct_P1)
+```
+In the test trials, on platform 1, the mean number of mistakes was 1.74 (SD = 1.02, range 0-4). The variable "number of mistakes on platform 1" was not normally distributed, W = 0.905, p < .001. 
+
+### Does this performance deviate from chance?
+On platform 1, if one would choose completely randomly, one would expect to find 0.25 * 4 = 1 reward, i.e., to make 3 mistakes
+```{r}
+wilcox.test(WM_Boxes_NumberMistakesP1$Correct_P1, mu = 3)
+```
+The number of mistakes made on platform 1 (1.74, SD = 1.02, range 0-4) is significantly smaller than what would be expected by chance (1), V = 108, p < .001.
+
+## as mean number of mistakes
+```{r}
+#first look up the mean number of correct searches
+WM.boxes.meannr.correctsearches.P1 <- aggregate(Correct_P1 ~ ID, WM.boxes.valid.test, mean)
+
+#then calculate 4 - "mean number of correct searches" to get mean number of mistakes
+WM_Boxes_MeanNumberMistakesP1<-1-WM.boxes.meannr.correctsearches.P1
+
+mean(WM_Boxes_MeanNumberMistakesP1$Correct_P1)#note that here the column "correct_P1" is now the number of mistakes
+sd(WM_Boxes_MeanNumberMistakesP1$Correct_P1)
+min(WM_Boxes_MeanNumberMistakesP1$Correct_P1)
+max(WM_Boxes_MeanNumberMistakesP1$Correct_P1)
+
+hist(WM_Boxes_MeanNumberMistakesP1$Correct_P1)
+shapiro.test(WM_Boxes_MeanNumberMistakesP1$Correct_P1)
+```
+In the test trials, on platform 1, the mean number of mistakes was 0.43 (SD = 0.25, range 0-1). The variable "mean number of mistakes on platform 1" was not normally distributed, W = 0.905, p < .001. 
+
+### Does this performance deviate from chance?
+On platform 1, if one would choose completely randomly, the propbability of making an error in each trial is 0.75.
+```{r}
+wilcox.test(WM_Boxes_MeanNumberMistakesP1$Correct_P1, mu = 0.75)
+```
+The mean number of mistakes made on platform 1 (0.43, SD = 0.25, range 0-1) is significantly smaller than what would be expected by chance (1), V = 108, p < .001.
+
+
+# Performance on both platforms
+## Mean number of mistakes on both platforms
+### Across the sample
+```{r}
+WM_Boxes_NumberMistakesAcrossBothPlatforms<-aggregate(Count_mistakes_pertrial ~ ID, WM.boxes.valid.test, mean)
+
+mean(WM_Boxes_NumberMistakesAcrossBothPlatforms$Count_mistakes_pertrial)
+sd(WM_Boxes_NumberMistakesAcrossBothPlatforms$Count_mistakes_pertrial)
+min(WM_Boxes_NumberMistakesAcrossBothPlatforms$Count_mistakes_pertrial)
+max(WM_Boxes_NumberMistakesAcrossBothPlatforms$Count_mistakes_pertrial)
+
+hist(WM_Boxes_NumberMistakesAcrossBothPlatforms$Count_mistakes_pertrial)
+shapiro.test(WM_Boxes_NumberMistakesAcrossBothPlatforms$Count_mistakes_pertrial)
+
+wilcox.test(WM_Boxes_NumberMistakesAcrossBothPlatforms$Count_mistakes_pertrial, mu = 1.5)
+```
+Across the test trials, the mean number of mistakes per trial was 0.98 (SD = 0.36, range 0-1.75). This variable is not normally distributed, W = 0.942, p < .001. Children's mean number of mistakes is significantly lower than what would be expected by chance (0.75 + 075 = 1.5), V = 34, p < .001.
+
+#### Plot
+```{r}
+p<-  ggplot(
+  data=WM_Boxes_NumberMistakesAcrossBothPlatforms, aes(x=rep(1, 148), y=Count_mistakes_pertrial)) +
+  geom_boxplot(outlier.colour = "black")+
+  ylim(0,2)+
+  xlim(0,2)+
+  labs(x="",y="mean number of mistakes per trial")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Boxes: Mean number of mistakes across both platforms per trial")
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=1.5, linetype="dashed", color = "red") + geom_count()
+```
+
+# Can age and testing location predict children's proportion of correct searches?
+```{r}
+library(lme4)
+
+WM.boxes.valid.TT1$z.age=as.vector(scale(WM.boxes.valid.TT1$AgeMonths_midtesting))#transform age to mean of 0 and SD of 1
+mean(WM.boxes.valid.TT1$z.age)#check whether it has worked
+sd(WM.boxes.valid.TT1$z.age)
+
+res <- lm(ProportionCorrectinTest ~ z.age + TestingLocation + z.age:TestingLocation, data = WM.boxes.valid.TT1)
+```
+
+#### Check of assumptions
+1) Normality of residuals
+```{r}
+hist(residuals(res), probability=T)
+
+#add line:
+x=seq(from=min(residuals(res)),
+to=max(residuals(res)), length.out=100)
+lines(x=x, y=dnorm(x, mean=0,
+sd=sd(residuals(res))))
+
+#a safer option is to look at the qq plot:
+qqnorm(residuals(res));qqline(residuals(res))
+
+plot(residuals(res))
+```
+Histogram looks fairly normal. The qq-plot reveals that small values are too large and large values are too small - see also the histogram.
+
+2) Homogeneity of residuals
+```{r}
+plot(fitted(res), residuals(res), pch=19)
+```
+A pattern is visible after all - this might be problematic.
+
+3) Is there a correlation between absolute residuals and fitted values?
+```{r}
+cor.test(fitted(res), abs(residuals(res)))
+```
+No, so this seems ok.
+
+4) Influence diagnostics
+DFFits
+```{r}
+dffits(res)
+max(abs(dffits(res)))
+hist(dffits(res))
+plot(dffits(res))
+```
+DFFit: Values around 2 are reason to worry, but the maximum value is 0.68, so this is ok.
+
+DFBetas
+```{r}
+round(cbind(coefficients(res), coefficients(res)+
+t(apply(X=dfbeta(res), MARGIN=2, FUN=range))), 5)
+
+plot(dfbeta(res)[,1])#needs to be done by column
+plot(dfbeta(res)[,2])
+plot(dfbeta(res)[,3])
+```
+DFBeta: looks good, little variation.
+
+Cook's distance
+```{r}
+max(cooks.distance(res))
+plot(cooks.distance(res))
+```
+Cook's distance: values above 1 are reason to worry, but our maximum value is 0.11.
+
+
+Leverage
+```{r}
+max(as.vector(influence(res)$hat))
+plot(as.vector(influence(res)$hat))
+
+length(coefficients(res))# this is calculating k, which is the number of predictors
+2*(4+1)/148 
+3*(4+1)/148 
+```
+Leverage: values > 2*(k+1)/n or > 3*(k+1)/n are a reason to worry (k = number of predictors); in our case the thresholds are 0.07 and 0.10, and our max value is 0.11, so there is evidence of some influential cases.
+
+```{r}
+null<-lm(ProportionCorrectinTest ~ 1, data = WM.boxes.valid.TT1)
+anova(null, res, test="Chisq")
+```
+Together, age, testing location, and the interaction between age and testing location explain the data better than a null model only containing the intercept, X2(3) = 0.55, p < .001.
+
+Effect of interaction
+```{r}
+res.nointer <- lm(ProportionCorrectinTest ~ z.age + TestingLocation, data = WM.boxes.valid.TT1)
+anova(res.nointer, res, test="Chisq")
+```
+The interaction term does not increase model fit, X2(1) = 0.00, p = .910, so we exclude it from the model.
+
+```{r}
+res <- lm(ProportionCorrectinTest ~ z.age + TestingLocation, data = WM.boxes.valid.TT1)
+anova(null, res, test="Chisq")
+```
+Together, age and testing location explain the data better than a null model only containing the intercept, X2(2) = 0.55, p < .001.
+
+```{r}
+summary(res)
+drop1(res)
+cbind(coefficients(res), confint(res))
+```
+There is a significant effect of age (X2(1) = 0.239, p = .004) and testing location (X2(1) = 0.359, p < .001). With each standard deviation increase in age, the proportion correct increases by 0.04 (95% CI [0.01; 0.01]) percentage points. When moving from Edinburgh to Fife, the expected score for a child of mean age decreases by 0.10 (95% CI [0.04; 0.16]) percentage points.
