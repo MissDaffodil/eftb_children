@@ -450,6 +450,43 @@ p<-  ggplot(
 p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=1.667, linetype="dashed", color = "red") + geom_count()
 ```
 
+Rescaling the DV to a range between 0 and 1
+```{r}
+library(scales)
+test.trials$distance_newrange <- rescale(test.trials$distance_c01, to=c(0, 1), from=c(0, 3.6))
+
+meandistance.newrange<- aggregate(distance_newrange ~ ID, test.trials, mean)
+
+
+p<-  ggplot(
+  data=meandistance.newrange, aes(x=rep(1, 127), y=distance_newrange)) +
+  geom_boxplot(outlier.colour = "black")+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean distance from reward")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Grid")
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) + geom_count()
+
+#revert scale, so that high numbers mean closeness to reward
+test.trials$revertdistance_newrange <- 1-test.trials$distance_newrange
+
+meandistance.revertnewrange<- aggregate(revertdistance_newrange ~ ID, test.trials, mean)
+
+p<-  ggplot(
+  data=meandistance.revertnewrange, aes(x=rep(1, 127), y=revertdistance_newrange)) +
+  geom_boxplot(outlier.colour = "black")+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean closeness to reward")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Grid")
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) + geom_count()
+```
+
+
 ### Do children perform significantly below chance?
 #### Test against all cells
 Christoph's simulation is based on 1000000 iterations of 12 random choices of a cell on the 4x4 grid. The distance between these random choices and the hiding location of the reward was then calculated. The mean distance of the these random choices from the  reward is used as the hypothetical chance value.
@@ -579,6 +616,28 @@ p1 +  geom_hline(yintercept=1.667, linetype="dashed", color = "red") +
   scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 55", "4 years, n = 61", "5 years, n = 10", "6 years, n = 1"))
 ```
 
+Make Boxplot with scale converted to 0 and 1:
+```{r}
+Grid.short$distance_newrange <- rescale(Grid.short$distance, to=c(0, 1), from=c(0, 3.6))
+
+#then revert scale so that higher numbers mean closeness to reward
+Grid.short$revertdistance_newrange <- 1-Grid.short$distance_newrange
+
+p1<-ggplot(data=Grid.short, aes(x=AgeGroup_midtesting,y=revertdistance_newrange)) +
+  geom_boxplot(aes(group=AgeGroup_midtesting, fill = as.factor(Grid.short$AgeGroup_midtesting)), outlier.colour = "black") + 
+      ylim(0,1)+
+  xlim(2.5,6.5)+
+  geom_point(alpha=0.3) +
+  labs(x="",y="Mean closeness")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Grid: mean closeness to reward per age group")
+
+p1  +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ 
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5)+
+  scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 55", "4 years, n = 61", "5 years, n = 10", "6 years, n = 1"))
+```
+
 
 ## By mediansplit
 ```{r}
@@ -663,6 +722,30 @@ p1 +  geom_hline(yintercept=1.667, linetype="dashed", color = "red") +
   scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young (36-49 months), n = 65", "old (50-72 months), n = 62"))
 ```
 
+Make Boxplot with scale converted to 0 and 1:
+```{r}
+
+p1<-  ggplot(
+  data=Grid.short, aes(x=rep(1, 127), y=revertdistance_newrange, fill = Mediansplit_midtesting_entiresample))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean distance")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Grid: Mean distance from reward by age mediansplit")
+
+#rep is from 1 to how many IDs there are; fill is the grouping variable
+#position dodge changes the space between the 2 boxplots
+
+p1  +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
+  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young (36-49 months), n = 65", "old (50-72 months), n = 62"))
+```
+
+
+
+
 ## Plot distance against age as continuous variable
 ```{r}
 p1<- ggplot(Grid.short, aes(x=AgeMonths_midtesting, y=distance)) + geom_point()
@@ -727,6 +810,24 @@ p1 +  geom_hline(yintercept=1.667, linetype="dashed", color = "red") +
   geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
   scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 58", "Fife, n = 69"))
 ```
+
+Make Boxplot with scale converted to 0 and 1:
+```{r}
+p1<-  ggplot(
+  data=Grid.short, aes(x=rep(1, 127), y=revertdistance_newrange, fill = TestingLocation))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean distance")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Grid: Mean distance from reward by testing location")
+
+p1 +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
+  scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 58", "Fife, n = 69"))
+```
+
 
 # Cumulative number of toys retrieved
 ```{r}
