@@ -988,6 +988,10 @@ We aim to investigate the potential role of testing location.
 ```{r}
 library(lme4)
 
+test.trials$z.age=as.vector(scale(test.trials$AgeMonths_midtesting))#transform age to mean of 0 and SD of 1
+mean(test.trials$z.age)#check whether it has worked
+sd(test.trials$z.age)
+
 dist<-lmer(distance_c01 ~ z.age + Trial + TestingLocation + (1+Trial|ID), data=test.trials, REML=FALSE)#singular fit
 
 #remove correlation
