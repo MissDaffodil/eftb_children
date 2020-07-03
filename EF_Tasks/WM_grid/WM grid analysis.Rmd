@@ -984,73 +984,10 @@ ggplot(CumulAvDist, aes(x=Trial_nr, y=Mean_AverageDistance)) +
 
 
 # Can the distance be predicted by age?
+We aim to investigate the potential role of testing location.
 ```{r}
 library(lme4)
 
-test.trials$z.age=as.vector(scale(test.trials$AgeMonths_midtesting))#transform age to mean of 0 and SD of 1
-mean(test.trials$z.age)#check whether it has worked
-sd(test.trials$z.age)
-
-test.trials$z.Trial=as.vector(scale(test.trials$Trial))#transform trial number to mean of 0 and SD of 1
-
-dist<-lmer(distance_c01 ~ z.age + z.Trial + z.age:z.Trial + (1+z.Trial|ID) + (1 + z.Trial + z.age|NurseryCode), data=test.trials, REML=FALSE)#singular fit
-
-#remove correlation between random effects
-dist<-lmer(distance_c01 ~ z.age + z.Trial + z.age:z.Trial + (1|ID) + (0+z.Trial|ID) + (1|NurseryCode) + (0 + z.Trial|NurseryCode) + (0 + z.age|NurseryCode), data=test.trials, REML=FALSE)#singular fit
-summary(dist)
-```
-The variance for the random slope of trial on ID and for the random slope of age on nursery code is effectively 0, so we remove these from the model.
-
-```{r}
-dist<-lmer(distance_c01 ~ z.age + z.Trial + z.age:z.Trial + (1|ID) + (1|NurseryCode) + (0 + z.Trial|NurseryCode), data=test.trials, REML=FALSE)#singular fit
-summary(dist)
-```
-
-```{r}
-null.dist<-lmer(distance_c01 ~ 1 + (1|ID) + (1|NurseryCode) + (0 + z.Trial|NurseryCode), data=test.trials, REML=FALSE)#singular fit
-anova(null.dist, dist, test="Chisq")
-```
-Together, trial number, age, and the interaction between trial number and age can explain the data significantly better than a null model only containing the intercept, X2(3) = 15.94, p = . 001.
-
-
-Effect of interaction
-```{r}
-dist.nointer<-lmer(distance_c01 ~ z.age + z.Trial + (1|ID) + (1|NurseryCode) + (0 + z.Trial|NurseryCode), data=test.trials, REML=FALSE)#singular fit
-
-anova(dist.nointer, dist, test="Chisq")
-```
-The interaction term did not significantly improve model fit, X2(1) = 0.432, p = .511, so we remove it from the model, and we enter trial (the non-z-trasnformed version, for better interpretability).
-
-
-New full model:
-```{r}
-dist<-lmer(distance_c01 ~ z.age + Trial + (1|ID) + (1|NurseryCode) + (0 + Trial|NurseryCode), data=test.trials, REML=FALSE)#singular fit
-
-null.dist<-lmer(distance_c01 ~ 1 + (1|ID) + (1|NurseryCode) + (0 + Trial|NurseryCode), data=test.trials, REML=FALSE)#singular fit
-
-anova(null.dist, dist, test="Chisq")#significant
-
-summary(dist)
-```
-The model including age and trial number can explain the data on distance significantly better than a model only containing the intercept, X2(2) = 16.67, p < .001. 
-
-We see that the variance for the random slope of trial on nursery code is effectively 0, so we exclude it from the model.
-```{r}
-dist<-lmer(distance_c01 ~ z.age + Trial + (1|ID) + (1|NurseryCode), data=test.trials, REML=FALSE)#singular fit
-
-null.dist<-lmer(distance_c01 ~ 1 + (1|ID) + (1|NurseryCode), data=test.trials, REML=FALSE)#singular fit
-
-anova(null.dist, dist, test="Chisq")#significant
-
-summary(dist)
-```
-The model including age and trial number can explain the data on distance significantly better than a model only containing the intercept, X2(2) = 16.67, p < .001. 
-
-We see that the variance of nursery is very small. However, we know from above that there is an effect of testing location (Fife/Edinburgh), so we modify the model to look for that difference.
-
-
-We aim to investigate the potential role of testing location.
-```{r}
 dist<-lmer(distance_c01 ~ z.age + Trial + TestingLocation + (1+Trial|ID), data=test.trials, REML=FALSE)#singular fit
 
 #remove correlation
