@@ -1,0 +1,540 @@
+---
+title: "Cylinder"
+author: "Eva Reindl"
+date: "6 4 2020"
+output: word_document
+---
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+Cyl <-read.csv("Cylinder.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+names(Cyl)[1] <- "ID"
+str(Cyl)
+```
+
+# Dropouts
+```{r}
+Cyl.dropout<-subset(Cyl, Dropout == "yes")
+```
+There are 3 dropouts:
+
+- for 2 children there was an experimenter error (forgot to label counterevidence in warm-up; 4y m, 3y f)
+
+- 1 child (3y m) stopped after 3 searches (was on medication and very usually drowsy)
+
+# Valid data
+```{r}
+Cyl.valid<-subset(Cyl, Dropout == "no")
+Cyl.valid.Search1<- subset(Cyl.valid, Searchnumber == "1")
+```
+There are 144 valid cases in the cylinder task. These include:
+
+- 3 children with 10 unique searches (child stopped and said she had found all stickers - 4y f, one child got frustrated and refused to pick any more - 3y f, one child there was an experimenter error (E gestured toward one side of the board) so the trial was cut after 10 unique searches - 4y f)
+
+- 2 children with 11 unique searches (E accidentally stopped earlier - 4y f, child stopped and saif he had found all stickers - 3y m)
+
+# Description of sample
+## Gender distribution
+```{r}
+table(Cyl.valid.Search1$Sex)
+```
+There were 78 girls and 66 boys.
+
+## Age
+### Age at the beginning of testing
+```{r}
+mean(Cyl.valid.Search1$Age_months)
+sd(Cyl.valid.Search1$Age_months)
+min(Cyl.valid.Search1$Age_months)
+max(Cyl.valid.Search1$Age_months)
+
+table(Cyl.valid.Search1$Age_group)
+
+table(Cyl.valid.Search1$Age_group, Cyl.valid.Search1$Sex)
+```
+At the beginning of testing, the children who had valid data on the Cylinder task were on average 48.83 months (SD = 6.88, range 36-70) old. There were 64 3-year-olds, 72 4-year-olds, and 8 5-year-olds.
+
+- 3y: 37 f, 27 m
+- 4y: 37 f, 35 m
+- 5y: 4 f, 4 m
+
+### Age in the middle of testing
+```{r}
+mean(Cyl.valid.Search1$Age_months_midtesting)
+sd(Cyl.valid.Search1$Age_months_midtesting)
+min(Cyl.valid.Search1$Age_months_midtesting)
+max(Cyl.valid.Search1$Age_months_midtesting)
+
+table(Cyl.valid.Search1$Age_group_midtesting)
+
+table(Cyl.valid.Search1$Age_group_midtesting, Cyl.valid.Search1$Sex)
+```
+In the middle of testing, the children who had valid data on the Cylinder task were on average **49.94 months (SD = 6.81, range 36-72)** old. There were **62 3-year-olds, 70 4-year-olds, 11 5-year-olds, and 1 6-year-old**.
+
+- 3y: 36 f, 26 m
+- 4y: 35 f, 35 m
+- 5y: 7 f, 4 m
+- 6y: 1m
+
+### Age mediansplit (based on entire sample)
+```{r}
+table(Cyl.valid.Search1$Mediansplit_midtesting_entiresample)
+
+table(Cyl.valid.Search1$Mediansplit_midtesting_entiresample, Cyl.valid.Search1$Sex)
+```
+There were **72 young** and **72 old** children.
+
+- young: 39 f, 33 m
+- old: 39 f, 33 m
+
+## Testing location
+```{r}
+table(Cyl.valid.Search1$TestingLocation)
+
+table(Cyl.valid.Search1$Age_group_midtesting, Cyl.valid.Search1$TestingLocation)
+
+tapply(Cyl.valid.Search1$Age_months_midtesting, Cyl.valid.Search1$TestingLocation, mean)
+tapply(Cyl.valid.Search1$Age_months_midtesting, Cyl.valid.Search1$TestingLocation, sd)
+tapply(Cyl.valid.Search1$Age_months_midtesting, Cyl.valid.Search1$TestingLocation, min)
+tapply(Cyl.valid.Search1$Age_months_midtesting, Cyl.valid.Search1$TestingLocation, max)
+
+Edi <- subset(Cyl.valid.Search1, TestingLocation == "Edinburgh")
+Fife <- subset(Cyl.valid.Search1, TestingLocation == "Fife")
+
+hist(Edi$Age_months_midtesting)
+shapiro.test(Edi$Age_months_midtesting)#normally distributed
+
+hist(Fife$Age_months_midtesting)
+shapiro.test(Fife$Age_months_midtesting)#not normally distributed
+
+wilcox.test(Cyl.valid.Search1$Age_months_midtesting ~ Cyl.valid.Search1$TestingLocation, alternative = "two.sided")
+```
+84 children were from Fife, 60 from Edinburgh.
+Edinburgh: M = 49.22 (SD = 5.80, range 36-58)
+
+- 3y: 25
+- 4y: 35
+
+
+Fife: M = 50.46 (SD = 7.45, range 38-72)
+
+- 3y: 37
+- 4y: 35
+- 5y: 11
+- 6y: 1
+
+There is no difference in the age distribution between the two testing locations, two-sided Wilcoxon test, W = 2391.5, p = .603.
+
+
+# Warm-up: Cup chosen
+```{r}
+table(Cyl.valid.Search1$WarmUp.Cupchosen)
+```
+From the 144 children, the choice of cup in the warm-up was known for 130 (90%) children. For the rest of the children, the experimenter missed to take a note of the cup chosen and the video also did not show it.
+From the 130 children of which we know which cup was chosen, 122 (94%) chose the sticker cup (i.e., the wrong cup). This shows that there was indeed a strong pull to reach to the nice sticker cup.
+
+# Test
+## Got all stickers?
+```{r}
+table(Cyl.valid.Search1$GotAllStickers)
+```
+Of the 144 children, 101 (70%) found all the stickers. 43 children stopped the game before finding all the stickers (either they announced they had found all the stickers and did not want to search anymore or the experimenter stopped the game as the child had already searched a lot and has been unable to find the remaining stickers).
+
+## Of those children who did not find 12 stickers, how many stickers did they find?
+```{r}
+table(Cyl.valid.Search1$Has12UniqueSearches, Cyl.valid.Search1$IfDidNotGetAllStickers_HowManyGot)
+```
+Of the children who had 12 unique searches (n = 139), 101 children (73%) did get all the stickers, i.e., 38 (27%) children did not get all 12 stickers:
+
+- 21 children got 11 stickers
+- 7 children got 10 stickers
+- 2 children got 9 stickers
+- 3 children got 8 stickers
+- 1 chid got 7 stickers
+- 3 children got 3 stickers
+- 1 child got 5 stickers
+
+Of the children who did not have 12 unique searches (n = 5):
+
+- had 11 searches (n = 2): 1 child got all 11 stickers, 1 child got 10 stickers
+- had 10 searches (n = 3): all 3 children got all 10 stickers
+
+Thus, from the 5 children with fewer than 12 searches, 4 (80%) got all stickers.
+
+Altogether:
+
+- children who got 12 unique searches (n = 139): 101 got all stickers (73%), 38 did not find all stickers
+- children who had fewer than 12 unique searches (n = 5): 4 got all stickers (80%), 1 did not find all stickers.
+
+Taken together: **Out of 144 children, 105 children (73%) got all stickers**, 39 children did not get all stickers.
+
+# DV: Proportion of correct searches out of the first 10, 11 or 12 unique trials
+## Across the sample
+```{r}
+mean(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
+sd(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
+min(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
+max(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
+
+hist(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique,
+     main="Proportion correct searches within the first 10, 11 or 12 unique searches", 
+     xlab="Proportion correct", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+shapiro.test(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
+
+#test against chance performance
+wilcox.test(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, mu=0.5, alternative = "two.sided")
+```
+The mean proportion of correct searches within the first 10, 11 or 12 searches was 0.65 (SD = 0.28, range 0.08-1). The variable is bimodal and not normally distributed, W = 0.891, p < .001. Children's performance is significantly above chance value (0.5), two-sided Wilcoxon test, V = 7001.5, p < .001.
+
+Boxplot:
+```{r}
+library(ggplot2)
+
+p<-  ggplot(
+  data=Cyl.valid.Search1, aes(x=rep(1, 144), y=ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)) +
+  geom_boxplot(outlier.colour = "black")+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean proportion of correct searches")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Inhibition Cylinder")
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") + geom_count()
+```
+
+## By age groups
+```{r}
+tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$Age_group_midtesting, mean)
+tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$Age_group_midtesting, sd)
+tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$Age_group_midtesting, min)
+tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$Age_group_midtesting, max)
+
+three <- subset(Cyl.valid.Search1, Age_group_midtesting == "3")
+four <- subset(Cyl.valid.Search1, Age_group_midtesting == "4")
+five <- subset(Cyl.valid.Search1, Age_group_midtesting == "5")
+
+
+hist(three$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique,
+     main="Proportion correct searches for 3-year-olds", 
+     xlab="Proportion correct", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+hist(four$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique,
+     main="Proportion correct searches for 4-year-olds", 
+     xlab="Proportion correct", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+hist(five$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique,
+     main="Proportion correct searches for 5-year-olds", 
+     xlab="Proportion correct", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+shapiro.test(three$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
+shapiro.test(four$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
+shapiro.test(five$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
+
+#test against chance performance
+wilcox.test(three$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, mu=0.5, alternative = "two.sided")
+wilcox.test(four$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, mu=0.5, alternative = "two.sided")
+wilcox.test(five$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, mu=0.5, alternative = "two.sided")
+```
+
+- 3y (n = 62): M = 0.58 (SD = 0.27, range 0.08-1), significantly above chance (V = 1007.5, p = .009)
+- 4y (n = 70): M = 0.66 (SD = 0.29, range 0.08-1), significantly above chance (V = 1836.5, p < .001)
+- 5y (n = 11): M = 0.87 (SD = 0.21, range 0.25-1), significantly above chance (V = 65, p = .004)
+- 6y (n = 1): M = 1
+
+Boxplot:
+```{r}
+p1<-ggplot(data=Cyl.valid.Search1, aes(x=Age_group_midtesting,y=ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)) +
+  geom_boxplot(aes(group=Age_group_midtesting, fill = as.factor(Cyl.valid.Search1$Age_group_midtesting)), outlier.colour = "black") + 
+      ylim(0,1)+
+  xlim(2.5,6.5)+
+  geom_point(alpha=0.3) +
+  labs(x="",y="Mean proportion correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Inhibition Cylinder: proportion of correct searches")
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ 
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5)+
+  scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 62", "4 years, n = 70", "5 years, n = 11", "6 years, n = 1"))
+```
+
+## By age mediansplit
+```{r}
+tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$Mediansplit_midtesting_entiresample, mean)
+tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$Mediansplit_midtesting_entiresample, sd)
+tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$Mediansplit_midtesting_entiresample, min)
+tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$Mediansplit_midtesting_entiresample, max)
+
+young <- subset(Cyl.valid.Search1, Mediansplit_midtesting_entiresample == "young")
+old <- subset(Cyl.valid.Search1, Mediansplit_midtesting_entiresample == "old")
+
+hist(young$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique,
+     main="Proportion correct searches for 3-year-olds", 
+     xlab="Proportion correct", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+hist(old$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique,
+     main="Proportion correct searches for 4-year-olds", 
+     xlab="Proportion correct", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+
+shapiro.test(young$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
+shapiro.test(old$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
+
+#test against chance performance
+wilcox.test(young$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, mu=0.5, alternative = "two.sided")
+wilcox.test(old$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, mu=0.5, alternative = "two.sided")
+```
+
+- young (n = 72): M = 0.58 (SD = 0.27, range 0.08-1), significantly above chance (V = 1403.5, p = .007)
+- old (n = 72): M = 0.71 (SD = 0.28, range 0.08-1), significantly above chance (V = 2106, p < .001)
+
+Boxplot:
+```{r}
+library(forcats)
+
+Cyl.valid.Search1$Mediansplit_midtesting_entiresample<-fct_relevel(Cyl.valid.Search1$Mediansplit_midtesting_entiresample, "young")
+#changes order of boxplots (young before old)
+
+p1<-  ggplot(
+  data=Cyl.valid.Search1, aes(x=rep(1, 144), y=ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, fill = Mediansplit_midtesting_entiresample))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean proportion of searches correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Inhibition Cylinder: Mean proportion of correct searches")
+
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
+  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young (36-49 months), n = 72", "old (50-72 months), n = 72"))
+```
+
+## By testing location
+```{r}
+tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$TestingLocation, mean)
+tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$TestingLocation, sd)
+tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$TestingLocation, min)
+tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$TestingLocation, max)
+
+hist(Fife$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique,
+     main="Proportion correct searches for Fife children", 
+     xlab="Proportion correct", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+hist(Edi$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique,
+     main="Proportion correct searches for Edinburgh children", 
+     xlab="Proportion correct", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+shapiro.test(Fife$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
+shapiro.test(Edi$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
+
+#test against chance performance
+wilcox.test(Fife$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, mu=0.5, alternative = "two.sided")
+wilcox.test(Edi$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, mu=0.5, alternative = "two.sided")
+
+p1<-  ggplot(
+  data=Cyl.valid.Search1, aes(x=rep(1, 144), y=ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, fill = TestingLocation))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean proportion of searches correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Inhibition Cylinder: Mean proportion of correct searches")
+
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
+  scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 60", "Fife, n = 84"))
+```
+
+- Edinburgh: M = 0.66 (SD = 0.30, range 0.08-1), significantly above chance (V = 1287, p < .001)
+- Fife: M = 0.64 (SD = 0.27, range 0.17-1), significantly above chance (V = 2307.5, p < .001)
+
+# Plot proportion correct against age as continuous variable
+```{r}
+p1<- ggplot(Cyl.valid.Search1, aes(x=Age_months_midtesting, y=ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)) + geom_point()+
+ labs(x="Age in months",y="Proportion correct")
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+# Proportion of correct searches as calculated for each cumulative number of trials
+Amanda asked to show the "proportion of correct searches as calculated for each cumulative number of unique trials"
+```{r}
+Trial1<-subset(Cyl.valid, Trialnr_OnlyValidTrials == "1")
+Trial2<-subset(Cyl.valid, Trialnr_OnlyValidTrials == "2")
+Trial3<-subset(Cyl.valid, Trialnr_OnlyValidTrials == "3")
+Trial4<-subset(Cyl.valid, Trialnr_OnlyValidTrials == "4")
+Trial5<-subset(Cyl.valid, Trialnr_OnlyValidTrials == "5")
+Trial6<-subset(Cyl.valid, Trialnr_OnlyValidTrials == "6")
+Trial7<-subset(Cyl.valid, Trialnr_OnlyValidTrials == "7")
+Trial8<-subset(Cyl.valid, Trialnr_OnlyValidTrials == "8")
+Trial9<-subset(Cyl.valid, Trialnr_OnlyValidTrials == "9")
+Trial10<-subset(Cyl.valid, Trialnr_OnlyValidTrials == "10")
+Trial11<-subset(Cyl.valid, Trialnr_OnlyValidTrials == "11")
+Trial12<-subset(Cyl.valid, Trialnr_OnlyValidTrials == "12")
+
+
+mean(Trial1$CumulativeProportion)
+mean(Trial2$CumulativeProportion)
+mean(Trial3$CumulativeProportion)
+mean(Trial4$CumulativeProportion)
+mean(Trial5$CumulativeProportion)
+mean(Trial6$CumulativeProportion)
+mean(Trial7$CumulativeProportion)
+mean(Trial8$CumulativeProportion)
+mean(Trial9$CumulativeProportion)
+mean(Trial10$CumulativeProportion)
+mean(Trial11$CumulativeProportion)
+mean(Trial12$CumulativeProportion)
+
+sd(Trial1$CumulativeProportion)
+sd(Trial2$CumulativeProportion)
+sd(Trial3$CumulativeProportion)
+sd(Trial4$CumulativeProportion)
+sd(Trial5$CumulativeProportion)
+sd(Trial6$CumulativeProportion)
+sd(Trial7$CumulativeProportion)
+sd(Trial8$CumulativeProportion)
+sd(Trial9$CumulativeProportion)
+sd(Trial10$CumulativeProportion)
+sd(Trial11$CumulativeProportion)
+sd(Trial12$CumulativeProportion)
+
+CumulPropCorrectSearches <-read.csv("CumulativeProportionCorrectCylinder.csv",header=TRUE, sep = ";")
+names(CumulPropCorrectSearches)[1] <- "Trial_nr"
+
+
+p1 <- ggplot(CumulPropCorrectSearches, aes(x=Trial_nr, y=Mean_ProportionCorrect)) + 
+    geom_errorbar(aes(ymin=Mean_ProportionCorrect-SD_ProportionCorrect, ymax=Mean_ProportionCorrect+SD_ProportionCorrect), width=.1) +
+    geom_line() +
+    geom_point()+
+  ylim(-0.3, 1)
+
+p1 + geom_hline(yintercept=0.5, linetype="dashed", color = "red")
+```
+
+# Can the proportion of correct searches be predicted by age and trial number?
+We are not testing for an effect of testing location here, as the above results indicate that there is no difference in performance.
+```{r}
+library(lme4)
+
+Cyl.validtrials <- subset(Cyl.valid, Trialnr_OnlyValidTrials != "NA")
+
+Cyl.validtrials$z.age=as.vector(scale(Cyl.validtrials$Age_months_midtesting))#transform age to mean of 0 and SD of 1
+mean(Cyl.validtrials$z.age)#check whether it has worked
+sd(Cyl.validtrials$z.age)
+
+Cyl.validtrials$z.trial=as.vector(scale(Cyl.validtrials$Trialnr_OnlyValidTrials))#transform trial to mean of 0 and SD of 1
+mean(Cyl.validtrials$z.trial)#check whether it has worked
+sd(Cyl.validtrials$z.trial)
+
+res<-glmer(GotSticker ~ z.age + z.trial + z.age:z.trial + (1+z.trial|ID), data=Cyl.validtrials, family=binomial)
+
+null <- glmer(GotSticker ~ 1 + (1+z.trial|ID), data=Cyl.validtrials, family=binomial)
+
+anova(null, res, test="Chisq")#significant
+```
+Together, age, trial number, and the interaction between age and trial number can explain the data significantly better than a null model only consisting of the intercept, X2(3) = 21.387, p < .001.
+
+**Effect of interaction term**
+```{r}
+res.nointer<-glmer(GotSticker ~ z.age + z.trial + (1+z.trial|ID), data=Cyl.validtrials, family=binomial)
+
+anova(res.nointer, res, test="Chisq")
+```
+There is no effect of the interaction term (X2(1) = 0.912, p = .339), so we remove it from the model. We also tried to enter the non-transformed version of trial number, but then the model did not converge.
+
+```{r}
+res<-glmer(GotSticker ~ z.age + z.trial + (1+z.trial|ID), data=Cyl.validtrials, family=binomial)
+
+anova(null, res, test="Chisq")
+```
+Together, age, and trial number can explain the data significantly better than a null model only consisting of the intercept, X2(2) = 20.457, p < .001.
+
+**Effect of trial number**
+```{r}
+res.notrial<-glmer(GotSticker ~ z.age + (1+z.trial|ID), data=Cyl.validtrials, family=binomial)
+
+anova(res.notrial, res, test="Chisq")
+```
+There is no effect of trial number, X2(1) = 1.283, p = .257.
+
+**Effect of age**
+```{r}
+res.noage<-glmer(GotSticker ~ z.trial + (1+z.trial|ID), data=Cyl.validtrials, family=binomial)
+
+anova(res.noage, res, test="Chisq")
+```
+There is a significant effect of age, X2(1) = 19.642, p < .001.
+
+```{r}
+source("boot_glmm.r")
+boot.res=boot.glmm.pred(model.res=res, excl.warnings=T,
+nboots=1000, para=T)
+
+round(boot.res$ci.estimates, 3)
+```
+
+## Model assumptions
+```{r}
+source("diagnostic_fcns.r")
+ranef.diagn.plot(res)
+
+#collinearity
+xres=lm(GotSticker ~ z.age + z.trial, data=Cyl.validtrials)
+
+library(car)
+vif(xres)
+```
