@@ -1,0 +1,379 @@
+---
+title: "SallyAnn"
+author: "Eva Reindl"
+date: "5 7 2020"
+output: word_document
+---
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+Sally <-read.csv("SallyAnn.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+names(Sally)[1] <- "ID"
+names(Sally)[18] <- "Score"
+
+str(Sally)
+```
+There are 104 children in the dataset.
+
+# Dropouts
+```{r}
+dropouts<-subset(Sally, Dropout == "yes")
+```
+There are 2 dropouts (3y, m): 
+
+- 1 child had too poor language comprehension (bilingual) and the test did not work with them
+- 1 child stopped paying attention and so the experimenter stopped the game (child chose at random)
+
+# Valid data
+```{r}
+Sally.valid<-subset(Sally, Dropout == "no")
+```
+There are **102 valid cases** in the Sally Ann task.
+
+# Description of sample 
+## Gender
+```{r}
+table(Sally.valid$Gender)
+```
+There are **63 females** and **39 males**.
+
+## Age
+### Age at the beginning of testing
+```{r}
+mean(Sally.valid$Age_months)
+sd(Sally.valid$Age_months)
+min(Sally.valid$Age_months)
+max(Sally.valid$Age_months)
+
+table(Sally.valid$Age_group)
+```
+At the beginning of testing, children included in the Sally Ann task were on average 49.10 months old (SD = 7.62, range 35-70). There were 1 2-year-old, 46 3-year-olds, 45 4-year-olds, and 10 5-year-olds.
+
+### In the middle of testing
+```{r}
+mean(Sally.valid$AgeMonths_midtesting)
+sd(Sally.valid$AgeMonths_midtesting)
+min(Sally.valid$AgeMonths_midtesting)
+max(Sally.valid$AgeMonths_midtesting)
+hist(Sally.valid$AgeMonths_midtesting)
+
+table(Sally.valid$AgeGroup_midtesting)
+table(Sally.valid$AgeGroup_midtesting, Sally.valid$Gender)
+
+boys <- subset(Sally.valid, Gender == "m")
+girls <- subset(Sally.valid, Gender == "f")
+
+hist(boys$AgeMonths_midtesting)
+mean(boys$AgeMonths_midtesting)
+sd(boys$AgeMonths_midtesting)
+min(boys$AgeMonths_midtesting)
+max(boys$AgeMonths_midtesting)
+shapiro.test(boys$AgeMonths_midtesting)#normally distributed
+
+hist(girls$AgeMonths_midtesting)
+mean(girls$AgeMonths_midtesting)
+sd(girls$AgeMonths_midtesting)
+min(girls$AgeMonths_midtesting)
+max(girls$AgeMonths_midtesting)
+shapiro.test(girls$AgeMonths_midtesting)#not normally distributed
+
+wilcox.test(Sally.valid$AgeMonths_midtesting ~ Sally.valid$Gender, alternative = "two.sided")
+```
+In the middle of testing, children included in the Sally Ann task were on average **50.47 months old (SD = 7.54, range 36-72)**. There were  
+
+- 45 3-year-olds (31 f, 14 m)
+- 43 4-year-olds (24 f, 19 m)
+- 13 5-year-olds (8 f, 5 m)
+- 1 6-year-old (1 m)
+
+- Boys: M = 51.56 (SD = 7.91, range 38-72)
+- Girls: M = 49.79 (SD = 7.28, range 36-64)
+
+There was no difference between males and females regarding the age distribution, two-sided Wilcoxon test, W = 1089, p = .338.
+
+### Age mediansplit (based on entire sample)
+```{r}
+table(Sally.valid$Mediansplit_midtesting_entiresample)
+table(Sally.valid$Mediansplit_midtesting_entiresample, Sally.valid$Gender)
+```
+There were **47 young** (31 f, 16 m) and **55 old** (32 f, 23 m) children.
+
+## Testing Location
+All children were from the Fife area.
+
+# Control question 1
+"Who is Sally? Who is Ann?"
+```{r}
+table(Sally.valid$WhoSally_WhoAnn)
+```
+Out of the 102 children, **100 children (98%) passed the first control question**. Note that the experimenter repeated the explanation and the questions up to 3 times, so not all of the children passed the question the first time.
+
+# Test question
+"Where will Sally look for her block?"
+```{r}
+table(Sally.valid$Where.Sally.look)
+table(Sally.valid$Where.Sally.look, Sally.valid$AgeGroup_midtesting)
+
+threeandfour <- subset(Sally.valid, AgeGroup_midtesting == "3" | AgeGroup_midtesting == "4")
+
+table(threeandfour$Where.Sally.look, threeandfour$AgeGroup_midtesting)
+chisq.test(threeandfour$Where.Sally.look, threeandfour$AgeGroup_midtesting)
+
+table(Sally.valid$Where.Sally.look, Sally.valid$Mediansplit_midtesting_entiresample)
+chisq.test(Sally.valid$Where.Sally.look, Sally.valid$Mediansplit_midtesting_entiresample)
+```
+Out of the 102 children, **40 children (39%) passed the test question**.
+
+- **3y (n = 45): 14 correct (31%)**
+- **4y (n = 43): 17 correct (39%)**
+- 5y (n = 13): 8 correct (61%)
+- 6y (n = 1): 1 correct (100%)
+
+**3- and 4-year-olds did not differ in their success rates**, Chi-squared test X2(1) = 0.364, p = .546.
+
+- young (n = 47): 14 correct (30%)
+- old (n = 55): 26 correct (47%)
+
+**Old children did not perform differently than young children**, Chi-squared test X2(1) = 2.558, p = .110.
+
+# Control question 2
+"Where is the block really?"
+```{r}
+table(Sally.valid$Where.block.really)
+table(Sally.valid$Where.block.really, Sally.valid$AgeGroup_midtesting)
+```
+Out of the 102 children, **90 children (88%) passed the second control question**. 
+
+- 3y (n = 45): 38 correct (84%)
+- 4y (n = 43): 38 correct (88%)
+- 5y (n = 13): 13 correct (100%)
+- 6y (n = 1): 1 correct (100%)
+
+# Control question 3
+"Where was the block in the beginning?"
+```{r}
+table(Sally.valid$Where.was.block.inbeginning)
+table(Sally.valid$Where.was.block.inbeginning, Sally.valid$AgeGroup_midtesting)
+
+table(threeandfour$Where.was.block.inbeginning, threeandfour$AgeGroup_midtesting)
+chisq.test(threeandfour$Where.was.block.inbeginning, threeandfour$AgeGroup_midtesting)
+
+table(Sally.valid$Where.was.block.inbeginning, Sally.valid$Mediansplit_midtesting_entiresample)
+chisq.test(Sally.valid$Where.was.block.inbeginning, Sally.valid$Mediansplit_midtesting_entiresample)
+```
+Out of the 102 children, **75 children (73%) passed the third control question**. 
+
+- 3y (n = 45): 25 correct (55%)
+- 4y (n = 43): 36 correct (84%)
+- 5y (n = 13): 13 correct (100%)
+- 6y (n = 1): 1 correct (100%)
+
+4-year-olds were significantly better at this task than 3-year-olds, Chi-squared test X2(1) = 6.931, p = .008.
+
+- young (n = 47): 26 correct (55%)
+- old (n = 55): 49 correct (89%)
+
+**Old children were differently better than young children**, Chi-squared test X2(1) = 13.166, p < .001.
+
+# Got at least one control question wrong
+```{r}
+table(Sally.valid$GotAtLeastOneControlQuestionWrong)
+table(Sally.valid$GotAtLeastOneControlQuestionWrong, Sally.valid$AgeGroup_midtesting)
+```
+Out of the 102 children, 34 children **(33%) got at least one control question wrong** and thus were **excluded from calculating the final score**.
+
+- 3y (n = 45): 25 at least one control question wrong (55%)
+- 4y (n = 43): 9 at least one control question wrong (21%)
+- 5y (n = 13): 0 at least one control question wrong (0%)
+- 6y (n = 1): 0 at least one control question wrong (0%)
+
+# Got test correct but at least one control question wrong
+```{r}
+table(Sally.valid$GotTestCorrectButAtLeastOneControlWrong)
+table(Sally.valid$GotTestCorrectButAtLeastOneControlWrong, Sally.valid$AgeGroup_midtesting)
+```
+Out of the 102 children, 13 children (13%) got the test question correct but at least one control question wrong.
+
+- 3y (n = 45): 10 got test correct but at least one control question wrong (22%)
+- 4y (n = 43): 3 got test correct but at least one control question wrong (7%)
+- 5y (n = 13): 0 got test correct but at least one control question wrong (0%)
+- 6y (n = 1): 0 got test correct but at least one control question wrong (0%)
+
+
+# DV: Test correct (yes/no) for those children who have all control questions correct
+```{r}
+passed.control <- subset(Sally.valid, GotAtLeastOneControlQuestionWrong == "0")
+```
+Out of the 102 children, **68 children (67%) passed the control question and are included** into the analysis.
+```{r}
+table(passed.control$Where.Sally.look)
+table(passed.control$Where.Sally.look, passed.control$AgeGroup_midtesting)
+
+threeandfour <- subset(passed.control, AgeGroup_midtesting == "3" | AgeGroup_midtesting == "4")
+
+table(threeandfour$Where.Sally.look, threeandfour$AgeGroup_midtesting)
+chisq.test(threeandfour$Where.Sally.look, threeandfour$AgeGroup_midtesting)
+
+table(passed.control$Where.Sally.look, passed.control$Mediansplit_midtesting_entiresample)
+chisq.test(passed.control$Where.Sally.look, passed.control$Mediansplit_midtesting_entiresample)
+```
+Out of the 68 children, 27 children **(40%) passed the test question**.
+
+- 3y (n = 20): 4 correct (20%)
+- 4y (n = 34): 14 correct (41%)
+- 5y (n = 13): 8 correct (61%)
+- 6y (n = 1): 1 correct (100%)
+
+**3- and 4-year-olds did not differ** in their success rates, Chi-squared test X2(1) = 1.678, p = .195.
+
+- young (n = 21): 4 correct (19%)
+- old (n = 47): 23 correct (49%)
+
+**Old children performed significantly better than young children**, Chi-squared test X2(1) = 4.240, p = .039.
+
+## Plot for age groups
+```{r}
+library(wesanderson)
+
+Percentage <-read.csv("PassedControl_percentagecorrect.csv",header=TRUE, sep = ";")
+names(Percentage)[1] <- "AgeGroup_midtesting"
+
+library(ggplot2)
+
+p<-ggplot(data=Percentage, aes(x=AgeGroup_midtesting, y=Percentage, fill = forcats::fct_rev(Answer))) +
+  geom_bar(stat="identity")+ 
+  theme_minimal()+
+  geom_text(aes(y=labelpos, label=Percentage), vjust=2, 
+            color="white", size=3.5)+
+  labs(x="Age group in years",y="Perentage of children who answered correctly")
+  
+p + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+panel.background = element_blank(), axis.line = element_line(colour = "black"))+ scale_fill_manual(values = wes_palette("IsleofDogs2"), name = "Answer given")
+```
+
+## Plot for age by mediansplit
+```{r}
+Percentage <-read.csv("PassedControl_percentagecorrect_agemediansplit.csv",header=TRUE, sep = ";")
+names(Percentage)[1] <- "AgeGroup_midtesting"
+library(forcats)
+
+Percentage$AgeGroup_midtesting<-fct_relevel(Percentage$AgeGroup_midtesting, "young")
+#changes order of boxplots (young before old)
+
+
+p<-ggplot(data=Percentage, aes(x=AgeGroup_midtesting, y=Percentage, fill = forcats::fct_rev(Answer))) +
+  geom_bar(stat="identity")+ 
+  theme_minimal()+
+  geom_text(aes(y=labelpos, label=Percentage), vjust=2, 
+            color="white", size=3.5)+
+  labs(x="Mediansplit age",y="Perentage of children who answered correctly")
+  
+p + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+panel.background = element_blank(), axis.line = element_line(colour = "black"))+ scale_fill_manual(values = wes_palette("IsleofDogs2"), name = "Answer given")
+```
+
+# Score that includes all children
+0 = at least one control question wrong
+1 = control questions correct but test question wrong
+2 = control questions correct and test question correct
+```{r}
+table(Sally.valid$Score)
+table(Sally.valid$Score, Sally.valid$AgeGroup_midtesting)
+table(Sally.valid$Score, Sally.valid$Mediansplit_midtesting_entiresample)
+
+library(MASS)
+Sally.valid$Score <- as.factor(Sally.valid$Score)
+res <- polr(Score ~ AgeMonths_midtesting, data= Sally.valid)
+summary(res)
+
+#make table
+(ctable <- coef(summary(res)))
+## calculate and store p values
+p <- pnorm(abs(ctable[, "t value"]), lower.tail = FALSE) * 2
+
+## combined table
+(ctable <- cbind(ctable, "p value" = p))
+
+#confidence intervals
+(ci <- confint(res))
+
+#getting odds ratios
+exp(coef(res))
+exp(cbind(OR = coef(res), ci))
+```
+
+- 0 points (at least 1 control question wrong): 34 children (33%)
+- 1 point (control questions correct, test question wrong): 42 children (41%)
+- 2 points (control questions correct, test question correct): 26 children (25%)
+
+3y (n = 45):
+
+- 0 points: 25 (55.5%)
+- 1 point: 16 (35.5%)
+- 2 points: 4 (9%)
+
+4y (n = 43):
+
+- 0 points: 9 (21%)
+- 1 point: 21 (49%)
+- 2 points: 13 (30%)
+
+5y (n = 13):
+
+- 0 points: 0
+- 1 point: 5 (38.5%)
+- 2 points: 8 (61.5%)
+
+6y (n = 1):
+
+- 2 points: 1 (100%)
+
+young (n = 47):
+
+- 0 points: 26 (55.5%)
+- 1 point: 17 (36.5%)
+2 points: 4 (8%)
+
+old (n = 55):
+
+- 0 points: 8 (14.5%)
+- 1 point: 25 (45.5%)
+2 points: 22 (40%)
+
+Age has a significant effect on the test score.
+
+## Plot score, age groups
+```{r}
+Scoreplot <-read.csv("Score.csv",header=TRUE, sep = ";")
+names(Scoreplot)[1] <- "AgeGroup_midtesting"
+Scoreplot$Score <- as.factor(Scoreplot$Score)
+
+library(ggplot2)
+
+p <- ggplot(Scoreplot, aes(x=Score, y=Percentage, fill=Score)) +
+geom_bar(position="dodge", stat="identity") +
+    ggtitle("Percentages of scores reached by age groups") +
+    facet_wrap(~AgeGroup_midtesting) +
+    theme(legend.position="none") +
+    xlab("Score")+
+    ylab("Percentage of children reaching the respective score")
+
+p + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
+```
