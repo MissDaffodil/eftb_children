@@ -537,4 +537,7 @@ xres=lm(GotSticker ~ z.age + z.trial, data=Cyl.validtrials)
 
 library(car)
 vif(xres)
+
+source("glmm_stability.r")
+m.stab=glmm.model.stab(model.res=res)
 ```
