@@ -480,9 +480,10 @@ Cyl.validtrials$z.trial=as.vector(scale(Cyl.validtrials$Trialnr_OnlyValidTrials)
 mean(Cyl.validtrials$z.trial)#check whether it has worked
 sd(Cyl.validtrials$z.trial)
 
-res<-glmer(GotSticker ~ z.age + z.trial + z.age:z.trial + (1+z.trial|ID), data=Cyl.validtrials, family=binomial)
+contr<-glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=10000000))
+res<-glmer(GotSticker ~ z.age + z.trial + z.age:z.trial + (1+z.trial|ID), data=Cyl.validtrials, family=binomial, control=contr)
 
-null <- glmer(GotSticker ~ 1 + (1+z.trial|ID), data=Cyl.validtrials, family=binomial)
+null <- glmer(GotSticker ~ 1 + (1+z.trial|ID), data=Cyl.validtrials, family=binomial, control=contr)
 
 anova(null, res, test="Chisq")#significant
 ```
@@ -490,14 +491,14 @@ Together, age, trial number, and the interaction between age and trial number ca
 
 **Effect of interaction term**
 ```{r}
-res.nointer<-glmer(GotSticker ~ z.age + z.trial + (1+z.trial|ID), data=Cyl.validtrials, family=binomial)
+res.nointer<-glmer(GotSticker ~ z.age + z.trial + (1+z.trial|ID), data=Cyl.validtrials, family=binomial, control=contr)
 
 anova(res.nointer, res, test="Chisq")
 ```
 There is no effect of the interaction term (X2(1) = 0.912, p = .339), so we remove it from the model. We also tried to enter the non-transformed version of trial number, but then the model did not converge.
 
 ```{r}
-res<-glmer(GotSticker ~ z.age + z.trial + (1+z.trial|ID), data=Cyl.validtrials, family=binomial)
+res<-glmer(GotSticker ~ z.age + z.trial + (1+z.trial|ID), data=Cyl.validtrials, family=binomial, control=contr)
 
 anova(null, res, test="Chisq")
 ```
@@ -505,7 +506,7 @@ Together, age, and trial number can explain the data significantly better than a
 
 **Effect of trial number**
 ```{r}
-res.notrial<-glmer(GotSticker ~ z.age + (1+z.trial|ID), data=Cyl.validtrials, family=binomial)
+res.notrial<-glmer(GotSticker ~ z.age + (1+z.trial|ID), data=Cyl.validtrials, family=binomial, control=contr)
 
 anova(res.notrial, res, test="Chisq")
 ```
@@ -513,7 +514,7 @@ There is no effect of trial number, X2(1) = 1.283, p = .257.
 
 **Effect of age**
 ```{r}
-res.noage<-glmer(GotSticker ~ z.trial + (1+z.trial|ID), data=Cyl.validtrials, family=binomial)
+res.noage<-glmer(GotSticker ~ z.trial + (1+z.trial|ID), data=Cyl.validtrials, family=binomial, control=contr)
 
 anova(res.noage, res, test="Chisq")
 ```
