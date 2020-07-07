@@ -992,17 +992,18 @@ test.trials$z.age=as.vector(scale(test.trials$AgeMonths_midtesting))#transform a
 mean(test.trials$z.age)#check whether it has worked
 sd(test.trials$z.age)
 
-dist<-lmer(distance_c01 ~ z.age + Trial + TestingLocation + (1+Trial|ID), data=test.trials, REML=FALSE)#singular fit
+contr<-lmerControl(optimizer="bobyqa", optCtrl=list(maxfun=10000000))
+dist<-lmer(distance_c01 ~ z.age + Trial + TestingLocation + (1+Trial|ID), data=test.trials, REML=FALSE, control=contr)#singular fit
 
 #remove correlation
-dist<-lmer(distance_c01 ~ z.age + Trial + TestingLocation + (1|ID) + (0+Trial|ID), data=test.trials, REML=FALSE)#singular fit
+dist<-lmer(distance_c01 ~ z.age + Trial + TestingLocation + (1|ID) + (0+Trial|ID), data=test.trials, REML=FALSE, control=contr)#singular fit
 summary(dist)
 ```
 The variance for the random slope of trial on ID is effectively 0, so we exclude it from the model.
 ```{r}
-dist<-lmer(distance_c01 ~ z.age + Trial + TestingLocation + (1|ID), data=test.trials, REML=FALSE)
+dist<-lmer(distance_c01 ~ z.age + Trial + TestingLocation + (1|ID), data=test.trials, REML=FALSE, control=contr)
 
-null.dist<-lmer(distance_c01 ~ 1 + (1|ID), data=test.trials, REML=FALSE)
+null.dist<-lmer(distance_c01 ~ 1 + (1|ID), data=test.trials, REML=FALSE, control=contr)
 
 anova(null.dist, dist, test="Chisq")#significant
 summary(dist)
@@ -1011,7 +1012,7 @@ Together, age, trial number, and testing location explain the data significantly
 
 **Effect of age**
 ```{r}
-dist.noage<-lmer(distance_c01 ~ Trial + TestingLocation + (1|ID), data=test.trials, REML=FALSE)
+dist.noage<-lmer(distance_c01 ~ Trial + TestingLocation + (1|ID), data=test.trials, REML=FALSE, control=contr)
 
 anova(dist.noage, dist, test="Chisq")#significant
 ```
@@ -1019,7 +1020,7 @@ Age has a significant effect on distance, X2(1) = 14.35, p < .001.
 
 **Effect of trial number**
 ```{r}
-dist.notrial<-lmer(distance_c01 ~ z.age + TestingLocation + (1|ID), data=test.trials, REML=FALSE)
+dist.notrial<-lmer(distance_c01 ~ z.age + TestingLocation + (1|ID), data=test.trials, REML=FALSE, control=contr)
 
 anova(dist.notrial, dist, test="Chisq")#significant
 ```
@@ -1027,7 +1028,7 @@ Trial number has a significant effect on distance, X2(1) = 3.96, p = .047.
 
 **Effect of testing location**
 ```{r}
-dist.noloc<-lmer(distance_c01 ~ z.age + Trial + (1|ID), data=test.trials, REML=FALSE)
+dist.noloc<-lmer(distance_c01 ~ z.age + Trial + (1|ID), data=test.trials, REML=FALSE, control=contr)
 
 anova(dist.noloc, dist, test="Chisq")#significant
 ```
@@ -1041,7 +1042,7 @@ For each increase of 1 SD in age, the distance decreases (i.e., children get bet
 source("boot_glmm.r")#requires centering of all predictors apart the ones one is interested in. We are interested in both.
 test.trials$z.Trial=as.vector(scale(test.trials$Trial)) 
 
-dist<-lmer(distance_c01 ~ z.age + z.Trial + TestingLocation + (1|ID), data=test.trials, REML=FALSE)
+dist<-lmer(distance_c01 ~ z.age + z.Trial + TestingLocation + (1|ID), data=test.trials, REML=FALSE, control=contr)
 
 boot.res=boot.glmm.pred(model.res=dist, excl.warnings=T,
 nboots=1000, para=F, resol=12, use="z.Trial")
@@ -1101,4 +1102,20 @@ geom_line(data=boot.res$ci.predicted, aes(x = plot.xvals, y=boot.res$ci.predicte
   ylab("Distance")+
   xlim(0,13)+
   geom_hline(yintercept=1.667, linetype="dashed", color = "red")
+```
+
+## Model assumptions
+```{r}
+source("diagnostic_fcns.r")
+ranef.diagn.plot(dist)
+
+#collinearity
+xres=lm(distance_c01 ~ z.age + Trial + TestingLocation, data=test.trials)
+
+library(car)
+vif(xres)
+
+source("glmm_stability.r")
+m.stab=glmm.model.stab(model.res=dist, contr=contr)
+m.stab$summary
 ```
