@@ -1,0 +1,966 @@
+---
+title: "Shifting_Tray"
+author: "Eva Reindl"
+date: "6 4 2020"
+output: word_document
+---
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+Tray <-read.csv("Shifting_Tray_Long.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+#recode variables
+Tray$Age_group <- as.factor(Tray$Age_group)#this converts a variable classified as continuous into a categorical variable
+levels(Tray$Age_group)
+names(Tray)[1] <- "ID"
+
+str(Tray)
+```
+The entire dataset consists of 151 children.
+
+# Dropouts
+```{r}
+Tray.drop<-subset(Tray, Dropout == "yes")
+```
+There are **3 dropouts** due to experimenter error (in 2 cases, the sticker was accidentally placed into the wrong tray and in one case the sticker was missing from the correct tray but the experimenter did not reward the child).
+
+# Valid data
+```{r}
+Tray.valid<-subset(Tray, Dropout == "no")
+Tray.T1 <- subset(Tray.valid, Trial_no == "1")
+```
+The final dataset consists of **148 children**.
+
+
+# Sample description
+## Gender distribution
+```{r}
+table(Tray.T1$Gender)
+```
+There are 77 females and 71 males.
+
+# Age
+## Age at beginning of testing
+```{r}
+mean(Tray.T1$Age_months)
+sd(Tray.T1$Age_months)
+min(Tray.T1$Age_months)
+max(Tray.T1$Age_months)
+hist(Tray.T1$Age_months)
+
+table(Tray.T1$Age_group)
+```
+At the beginning of testing, children taking part in the Shifting Tray task were on average 48.57 months (SD = 6.64, range 36-64) old. There were 68 3-year-olds, 73 4-year-olds, and 7 5-year-olds.
+
+
+## Age in the middle of testing
+```{r}
+mean(Tray.T1$AgeMonths_midtesting)
+sd(Tray.T1$AgeMonths_midtesting)
+min(Tray.T1$AgeMonths_midtesting)
+max(Tray.T1$AgeMonths_midtesting)
+hist(Tray.T1$AgeMonths_midtesting)
+
+table(Tray.T1$AgeGroup_midtesting)
+```
+In the middle of testing, children taking part in the Shifting Tray task were on average **49.68 months (SD = 6.56, range 36-65)** old. There were 
+
+- 65 3-year-olds
+- 72 4-year-olds
+- 11 5-year-olds
+
+## Age mediansplit (based on entire sample)
+```{r}
+table(Tray.T1$Mediansplit_midtesting_entiresample)
+```
+There were **75 young** and **73 old** children.
+
+# Testing location
+```{r}
+table(Tray.T1$TestingLocation)
+
+table(Tray.T1$TestingLocation, Tray.T1$AgeGroup_midtesting)
+
+tapply(Tray.T1$AgeMonths_midtesting, Tray.T1$TestingLocation, mean)
+tapply(Tray.T1$AgeMonths_midtesting, Tray.T1$TestingLocation, sd)
+tapply(Tray.T1$AgeMonths_midtesting, Tray.T1$TestingLocation, min)
+tapply(Tray.T1$AgeMonths_midtesting, Tray.T1$TestingLocation, max)
+
+Edi <- subset(Tray.T1, TestingLocation == "Edinburgh")
+Fife <- subset(Tray.T1, TestingLocation == "Fife")
+
+hist(Edi$AgeMonths_midtesting)
+shapiro.test(Edi$AgeMonths_midtesting)#normally distributed
+
+hist(Fife$AgeMonths_midtesting)
+shapiro.test(Fife$AgeMonths_midtesting)#not normally distributed
+
+wilcox.test(Tray.T1$AgeMonths_midtesting ~ Tray.T1$TestingLocation, alternative = "two.sided")
+```
+61 children were from Edinburgh, 87 children from Fife.
+
+Edinburgh: M = 49.16 (SD = 5.76, range 36-58)
+
+- 3y: 26
+- 4y: 37
+
+
+Fife: M = 50.04 (SD = 7.08, range 38-65)
+
+- 3y: 39
+- 4y: 37
+- 5y: 11
+
+There is no difference in the age distribution between the two testing locations, two-sided Wilcoxon test, W = 2565, p = .731.
+
+
+# Criterion reached
+```{r}
+table(Tray.T1$Criterion_Reached)
+
+table(Tray.T1$Criterion_Reached, Tray.T1$AgeGroup_midtesting)
+
+table(Tray.T1$Criterion_Reached, Tray.T1$Mediansplit_midtesting_entiresample)
+```
+Of the 148 children, **139 (94%) reached the learning criterion**. 9 children (6%) failed to reach the learning criterion.
+
+- 3y (n = 65): **61 reached criterion (94%)**
+- 4y (n = 72): **67 reached criterion (93%)**
+- 5y (n = 11): **11 reached criterion (100%)**
+
+- young (n = 75): 71 reached criterion (95%)
+- old (n = 73): 68 reached criterion (93%)
+
+
+
+# Total number of trials
+```{r}
+mean(Tray.T1$TotalNr_Trials)
+sd(Tray.T1$TotalNr_Trials)
+min(Tray.T1$TotalNr_Trials)
+max(Tray.T1$TotalNr_Trials)
+quantile(Tray.T1$TotalNr_Trials)
+
+hist(Tray.T1$TotalNr_Trials)
+
+tapply(Tray.T1$TotalNr_Trials, Tray.T1$AgeGroup_midtesting, mean)
+tapply(Tray.T1$TotalNr_Trials, Tray.T1$AgeGroup_midtesting, sd)
+tapply(Tray.T1$TotalNr_Trials, Tray.T1$AgeGroup_midtesting, min)
+tapply(Tray.T1$TotalNr_Trials, Tray.T1$AgeGroup_midtesting, max)
+
+tapply(Tray.T1$TotalNr_Trials, Tray.T1$Mediansplit_midtesting_entiresample, mean)
+tapply(Tray.T1$TotalNr_Trials, Tray.T1$Mediansplit_midtesting_entiresample, sd)
+tapply(Tray.T1$TotalNr_Trials, Tray.T1$Mediansplit_midtesting_entiresample, min)
+tapply(Tray.T1$TotalNr_Trials, Tray.T1$Mediansplit_midtesting_entiresample, max)
+```
+The average number of trials administered was 14.99 (SD = 8.57, range 6-36). 50% of the children were administered 12 or fewer trials. The distribution of administered trials is skewed.
+
+- 3-year-olds: M = 15.48 (8.47, range 6-36)
+- 4-year-olds: M = 15.37 (8.95, range 6-36)
+- 5-year-olds: M = 9.64 (4.27, range 6-19)
+
+Thus, numerically, 3- and 4-year-olds were perfoming equally well, while 5-year-olds were perfoming better.
+
+- young children: 15.40 (SD = 8.26, range 6-36)
+- old children: 14.57 (SD = 8.92, range 6-36)
+So using the median split, there was no difference between the groups.
+
+
+# Number of correct trials
+```{r}
+mean(Tray.T1$NrCorrectTrials)
+sd(Tray.T1$NrCorrectTrials)
+min(Tray.T1$NrCorrectTrials)
+max(Tray.T1$NrCorrectTrials)
+quantile(Tray.T1$NrCorrectTrials)
+hist(Tray.T1$NrCorrectTrials)
+
+tapply(Tray.T1$NrCorrectTrials, Tray.T1$AgeGroup_midtesting, mean)
+tapply(Tray.T1$NrCorrectTrials, Tray.T1$AgeGroup_midtesting, sd)
+tapply(Tray.T1$NrCorrectTrials, Tray.T1$AgeGroup_midtesting, min)
+tapply(Tray.T1$NrCorrectTrials, Tray.T1$AgeGroup_midtesting, max)
+
+tapply(Tray.T1$NrCorrectTrials, Tray.T1$Mediansplit_midtesting_entiresample, mean)
+tapply(Tray.T1$NrCorrectTrials, Tray.T1$Mediansplit_midtesting_entiresample, sd)
+tapply(Tray.T1$NrCorrectTrials, Tray.T1$Mediansplit_midtesting_entiresample, min)
+tapply(Tray.T1$NrCorrectTrials, Tray.T1$Mediansplit_midtesting_entiresample, max)
+```
+The average number of correct trials was **10.36 (SD = 4.52, range 6-24)**. 50% of the children had 8.5 or fewer trials correct. The distribution of correct trials is highly skewed.
+
+- 3-year-olds: M = 10.49 (4.28, range 6-20)
+- 4-year-olds: M = 10.62 (4.84, range 6-24)
+- 5-year-olds: M = 7.91 (3.11, range 6-15)
+
+Thus, numerically, 3- and 4-year-olds were perfoming equally, while 5-year-olds were perfoming better.
+
+- young children: 10.59 (SD = 4.32, range 6-20)
+- old children: 10.14 (SD = 4.73, range 6-24)
+So using the median split, there was no difference between the groups.
+
+
+# DV: Proportion correct
+```{r}
+#across the sample
+mean(Tray.T1$ProportionCorrect)
+sd(Tray.T1$ProportionCorrect)
+min(Tray.T1$ProportionCorrect)
+max(Tray.T1$ProportionCorrect)
+quantile(Tray.T1$ProportionCorrect)
+
+hist(Tray.T1$ProportionCorrect,
+     main="Proportion of correct trials in Shifting Tray", 
+     xlab="Proportion of correct trials", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+shapiro.test(Tray.T1$ProportionCorrect)#not normally distributed
+wilcox.test(Tray.T1$ProportionCorrect, mu = 0.5, alternative = "two.sided")
+
+#by age groups
+tapply(Tray.T1$ProportionCorrect, Tray.T1$AgeGroup_midtesting, mean)
+tapply(Tray.T1$ProportionCorrect, Tray.T1$AgeGroup_midtesting, sd)
+tapply(Tray.T1$ProportionCorrect, Tray.T1$AgeGroup_midtesting, min)
+tapply(Tray.T1$ProportionCorrect, Tray.T1$AgeGroup_midtesting, max)
+
+three <- subset(Tray.T1, AgeGroup_midtesting == "3")
+four <- subset(Tray.T1, AgeGroup_midtesting == "4")
+five <- subset(Tray.T1, AgeGroup_midtesting == "5")
+
+shapiro.test(three$ProportionCorrect)#not normally distributed
+shapiro.test(four$ProportionCorrect)#normally distributed
+shapiro.test(five$ProportionCorrect)#normally distributed
+
+wilcox.test(three$ProportionCorrect, mu = 0.5, alternative = "two.sided")
+t.test(four$ProportionCorrect, mu = 0.5, alternative = "two.sided")
+t.test(five$ProportionCorrect, mu = 0.5, alternative = "two.sided")
+
+hist(three$ProportionCorrect,
+     main="3-year-olds", 
+     xlab="Proportion of correct trials", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+hist(four$ProportionCorrect,
+     main="4-year-olds", 
+     xlab="Proportion of correct trials", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+hist(five$ProportionCorrect,
+     main="5-year-olds", 
+     xlab="Proportion of correct trials", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+#by age mediansplit
+tapply(Tray.T1$ProportionCorrect, Tray.T1$Mediansplit_midtesting_entiresample, mean)
+tapply(Tray.T1$ProportionCorrect, Tray.T1$Mediansplit_midtesting_entiresample, sd)
+tapply(Tray.T1$ProportionCorrect, Tray.T1$Mediansplit_midtesting_entiresample, min)
+tapply(Tray.T1$ProportionCorrect, Tray.T1$Mediansplit_midtesting_entiresample, max)
+
+young <- subset(Tray.T1, Mediansplit_midtesting_entiresample == "young")
+old <- subset(Tray.T1, Mediansplit_midtesting_entiresample == "old")
+
+shapiro.test(young$ProportionCorrect)#not normally distributed
+shapiro.test(old$ProportionCorrect)#normally distributed
+
+wilcox.test(young$ProportionCorrect, mu = 0.5, alternative = "two.sided")
+t.test(old$ProportionCorrect, mu = 0.5, alternative = "two.sided")
+
+hist(young$ProportionCorrect,
+     main="Young children", 
+     xlab="Proportion of correct trials", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+hist(old$ProportionCorrect,
+     main="Old children", 
+     xlab="Proprtion of correct trials", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+#by testing location
+tapply(Tray.T1$ProportionCorrect, Tray.T1$TestingLocation, mean)
+tapply(Tray.T1$ProportionCorrect, Tray.T1$TestingLocation, sd)
+tapply(Tray.T1$ProportionCorrect, Tray.T1$TestingLocation, min)
+tapply(Tray.T1$ProportionCorrect, Tray.T1$TestingLocation, max)
+
+shapiro.test(Edi$ProportionCorrect)#normally distributed
+shapiro.test(Fife$ProportionCorrect)#not normally distributed
+
+wilcox.test(Fife$ProportionCorrect, mu = 0.5, alternative = "two.sided")
+t.test(Edi$ProportionCorrect, mu = 0.5, alternative = "two.sided")
+
+hist(Edi$ProportionCorrect,
+     main="Edinburgh children", 
+     xlab="Proportion of correct trials", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+hist(Fife$ProportionCorrect,
+     main="Fife children", 
+     xlab="Proprtion of correct trials", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+```
+The average proportion of correct trials was **74.50% (SD = 12.67, range 25-100%)**. 50% of the children had 75% or a smaller proportion of their trials correct. The DV is **not normally distributed**, W = 0.973, p = .005. Children's **performance was significantly better than what would be expected by a chance performance (0.5)**, two-sided Wilcoxon test, V = 10789, p < .001.
+
+- 3-year-olds: **M = 73.17% (12.85, range 25-100%), performance significantly above chance** (0.5), V = 2108, p < .001
+- 4-year-olds: **M = 74.17% (12.12, range 44-100%), performance significantly above chance** (0.5), t(71) = 16.915, p < .001
+- 5-year-olds: **M = 84.53 (11.68, range 63.64-100%), performance significantly above chance** (0.5), t(10) = 9.807, p < .001
+
+Thus, numerically, 3- and 4-year-olds were perfoming equally, while 5-year-olds were perfoming better.
+
+- young children: **73.82 (SD = 12.64, range 25-100%), performance significantly above chance** (0.5), V = 2809.5, p < .001
+- old children: **75.20 (SD = 12.75, range 44-100%), performance significantly above chance** (0.5), t(72) = 16.889, p < .001
+
+So using the median split, there was no difference between the groups.
+
+- Edinburgh: **75.04 (SD = 12.17, range 47.22-100%), performance significantly above chance** (0.5), t(60) = 16.072, p < .001
+- Fife: **74.12 (SD = 13.06, range 25-100%), performance significantly above chance** (0.5), V = 3687.5, p < .001
+
+Boxplots:
+Across the sample
+```{r}
+library(ggplot2)
+
+p<-  ggplot(
+  data=Tray.T1, aes(x=rep(1, 148), y=ProportionCorrect)) +
+  geom_boxplot(outlier.colour = "black")+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Proportion of correct trials")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Tray")
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") + geom_count()
+```
+
+Split by the three age groups:
+```{r}
+p1<-ggplot(data=Tray.T1, aes(x=AgeGroup_midtesting,y=ProportionCorrect)) +
+  geom_boxplot(aes(group=AgeGroup_midtesting, fill = as.factor(Tray.T1$AgeGroup_midtesting)), outlier.colour = "black") + 
+      ylim(0,1)+
+  xlim(2.5,5.5)+
+  geom_point(alpha=0.3) +
+  labs(x="",y="Proportion of correct trials")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Tray")
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5) +
+  scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 65", "4 years, n = 72", "5 years, n = 11")) 
+```
+
+Split by age mediansplit:
+```{r}
+library(forcats)
+
+Tray.T1$Mediansplit_midtesting_entiresample<-fct_relevel(Tray.T1$Mediansplit_midtesting_entiresample, "young")
+#changes order of boxplots (young before old)
+
+p1<-  ggplot(
+  data=Tray.T1, aes(x=rep(1, 148), y=ProportionCorrect, fill = Mediansplit_midtesting_entiresample))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Proportion of correct trials")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Tray")
+
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5) + scale_size_area(max_size=10)+
+  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young (36-49 months), n = 75", "old (50-65 months), n = 73"))
+```
+
+Split by testing location
+```{r}
+p1<-  ggplot(
+  data=Tray.T1, aes(x=rep(1, 148), y=ProportionCorrect, fill = TestingLocation))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Proportion of correct trials")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Tray")
+
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5) + scale_size_area(max_size=10)+
+  scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 61", "Fife, n = 87"))
+```
+
+# Plot age as continuous variable against proportion correct
+```{r}
+p1<- ggplot(Tray.T1, aes(x=AgeMonths_midtesting, y=ProportionCorrect)) + geom_point()+
+ labs(x="Age in months",y="Proportion correct")
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+# Trials needed to criterion
+```{r}
+Tray.valid.critreached<-subset(Tray.T1, Criterion_Reached == "yes")
+
+mean(Tray.valid.critreached$NrTrials_UntilCriterionReached)
+sd(Tray.valid.critreached$NrTrials_UntilCriterionReached)
+min(Tray.valid.critreached$NrTrials_UntilCriterionReached)
+max(Tray.valid.critreached$NrTrials_UntilCriterionReached)
+quantile(Tray.valid.critreached$NrTrials_UntilCriterionReached)
+hist(Tray.valid.critreached$NrTrials_UntilCriterionReached)
+
+tapply(Tray.valid.critreached$NrTrials_UntilCriterionReached, Tray.valid.critreached$AgeGroup_midtesting, mean)
+tapply(Tray.valid.critreached$NrTrials_UntilCriterionReached, Tray.valid.critreached$AgeGroup_midtesting, sd)
+tapply(Tray.valid.critreached$NrTrials_UntilCriterionReached, Tray.valid.critreached$AgeGroup_midtesting, min)
+tapply(Tray.valid.critreached$NrTrials_UntilCriterionReached, Tray.valid.critreached$AgeGroup_midtesting, max)
+
+tapply(Tray.valid.critreached$NrTrials_UntilCriterionReached, Tray.valid.critreached$Mediansplit_midtesting_entiresample, mean)
+tapply(Tray.valid.critreached$NrTrials_UntilCriterionReached, Tray.valid.critreached$Mediansplit_midtesting_entiresample, sd)
+tapply(Tray.valid.critreached$NrTrials_UntilCriterionReached, Tray.valid.critreached$Mediansplit_midtesting_entiresample, min)
+tapply(Tray.valid.critreached$NrTrials_UntilCriterionReached, Tray.valid.critreached$Mediansplit_midtesting_entiresample, max)
+```
+**139 children (94%) reached the learning criterion**. Of those, children needed on average **13.47 trials (SD = 6.75, range 6-35)** to reach criterion. 50% of the children needed 11 or fewer trials, 75% od the children needed 17 or fewer trials. The distribution of this variable was skewed.
+
+- **3-year-olds: M = 14.11** (6.80, range 6-34)
+- **4-year-olds: M = 13.52** (6.91, range 6-35)
+- **5-year-olds: M = 9.64** (4.27, range 6-19)
+
+Thus, numerically, 3- and 4-year-olds were perfoming equally, while 5-year-olds were perfoming better.
+
+- young children: 14.17 (SD = 6.73, range 6-34)
+- old children: 12.76 (SD = 6.76, range 6-35)
+
+So using the median split, there was only a slight better performance of older children.
+
+# For those children who reached the criterion, how many correct trials did they have?
+```{r}
+mean(Tray.valid.critreached$NrCorrectTrials_UntilCriterionReached)
+sd(Tray.valid.critreached$NrCorrectTrials_UntilCriterionReached)
+min(Tray.valid.critreached$NrCorrectTrials_UntilCriterionReached)
+max(Tray.valid.critreached$NrCorrectTrials_UntilCriterionReached)
+hist(Tray.valid.critreached$NrCorrectTrials_UntilCriterionReached)
+
+tapply(Tray.valid.critreached$NrCorrectTrials_UntilCriterionReached, Tray.valid.critreached$AgeGroup_midtesting, mean)
+tapply(Tray.valid.critreached$NrCorrectTrials_UntilCriterionReached, Tray.valid.critreached$AgeGroup_midtesting, sd)
+tapply(Tray.valid.critreached$NrCorrectTrials_UntilCriterionReached, Tray.valid.critreached$AgeGroup_midtesting, min)
+tapply(Tray.valid.critreached$NrCorrectTrials_UntilCriterionReached, Tray.valid.critreached$AgeGroup_midtesting, max)
+
+tapply(Tray.valid.critreached$NrCorrectTrials_UntilCriterionReached, Tray.valid.critreached$Mediansplit_midtesting_entiresample, mean)
+tapply(Tray.valid.critreached$NrCorrectTrials_UntilCriterionReached, Tray.valid.critreached$Mediansplit_midtesting_entiresample, sd)
+tapply(Tray.valid.critreached$NrCorrectTrials_UntilCriterionReached, Tray.valid.critreached$Mediansplit_midtesting_entiresample, min)
+tapply(Tray.valid.critreached$NrCorrectTrials_UntilCriterionReached, Tray.valid.critreached$Mediansplit_midtesting_entiresample, max)
+```
+Children had on average 9.85 trials (SD = 4.08, range 6-24) correct. The distribution of this variable was highly skewed.
+
+- 3-year-olds: M = 10.05 (3.85, range 6-19)
+- 4-year-olds: M = 9.98 (4.39, range 6-24)
+- 5-year-olds: M = 7.91 (3.11, range 6-15)
+
+Thus, numerically, there was a slight age effect.
+
+- young children: 10.15 (SD = 3.90, range 6-19)
+- old children: 9.53 (SD = 4.27, range 6-24)
+
+So using the median split, there was no difference between the groups.
+
+# Cumulative proportion correct
+
+
+Then we calculate the cumulative proportion correct.
+For this, we first need to select each trial
+```{r}
+Tray.trial1<-subset(Tray.valid, Trial_no =="1")
+Tray.trial2<-subset(Tray.valid, Trial_no =="2")
+Tray.trial3<-subset(Tray.valid, Trial_no =="3")
+Tray.trial4<-subset(Tray.valid, Trial_no =="4")
+Tray.trial5<-subset(Tray.valid, Trial_no =="5")
+Tray.trial6<-subset(Tray.valid, Trial_no =="6")
+Tray.trial7<-subset(Tray.valid, Trial_no =="7")
+Tray.trial8<-subset(Tray.valid, Trial_no =="8")
+Tray.trial9<-subset(Tray.valid, Trial_no =="9")
+Tray.trial10<-subset(Tray.valid, Trial_no =="10")
+Tray.trial11<-subset(Tray.valid, Trial_no =="11")
+Tray.trial12<-subset(Tray.valid, Trial_no =="12")
+Tray.trial13<-subset(Tray.valid, Trial_no =="13")
+Tray.trial14<-subset(Tray.valid, Trial_no =="14")
+Tray.trial15<-subset(Tray.valid, Trial_no =="15")
+Tray.trial16<-subset(Tray.valid, Trial_no =="16")
+Tray.trial17<-subset(Tray.valid, Trial_no =="17")
+Tray.trial18<-subset(Tray.valid, Trial_no =="18")
+Tray.trial19<-subset(Tray.valid, Trial_no =="19")
+Tray.trial20<-subset(Tray.valid, Trial_no =="20")
+Tray.trial21<-subset(Tray.valid, Trial_no =="21")
+Tray.trial22<-subset(Tray.valid, Trial_no =="22")
+Tray.trial23<-subset(Tray.valid, Trial_no =="23")
+Tray.trial24<-subset(Tray.valid, Trial_no =="24")
+Tray.trial25<-subset(Tray.valid, Trial_no =="25")
+Tray.trial26<-subset(Tray.valid, Trial_no =="26")
+Tray.trial27<-subset(Tray.valid, Trial_no =="27")
+Tray.trial28<-subset(Tray.valid, Trial_no =="28")
+Tray.trial29<-subset(Tray.valid, Trial_no =="29")
+Tray.trial30<-subset(Tray.valid, Trial_no =="30")
+Tray.trial31<-subset(Tray.valid, Trial_no =="31")
+Tray.trial32<-subset(Tray.valid, Trial_no =="32")
+Tray.trial33<-subset(Tray.valid, Trial_no =="33")
+Tray.trial34<-subset(Tray.valid, Trial_no =="34")
+Tray.trial35<-subset(Tray.valid, Trial_no =="35")
+Tray.trial36<-subset(Tray.valid, Trial_no =="36")
+
+
+mean(Tray.trial1$CumulativeProportionCorrect)
+mean(Tray.trial2$CumulativeProportionCorrect)
+mean(Tray.trial3$CumulativeProportionCorrect)
+mean(Tray.trial4$CumulativeProportionCorrect)
+mean(Tray.trial5$CumulativeProportionCorrect)
+mean(Tray.trial6$CumulativeProportionCorrect)
+mean(Tray.trial7$CumulativeProportionCorrect)
+mean(Tray.trial8$CumulativeProportionCorrect)
+mean(Tray.trial9$CumulativeProportionCorrect)
+mean(Tray.trial10$CumulativeProportionCorrect)
+mean(Tray.trial11$CumulativeProportionCorrect)
+mean(Tray.trial12$CumulativeProportionCorrect)
+mean(Tray.trial13$CumulativeProportionCorrect)
+mean(Tray.trial14$CumulativeProportionCorrect)
+mean(Tray.trial15$CumulativeProportionCorrect)
+mean(Tray.trial16$CumulativeProportionCorrect)
+mean(Tray.trial17$CumulativeProportionCorrect)
+mean(Tray.trial18$CumulativeProportionCorrect)
+mean(Tray.trial19$CumulativeProportionCorrect)
+mean(Tray.trial20$CumulativeProportionCorrect)
+mean(Tray.trial21$CumulativeProportionCorrect)
+mean(Tray.trial22$CumulativeProportionCorrect)
+mean(Tray.trial23$CumulativeProportionCorrect)
+mean(Tray.trial24$CumulativeProportionCorrect)
+mean(Tray.trial25$CumulativeProportionCorrect)
+mean(Tray.trial26$CumulativeProportionCorrect)
+mean(Tray.trial27$CumulativeProportionCorrect)
+mean(Tray.trial28$CumulativeProportionCorrect)
+mean(Tray.trial29$CumulativeProportionCorrect)
+mean(Tray.trial30$CumulativeProportionCorrect)
+mean(Tray.trial31$CumulativeProportionCorrect)
+mean(Tray.trial32$CumulativeProportionCorrect)
+mean(Tray.trial33$CumulativeProportionCorrect)
+mean(Tray.trial34$CumulativeProportionCorrect)
+mean(Tray.trial35$CumulativeProportionCorrect)
+mean(Tray.trial36$CumulativeProportionCorrect)
+
+sd(Tray.trial1$CumulativeProportionCorrect)
+sd(Tray.trial2$CumulativeProportionCorrect)
+sd(Tray.trial3$CumulativeProportionCorrect)
+sd(Tray.trial4$CumulativeProportionCorrect)
+sd(Tray.trial5$CumulativeProportionCorrect)
+sd(Tray.trial6$CumulativeProportionCorrect)
+sd(Tray.trial7$CumulativeProportionCorrect)
+sd(Tray.trial8$CumulativeProportionCorrect)
+sd(Tray.trial9$CumulativeProportionCorrect)
+sd(Tray.trial10$CumulativeProportionCorrect)
+sd(Tray.trial11$CumulativeProportionCorrect)
+sd(Tray.trial12$CumulativeProportionCorrect)
+sd(Tray.trial13$CumulativeProportionCorrect)
+sd(Tray.trial14$CumulativeProportionCorrect)
+sd(Tray.trial15$CumulativeProportionCorrect)
+sd(Tray.trial16$CumulativeProportionCorrect)
+sd(Tray.trial17$CumulativeProportionCorrect)
+sd(Tray.trial18$CumulativeProportionCorrect)
+sd(Tray.trial19$CumulativeProportionCorrect)
+sd(Tray.trial20$CumulativeProportionCorrect)
+sd(Tray.trial21$CumulativeProportionCorrect)
+sd(Tray.trial22$CumulativeProportionCorrect)
+sd(Tray.trial23$CumulativeProportionCorrect)
+sd(Tray.trial24$CumulativeProportionCorrect)
+sd(Tray.trial25$CumulativeProportionCorrect)
+sd(Tray.trial26$CumulativeProportionCorrect)
+sd(Tray.trial27$CumulativeProportionCorrect)
+sd(Tray.trial28$CumulativeProportionCorrect)
+sd(Tray.trial29$CumulativeProportionCorrect)
+sd(Tray.trial30$CumulativeProportionCorrect)
+sd(Tray.trial31$CumulativeProportionCorrect)
+sd(Tray.trial32$CumulativeProportionCorrect)
+sd(Tray.trial33$CumulativeProportionCorrect)
+sd(Tray.trial34$CumulativeProportionCorrect)
+sd(Tray.trial35$CumulativeProportionCorrect)
+sd(Tray.trial36$CumulativeProportionCorrect)
+
+Tray.cumul <-read.csv("Cumulative_Proportion_Correct_Tray.csv",header=TRUE, sep = ";")
+names(Tray.cumul)[1] <- "Trial_nr"
+
+p<-ggplot(Tray.cumul, aes(x=Trial_nr, y=Mean_proportionCorrect)) + 
+    geom_errorbar(aes(ymin=Mean_proportionCorrect-SD_ProportionCorrect, ymax=Mean_proportionCorrect+SD_ProportionCorrect), width=.1) +
+    geom_line() +
+    geom_point()+
+    ylim(-0.2,1)+
+    geom_vline(xintercept = 12, linetype = "dotted")+
+    geom_vline(xintercept = 24, linetype = "dotted")+
+    geom_hline(yintercept=.5, colour = "red")
+
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+# For each trial number, what is the mean success?
+```{r}
+mean(Tray.trial1$Trial_Got_sticker)
+mean(Tray.trial2$Trial_Got_sticker)
+mean(Tray.trial3$Trial_Got_sticker)
+mean(Tray.trial4$Trial_Got_sticker)
+mean(Tray.trial5$Trial_Got_sticker)
+mean(Tray.trial6$Trial_Got_sticker)
+mean(Tray.trial7$Trial_Got_sticker)
+mean(Tray.trial8$Trial_Got_sticker)
+mean(Tray.trial9$Trial_Got_sticker)
+mean(Tray.trial10$Trial_Got_sticker)
+mean(Tray.trial11$Trial_Got_sticker)
+mean(Tray.trial12$Trial_Got_sticker)
+mean(Tray.trial13$Trial_Got_sticker)
+mean(Tray.trial14$Trial_Got_sticker)
+mean(Tray.trial15$Trial_Got_sticker)
+mean(Tray.trial16$Trial_Got_sticker)
+mean(Tray.trial17$Trial_Got_sticker)
+mean(Tray.trial18$Trial_Got_sticker)
+mean(Tray.trial19$Trial_Got_sticker)
+mean(Tray.trial20$Trial_Got_sticker)
+mean(Tray.trial21$Trial_Got_sticker)
+mean(Tray.trial22$Trial_Got_sticker)
+mean(Tray.trial23$Trial_Got_sticker)
+mean(Tray.trial24$Trial_Got_sticker)
+mean(Tray.trial25$Trial_Got_sticker)
+mean(Tray.trial26$Trial_Got_sticker)
+mean(Tray.trial27$Trial_Got_sticker)
+mean(Tray.trial28$Trial_Got_sticker)
+mean(Tray.trial29$Trial_Got_sticker)
+mean(Tray.trial30$Trial_Got_sticker)
+mean(Tray.trial31$Trial_Got_sticker)
+mean(Tray.trial32$Trial_Got_sticker)
+mean(Tray.trial33$Trial_Got_sticker)
+mean(Tray.trial34$Trial_Got_sticker)
+mean(Tray.trial35$Trial_Got_sticker)
+mean(Tray.trial36$Trial_Got_sticker)
+
+sd(Tray.trial1$Trial_Got_sticker)
+sd(Tray.trial2$Trial_Got_sticker)
+sd(Tray.trial3$Trial_Got_sticker)
+sd(Tray.trial4$Trial_Got_sticker)
+sd(Tray.trial5$Trial_Got_sticker)
+sd(Tray.trial6$Trial_Got_sticker)
+sd(Tray.trial7$Trial_Got_sticker)
+sd(Tray.trial8$Trial_Got_sticker)
+sd(Tray.trial9$Trial_Got_sticker)
+sd(Tray.trial10$Trial_Got_sticker)
+sd(Tray.trial11$Trial_Got_sticker)
+sd(Tray.trial12$Trial_Got_sticker)
+sd(Tray.trial13$Trial_Got_sticker)
+sd(Tray.trial14$Trial_Got_sticker)
+sd(Tray.trial15$Trial_Got_sticker)
+sd(Tray.trial16$Trial_Got_sticker)
+sd(Tray.trial17$Trial_Got_sticker)
+sd(Tray.trial18$Trial_Got_sticker)
+sd(Tray.trial19$Trial_Got_sticker)
+sd(Tray.trial20$Trial_Got_sticker)
+sd(Tray.trial21$Trial_Got_sticker)
+sd(Tray.trial22$Trial_Got_sticker)
+sd(Tray.trial23$Trial_Got_sticker)
+sd(Tray.trial24$Trial_Got_sticker)
+sd(Tray.trial25$Trial_Got_sticker)
+sd(Tray.trial26$Trial_Got_sticker)
+sd(Tray.trial27$Trial_Got_sticker)
+sd(Tray.trial28$Trial_Got_sticker)
+sd(Tray.trial29$Trial_Got_sticker)
+sd(Tray.trial30$Trial_Got_sticker)
+sd(Tray.trial31$Trial_Got_sticker)
+sd(Tray.trial32$Trial_Got_sticker)
+sd(Tray.trial33$Trial_Got_sticker)
+sd(Tray.trial34$Trial_Got_sticker)
+sd(Tray.trial35$Trial_Got_sticker)
+sd(Tray.trial36$Trial_Got_sticker)
+
+Tray.gotsticker <-read.csv("Mean_GotSticker_Tray.csv",header=TRUE, sep = ";")
+names(Tray.gotsticker)[1] <- "Trial_nr"
+
+p<-ggplot(Tray.gotsticker, aes(x=Trial_nr, y=Mean_GotSticker)) + 
+    geom_errorbar(aes(ymin=Mean_GotSticker-SD_GotSticker, ymax=Mean_GotSticker+SD_GotSticker), width=.1) +
+    geom_line() +
+    geom_point()+
+    ylim(-0.2,1.3)+
+    geom_vline(xintercept = 12, linetype = "dotted")+
+    geom_vline(xintercept = 24, linetype = "dotted")+
+    geom_hline(yintercept=.5, colour = "red")
+
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+
+# Can children's success be predicted by age?
+```{r}
+library(lme4)
+
+Tray.valid$z.age.midtesting=as.vector(scale(Tray.valid$AgeMonths_midtesting))#transform age to mean of 0 and SD of 1
+mean(Tray.valid$z.age.midtesting)#check whether it has worked
+sd(Tray.valid$z.age.midtesting)
+
+Tray.valid$z.Trial_no=as.vector(scale(Tray.valid$Trial_no))#transform age to mean of 0 and SD of 1
+
+res<-glmer(Trial_Got_sticker ~ z.age.midtesting + z.Trial_no + z.age.midtesting:z.Trial_no + (1+z.Trial_no|ID), data=Tray.valid, family = binomial)#failed to converge
+
+#increase number of iterations
+contr<-glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=10000000))
+
+res<-glmer(Trial_Got_sticker ~ z.age.midtesting + z.Trial_no + z.age.midtesting:z.Trial_no + (1+z.Trial_no|ID), data=Tray.valid,  family = binomial, control=contr)#singular fit
+
+#remove correlation between random effects
+res<-glmer(Trial_Got_sticker ~ z.age.midtesting + z.Trial_no + z.age.midtesting:z.Trial_no + (1|ID) + (0+z.Trial_no|ID), data=Tray.valid,  family = binomial, control=contr)#no singular fit warning
+```
+
+Comparison against null model
+```{r}
+null<-glmer(Trial_Got_sticker ~ 1 + (1|ID) + (0+z.Trial_no|ID), data=Tray.valid, family = binomial, control=contr)
+
+anova(null, res, test="Chisq")
+```
+Trial number, age, and the interaction between trial number and age together can explain the data significantly better than a null model only containing an intercept, X2(3) = 54.32 p < .001.
+
+Effect of interaction
+```{r}
+nointer<-glmer(Trial_Got_sticker ~ z.age.midtesting + z.Trial_no + (1|ID) + (0+z.Trial_no|ID), data=Tray.valid, family = binomial, control=contr)
+
+anova(nointer, res, test="Chisq")
+```
+The effect of interaction is not significant, X2(1) = 0.048, p = .827, therefore, we remove the term from the model. We aimed to include the non-transformed version of trial number, but then the model resultes in a singular fit warning, so we kept the z-transformed version.
+
+```{r}
+res<-glmer(Trial_Got_sticker ~ z.age.midtesting + z.Trial_no + (1|ID) + (0+z.Trial_no|ID), data=Tray.valid, family = binomial, control=contr)
+
+null<-glmer(Trial_Got_sticker ~ 1 + (1|ID) + (0+z.Trial_no|ID), data=Tray.valid, family = binomial, control=contr)
+
+anova(null, res, test="Chisq")
+
+null2<-glmer(Trial_Got_sticker ~ 1 + z.Trial_no + (1|ID) + (0+z.Trial_no|ID), data=Tray.valid, family = binomial, control=contr)
+
+anova(null2, res, test="Chisq")
+```
+Trial number and age can explain the data significantly better than a null model only containing an intercept, X2(2) = 54.276, p < .001.
+If we specify the null model including trial number, we find that age does not improve model fit, X2(1) = 1.212, p = .271.
+
+Effect of terms
+```{r}
+summary(res)
+drop1(res, test = "Chisq")
+```
+There is a significant effect of trial, X2(1) = 53.349, p < .001, but no effect of age X2(1) = 1.212, p = .271.
+
+```{r}
+source("boot_glmm.r")#requires centering of all predictors apart the ones one is interested in. We are interested in both.
+
+boot.res=boot.glmm.pred(model.res=res, excl.warnings=T,
+nboots=1000, para=F, resol=36, use="z.Trial_no")
+```
+
+Plot
+```{r}
+par(mar=c(3, 3, 0.2, 0.2), mgp=c(1.7, 0.3, 0), las=1, tcl=-0.15)
+plot(x=Tray.valid$Trial_no, y=Tray.valid$Trial_Got_sticker, pch=19, las=2, ylim=c(0, 1),
+xlab="Trial number", ylab="probability of success", cex=0.1*sqrt(Tray.valid$ID))
+
+plot.xvals=seq(from=min(Tray.valid$Trial_no), to=max(Tray.valid$Trial_no),
+length.out=36)
+
+lines(x=plot.xvals, y=boot.res$ci.predicted$fitted,
+lty=2)
+lines(x=plot.xvals, y=boot.res$ci.predicted$lower.cl,
+lty=3)
+lines(x=plot.xvals, y=boot.res$ci.predicted$upper.cl,
+lty=3)
+```
+
+## Model assumptions
+```{r}
+source("diagnostic_fcns.r")
+ranef.diagn.plot(res)
+
+#collinearity
+xres=lm(Trial_Got_sticker ~ z.age.midtesting + z.Trial_no, data=Tray.valid)
+
+library(car)
+vif(xres)
+
+source("glmm_stability.r")
+m.stab=glmm.model.stab(model.res=res, contr=contr)
+m.stab$summary
+```
+
+# Box change
+First we need to add new variables to the datasheet.
+Out of all trials where the sticker was hidden underneath a different box then before ("box change"), how many trials were correct?
+```{r}
+box.change<-subset(Tray.valid, Box_change == "yes")
+box.change.howmanystickers<- aggregate(Trial_Got_sticker ~ ID, box.change, sum)
+```
+We manually add this new variable to our datasheet.
+
+How many total trials did each child have where the sticker was hidden underneath a different box then before ("box change)?
+```{r}
+box.change.howmanytrials<- aggregate(Trial_no ~ ID, box.change, length)
+```
+We manually add this new variable to our datasheet. 
+In the datasheet, we calculate a new variable for Proportion of Correct Trials when there was a Box Change. This will be analysed further below.
+
+
+Out of all trials where the sticker was hidden underneath the same box then before ("no box change), how many trials were correct?
+```{r}
+no.box.change<-subset(Tray.valid, Box_change == "no")
+no.box.change.howmanystickers<- aggregate(Trial_Got_sticker ~ ID, no.box.change, sum)
+```
+We manually add this new variable to our datasheet. 
+
+How many total trials did each child have where the sticker was hidden underneath the same box then before ("no box change)?
+```{r}
+no.box.change.howmanytrials<- aggregate(Trial_no ~ ID, no.box.change, length)
+```
+We manually add this new variable to our datasheet. 
+In the datasheet, we calculate a new variable for Proportion of Correct Trials when there was no Box Change. This will be analysed further below.
+
+## Proportion of correct trials out of all trials where a box change happened
+```{r}
+mean(Tray.T1$Proportion_CorrectTrials_WhenBoxChanged)
+sd(Tray.T1$Proportion_CorrectTrials_WhenBoxChanged)
+min(Tray.T1$Proportion_CorrectTrials_WhenBoxChanged)
+max(Tray.T1$Proportion_CorrectTrials_WhenBoxChanged)
+hist(Tray.T1$Proportion_CorrectTrials_WhenBoxChanged)
+
+shapiro.test(Tray.T1$Proportion_CorrectTrials_WhenBoxChanged)#not normally distributed
+```
+**When children just experienced a change in boxes** (i.e., the sticker was previously hidden in the yellow box and then it was hidden in the purple box, or vice versa), children had on average **76.42% (SD= 17.97, range 13.64-100%) of these trials correct**.
+
+## Proportion of correct trials out of all trials where no box change happened 
+```{r}
+mean(Tray.T1$Proportion_SuccessfulTrials_WhenBoxDidNotChange)
+sd(Tray.T1$Proportion_SuccessfulTrials_WhenBoxDidNotChange)
+min(Tray.T1$Proportion_SuccessfulTrials_WhenBoxDidNotChange)
+max(Tray.T1$Proportion_SuccessfulTrials_WhenBoxDidNotChange)
+hist(Tray.T1$Proportion_SuccessfulTrials_WhenBoxDidNotChange)
+
+shapiro.test(Tray.T1$Proportion_SuccessfulTrials_WhenBoxDidNotChange)#not normally distributed
+
+wilcox.test(Tray.T1$Proportion_SuccessfulTrials_WhenBoxDidNotChange, Tray.T1$Proportion_CorrectTrials_WhenBoxChanged, paired = TRUE, alternative = "greater")
+```
+When children did **not experience a change in boxes** (i.e., the sticker was previously hidden in the yellow box and then it was again hidden there), children had on average **81.01% (SD= 17.47, range 36.36-100%) of these trials correct**.
+
+Children's **success rate when there was no box change was significantly higher compared to when there was a box change**, one-sided Wilcoxon test, V = 4467.5, p = .005.
+
+```{r}
+library(ggpubr)
+
+names(Tray.T1)[32] <- "Box change"
+names(Tray.T1)[35] <- "No Box change"
+str(Tray.T1)
+
+p<-ggpaired(Tray.T1, cond1 = "No Box change", cond2 = "Box change",
+    fill = "condition", palette = "jco", xlab = "Condition",
+  ylab = "Proportion of correct trials")
+p + theme(legend.position = "none")
+```
+
+# Location change
+Out of all trials where the sticker was hidden on a different side then before ("location change), how many trials were correct?
+
+How many total trials did each child have where the location was changed ("location change")? And how many total trials were there?
+```{r}
+location.change<-subset(Tray.valid, Loc_sticker_changed == "yes")
+location.change.howmanytrials<- aggregate(Trial_no ~ ID, location.change, length)
+
+location.change.howmanystickers<- aggregate(Trial_Got_sticker ~ ID, location.change, sum)
+```
+We add this new variable to our atasheet.
+In the datasheet, we calculate a new variable for Proportion of Correct Trials when there was a Location Change. This will be analysed further below.
+
+
+Out of all trials where the sticker was hidden in the same location then before ("no location change), how many trials were correct?
+```{r}
+no.location.change<-subset(Tray.valid, Loc_sticker_changed == "no")
+no.location.change.howmanystickers<- aggregate(Trial_Got_sticker ~ ID, no.location.change, sum)
+```
+We add this new variable to our dataframe "Tray Task Short".
+
+How many total trials did each child have where the sticker was hidden underneath the same box then before ("no box change)?
+```{r}
+no.location.change.howmanytrials<- aggregate(Trial_no ~ ID, no.location.change, length)
+```
+We add this new variable to our datasheet.
+In the datasheet, we calculate a new variable for Proportion of Correct Trials when there was no Location Change. This will be analysed further below.
+
+## What was the proportion of correct trials out of all trials where a location change happened? 
+```{r}
+mean(Tray.T1$ProportionCorrect_LocationChange)
+sd(Tray.T1$ProportionCorrect_LocationChange)
+min(Tray.T1$ProportionCorrect_LocationChange)
+max(Tray.T1$ProportionCorrect_LocationChange)
+hist(Tray.T1$ProportionCorrect_LocationChange)
+
+shapiro.test(Tray.T1$ProportionCorrect_LocationChange)#not normally distributed
+```
+**When children just experienced a location change** in tray, children had on average **80.43% (SD= 18.46, range 21.05-100%) of these trials correct**.
+
+## What was the proportion of correct trials out of all trials where no location change happened? 
+```{r}
+mean(Tray.T1$ProportionCorrect_NoLocationChange)
+sd(Tray.T1$ProportionCorrect_NoLocationChange)
+min(Tray.T1$ProportionCorrect_NoLocationChange)
+max(Tray.T1$ProportionCorrect_NoLocationChange)
+hist(Tray.T1$ProportionCorrect_NoLocationChange)
+
+shapiro.test(Tray.T1$ProportionCorrect_NoLocationChange)#not normally distributed
+
+wilcox.test(Tray.T1$ProportionCorrect_NoLocationChange, Tray.T1$ProportionCorrect_LocationChange, paired = TRUE, alternative = "greater")
+
+wilcox.test(Tray.T1$ProportionCorrect_NoLocationChange, Tray.T1$ProportionCorrect_LocationChange, paired = TRUE, alternative = "two.sided")
+```
+When children did **not experience a location change**, children had on average **77.24% (SD= 16.67, range 25-100%)** of these trials correct.
+
+Children's **success rate when there was no location change was not higher compared to when there was a location change**, one-sided Wilcoxon test, V = 2479.5, p = .968. Note, however, that a two-sided test reached marginal significance (V = 2479.5, p = .064).
+
+```{r}
+names(Tray.T1)[38] <- "Location change"
+names(Tray.T1)[41] <- "No Location change"
+str(Tray.valid)
+
+p<-ggpaired(Tray.T1, cond1 = "No Location change", cond2 = "Location change",
+    fill = "condition", palette = "jco", xlab = "Condition",
+  ylab = "Proportion of correct trials")
+p + theme(legend.position = "none")
+```
