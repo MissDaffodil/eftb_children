@@ -607,12 +607,13 @@ mean(GC.valid$z.Trial_nr)#check whether it has worked
 sd(GC.valid$z.Trial_nr)
 
 #Full model
-res<-glmer(Trial_Correct ~ z.age.midtesting + z.Trial_nr + TestingLocation + z.age.midtesting:z.Trial_nr + (1+z.Trial_nr|ID), data=GC.valid, family = binomial)
+contr<-glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=10000000))
+res<-glmer(Trial_Correct ~ z.age.midtesting + z.Trial_nr + TestingLocation + z.age.midtesting:z.Trial_nr + (1+z.Trial_nr|ID), data=GC.valid, family = binomial, control=contr)
 ```
 
 Comparison against null model
 ```{r}
-null<-glmer(Trial_Correct ~ 1 + (1+z.Trial_nr|ID), data=GC.valid, family = binomial)
+null<-glmer(Trial_Correct ~ 1 + (1+z.Trial_nr|ID), data=GC.valid, family = binomial, control=contr)
 
 anova(null, res, test="Chisq")
 ```
@@ -620,21 +621,21 @@ Together, age, trial number, the interaction between trial number and age, and t
 
 **Effect of the interaction term**
 ```{r}
-res.nointer<-glmer(Trial_Correct ~ z.age.midtesting + z.Trial_nr + TestingLocation + (1+z.Trial_nr|ID), data=GC.valid, family = binomial)
+res.nointer<-glmer(Trial_Correct ~ z.age.midtesting + z.Trial_nr + TestingLocation + (1+z.Trial_nr|ID), data=GC.valid, family = binomial, control=contr)
 anova(res.nointer, res, test="Chisq")
 ```
 There is no effect of the interaction term, X2(1) = 0.002, p = .960, so we remove it from the model.
 
 New full model
 ```{r}
-res<-glmer(Trial_Correct ~ z.age.midtesting + z.Trial_nr + TestingLocation + (1+z.Trial_nr|ID), data=GC.valid, family = binomial)
+res<-glmer(Trial_Correct ~ z.age.midtesting + z.Trial_nr + TestingLocation + (1+z.Trial_nr|ID), data=GC.valid, family = binomial, control=contr)
 anova(null, res, test="Chisq")
 ```
 The full model can explain the data significantly better than a null model only containing the intercept, X2(3) = 116.11, p < .001.
 
 **Estimate of testing location**
 ```{r}
-res.notest<-glmer(Trial_Correct ~ z.age.midtesting + z.Trial_nr + (1+z.Trial_nr|ID), data=GC.valid, family = binomial)
+res.notest<-glmer(Trial_Correct ~ z.age.midtesting + z.Trial_nr + (1+z.Trial_nr|ID), data=GC.valid, family = binomial, control=contr)
 anova(res.notest, res, test="Chisq")
 ```
 Testing location cannot improve model fit, X2(1) = 2.617, p = .106, so we remove it from the model.
@@ -644,8 +645,8 @@ New full model
 
 We include the non-transformed version of trial number
 ```{r}
-res<-glmer(Trial_Correct ~ z.age.midtesting + Trial.Nr + (1+Trial.Nr|ID), data=GC.valid, family = binomial)
-null<-glmer(Trial_Correct ~ 1 + (1+Trial.Nr|ID), data=GC.valid, family = binomial)
+res<-glmer(Trial_Correct ~ z.age.midtesting + Trial.Nr + (1+Trial.Nr|ID), data=GC.valid, family = binomial, control=contr)
+null<-glmer(Trial_Correct ~ 1 + (1+Trial.Nr|ID), data=GC.valid, family = binomial, control=contr)
 anova(null, res, test="Chisq")
 summary(res)
 ```
@@ -653,14 +654,14 @@ Trial number and age can explain the data significantly better than the null mod
 
 **Effect of trial number**
 ```{r}
-res.notrial<-glmer(Trial_Correct ~ z.age.midtesting + (1+Trial.Nr|ID), data=GC.valid, family = binomial)
+res.notrial<-glmer(Trial_Correct ~ z.age.midtesting + (1+Trial.Nr|ID), data=GC.valid, family = binomial, control=contr)
 anova(res.notrial, res, test="Chisq")
 ```
 Trial number had a significant effect on children's success, X2(1) = 108.7, p < .001. 
 
 **Effect of age**
 ```{r}
-res.noage<-glmer(Trial_Correct ~ Trial.Nr + (1+Trial.Nr|ID), data=GC.valid, family = binomial)
+res.noage<-glmer(Trial_Correct ~ Trial.Nr + (1+Trial.Nr|ID), data=GC.valid, family = binomial, control=contr)
 anova(res.noage, res, test="Chisq")
 ```
 Age had a significant effect on children's success, X2(1) = 4.506, p = .034.
@@ -668,7 +669,7 @@ Age had a significant effect on children's success, X2(1) = 4.506, p = .034.
 Confidence intervals
 ```{r}
 source("boot_glmm.r")#requires centering of all predictors apart the ones one is interested in. We are interested in both.
-res<-glmer(Trial_Correct ~ z.age.midtesting + z.Trial_nr + (1+z.Trial_nr|ID), data=GC.valid, family = binomial)
+res<-glmer(Trial_Correct ~ z.age.midtesting + z.Trial_nr + (1+z.Trial_nr|ID), data=GC.valid, family = binomial, control=contr)
 
 boot.res=boot.glmm.pred(model.res=res, excl.warnings=T,
 nboots=1000, para=T, resol=12, use="z.Trial_nr")
@@ -702,6 +703,10 @@ xres=lm(Trial_Correct ~ z.age.midtesting + Trial.Nr, data=GC.valid)
 
 library(car)
 vif(xres)
+
+source("glmm_stability.r")
+m.stab=glmm.model.stab(model.res=res, contr=contr)
+m.stab$summary
 ```
 
 
