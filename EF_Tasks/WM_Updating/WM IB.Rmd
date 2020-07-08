@@ -1,0 +1,571 @@
+---
+title: "WM Interference IB Boxes Testbattery"
+author: "Eva Reindl"
+date: "30 3 2020"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+WM.IB <-read.csv("WM_InterferenceIBShort.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+#recode variables
+WM.IB$Age_group <- as.factor(WM.IB$Age_groups)#this converts a variable classified as continuous into a categorical variable
+levels(WM.IB$Age_group)
+
+names(WM.IB)[1] <- "ID"
+
+str(WM.IB)
+```
+
+# Dropouts
+```{r}
+WM.dropouts<- subset(WM.IB, dropout == "yes")
+```
+There is **1 dropout** (ID 13) who did not reach 8 trials in either trial 1 nor 2, so this child will be excluded from any further data analysis.
+
+# Valid data
+```{r}
+WM.IB.valid<- subset(WM.IB, dropout == "no")
+WM.IB.valid.T1 <- subset(WM.IB.valid, Trial == "1")
+```
+There are **184 children** in the dataset.
+
+# Sample description
+## Gender distribution
+```{r}
+table(WM.IB.valid.T1$Gender)
+```
+There are 100 females and 84 males.
+
+## Age
+### Age at beginning of testing
+```{r}
+mean(WM.IB.valid.T1$Age_months)
+sd(WM.IB.valid.T1$Age_months)
+min(WM.IB.valid.T1$Age_months)
+max(WM.IB.valid.T1$Age_months)
+hist(WM.IB.valid.T1$Age_months)
+
+table(WM.IB.valid.T1$Age_group)
+```
+Children who contributed to this task were, at the beginning of testing, on average 48.52 months old (SD = 6.97, range 35-70). There were 1 2-year-old, 86 3-year-olds, 89 4-year-olds, and 8 5-year-olds.
+
+## Age in the middle of testing
+```{r}
+mean(WM.IB.valid.T1$AgeMonths_midtesting)
+sd(WM.IB.valid.T1$AgeMonths_midtesting)
+min(WM.IB.valid.T1$AgeMonths_midtesting)
+max(WM.IB.valid.T1$AgeMonths_midtesting)
+hist(WM.IB.valid.T1$AgeMonths_midtesting)
+
+table(WM.IB.valid.T1$AgeGroup_midtesting)
+```
+Children in this task were on average **49.54 months old (SD = 6.99, range 36-72)** when they were in the middle of the test battery. There were 
+
+- 84 3-year-olds
+- 88 4-year-olds
+- 11 5-year-olds
+- 1 6-year-old
+
+## Age mediansplit
+```{r}
+table(WM.IB.valid.T1$Mediansplit_midtesting_entiresample)
+```
+There are **94 young** and **90 old** children.
+
+# Testing location
+```{r}
+table(WM.IB.valid.T1$TestingLocation)
+```
+109 children were from Fife, 75 children were from Edinburgh.
+
+# Comparison of performance between trial 1 and 2
+We first want to check whether the efficiencies in trial 1 and 2 are comparable. We hereby only focus on the efficiency in the searches 3 til 8 (we cut the search numbers at 8 because 1) this increases comparability with the agpe sample and 2) because these seem the most meaningful trials - more searches just mean that children are guessing. We cut the first 2 searches because those are always correct and thus children could not have an efficiency of 0). 
+
+For this analysis, we will only select those children who have completed both trials (n = 179).
+```{r}
+WM.IB.valid.T1andT2 <-subset(WM.IB.valid, How_many_trials_valid =="1 and 2")
+WM.IB.valid.T1andT2.T1 <- subset(WM.IB.valid.T1andT2, Trial =="1")
+WM.IB.valid.T1andT2.T2 <- subset(WM.IB.valid.T1andT2, Trial =="2")
+```
+**179 children completed both trials**.
+
+## Efficiency for trial 1
+```{r}
+mean(WM.IB.valid.T1andT2.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+sd(WM.IB.valid.T1andT2.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+min(WM.IB.valid.T1andT2.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+max(WM.IB.valid.T1andT2.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+
+hist(WM.IB.valid.T1andT2.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+
+shapiro.test(WM.IB.valid.T1andT2.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)#not normally distributed
+```
+In trial 1, mean efficiency (searches 3-8) is **.74 (SD = 0.15, range 0.33-1)**.
+
+
+## Efficiency for trial 2
+```{r}
+mean(WM.IB.valid.T1andT2.T2$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+sd(WM.IB.valid.T1andT2.T2$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+min(WM.IB.valid.T1andT2.T2$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+max(WM.IB.valid.T1andT2.T2$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+
+hist(WM.IB.valid.T1andT2.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+
+shapiro.test(WM.IB.valid.T1andT2.T2$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)#not normally distributed
+```
+In trial 2, mean efficiency (searches 3-8) is **.72 (SD = 0.17, range 0-1)**.
+
+```{r}
+wilcox.test(WM.IB.valid.T1andT2.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1andT2.T2$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, paired = TRUE, alternative = "two.sided")
+```
+Efficiency in both trials is **not different from each other**, two-sided Wilcoxon test, V = 4195.5, p = .093.
+
+```{r}
+#LOAD DATA
+WM.IB.wide <-read.csv("WM_forwidedata.csv",header=TRUE, sep = ";")
+names(WM.IB.wide)[1] <- "ID"
+str(WM.IB.wide)
+
+library(tidyr)
+data_wide <- spread(WM.IB.wide, Trial, SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+
+library(ggpubr)
+
+names(data_wide)[2] <- "Trial1_Efficiency"
+names(data_wide)[3] <- "Trial2_Efficiency"
+
+p<-ggpaired(data_wide, cond1 = "Trial1_Efficiency", cond2 = "Trial2_Efficiency",
+    fill = "condition", palette = "jco", xlab = "Trial",
+  ylab = "Proportion of correct trials")
+p + theme(legend.position = "none")
+
+cor.test(data_wide$Trial1_Efficiency, data_wide$Trial2_Efficiency)
+```
+The **correlation between performance in both trials is r = .23, p = .001**.
+
+The plot is the same as:
+```{r}
+p1<-  
+  ggplot(
+  data=WM.IB.wide, aes(x=Trial, y=SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, group=Trial)) +
+  geom_boxplot()+
+  geom_point(colour = "blue", alpha=0.1)+
+  geom_line(aes(group=ID), lty=2, alpha=0.4, colour="darkgrey")+
+  ylim(0,1)+
+  #xlim(0,2)+
+  labs(x="",y="Efficiency in searches 3 to 8")+
+  ggtitle("WM IB")+
+  geom_hline(yintercept=0.5, linetype="dashed", color = "red")+
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank())
+```
+The performance between trial 1 and 2 is not different from each other, but correlation is rather low, i.e., some children get better, some get worse. Therefore, we decide to only use the trial 1 data. Note that there are 5 children who did only do trial 1 anyway.
+
+# Description of performance in trial 1
+## Total number of searches
+```{r}
+#across the sample
+mean(WM.IB.valid.T1$NumberSearches_AcrossPlatforms)
+sd(WM.IB.valid.T1$NumberSearches_AcrossPlatforms)
+min(WM.IB.valid.T1$NumberSearches_AcrossPlatforms)
+max(WM.IB.valid.T1$NumberSearches_AcrossPlatforms)
+
+hist(WM.IB.valid.T1$NumberSearches_AcrossPlatforms)
+table(WM.IB.valid.T1$NumberSearches_AcrossPlatforms)
+quantile(WM.IB.valid.T1$NumberSearches_AcrossPlatforms)
+
+#by age groups
+tapply(WM.IB.valid.T1$NumberSearches_AcrossPlatforms, WM.IB.valid.T1$AgeGroup_midtesting, mean)
+tapply(WM.IB.valid.T1$NumberSearches_AcrossPlatforms, WM.IB.valid.T1$AgeGroup_midtesting, sd)
+tapply(WM.IB.valid.T1$NumberSearches_AcrossPlatforms, WM.IB.valid.T1$AgeGroup_midtesting, min)
+tapply(WM.IB.valid.T1$NumberSearches_AcrossPlatforms, WM.IB.valid.T1$AgeGroup_midtesting, max)
+
+#by age mediansplit
+tapply(WM.IB.valid.T1$NumberSearches_AcrossPlatforms, WM.IB.valid.T1$Mediansplit_midtesting_entiresample, mean)
+tapply(WM.IB.valid.T1$NumberSearches_AcrossPlatforms, WM.IB.valid.T1$Mediansplit_midtesting_entiresample, sd)
+tapply(WM.IB.valid.T1$NumberSearches_AcrossPlatforms, WM.IB.valid.T1$Mediansplit_midtesting_entiresample, min)
+tapply(WM.IB.valid.T1$NumberSearches_AcrossPlatforms, WM.IB.valid.T1$Mediansplit_midtesting_entiresample, max)
+
+#by testing location
+tapply(WM.IB.valid.T1$NumberSearches_AcrossPlatforms, WM.IB.valid.T1$TestingLocation, mean)
+tapply(WM.IB.valid.T1$NumberSearches_AcrossPlatforms, WM.IB.valid.T1$TestingLocation, sd)
+tapply(WM.IB.valid.T1$NumberSearches_AcrossPlatforms, WM.IB.valid.T1$TestingLocation, min)
+tapply(WM.IB.valid.T1$NumberSearches_AcrossPlatforms, WM.IB.valid.T1$TestingLocation, max)
+```
+The mean number of searches until all stickers were found or the max number of searches was reached was 10.22 (SD = 2.47, range 8-18). 50% of the children needed 10 or fewer searches, and 75% of the children needed 12 or fewer searches.
+
+- 3y (n = 84): M = 10.89 (SD = 2.71, range 8-18)
+- 4y (n = 88): M = 9.67 (SD = 2.14, range 8-18)
+- 5y (n = 11): M = 9.54 (SD = 1.81, range 8-12)
+- 6y (n =1): 10
+
+- young (n = 94): M = 10.69 (SD = 2.66, range 8-18)
+- old (n = 90): M = 9.73 (SD = 2.15, range 8-18)
+
+- Edinburgh (n = 75): M = 10.07 (SD = 2.15, range 8-18)
+- Fife (n = 109): M = 10.33 (SD = 2.67, range 8-18)
+
+## Emptied all boxes?
+```{r}
+#across the sample
+table(WM.IB.valid.T1$Emptied_all_boxes)
+
+#by age groups
+table(WM.IB.valid.T1$Emptied_all_boxes, WM.IB.valid.T1$AgeGroup_midtesting)
+
+#by age mediansplit
+table(WM.IB.valid.T1$Emptied_all_boxes, WM.IB.valid.T1$Mediansplit_midtesting_entiresample)
+
+#by testing location
+table(WM.IB.valid.T1$Emptied_all_boxes, WM.IB.valid.T1$TestingLocation)
+```
+Of the 184 children, 70 children (38%) emptied all boxes.
+
+- 3y (n = 84): 28 children (33%) emptied all boxes
+- 4y (n = 88): 36 children (41%) emptied all boxes
+- 5y (n = 11): 6 children (54%) emptied all boxes
+- 6y (n =1): 0
+
+- young (n = 94): 31 children (33%) emptied all boxes
+- old (n = 90): 39 children (43%) emptied all boxes
+
+- Edinburgh (n = 75): 28 children (37%) emptied all boxes
+- Fife (n = 109): 42 children (38%) emptied all boxes
+
+## Efficiency 
+```{r}
+#across the sample
+mean(WM.IB.valid.T1$Efficiency)
+sd(WM.IB.valid.T1$Efficiency)
+min(WM.IB.valid.T1$Efficiency)
+max(WM.IB.valid.T1$Efficiency)
+
+hist(WM.IB.valid.T1$Efficiency)
+quantile(WM.IB.valid.T1$Efficiency)
+
+#by age groups
+tapply(WM.IB.valid.T1$Efficiency, WM.IB.valid.T1$AgeGroup_midtesting, mean)
+tapply(WM.IB.valid.T1$Efficiency, WM.IB.valid.T1$AgeGroup_midtesting, sd)
+tapply(WM.IB.valid.T1$Efficiency, WM.IB.valid.T1$AgeGroup_midtesting, min)
+tapply(WM.IB.valid.T1$Efficiency, WM.IB.valid.T1$AgeGroup_midtesting, max)
+
+#by age mediansplit
+tapply(WM.IB.valid.T1$Efficiency, WM.IB.valid.T1$Mediansplit_midtesting_entiresample, mean)
+tapply(WM.IB.valid.T1$Efficiency, WM.IB.valid.T1$Mediansplit_midtesting_entiresample, sd)
+tapply(WM.IB.valid.T1$Efficiency, WM.IB.valid.T1$Mediansplit_midtesting_entiresample, min)
+tapply(WM.IB.valid.T1$Efficiency, WM.IB.valid.T1$Mediansplit_midtesting_entiresample, max)
+
+#by testing location
+tapply(WM.IB.valid.T1$Efficiency, WM.IB.valid.T1$TestingLocation, mean)
+tapply(WM.IB.valid.T1$Efficiency, WM.IB.valid.T1$TestingLocation, sd)
+tapply(WM.IB.valid.T1$Efficiency, WM.IB.valid.T1$TestingLocation, min)
+tapply(WM.IB.valid.T1$Efficiency, WM.IB.valid.T1$TestingLocation, max)
+```
+The mean efficiency in trial 1 was **.75 (SD = .17, range .33-1)**. 50% of the children had an efficiency of 75% or less, and 75% of the children had an efficiency of 87.5% or less.
+
+- 3y (n = 84): **M = .70 (SD = .17, range .41-1)**
+- 4y (n = 88): **M = .79 (SD = .15, range .33-1)**
+- 5y (n = 11): **M = .81 (SD = .14, range .58-1)**
+- 6y (n =1): **.70**
+
+- young (n = 94): **M = .71 (SD = .17, range .41-1)**
+- old (n = 90): **M = .79 (SD = .16, range .33-1)**
+
+- Edinburgh (n = 75): M = .75 (SD = .15, range .33-1)
+- Fife (n = 109): M = .75 (SD = .18, range .41-1)
+
+## Search strategy
+```{r}
+#across the sample
+table(WM.IB.valid.T1$Strategy)
+
+#by age groups
+table(WM.IB.valid.T1$Strategy, WM.IB.valid.T1$AgeGroup_midtesting)
+
+#by age mediansplit
+table(WM.IB.valid.T1$Strategy, WM.IB.valid.T1$Mediansplit_midtesting_entiresample)
+
+#by testing location
+table(WM.IB.valid.T1$Strategy, WM.IB.valid.T1$TestingLocation)
+```
+Of the 184 children, 5 children (3%) had a search strategy.
+
+- 3y (n = 84): 1 child (1%) used a strategy
+- 4y (n = 88): 3 children (3%) used a strategy
+- 5y (n = 11): 1 child (9%) used a strategy
+- 6y (n =1): 0
+
+- young (n = 94): 2 children (2%) used a strategy
+- old (n = 90): 3 children (3%) used a strategy
+
+- Edinburgh (n = 75): 1 child (1%) used a strategy
+- Fife (n = 109): 4 children (4%) used a strategy
+
+## DV: Proportion of correct searches in trial 1 in searches 3-8
+```{r}
+#across the sample
+mean(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+sd(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+min(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+max(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+
+hist(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms,
+     main="Efficiency in trial 1, searches 3-8", 
+     xlab="Efficiency", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+shapiro.test(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+quantile(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+
+#by age groups
+tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$AgeGroup_midtesting, mean)
+tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$AgeGroup_midtesting, sd)
+tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$AgeGroup_midtesting, min)
+tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$AgeGroup_midtesting, max)
+
+three <- subset(WM.IB.valid.T1, AgeGroup_midtesting == "3")
+four <- subset(WM.IB.valid.T1, AgeGroup_midtesting == "4")
+five <- subset(WM.IB.valid.T1, AgeGroup_midtesting == "5")
+
+hist(three$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms,
+     main="3-year-olds", 
+     xlab="Efficiency", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+hist(four$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms,
+     main="4-year-olds", 
+     xlab="Efficiency", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+hist(five$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms,
+     main="5-year-olds", 
+     xlab="Efficiency", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+shapiro.test(three$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+shapiro.test(four$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+shapiro.test(five$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+
+#by age mediansplit
+tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$Mediansplit_midtesting_entiresample, mean)
+tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$Mediansplit_midtesting_entiresample, sd)
+tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$Mediansplit_midtesting_entiresample, min)
+tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$Mediansplit_midtesting_entiresample, max)
+
+young <- subset(WM.IB.valid.T1, Mediansplit_midtesting_entiresample == "young")
+old <- subset(WM.IB.valid.T1, Mediansplit_midtesting_entiresample == "old")
+
+hist(young$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms,
+     main="Young children", 
+     xlab="Efficiency", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+hist(old$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms,
+     main="Old children", 
+     xlab="Efficiency", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+shapiro.test(young$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+shapiro.test(old$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+
+#by testing location
+tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$TestingLocation, mean)
+tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$TestingLocation, sd)
+tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$TestingLocation, min)
+tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$TestingLocation, max)
+
+Edi <- subset(WM.IB.valid.T1, TestingLocation == "Edinburgh")
+Fife <- subset(WM.IB.valid.T1, TestingLocation == "Fife")
+
+hist(Edi$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms,
+     main="Edinburgh children", 
+     xlab="Efficiency", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+hist(Fife$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms,
+     main="Fife children", 
+     xlab="Efficiency", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+shapiro.test(Edi$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+shapiro.test(Fife$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+```
+The mean efficiency in trial 1, searches 3-8, was .74 (SD = .15, range .33-1). 50% of the children had an efficiency of 67% or less, and 75% of the children had an efficiency of 83% or less. The variable was not normally distributed, W = .873, p < .001.
+
+- 3y (n = 84): M = .71 (SD = .14, range .50-1), not normally distributed, W = .835, p < .001
+- 4y (n = 88): M = .77 (SD = .15, range .33-1), not normally distributed, W = .876, p < .001
+- 5y (n = 11): M = .79 (SD = .15, range .50-1), normally distributed, W = .899, p = .181
+- 6y (n =1): .50
+
+- young (n = 94): M = .72 (SD = .14, range .50-1), not normally distributed, W = .857, p < .001
+- old (n = 90): M = .76 (SD = .15, range .33-1), not normally distributed, W = .876, p < .001
+
+- Edinburgh (n = 75): M = .74 (SD = .14, range .33-1), not normally distributed, W = .859, p < .001
+- Fife (n = 109): M = .74 (SD = .16, range .50-1), not normally distributed, W = .867, p < .001
+
+
+Plots
+```{r}
+#Plot, across ages
+library(ggplot2)
+p<-  ggplot(
+  data=WM.IB.valid.T1, aes(x=rep(1, 184), y=SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)) +
+  geom_boxplot(outlier.colour = "black")+
+  ylim(0, 1)+
+  xlim(0,2)+
+  labs(x="",y="Efficiency in trial 1, searches 3-8")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Updating")
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) + geom_count()
+
+
+
+#Plot, by age groups
+p1<-ggplot(data=WM.IB.valid.T1, aes(x=AgeGroup_midtesting,y=SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)) +
+  geom_boxplot(aes(group=AgeGroup_midtesting, fill = as.factor(WM.IB.valid.T1$AgeGroup_midtesting)), outlier.colour = "black") + 
+      ylim(0,1)+
+  xlim(2.5,6.5)+
+  geom_point(alpha=0.3) +
+  labs(x="",y="Efficiency in trial 1, searches 3-8")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Updating")
+
+p1  +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5)+
+  scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 84", "4 years, n = 88", "5 years, n = 11", "6 years, n = 1"))+
+  theme(legend.title = element_blank())
+
+
+#Plot, by age mediansplit
+library(forcats)
+
+WM.IB.valid.T1$Mediansplit_midtesting_entiresample<-fct_relevel(WM.IB.valid.T1$Mediansplit_midtesting_entiresample, "young")
+#changes order of boxplots (young before old)
+
+p1<-  ggplot(
+  data=WM.IB.valid.T1, aes(x=rep(1, 184), y=SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, fill = Mediansplit_midtesting_entiresample))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Efficiency in trial 1, searches 3-8")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Updating")
+
+p1 +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
+  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young (36-49 months), n = 94", "old (50-72 months), n = 90"))
+
+
+
+#Plot, by testing location
+p1<-  ggplot(
+  data=WM.IB.valid.T1, aes(x=rep(1, 184), y=SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, fill = TestingLocation))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Efficiency in trial 1, searches 3-8")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Updating")
+
+p1 +  
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
+  scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 75", "Fife, n = 109"))
+```
+
+## Plot age as continuous variable against proportion correct
+```{r}
+p1<- ggplot(WM.IB.valid.T1, aes(x=AgeMonths_midtesting, y=SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)) + geom_point()
+
+p1 +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+
+# Can age predict efficiency?
+```{r}
+library(lme4)
+
+#we z-transform age 
+WM.IB.valid.T1$z.age.midtesting=as.vector(scale(WM.IB.valid.T1$AgeMonths_midtesting))#transform age to mean of 0 and SD of 1
+mean(WM.IB.valid.T1$z.age.midtesting)#check whether it has worked
+sd(WM.IB.valid.T1$z.age.midtesting)
+
+#Full model
+res<-lm(SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms ~ z.age.midtesting, data=WM.IB.valid.T1)
+
+null<-lm(SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms ~ 1, data=WM.IB.valid.T1)
+
+anova(null, res, test="Chisq")
+
+source("diagnostic_fcns.r")
+diagnostics.plot(res)
+
+max(abs(dffits(res)))
+hist(dffits(res))
+
+round(cbind(coefficients(res), coefficients(res)+
+t(apply(X=dfbeta(res), MARGIN=2, FUN=range))), 3)
+
+max(cooks.distance(res))
+
+```
+Age has only a marginally significant effect on proportion correct, X2(1) = 0.068, p = .081.
+
+```{r}
+#Full model
+res<-lm(Efficiency ~ z.age.midtesting, data=WM.IB.valid.T1)
+
+null<-lm(Efficiency ~ 1, data=WM.IB.valid.T1)
+
+anova(null, res, test="Chisq")
+```
+`
+
+
+
+
