@@ -1,0 +1,431 @@
+﻿ID;Phase;Proportion_Correct
+1;Simple Discrimination;0.857
+1;Reversal;0.857
+1;Compound Discrimination;0.857
+1;EDS;0.944
+2;Simple Discrimination;0.571
+2;Reversal;0.286
+2;Compound Discrimination;0.583
+3;Simple Discrimination;0.778
+3;Reversal;0.750
+3;Compound Discrimination;0.625
+4;Simple Discrimination;0.542
+4;Compound Discrimination;0.857
+4;EDS;0.833
+5;Simple Discrimination;0.900
+5;Reversal;1.000
+5;Compound Discrimination;0.846
+5;EDS;0.917
+7;Simple Discrimination;0.778
+7;Reversal;0.727
+7;Compound Discrimination;0.615
+7;EDS;0.833
+8;Simple Discrimination;0.778
+8;Reversal;0.857
+8;Compound Discrimination;0.458
+9;Simple Discrimination;0.778
+9;Reversal;0.600
+9;Compound Discrimination;0.417
+10;Simple Discrimination;0.737
+10;Reversal;
+10;Compound Discrimination;
+11;Simple Discrimination;0.800
+11;Reversal;0.857
+11;Compound Discrimination;0.542
+12;Simple Discrimination;0.688
+12;Reversal;0.750
+12;Compound Discrimination;0.583
+13;Simple Discrimination;0.875
+13;Reversal;0.643
+13;Compound Discrimination;0.458
+14;Simple Discrimination;0.542
+14;Compound Discrimination;0.542
+15;Simple Discrimination;0.857
+15;Reversal;0.857
+15;Compound Discrimination;0.625
+17;Simple Discrimination;0.333
+17;Compound Discrimination;0.458
+18;Simple Discrimination;0.500
+18;Compound Discrimination;0.500
+19;Simple Discrimination;0.700
+19;Reversal;0.857
+19;Compound Discrimination;0.458
+20;Simple Discrimination;0.696
+20;Reversal;0.375
+20;Compound Discrimination;0.583
+21;Simple Discrimination;0.875
+21;Reversal;0.000
+21;Compound Discrimination;1.000
+22;Simple Discrimination;0.667
+22;Compound Discrimination;0.579
+23;Simple Discrimination;0.778
+23;Reversal;0.708
+23;Compound Discrimination;0.417
+24;Simple Discrimination;0.611
+24;Reversal;0.750
+24;Compound Discrimination;0.583
+25;Simple Discrimination;0.417
+25;Compound Discrimination;0.417
+26;Simple Discrimination;0.542
+26;Compound Discrimination;0.375
+27;Simple Discrimination;0.857
+27;Reversal;0.818
+27;Compound Discrimination;0.542
+28;Simple Discrimination;0.900
+28;Reversal;0.765
+28;Compound Discrimination;0.417
+29;Simple Discrimination;0.500
+29;Compound Discrimination;0.417
+30;Simple Discrimination;0.667
+30;Reversal;0.857
+30;Compound Discrimination;0.375
+31;Simple Discrimination;0.875
+31;Reversal;0.733
+31;Compound Discrimination;0.583
+32;Simple Discrimination;0.636
+32;Reversal;0.750
+32;Compound Discrimination;0.375
+33;Simple Discrimination;0.667
+33;Compound Discrimination;0.714
+34;Simple Discrimination;0.429
+34;Compound Discrimination;0.444
+35;Simple Discrimination;0.550
+35;Reversal;0.000
+35;Compound Discrimination;0.444
+36;Simple Discrimination;0.636
+36;Reversal;0.750
+36;Compound Discrimination;0.500
+37;Simple Discrimination;0.500
+37;Compound Discrimination;0.333
+38;Simple Discrimination;0.458
+38;Compound Discrimination;0.682
+38;EDS;0.667
+40;Simple Discrimination;0.733
+40;Reversal;0.857
+40;Compound Discrimination;0.417
+41;Simple Discrimination;0.800
+41;Reversal;0.769
+41;Compound Discrimination;0.583
+42;Simple Discrimination;0.750
+42;Reversal;1.000
+42;Compound Discrimination;0.500
+43;Simple Discrimination;0.583
+43;Compound Discrimination;0.545
+43;EDS;0.944
+44;Simple Discrimination;0.867
+44;Reversal;0.727
+44;Compound Discrimination;0.542
+45;Simple Discrimination;0.818
+45;Reversal;0.765
+45;Compound Discrimination;0.684
+45;EDS;0.944
+46;Simple Discrimination;0.500
+46;Compound Discrimination;0.500
+47;Simple Discrimination;0.600
+47;Reversal;0.700
+47;Compound Discrimination;0.417
+48;Simple Discrimination;0.875
+48;Reversal;0.750
+48;Compound Discrimination;0.458
+51;Simple Discrimination;0.824
+51;Reversal;0.778
+51;Compound Discrimination;1.000
+51;EDS;0.833
+52;Simple Discrimination;0.833
+52;Reversal;0.750
+52;Compound Discrimination;0.652
+53;Simple Discrimination;0.778
+53;Reversal;0.692
+53;Compound Discrimination;0.333
+54;Simple Discrimination;0.846
+54;Reversal;0.857
+54;Compound Discrimination;0.625
+54;EDS;0.914
+55;Simple Discrimination;0.625
+55;Compound Discrimination;0.375
+56;Simple Discrimination;0.800
+56;Reversal;0.800
+56;Compound Discrimination;0.458
+58;Simple Discrimination;0.688
+58;Reversal;0.857
+58;Compound Discrimination;0.900
+58;EDS;0.583
+59;Simple Discrimination;0.778
+59;Reversal;0.778
+59;Compound Discrimination;0.875
+59;EDS;0.944
+60;Simple Discrimination;0.542
+60;Compound Discrimination;0.375
+62;Simple Discrimination;0.778
+62;Reversal;0.765
+62;Compound Discrimination;0.750
+62;EDS;0.667
+64;Simple Discrimination;0.583
+64;Compound Discrimination;0.458
+65;Simple Discrimination;0.458
+65;Compound Discrimination;0.857
+65;EDS;0.514
+66;Simple Discrimination;0.750
+66;Reversal;0.650
+66;Compound Discrimination;0.500
+67;Simple Discrimination;0.875
+67;Reversal;0.714
+67;Compound Discrimination;0.474
+68;Simple Discrimination;0.727
+68;Reversal;0.857
+68;Compound Discrimination;0.375
+69;Simple Discrimination;0.727
+69;Reversal;0.769
+69;Compound Discrimination;0.667
+70;Simple Discrimination;0.706
+70;Reversal;0.818
+70;Compound Discrimination;0.826
+70;EDS;0.917
+71;Simple Discrimination;0.700
+71;Reversal;0.750
+71;Compound Discrimination;0.375
+72;Simple Discrimination;0.875
+72;Reversal;0.800
+72;Compound Discrimination;0.292
+73;Simple Discrimination;0.733
+73;Reversal;0.542
+73;Compound Discrimination;0.500
+74;Simple Discrimination;0.857
+74;Reversal;0.750
+74;Compound Discrimination;0.500
+75;Simple Discrimination;0.458
+75;Compound Discrimination;0.417
+76;Simple Discrimination;0.818
+76;Reversal;0.667
+76;Compound Discrimination;0.583
+77;Simple Discrimination;0.750
+77;Reversal;0.700
+77;Compound Discrimination;0.333
+78;Simple Discrimination;0.706
+78;Reversal;0.857
+78;Compound Discrimination;0.292
+79;Simple Discrimination;0.706
+79;Reversal;0.583
+79;Compound Discrimination;0.875
+79;EDS;0.833
+80;Simple Discrimination;0.769
+80;Reversal;0.529
+80;Compound Discrimination;0.333
+81;Simple Discrimination;0.571
+81;Compound Discrimination;0.636
+81;EDS;0.697
+82;Simple Discrimination;0.778
+82;Reversal;0.667
+83;Simple Discrimination;0.773
+83;Reversal;0.500
+84;Simple Discrimination;0.875
+84;Reversal;0.700
+84;Compound Discrimination;0.889
+84;EDS;0.833
+86;Simple Discrimination;1.000
+86;Reversal;0.700
+87;Simple Discrimination;0.875
+87;Reversal;0.700
+87;Compound Discrimination;1.000
+87;EDS;0.944
+88;Simple Discrimination;0.458
+88;Compound Discrimination;0.458
+89;Simple Discrimination;1.000
+89;Reversal;0.727
+89;Compound Discrimination;0.682
+91;Simple Discrimination;0.857
+91;Reversal;0.750
+91;Compound Discrimination;0.417
+92;Simple Discrimination;0.778
+92;Reversal;0.778
+92;Compound Discrimination;0.500
+93;Simple Discrimination;0.727
+93;Reversal;0.533
+93;Compound Discrimination;0.542
+94;Simple Discrimination;0.778
+94;Reversal;0.773
+94;Compound Discrimination;0.458
+95;Simple Discrimination;0.750
+95;Reversal;0.714
+95;Compound Discrimination;0.417
+96;Simple Discrimination;0.727
+96;Reversal;0.583
+96;Compound Discrimination;1.000
+96;EDS;0.944
+97;Simple Discrimination;0.750
+97;Reversal;0.300
+97;Compound Discrimination;0.375
+98;Simple Discrimination;0.857
+98;Reversal;0.571
+98;Compound Discrimination;0.688
+99;Simple Discrimination;0.875
+99;Reversal;0.714
+99;Compound Discrimination;0.542
+100;Simple Discrimination;0.778
+100;Reversal;0.750
+100;Compound Discrimination;0.208
+101;Simple Discrimination;0.750
+101;Reversal;0.700
+101;Compound Discrimination;0.875
+101;EDS;0.926
+102;Simple Discrimination;0.588
+102;Reversal;0.542
+102;Compound Discrimination;0.583
+103;Simple Discrimination;0.857
+103;Reversal;0.769
+103;Compound Discrimination;0.500
+104;Simple Discrimination;0.727
+104;Reversal;0.778
+104;Compound Discrimination;0.818
+104;EDS;0.694
+105;Simple Discrimination;0.769
+105;Reversal;0.857
+105;Compound Discrimination;0.458
+106;Simple Discrimination;0.625
+106;Reversal;0.714
+106;Compound Discrimination;0.625
+107;Simple Discrimination;0.500
+107;Compound Discrimination;0.565
+107;EDS;0.583
+108;Simple Discrimination;0.500
+108;Compound Discrimination;0.583
+108;EDS;0.917
+109;Simple Discrimination;0.375
+109;Compound Discrimination;0.500
+110;Simple Discrimination;0.625
+110;Compound Discrimination;0.727
+110;EDS;0.639
+111;Simple Discrimination;0.778
+111;Reversal;0.833
+111;Compound Discrimination;0.500
+112;Simple Discrimination;0.542
+112;Compound Discrimination;0.375
+113;Simple Discrimination;0.727
+113;Reversal;0.714
+113;Compound Discrimination;0.375
+114;Simple Discrimination;0.769
+114;Reversal;0.813
+114;Compound Discrimination;0.542
+115;Simple Discrimination;0.769
+115;Reversal;0.765
+115;Compound Discrimination;0.500
+116;Simple Discrimination;0.800
+116;Reversal;0.458
+116;Compound Discrimination;0.500
+116;EDS;0.944
+117;Simple Discrimination;0.857
+117;Reversal;0.750
+117;Compound Discrimination;0.875
+117;EDS;0.667
+118;Simple Discrimination;0.375
+118;Compound Discrimination;0.583
+119;Simple Discrimination;0.857
+119;Reversal;0.611
+119;Compound Discrimination;0.643
+119;EDS;0.944
+120;Simple Discrimination;0.778
+120;Reversal;0.857
+120;Compound Discrimination;0.375
+121;Simple Discrimination;0.625
+121;Compound Discrimination;0.800
+121;EDS;0.917
+122;Simple Discrimination;0.900
+122;Reversal;0.737
+122;Compound Discrimination;0.458
+123;Simple Discrimination;0.750
+123;Reversal;0.700
+123;Compound Discrimination;0.375
+124;Simple Discrimination;1.000
+124;Reversal;0.571
+124;Compound Discrimination;0.542
+124;EDS;0.806
+125;Simple Discrimination;0.375
+125;Compound Discrimination;0.458
+127;Simple Discrimination;0.789
+127;Reversal;0.769
+127;Compound Discrimination;0.583
+129;Simple Discrimination;0.583
+129;Compound Discrimination;0.429
+130;Simple Discrimination;0.542
+130;Compound Discrimination;0.542
+131;Simple Discrimination;0.636
+131;Reversal;0.750
+132;Simple Discrimination;0.727
+132;Reversal;0.857
+132;Compound Discrimination;0.500
+133;Simple Discrimination;1.000
+133;Reversal;0.700
+133;Compound Discrimination;1.000
+133;EDS;1.000
+144;Simple Discrimination;0.800
+144;Reversal;0.778
+144;Compound Discrimination;0.542
+145;Simple Discrimination;1.000
+145;Reversal;0.857
+145;Compound Discrimination;1.000
+145;EDS;0.889
+146;Simple Discrimination;0.778
+146;Reversal;0.857
+146;Compound Discrimination;0.375
+147;Simple Discrimination;0.857
+147;Reversal;0.625
+147;Compound Discrimination;0.583
+148;Simple Discrimination;0.875
+148;Reversal;0.600
+148;Compound Discrimination;0.700
+148;EDS;0.972
+149;Simple Discrimination;0.778
+149;Reversal;0.727
+149;Compound Discrimination;0.417
+150;Simple Discrimination;0.733
+150;Reversal;0.857
+150;Compound Discrimination;0.375
+151;Simple Discrimination;0.542
+151;Compound Discrimination;0.542
+152;Simple Discrimination;0.889
+152;Reversal;0.700
+152;Compound Discrimination;0.583
+153;Simple Discrimination;0.625
+153;Compound Discrimination;1.000
+153;EDS;0.833
+154;Simple Discrimination;0.778
+154;Reversal;0.857
+154;Compound Discrimination;0.857
+154;EDS;0.958
+155;Simple Discrimination;0.773
+155;Reversal;0.857
+155;Compound Discrimination;0.692
+155;EDS;0.806
+156;Simple Discrimination;0.909
+156;Reversal;0.857
+156;Compound Discrimination;0.458
+157;Simple Discrimination;1.000
+157;Reversal;0.857
+157;Compound Discrimination;0.583
+158;Simple Discrimination;0.818
+158;Reversal;0.846
+158;Compound Discrimination;0.375
+159;Simple Discrimination;0.857
+159;Reversal;0.857
+159;Compound Discrimination;0.417
+160;Simple Discrimination;1.000
+160;Reversal;0.857
+160;Compound Discrimination;0.333
+161;Simple Discrimination;0.875
+161;Reversal;0.542
+161;Compound Discrimination;0.375
+162;Simple Discrimination;0.889
+162;Reversal;0.591
+162;Compound Discrimination;0.375
+163;Simple Discrimination;1.000
+163;Reversal;0.778
+164;Simple Discrimination;0.857
+164;Reversal;0.857
+164;Compound Discrimination;0.542
+165;Simple Discrimination;1.000
+165;Reversal;0.857
+165;Compound Discrimination;1.000
+165;EDS;0.889
+166;Simple Discrimination;1.000
+166;Reversal;0.727
+166;Compound Discrimination;0.417
