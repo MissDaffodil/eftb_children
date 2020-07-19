@@ -251,6 +251,9 @@ wilcox.test(three$ProportionCorrect, mu = 0.5, alternative = "two.sided")
 t.test(four$ProportionCorrect, mu = 0.5, alternative = "two.sided")
 t.test(five$ProportionCorrect, mu = 0.5, alternative = "two.sided")
 
+threeandfour <- subset(Tray.T1, AgeGroup_midtesting == "3" | AgeGroup_midtesting == "4")
+wilcox.test(threeandfour$ProportionCorrect ~threeandfour$AgeGroup_midtesting, alternative = "less")
+
 hist(three$ProportionCorrect,
      main="3-year-olds", 
      xlab="Proportion of correct trials", 
@@ -289,6 +292,9 @@ shapiro.test(old$ProportionCorrect)#normally distributed
 
 wilcox.test(young$ProportionCorrect, mu = 0.5, alternative = "two.sided")
 t.test(old$ProportionCorrect, mu = 0.5, alternative = "two.sided")
+
+levels(Tray.T1$Mediansplit_midtesting_entiresample)
+wilcox.test(Tray.T1$ProportionCorrect ~ Tray.T1$Mediansplit_midtesting_entiresample, alternative = "greater")
 
 hist(young$ProportionCorrect,
      main="Young children", 
@@ -340,12 +346,12 @@ The average proportion of correct trials was **74.50% (SD = 12.67, range 25-100%
 - 4-year-olds: **M = 74.17% (12.12, range 44-100%), performance significantly above chance** (0.5), t(71) = 16.915, p < .001
 - 5-year-olds: **M = 84.53 (11.68, range 63.64-100%), performance significantly above chance** (0.5), t(10) = 9.807, p < .001
 
-Thus, numerically, 3- and 4-year-olds were perfoming equally, while 5-year-olds were perfoming better.
+Thus, numerically, 3- and 4-year-olds were perfoming equally, while 5-year-olds were perfoming better. There was no difference between 3 and 4-year-olds, W = 2230.5, p = .319.
 
 - young children: **73.82 (SD = 12.64, range 25-100%), performance significantly above chance** (0.5), V = 2809.5, p < .001
 - old children: **75.20 (SD = 12.75, range 44-100%), performance significantly above chance** (0.5), t(72) = 16.889, p < .001
 
-So using the median split, there was no difference between the groups.
+So using the median split, there was no difference between the groups, W = 2902.5, p = .264.
 
 - Edinburgh: **75.04 (SD = 12.17, range 47.22-100%), performance significantly above chance** (0.5), t(60) = 16.072, p < .001
 - Fife: **74.12 (SD = 13.06, range 25-100%), performance significantly above chance** (0.5), V = 3687.5, p < .001
