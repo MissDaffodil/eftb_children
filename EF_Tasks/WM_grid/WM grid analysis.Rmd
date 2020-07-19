@@ -453,7 +453,7 @@ p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = el
 Rescaling the DV to a range between 0 and 1
 ```{r}
 library(scales)
-test.trials$distance_newrange <- rescale(test.trials$distance_c01, to=c(0, 1), from=c(0, 3.6))
+test.trials$distance_newrange <- rescale(test.trials$distance_c01, to=c(0, 1), from=c(0, 3.605551))
 
 meandistance.newrange<- aggregate(distance_newrange ~ ID, test.trials, mean)
 
@@ -474,6 +474,10 @@ test.trials$revertdistance_newrange <- 1-test.trials$distance_newrange
 
 meandistance.revertnewrange<- aggregate(revertdistance_newrange ~ ID, test.trials, mean)
 
+# chance value for the new scale
+chance_grid <- rescale(1.667, to=c(0, 1), from=c(3.605551, 0))
+#0.5376574
+
 p<-  ggplot(
   data=meandistance.revertnewrange, aes(x=rep(1, 127), y=revertdistance_newrange)) +
   geom_boxplot(outlier.colour = "black")+
@@ -483,9 +487,20 @@ p<-  ggplot(
   theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
   ggtitle("WM Grid")
 
-p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) + geom_count()
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) + geom_count() +  geom_hline(yintercept=0.5376574, linetype="dashed", color = "red")
+
 ```
 
+## Rescaled histogram
+```{r}
+hist(meandistance.revertnewrange$revertdistance_newrange,
+     main="Histogram for Mean distance between reward and first choice in test trials", 
+     xlab="Mean distance", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+```
 
 ### Do children perform significantly below chance?
 #### Test against all cells
@@ -635,7 +650,7 @@ p1<-ggplot(data=Grid.short, aes(x=AgeGroup_midtesting,y=revertdistance_newrange)
 p1  +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ 
   geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5)+
-  scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 55", "4 years, n = 61", "5 years, n = 10", "6 years, n = 1"))
+  scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 55", "4 years, n = 61", "5 years, n = 10", "6 years, n = 1")) + geom_hline(yintercept=0.5376574, linetype="dashed", color = "red")
 ```
 
 
@@ -724,7 +739,6 @@ p1 +  geom_hline(yintercept=1.667, linetype="dashed", color = "red") +
 
 Make Boxplot with scale converted to 0 and 1:
 ```{r}
-
 p1<-  ggplot(
   data=Grid.short, aes(x=rep(1, 127), y=revertdistance_newrange, fill = Mediansplit_midtesting_entiresample))+
   geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
@@ -740,7 +754,7 @@ p1<-  ggplot(
 p1  +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
   geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
-  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young (36-49 months), n = 65", "old (50-72 months), n = 62"))
+  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young (36-49 months), n = 65", "old (50-72 months), n = 62")) + geom_hline(yintercept=0.5376574, linetype="dashed", color = "red")
 ```
 
 
@@ -751,6 +765,14 @@ p1  +
 p1<- ggplot(Grid.short, aes(x=AgeMonths_midtesting, y=distance)) + geom_point()
 
 p1 +  geom_hline(yintercept=1.954, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+## Plot distance against age as continuous variable - new scale
+```{r}
+p1<- ggplot(Grid.short, aes(x=AgeMonths_midtesting, y=revertdistance_newrange)) + geom_point()
+
+p1 +  geom_hline(yintercept=0.5376574, linetype="dashed", color = "red") +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 ```
 
@@ -825,7 +847,7 @@ p1<-  ggplot(
 p1 +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
   geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
-  scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 58", "Fife, n = 69"))
+  scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 58", "Fife, n = 69")) + geom_hline(yintercept=0.5376574, linetype="dashed", color = "red")
 ```
 
 
@@ -1118,4 +1140,84 @@ vif(xres)
 source("glmm_stability.r")
 m.stab=glmm.model.stab(model.res=dist, contr=contr)
 m.stab$summary
+```
+
+# Plot reverted scale
+```{r}
+library(lme4)
+test.trials$distance_newrange <- rescale(test.trials$distance_c01, to=c(0, 1), from=c(3.605551, 0))
+
+dist<-lmer(distance_newrange ~ z.age + Trial + TestingLocation + (1|ID), data=test.trials, REML=FALSE, control=contr)
+
+null.dist<-lmer(distance_newrange ~ 1 + (1|ID), data=test.trials, REML=FALSE, control=contr)
+
+anova(null.dist, dist, test="Chisq")#significant
+summary(dist)
+```
+Together, age, trial number, and testing location explain the data significantly better than the null model, X(3) = 21.05, p < .001.
+
+```{r}
+source("boot_glmm.r")#requires centering of all predictors apart the ones one is interested in. We are interested in both.
+test.trials$z.Trial=as.vector(scale(test.trials$Trial)) 
+
+dist<-lmer(distance_newrange ~ z.age + z.Trial + TestingLocation + (1|ID), data=test.trials, REML=FALSE, control=contr)
+
+boot.res=boot.glmm.pred(model.res=dist, excl.warnings=T,
+nboots=1000, para=F, resol=12, use="z.Trial")
+```
+
+Plot effect of trial number on distance:
+```{r}
+plot.xvals=seq(from=min(test.trials$Trial), to=max(test.trials$Trial),length.out=24)
+
+ggplot(test.trials, aes(x=plot.xvals, y=boot.res$ci.predicted$fitted)) +
+  geom_jitter(aes(x=Trial, y=distance_newrange, colour=Age_group))+ 
+  geom_ribbon(data=boot.res$ci.predicted, aes(x = plot.xvals, ymin=boot.res$ci.predicted$lower.cl, ymax=boot.res$ci.predicted$upper.cl), fill="grey", alpha=0.5)+
+geom_line(data=boot.res$ci.predicted, aes(x = plot.xvals, y=boot.res$ci.predicted$fitted), lty=2)+
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+  xlab("Trial number")+
+  ylab("Distance")+
+  xlim(0,13)+
+  geom_hline(yintercept=1.667, linetype="dashed", color = "red")
+```
+
+```{r}
+xx=aggregate(x=test.trials$distance_newrange, by=test.trials[, c("TestingLocation", "Trial")],
+FUN=mean)
+
+xx$N=aggregate(x=test.trials$distance_newrange, by=test.trials[, c("TestingLocation", "Trial")],
+FUN=length)$x
+
+par(mar=c(3, 3, 0.2, 0.2), mgp=c(1.7, 0.3, 0), las=1, tcl=-0.15)
+
+plot(x=test.trials$Trial, y=test.trials$distance_c01, pch=19, las=1, ylim=c(0, 3.7),
+xlab="Trial number", ylab="distance", cex=0.2*sqrt(xx$N))
+
+plot.xvals=seq(from=min(test.trials$Trial), to=max(test.trials$Trial),
+length.out=24)
+
+lines(x=plot.xvals, y=boot.res$ci.predicted$fitted,
+lty=2)
+lines(x=plot.xvals, y=boot.res$ci.predicted$lower.cl,
+lty=3)
+lines(x=plot.xvals, y=boot.res$ci.predicted$upper.cl,
+lty=3)
+```
+
+Plot, by mediansplit age 
+```{r}
+names(test.trials)[10] <- "Age_mediansplit"
+
+plot.xvals=seq(from=min(test.trials$Trial), to=max(test.trials$Trial),length.out=24)
+
+
+ggplot(test.trials, aes(x=plot.xvals, y=boot.res$ci.predicted$fitted)) +
+  geom_jitter(aes(x=Trial, y=distance_newrange, colour=Age_mediansplit))+ 
+  geom_ribbon(data=boot.res$ci.predicted, aes(x = plot.xvals, ymin=boot.res$ci.predicted$lower.cl, ymax=boot.res$ci.predicted$upper.cl), fill="grey", alpha=0.5)+
+geom_line(data=boot.res$ci.predicted, aes(x = plot.xvals, y=boot.res$ci.predicted$fitted), lty=2)+
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+  xlab("Trial number")+
+  ylab("Distance")+
+  xlim(0,13)+
+  geom_hline(yintercept=1.667, linetype="dashed", color = "red")
 ```
