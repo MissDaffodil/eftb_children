@@ -581,12 +581,17 @@ hist(five$distance,
      border="black", 
      col="grey",
      xlim=c(0,3.7))
+
+threeandfour <- subset(Grid.short, AgeGroup_midtesting == "3" | AgeGroup_midtesting == "4")
+t.test(threeandfour$distance ~ threeandfour$AgeGroup_midtesting, alternative = "two.sided")
 ```
 
 - 3y (n = 55): M = 0.93 (SD = 0.29, range 0.45-1.60)
 - 4y (n = 61): M = 0.79 (SD = 0.31, range 0.17-1.40)
 - 5y (n = 10): M = 0.72 (SD = 0.32, range 0.33-1.34)
 - 6y (n = 1): 0.47
+
+Four-year-olds perform significantly better than 3-year-olds, t(113,79) = 2.585, p = .011.
 
 ### Do children perform significantly below chance?
 #### Test against all cells
