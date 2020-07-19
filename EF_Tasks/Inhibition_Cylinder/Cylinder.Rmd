@@ -266,12 +266,17 @@ shapiro.test(five$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
 wilcox.test(three$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, mu=0.5, alternative = "two.sided")
 wilcox.test(four$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, mu=0.5, alternative = "two.sided")
 wilcox.test(five$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, mu=0.5, alternative = "two.sided")
+
+threeandfour <- subset(Cyl.valid.Search1, Age_group_midtesting == "3" | Age_group_midtesting == "4")
+wilcox.test(threeandfour$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique ~ threeandfour$Age_group_midtesting, alternative = "less")
 ```
 
 - 3y (n = 62): M = 0.58 (SD = 0.27, range 0.08-1), significantly above chance (V = 1007.5, p = .009)
 - 4y (n = 70): M = 0.66 (SD = 0.29, range 0.08-1), significantly above chance (V = 1836.5, p < .001)
 - 5y (n = 11): M = 0.87 (SD = 0.21, range 0.25-1), significantly above chance (V = 65, p = .004)
 - 6y (n = 1): M = 1
+
+4-year-olds perform better than 3-year-olds, one-sided Wilcoxon test, W = 1785, p = .039.
 
 Boxplot:
 ```{r}
@@ -323,10 +328,15 @@ shapiro.test(old$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
 #test against chance performance
 wilcox.test(young$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, mu=0.5, alternative = "two.sided")
 wilcox.test(old$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, mu=0.5, alternative = "two.sided")
+
+levels(Cyl.valid.Search1$Mediansplit_midtesting_entiresample)
+wilcox.test(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique ~ Cyl.valid.Search1$Mediansplit_midtesting_entiresample, alternative = "greater")
 ```
 
 - young (n = 72): M = 0.58 (SD = 0.27, range 0.08-1), significantly above chance (V = 1403.5, p = .007)
 - old (n = 72): M = 0.71 (SD = 0.28, range 0.08-1), significantly above chance (V = 2106, p < .001)
+
+Older children are better than younger children, one-sided Wilcoxon test, W = 3289.5, p = .002.
 
 Boxplot:
 ```{r}
@@ -395,10 +405,14 @@ p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
   geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
   scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 60", "Fife, n = 84"))
+
+wilcox.test(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique ~ Cyl.valid.Search1$TestingLocation, alternative = "two.sided")
 ```
 
 - Edinburgh: M = 0.66 (SD = 0.30, range 0.08-1), significantly above chance (V = 1287, p < .001)
 - Fife: M = 0.64 (SD = 0.27, range 0.17-1), significantly above chance (V = 2307.5, p < .001)
+
+There is no difference in performance between testing locations, W = 2666, p = .553.
 
 # Plot proportion correct against age as continuous variable
 ```{r}
