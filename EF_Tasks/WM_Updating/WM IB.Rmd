@@ -337,6 +337,8 @@ hist(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBoth
 shapiro.test(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
 quantile(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
 
+wilcox.test(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, mu = 0.57965, alternative = "two.sided")
+
 #by age groups
 tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$AgeGroup_midtesting, mean)
 tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$AgeGroup_midtesting, sd)
@@ -375,6 +377,11 @@ shapiro.test(three$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothP
 shapiro.test(four$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
 shapiro.test(five$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
 
+wilcox.test(three$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, mu = 0.57965, alternative = "two.sided")
+wilcox.test(four$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, mu = 0.57965, alternative = "two.sided")
+wilcox.test(five$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, mu = 0.57965, alternative = "two.sided")
+
+
 #by age mediansplit
 tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$Mediansplit_midtesting_entiresample, mean)
 tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$Mediansplit_midtesting_entiresample, sd)
@@ -402,6 +409,9 @@ hist(old$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms,
 
 shapiro.test(young$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
 shapiro.test(old$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)
+
+wilcox.test(young$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, mu = 0.57965, alternative = "two.sided")
+wilcox.test(old$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, mu = 0.57965, alternative = "two.sided")
 
 #by testing location
 tapply(WM.IB.valid.T1$SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms, WM.IB.valid.T1$TestingLocation, mean)
@@ -458,7 +468,7 @@ p<-  ggplot(
   theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
   ggtitle("WM Updating")
 
-p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) + geom_count()
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) + geom_count()+ geom_hline(yintercept=0.57965, linetype="dashed", color = "red")
 
 
 
@@ -476,7 +486,7 @@ p1  +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
   geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5)+
   scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 84", "4 years, n = 88", "5 years, n = 11", "6 years, n = 1"))+
-  theme(legend.title = element_blank())
+  theme(legend.title = element_blank()) + geom_hline(yintercept=0.57965, linetype="dashed", color = "red")
 
 
 #Plot, by age mediansplit
@@ -497,7 +507,7 @@ p1<-  ggplot(
 p1 +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
   geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
-  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young (36-49 months), n = 94", "old (50-72 months), n = 90"))
+  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young (36-49 months), n = 94", "old (50-72 months), n = 90")) +  theme(legend.title = element_blank()) + geom_hline(yintercept=0.57965, linetype="dashed", color = "red")
 
 
 
@@ -514,7 +524,7 @@ p1<-  ggplot(
 p1 +  
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
   geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
-  scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 75", "Fife, n = 109"))
+  scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 75", "Fife, n = 109")) + geom_hline(yintercept=0.57965, linetype="dashed", color = "red")
 ```
 
 ## Plot age as continuous variable against proportion correct
@@ -522,7 +532,7 @@ p1 +
 p1<- ggplot(WM.IB.valid.T1, aes(x=AgeMonths_midtesting, y=SearchesThreetoEight_Efficiency_InRespectiveTrial_AcrossBothPlatforms)) + geom_point()
 
 p1 +
-  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + geom_hline(yintercept=0.57965, linetype="dashed", color = "red")
 ```
 
 
