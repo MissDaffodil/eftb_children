@@ -1,0 +1,2607 @@
+---
+title: "Shelf"
+author: "Eva Reindl"
+date: "1 4 2020"
+output: word_document
+---
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+Shelf <-read.csv("Shelf.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+names(Shelf)[1] <- "ID"
+
+#recode variables
+Shelf$Age_group <- as.factor(Shelf$Age_group)#this converts a variable classified as continuous into a categorical variable
+levels(Shelf$Age_group)
+
+str(Shelf)
+```
+
+# Description of sample (Age)
+## At the beginning of testing
+```{r}
+Age.beg<- aggregate(Age_months ~ ID, Shelf, mean)
+
+mean(Age.beg$Age_months)
+sd(Age.beg$Age_months)
+min(Age.beg$Age_months)
+max(Age.beg$Age_months)
+
+Two.year.olds<-subset(Shelf, Age_months < "36")
+Three.year.olds<-subset(Shelf, Age_months >= "36" & Age_months < "48")
+Four.year.olds<-subset(Shelf, Age_months >= "48" & Age_months < "60")
+Five.year.olds<-subset(Shelf, Age_months >= "60" & Age_months < "72")
+
+Age.two<- aggregate(Age_months ~ ID, Two.year.olds, mean)
+Age.three<- aggregate(Age_months ~ ID, Three.year.olds, mean)
+Age.four<- aggregate(Age_months ~ ID, Four.year.olds, mean)
+Age.five<- aggregate(Age_months ~ ID, Five.year.olds, mean)
+```
+There are **178 children in the dataset**. There are 97 females and 81 males.
+At the beginning of testing, the children tested in the shelf task were 48.48 months (SD = 6.85, range 35-70). There were  1 2-year-old, 83 3-year-olds, 86 4-year-olds, and 8 5-year-olds.
+
+## At the middle of testing
+```{r}
+Age.middle<- aggregate(AgeMonths_midtesting ~ ID, Shelf, mean)
+
+mean(Age.middle$AgeMonths_midtesting)
+sd(Age.middle$AgeMonths_midtesting)
+min(Age.middle$AgeMonths_midtesting)
+max(Age.middle$AgeMonths_midtesting)
+
+Three.year.olds<-subset(Shelf, AgeMonths_midtesting >= "36" & AgeMonths_midtesting < "48")
+Four.year.olds<-subset(Shelf, AgeMonths_midtesting >= "48" & AgeMonths_midtesting < "60")
+Five.year.olds<-subset(Shelf, AgeMonths_midtesting >= "60" & AgeMonths_midtesting < "72")
+Six.year.olds<-subset(Shelf, AgeMonths_midtesting >= "72")
+
+Age.three<- aggregate(AgeMonths_midtesting ~ ID, Three.year.olds, mean)
+Age.four<- aggregate(AgeMonths_midtesting ~ ID, Four.year.olds, mean)
+Age.five<- aggregate(AgeMonths_midtesting ~ ID, Five.year.olds, mean)
+Age.six<- aggregate(AgeMonths_midtesting ~ ID, Six.year.olds, mean)
+```
+In the middle of testing, the children tested in the shelf task were **49.59 months (SD = 6.89, range 36-72)**. There were **81 3-year-olds, 85 4-year-olds, 11 5-year-olds, and 1 6-year-old**. There were **91 young** and **87 old** children (mediansplit based on entire sample).
+
+# Testing location
+72 children were from Edinburgh, 106 from Fife.
+
+# Training 1
+## How many children stopped Training 1?
+```{r}
+StoppedT1<-subset(Shelf, Stopped_Training1 == "yes")
+```
+From the 178 children who started the Shelf task, 2 children (ID 49 and 129) stopped Training 1.
+
+## We select those children who completed Training 1.
+```{r}
+CompletedT1<-subset(Shelf, Stopped_Training1 == "no")
+```
+**176 children have valid data** on Training 1.
+
+## Reached criterion
+```{r}
+table(CompletedT1$Training1_Success)
+```
+Of the 176 children who completed Training 1, all but one child (ID 155) reached the criterion.
+
+## Including this one child, how many trials were administered in Training 1?
+```{r}
+Training1_NumberTrials<- aggregate(Training1_NrTrials ~ID, CompletedT1, mean)
+
+mean(Training1_NumberTrials$Training1_NrTrials)
+sd(Training1_NumberTrials$Training1_NrTrials)
+min(Training1_NumberTrials$Training1_NrTrials)
+max(Training1_NumberTrials$Training1_NrTrials)
+```
+Of all 176 children who attempted Training 1, the mean number of administered trials was 12.42 (SD = 4.26, range 7-36).
+
+Split by age:
+```{r}
+#we again select the 3-, 4-, 5-, and 6-year-olds, this time from the sample which excludes those 2 children who stopped the Training 1
+Three.year.olds<-subset(CompletedT1, AgeMonths_midtesting >= "36" & AgeMonths_midtesting < "48")
+Four.year.olds<-subset(CompletedT1, AgeMonths_midtesting >= "48" & AgeMonths_midtesting < "60")
+Five.year.olds<-subset(CompletedT1, AgeMonths_midtesting >= "60" & AgeMonths_midtesting < "72")
+Six.year.olds<-subset(CompletedT1, AgeMonths_midtesting >= "72")
+
+#3 years
+ThreeYears.Training1_NumberTrials<- aggregate(Training1_NrTrials ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Training1_NumberTrials$Training1_NrTrials)
+sd(ThreeYears.Training1_NumberTrials$Training1_NrTrials)
+min(ThreeYears.Training1_NumberTrials$Training1_NrTrials)
+max(ThreeYears.Training1_NumberTrials$Training1_NrTrials)
+
+#4 years
+FourYears.Training1_NumberTrials<- aggregate(Training1_NrTrials ~ID, Four.year.olds, mean)
+
+mean(FourYears.Training1_NumberTrials$Training1_NrTrials)
+sd(FourYears.Training1_NumberTrials$Training1_NrTrials)
+min(FourYears.Training1_NumberTrials$Training1_NrTrials)
+max(FourYears.Training1_NumberTrials$Training1_NrTrials)
+
+#5 years
+FiveYears.Training1_NumberTrials<- aggregate(Training1_NrTrials ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Training1_NumberTrials$Training1_NrTrials)
+sd(FiveYears.Training1_NumberTrials$Training1_NrTrials)
+min(FiveYears.Training1_NumberTrials$Training1_NrTrials)
+max(FiveYears.Training1_NumberTrials$Training1_NrTrials)
+
+#6 years
+SixYears.Training1_NumberTrials<- aggregate(Training1_NrTrials ~ID, Six.year.olds, mean)
+
+mean(SixYears.Training1_NumberTrials$Training1_NrTrials)
+sd(SixYears.Training1_NumberTrials$Training1_NrTrials)
+min(SixYears.Training1_NumberTrials$Training1_NrTrials)
+max(SixYears.Training1_NumberTrials$Training1_NrTrials)
+
+# split by median age
+young<-subset(CompletedT1, Mediansplit_midtesting_entiresample == "young")
+old<-subset(CompletedT1, Mediansplit_midtesting_entiresample == "old")
+
+young.Training1_NumberTrials<- aggregate(Training1_NrTrials ~ID, young, mean)
+
+mean(young.Training1_NumberTrials$Training1_NrTrials)
+sd(young.Training1_NumberTrials$Training1_NrTrials)
+min(young.Training1_NumberTrials$Training1_NrTrials)
+max(young.Training1_NumberTrials$Training1_NrTrials)
+hist(young.Training1_NumberTrials$Training1_NrTrials)
+shapiro.test(young.Training1_NumberTrials$Training1_NrTrials)#not normally distributed
+
+old.Training1_NumberTrials<- aggregate(Training1_NrTrials ~ID, old, mean)
+
+mean(old.Training1_NumberTrials$Training1_NrTrials)
+sd(old.Training1_NumberTrials$Training1_NrTrials)
+min(old.Training1_NumberTrials$Training1_NrTrials)
+max(old.Training1_NumberTrials$Training1_NrTrials)
+
+hist(old.Training1_NumberTrials$Training1_NrTrials)
+shapiro.test(old.Training1_NumberTrials$Training1_NrTrials)#not normally distributed
+
+wilcox.test(young.Training1_NumberTrials$Training1_NrTrials, old.Training1_NumberTrials$Training1_NrTrials, alternative = "greater")
+
+#by testing location
+Fife<-subset(CompletedT1, TestingLocation == "Fife")
+Edi<-subset(CompletedT1, TestingLocation == "Edinburgh")
+
+Fife.Training1_NumberTrials<- aggregate(Training1_NrTrials ~ID, Fife, mean)
+
+mean(Fife.Training1_NumberTrials$Training1_NrTrials)
+sd(Fife.Training1_NumberTrials$Training1_NrTrials)
+min(Fife.Training1_NumberTrials$Training1_NrTrials)
+max(Fife.Training1_NumberTrials$Training1_NrTrials)
+
+Edi.Training1_NumberTrials<- aggregate(Training1_NrTrials ~ID, Edi, mean)
+
+mean(Edi.Training1_NumberTrials$Training1_NrTrials)
+sd(Edi.Training1_NumberTrials$Training1_NrTrials)
+min(Edi.Training1_NumberTrials$Training1_NrTrials)
+max(Edi.Training1_NumberTrials$Training1_NrTrials)
+```
+Number of administered trials in Training 1:
+
+- 3 years (n = 80): 12.71 (SD = 3.89, range 7-29)
+- 4 years (n = 84): 12.39 (SD = 4.80, range 7-36)
+- 5 years (n = 11): 10.64 (SD = 1.36, range 8-12)
+- 6 years (n = 1): 11
+
+3- and 4-year-olds did not differ in the number of trials administered in trial 1.
+
+- Young (n = 90): 12.83 (SD = 4.53, range 7-36)
+- Old (n = 86): 11.99 (SD = 3.94, range 7-31)
+
+Older children needed significantly fewer trials in Training 1 than younger children, W = 4453.5, p = .041.
+
+- Fife (n = 104): 12.44 (SD = 4.00, range 8-29) 
+- Edinburgh (n = 72): 12.39 (SD = 4.63, range 7-36) 
+
+Children from Edinburgh and Fife did not differ in the number of administered trials.
+
+## Including this one child who did not reach criterion, how many errors were made in Training 1?
+```{r}
+Training1_NumberErrors<- aggregate(Training1_NrErrors ~ID, CompletedT1, mean)
+
+mean(Training1_NumberErrors$Training1_NrErrors)
+sd(Training1_NumberErrors$Training1_NrErrors)
+min(Training1_NumberErrors$Training1_NrErrors)
+max(Training1_NumberErrors$Training1_NrErrors)
+
+Three.Training1_NumberErrors<- aggregate(Training1_NrErrors ~ID, Three.year.olds, mean)
+
+mean(Three.Training1_NumberErrors$Training1_NrErrors)
+sd(Three.Training1_NumberErrors$Training1_NrErrors)
+min(Three.Training1_NumberErrors$Training1_NrErrors)
+max(Three.Training1_NumberErrors$Training1_NrErrors)
+shapiro.test(Three.Training1_NumberErrors$Training1_NrErrors)#not normally distributed
+
+Four.Training1_NumberErrors<- aggregate(Training1_NrErrors ~ID, Four.year.olds, mean)
+
+mean(Four.Training1_NumberErrors$Training1_NrErrors)
+sd(Four.Training1_NumberErrors$Training1_NrErrors)
+min(Four.Training1_NumberErrors$Training1_NrErrors)
+max(Four.Training1_NumberErrors$Training1_NrErrors)
+shapiro.test(Four.Training1_NumberErrors$Training1_NrErrors)#not normally distributed
+
+Five.Training1_NumberErrors<- aggregate(Training1_NrErrors ~ID, Five.year.olds, mean)
+
+mean(Five.Training1_NumberErrors$Training1_NrErrors)
+sd(Five.Training1_NumberErrors$Training1_NrErrors)
+min(Five.Training1_NumberErrors$Training1_NrErrors)
+max(Five.Training1_NumberErrors$Training1_NrErrors)
+
+
+Six.Training1_NumberErrors<- aggregate(Training1_NrErrors ~ID, Six.year.olds, mean)
+
+mean(Six.Training1_NumberErrors$Training1_NrErrors)
+sd(Six.Training1_NumberErrors$Training1_NrErrors)
+min(Six.Training1_NumberErrors$Training1_NrErrors)
+max(Six.Training1_NumberErrors$Training1_NrErrors)
+
+wilcox.test(Three.Training1_NumberErrors$Training1_NrErrors, Four.Training1_NumberErrors$Training1_NrErrors, alternative = "greater")
+
+# split by median age
+young.Training1_NrErrors<- aggregate(Training1_NrErrors ~ID, young, mean)
+
+mean(young.Training1_NrErrors$Training1_NrErrors)
+sd(young.Training1_NrErrors$Training1_NrErrors)
+min(young.Training1_NrErrors$Training1_NrErrors)
+max(young.Training1_NrErrors$Training1_NrErrors)
+
+old.Training1_NrErrors<- aggregate(Training1_NrErrors ~ID, old, mean)
+
+mean(old.Training1_NrErrors$Training1_NrErrors)
+sd(old.Training1_NrErrors$Training1_NrErrors)
+min(old.Training1_NrErrors$Training1_NrErrors)
+max(old.Training1_NrErrors$Training1_NrErrors)
+
+#by testing location
+
+Fife.Training1_NrErrors<- aggregate(Training1_NrErrors ~ID, Fife, mean)
+
+mean(Fife.Training1_NrErrors$Training1_NrErrors)
+sd(Fife.Training1_NrErrors$Training1_NrErrors)
+min(Fife.Training1_NrErrors$Training1_NrErrors)
+max(Fife.Training1_NrErrors$Training1_NrErrors)
+
+Edi.Training1_NrErrors<- aggregate(Training1_NrErrors ~ID, Edi, mean)
+
+mean(Edi.Training1_NrErrors$Training1_NrErrors)
+sd(Edi.Training1_NrErrors$Training1_NrErrors)
+min(Edi.Training1_NrErrors$Training1_NrErrors)
+max(Edi.Training1_NrErrors$Training1_NrErrors)
+```
+Of all 176 children who attempted Training 1, the mean number of errors was 3.90 (SD = 2.39, range 1-18).
+
+- 3 years (n = 80): 3.85 (SD = 2.03, range 1-12)
+- 4 years (n = 84): 4.03 (SD = 2.83, range 1-18)
+- 5 years (n = 11): 3.27 (SD = 0.90, range 2-5)
+- 6 years (n = 1): 4
+
+3- year-olds did not make more mistakes than 4-year-olds, W = 3414, p = .428.
+
+- Young (n = 90): 3.93 (SD = 2.47, range 1-18)
+- Old (n = 86): 3.87 (SD = 2.33, range 1-16)
+
+There is no difference between young and old children in the number of errors.
+
+- Fife (n = 104): 3.85 (SD = 2.20, range 1-12) 
+- Edinburgh (n = 72): 3.97 (SD = 2.66, range 1-18) 
+
+Children from Edinburgh and Fife did not differ in the number of errors.
+
+
+## For those children who reached criterion, how many trials were administered?
+```{r}
+Training1_CritReached<-subset(CompletedT1, Training1_Success == "yes")
+```
+
+```{r}
+Training1_NumberTrials<- aggregate(Training1_NrTrials ~ID, Training1_CritReached, mean)
+
+mean(Training1_NumberTrials$Training1_NrTrials)
+sd(Training1_NumberTrials$Training1_NrTrials)
+min(Training1_NumberTrials$Training1_NrTrials)
+max(Training1_NumberTrials$Training1_NrTrials)
+
+
+#we again select the 3-, 4-, 5-, and 6-year-olds, this time from the sample which excludes the child who did not reach the criterion
+Three.year.olds<-subset(Training1_CritReached, AgeMonths_midtesting >= "36" & AgeMonths_midtesting < "48")
+Four.year.olds<-subset(Training1_CritReached, AgeMonths_midtesting >= "48" & AgeMonths_midtesting < "60")
+Five.year.olds<-subset(Training1_CritReached, AgeMonths_midtesting >= "60" & AgeMonths_midtesting < "72")
+Six.year.olds<-subset(Training1_CritReached, AgeMonths_midtesting >= "72")
+
+#3 years
+ThreeYears.Training1_NumberTrials<- aggregate(Training1_NrTrials ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Training1_NumberTrials$Training1_NrTrials)
+sd(ThreeYears.Training1_NumberTrials$Training1_NrTrials)
+min(ThreeYears.Training1_NumberTrials$Training1_NrTrials)
+max(ThreeYears.Training1_NumberTrials$Training1_NrTrials)
+
+#4 years
+FourYears.Training1_NumberTrials<- aggregate(Training1_NrTrials ~ID, Four.year.olds, mean)
+
+mean(FourYears.Training1_NumberTrials$Training1_NrTrials)
+sd(FourYears.Training1_NumberTrials$Training1_NrTrials)
+min(FourYears.Training1_NumberTrials$Training1_NrTrials)
+max(FourYears.Training1_NumberTrials$Training1_NrTrials)
+
+#5 years
+FiveYears.Training1_NumberTrials<- aggregate(Training1_NrTrials ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Training1_NumberTrials$Training1_NrTrials)
+sd(FiveYears.Training1_NumberTrials$Training1_NrTrials)
+min(FiveYears.Training1_NumberTrials$Training1_NrTrials)
+max(FiveYears.Training1_NumberTrials$Training1_NrTrials)
+
+#6 years
+SixYears.Training1_NumberTrials<- aggregate(Training1_NrTrials ~ID, Six.year.olds, mean)
+
+mean(SixYears.Training1_NumberTrials$Training1_NrTrials)
+sd(SixYears.Training1_NumberTrials$Training1_NrTrials)
+min(SixYears.Training1_NumberTrials$Training1_NrTrials)
+max(SixYears.Training1_NumberTrials$Training1_NrTrials)
+
+# split by median age
+young<-subset(Training1_CritReached, Mediansplit_midtesting_entiresample == "young")
+old<-subset(Training1_CritReached, Mediansplit_midtesting_entiresample == "old")
+
+young.Training1_NrTrials<- aggregate(Training1_NrTrials ~ID, young, mean)
+
+mean(young.Training1_NrTrials$Training1_NrTrials)
+sd(young.Training1_NrTrials$Training1_NrTrials)
+min(young.Training1_NrTrials$Training1_NrTrials)
+max(young.Training1_NrTrials$Training1_NrTrials)
+
+old.Training1_NrTrials<- aggregate(Training1_NrTrials ~ID, old, mean)
+
+mean(old.Training1_NrTrials$Training1_NrTrials)
+sd(old.Training1_NrTrials$Training1_NrTrials)
+min(old.Training1_NrTrials$Training1_NrTrials)
+max(old.Training1_NrTrials$Training1_NrTrials)
+
+wilcox.test(young.Training1_NumberTrials$Training1_NrTrials, old.Training1_NumberTrials$Training1_NrTrials, alternative = "greater")
+
+#by testing location
+Fife<-subset(Training1_CritReached, TestingLocation == "Fife")
+Edi<-subset(Training1_CritReached, TestingLocation == "Edinburgh")
+
+Fife.Training1_NumberTrials<- aggregate(Training1_NrTrials ~ID, Fife, mean)
+
+mean(Fife.Training1_NumberTrials$Training1_NrTrials)
+sd(Fife.Training1_NumberTrials$Training1_NrTrials)
+min(Fife.Training1_NumberTrials$Training1_NrTrials)
+max(Fife.Training1_NumberTrials$Training1_NrTrials)
+
+Edi.Training1_NumberTrials<- aggregate(Training1_NrTrials ~ID, Edi, mean)
+
+mean(Edi.Training1_NumberTrials$Training1_NrTrials)
+sd(Edi.Training1_NumberTrials$Training1_NrTrials)
+min(Edi.Training1_NumberTrials$Training1_NrTrials)
+max(Edi.Training1_NumberTrials$Training1_NrTrials)
+
+```
+Of the 175 children who reached the learning criterion in Training 1, the mean number of administered trials was 12.28 (SD = 3.87, range 7-31).
+
+- 3 years (n = 80): 12.71 (SD = 3.89, range 7-29)
+- 4 years (n = 83): 12.11 (SD = 4.05, range 7-31)
+- 5 years (n = 11): 10.64 (SD = 1.36, range 8-12)
+- 6 years (n = 1): 11
+
+There was no difference between 3- and 4-year-olds.
+
+- Young (n = 89): 12.57 (SD = 3.82, range 7-29)
+- Old (n = 86): 11.99 (SD = 3.94, range 7-31)
+
+Younger children were administered significantly more trials than older children, one-sided Wilcoxon test, W = 4453.5, p = .041.
+
+- Fife (n = 104): 12.44 (SD = 4.00, range 8-29) 
+- Edinburgh (n = 71): 12.06 (SD = 3.70, range 7-31) 
+
+Children from Edinburgh and Fife did not differ in the number of administered trials.
+
+## How many errors were made in Training 1 to reach the learning criterion?
+```{r}
+Training1_NumberErrors<- aggregate(Training1_NrErrors ~ID, Training1_CritReached, mean)
+
+mean(Training1_NumberErrors$Training1_NrErrors)
+sd(Training1_NumberErrors$Training1_NrErrors)
+min(Training1_NumberErrors$Training1_NrErrors)
+max(Training1_NumberErrors$Training1_NrErrors)
+
+#3 years
+ThreeYears.Training1_NumberErrors<- aggregate(Training1_NrErrors ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Training1_NumberErrors$Training1_NrErrors)
+sd(ThreeYears.Training1_NumberErrors$Training1_NrErrors)
+min(ThreeYears.Training1_NumberErrors$Training1_NrErrors)
+max(ThreeYears.Training1_NumberErrors$Training1_NrErrors)
+
+#4 years
+FourYears.Training1_NumberErrors<- aggregate(Training1_NrErrors ~ID, Four.year.olds, mean)
+
+mean(FourYears.Training1_NumberErrors$Training1_NrErrors)
+sd(FourYears.Training1_NumberErrors$Training1_NrErrors)
+min(FourYears.Training1_NumberErrors$Training1_NrErrors)
+max(FourYears.Training1_NumberErrors$Training1_NrErrors)
+
+#5 years
+FiveYears.Training1_NumberErrors<- aggregate(Training1_NrErrors ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Training1_NumberErrors$Training1_NrErrors)
+sd(FiveYears.Training1_NumberErrors$Training1_NrErrors)
+min(FiveYears.Training1_NumberErrors$Training1_NrErrors)
+max(FiveYears.Training1_NumberErrors$Training1_NrErrors)
+
+#6 years
+SixYears.Training1_NumberErrors<- aggregate(Training1_NrErrors ~ID, Six.year.olds, mean)
+
+mean(SixYears.Training1_NumberErrors$Training1_NrErrors)
+sd(SixYears.Training1_NumberErrors$Training1_NrErrors)
+min(SixYears.Training1_NumberErrors$Training1_NrErrors)
+max(SixYears.Training1_NumberErrors$Training1_NrErrors)
+
+# split by median age
+young.Training1_NrErrors<- aggregate(Training1_NrErrors ~ID, young, mean)
+
+mean(young.Training1_NrErrors$Training1_NrErrors)
+sd(young.Training1_NrErrors$Training1_NrErrors)
+min(young.Training1_NrErrors$Training1_NrErrors)
+max(young.Training1_NrErrors$Training1_NrErrors)
+
+old.Training1_NrErrors<- aggregate(Training1_NrErrors ~ID, old, mean)
+
+mean(old.Training1_NrErrors$Training1_NrErrors)
+sd(old.Training1_NrErrors$Training1_NrErrors)
+min(old.Training1_NrErrors$Training1_NrErrors)
+max(old.Training1_NrErrors$Training1_NrErrors)
+
+#by testing location
+Fife.Training1_NrErrors<- aggregate(Training1_NrErrors ~ID, Fife, mean)
+
+mean(Fife.Training1_NrErrors$Training1_NrErrors)
+sd(Fife.Training1_NrErrors$Training1_NrErrors)
+min(Fife.Training1_NrErrors$Training1_NrErrors)
+max(Fife.Training1_NrErrors$Training1_NrErrors)
+
+Edi.Training1_NrErrors<- aggregate(Training1_NrErrors ~ID, Edi, mean)
+
+mean(Edi.Training1_NrErrors$Training1_NrErrors)
+sd(Edi.Training1_NrErrors$Training1_NrErrors)
+min(Edi.Training1_NrErrors$Training1_NrErrors)
+max(Edi.Training1_NrErrors$Training1_NrErrors)
+```
+
+Of the 175 children who reached the learning criterion in Training 1, the mean number of errors was 3.82 (SD = 2.15, range 1-16).
+
+- 3 years (n = 80): 3.85 (SD = 2.03, range 1-12)
+- 4 years (n = 83): 3.87 (SD = 2.38, range 1-16)
+- 5 years (n = 11): 3.27 (SD = 0.90, range 2-5)
+- 6 years (n = 1): 4
+
+3- year-olds did not make more mistakes than 4-year-olds.
+
+- Young (n = 89): 3.77 (SD = 1.97, range 1-12)
+- Old (n = 86): 3.87 (SD = 2.33, range 1-16)
+
+There is no difference between young and old children in the number of errors.
+
+- Fife (n = 104): 3.85 (SD = 2.20, range 1-12) 
+- Edinburgh (n = 71): 3.77 (SD = 2.08, range 1-16) 
+
+Children from Edinburgh and Fife did not differ in the number of errors.
+
+
+
+# Training 2a
+## Of all 175 children who reached the learning criterion in Training 1, how many were successful in Training 2a?
+```{r}
+table(Training1_CritReached$Training2_Success)
+```
+Of all 175 children who reached the learning criterion in Training 1, 3 children (IDs 30, 34, and 105) did not reach the learning criterion in Training 2a.
+
+## Including those children who did not reach the learning criterion, how many trials were administered in Training 2a?
+```{r}
+Training2_NumberTrials<- aggregate(Training2_NrTrials ~ID, Training1_CritReached, mean)
+
+mean(Training2_NumberTrials$Training2_NrTrials)
+sd(Training2_NumberTrials$Training2_NrTrials)
+min(Training2_NumberTrials$Training2_NrTrials)
+max(Training2_NumberTrials$Training2_NrTrials)
+
+#Split by age at middle of testing
+
+#3 years
+ThreeYears.Training2_NumberTrials<- aggregate(Training2_NrTrials ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Training2_NumberTrials$Training2_NrTrials)
+sd(ThreeYears.Training2_NumberTrials$Training2_NrTrials)
+min(ThreeYears.Training2_NumberTrials$Training2_NrTrials)
+max(ThreeYears.Training2_NumberTrials$Training2_NrTrials)
+
+#4 years
+FourYears.Training2_NumberTrials<- aggregate(Training2_NrTrials ~ID, Four.year.olds, mean)
+
+mean(FourYears.Training2_NumberTrials$Training2_NrTrials)
+sd(FourYears.Training2_NumberTrials$Training2_NrTrials)
+min(FourYears.Training2_NumberTrials$Training2_NrTrials)
+max(FourYears.Training2_NumberTrials$Training2_NrTrials)
+
+#5 years
+FiveYears.Training2_NumberTrials<- aggregate(Training2_NrTrials ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Training2_NumberTrials$Training2_NrTrials)
+sd(FiveYears.Training2_NumberTrials$Training2_NrTrials)
+min(FiveYears.Training2_NumberTrials$Training2_NrTrials)
+max(FiveYears.Training2_NumberTrials$Training2_NrTrials)
+
+#6 years
+SixYears.Training2_NumberTrials<- aggregate(Training2_NrTrials ~ID, Six.year.olds, mean)
+
+mean(SixYears.Training2_NumberTrials$Training2_NrTrials)
+sd(SixYears.Training2_NumberTrials$Training2_NrTrials)
+min(SixYears.Training2_NumberTrials$Training2_NrTrials)
+max(SixYears.Training2_NumberTrials$Training2_NrTrials)
+
+# split by median age
+young.Training2_NrTrials<- aggregate(Training2_NrTrials ~ID, young, mean)
+
+mean(young.Training2_NrTrials$Training2_NrTrials)
+sd(young.Training2_NrTrials$Training2_NrTrials)
+min(young.Training2_NrTrials$Training2_NrTrials)
+max(young.Training2_NrTrials$Training2_NrTrials)
+
+old.Training2_NrTrials<- aggregate(Training2_NrTrials ~ID, old, mean)
+
+mean(old.Training2_NrTrials$Training2_NrTrials)
+sd(old.Training2_NrTrials$Training2_NrTrials)
+min(old.Training2_NrTrials$Training2_NrTrials)
+max(old.Training2_NrTrials$Training2_NrTrials)
+
+#by testing location
+
+Fife.Training2_NrTrials<- aggregate(Training2_NrTrials ~ID, Fife, mean)
+
+mean(Fife.Training2_NrTrials$Training2_NrTrials)
+sd(Fife.Training2_NrTrials$Training2_NrTrials)
+min(Fife.Training2_NrTrials$Training2_NrTrials)
+max(Fife.Training2_NrTrials$Training2_NrTrials)
+
+Edi.Training2_NrTrials<- aggregate(Training2_NrTrials ~ID, Edi, mean)
+
+mean(Edi.Training2_NrTrials$Training2_NrTrials)
+sd(Edi.Training2_NrTrials$Training2_NrTrials)
+min(Edi.Training2_NrTrials$Training2_NrTrials)
+max(Edi.Training2_NrTrials$Training2_NrTrials)
+
+
+```
+Of all 175 children who attempted Training 2a, the mean number of administered trials was 11.49 (SD = 6.15, range 6-36).
+
+- 3 years (n = 80): 11.79 (SD = 5.68, range 6-36)
+- 4 years (n = 83): 11.67 (SD = 6.88, range 6-36)
+- 5 years (n = 11): 8.27 (SD = 1.19, range 6-10)
+- 6 years (n = 1): 8
+
+3-year-olds were not administered more trials than 4-year-olds.
+
+- Young (n = 89): 11.77 (SD = 5.97, range 6-36)
+- Old (n = 86): 11.20 (SD = 6.35, range 6-36)
+
+There is no difference between young and old children in the number of administered trials.
+
+- Fife (n = 104): 11.51 (SD = 6.05, range 6-36) 
+- Edinburgh (n = 71): 11.46 (SD = 6.33, range 6-36) 
+
+Children from Edinburgh and Fife did not differ in the number of administered trials.
+
+
+## Including the three children who did not reach criterion, how many errors were made in Training 2a?
+```{r}
+Training2a_NumberErrors<- aggregate(Training2_NrErrors ~ID, CompletedT1, mean)
+
+mean(Training2a_NumberErrors$Training2_NrErrors)
+sd(Training2a_NumberErrors$Training2_NrErrors)
+min(Training2a_NumberErrors$Training2_NrErrors)
+max(Training2a_NumberErrors$Training2_NrErrors)
+
+#Split by age at middle of testing
+#3 years
+ThreeYears.Training2_NumberErrors<- aggregate(Training2_NrErrors ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Training2_NumberErrors$Training2_NrErrors)
+sd(ThreeYears.Training2_NumberErrors$Training2_NrErrors)
+min(ThreeYears.Training2_NumberErrors$Training2_NrErrors)
+max(ThreeYears.Training2_NumberErrors$Training2_NrErrors)
+
+#4 years
+FourYears.Training2_NumberErrors<- aggregate(Training2_NrErrors ~ID, Four.year.olds, mean)
+
+mean(FourYears.Training2_NumberErrors$Training2_NrErrors)
+sd(FourYears.Training2_NumberErrors$Training2_NrErrors)
+min(FourYears.Training2_NumberErrors$Training2_NrErrors)
+max(FourYears.Training2_NumberErrors$Training2_NrErrors)
+
+#5 years
+FiveYears.Training2_NumberErrors<- aggregate(Training2_NrErrors ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Training2_NumberErrors$Training2_NrErrors)
+sd(FiveYears.Training2_NumberErrors$Training2_NrErrors)
+min(FiveYears.Training2_NumberErrors$Training2_NrErrors)
+max(FiveYears.Training2_NumberErrors$Training2_NrErrors)
+
+#6 years
+SixYears.Training2_NumberErrors<- aggregate(Training2_NrErrors ~ID, Six.year.olds, mean)
+
+mean(SixYears.Training2_NumberErrors$Training2_NrErrors)
+sd(SixYears.Training2_NumberErrors$Training2_NrErrors)
+min(SixYears.Training2_NumberErrors$Training2_NrErrors)
+max(SixYears.Training2_NumberErrors$Training2_NrErrors)
+
+# split by median age
+young.Training2_NrErrors<- aggregate(Training2_NrErrors ~ID, young, mean)
+
+mean(young.Training2_NrErrors$Training2_NrErrors)
+sd(young.Training2_NrErrors$Training2_NrErrors)
+min(young.Training2_NrErrors$Training2_NrErrors)
+max(young.Training2_NrErrors$Training2_NrErrors)
+
+old.Training2_NrErrors<- aggregate(Training2_NrErrors ~ID, old, mean)
+
+mean(old.Training2_NrErrors$Training2_NrErrors)
+sd(old.Training2_NrErrors$Training2_NrErrors)
+min(old.Training2_NrErrors$Training2_NrErrors)
+max(old.Training2_NrErrors$Training2_NrErrors)
+
+#by testing location
+Fife.Training2_NrErrors<- aggregate(Training2_NrErrors ~ID, Fife, mean)
+
+mean(Fife.Training2_NrErrors$Training2_NrErrors)
+sd(Fife.Training2_NrErrors$Training2_NrErrors)
+min(Fife.Training2_NrErrors$Training2_NrErrors)
+max(Fife.Training2_NrErrors$Training2_NrErrors)
+
+Edi.Training2_NrErrors<- aggregate(Training2_NrErrors ~ID, Edi, mean)
+
+mean(Edi.Training2_NrErrors$Training2_NrErrors)
+sd(Edi.Training2_NrErrors$Training2_NrErrors)
+min(Edi.Training2_NrErrors$Training2_NrErrors)
+max(Edi.Training2_NrErrors$Training2_NrErrors)
+```
+Of all 175 children who attempted Training 2a, the mean number of errors was 3.48 (SD = 3.30, range 0-20).
+
+- 3 years (n = 80): 3.66 (SD = 3.07, range 0-20)
+- 4 years (n = 83): 3.54 (SD = 3.68, range 0-19)
+- 5 years (n = 11): 1.91 (SD = 0.94, range 0-3)
+- 6 years (n = 1): 2
+
+3-year-olds did not make more errors than 4-year-olds.
+
+- Young (n = 89): 3.68 (SD = 3.28, range 0-20)
+- Old (n = 86): 3.28 (SD = 3.33, range 0-19)
+
+There is no difference between young and old children in the number of errors.
+
+- Fife (n = 104): 3.58 (SD = 3.35, range 0-20) 
+- Edinburgh (n = 71): 3.35 (SD = 3.26, range 0-19) 
+
+Children from Edinburgh and Fife did not differ in the number of errors.
+
+
+How many shifts were made in Training 2a?
+```{r}
+Training2a_NumberShifts<- aggregate(Training2_NrShifts ~ID, CompletedT1, mean)
+
+mean(Training2a_NumberShifts$Training2_NrShifts)
+sd(Training2a_NumberShifts$Training2_NrShifts)
+min(Training2a_NumberShifts$Training2_NrShifts)
+max(Training2a_NumberShifts$Training2_NrShifts)
+
+#Split by age at middle of testing
+#3 years
+ThreeYears.Training2_NumberShifts<- aggregate(Training2_NrShifts ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Training2_NumberShifts$Training2_NrShifts)
+sd(ThreeYears.Training2_NumberShifts$Training2_NrShifts)
+min(ThreeYears.Training2_NumberShifts$Training2_NrShifts)
+max(ThreeYears.Training2_NumberShifts$Training2_NrShifts)
+
+#4 years
+FourYears.Training2_NumberShifts<- aggregate(Training2_NrShifts ~ID, Four.year.olds, mean)
+
+mean(FourYears.Training2_NumberShifts$Training2_NrShifts)
+sd(FourYears.Training2_NumberShifts$Training2_NrShifts)
+min(FourYears.Training2_NumberShifts$Training2_NrShifts)
+max(FourYears.Training2_NumberShifts$Training2_NrShifts)
+
+#5 years
+FiveYears.Training2_NumberShifts<- aggregate(Training2_NrShifts ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Training2_NumberShifts$Training2_NrShifts)
+sd(FiveYears.Training2_NumberShifts$Training2_NrShifts)
+min(FiveYears.Training2_NumberShifts$Training2_NrShifts)
+max(FiveYears.Training2_NumberShifts$Training2_NrShifts)
+
+#6 years
+SixYears.Training2_NumberShifts<- aggregate(Training2_NrShifts ~ID, Six.year.olds, mean)
+
+mean(SixYears.Training2_NumberShifts$Training2_NrShifts)
+sd(SixYears.Training2_NumberShifts$Training2_NrShifts)
+min(SixYears.Training2_NumberShifts$Training2_NrShifts)
+max(SixYears.Training2_NumberShifts$Training2_NrShifts)
+
+# split by median age
+young.Training2_NrShifts<- aggregate(Training2_NrShifts ~ID, young, mean)
+
+mean(young.Training2_NrShifts$Training2_NrShifts)
+sd(young.Training2_NrShifts$Training2_NrShifts)
+min(young.Training2_NrShifts$Training2_NrShifts)
+max(young.Training2_NrShifts$Training2_NrShifts)
+
+old.Training2_NrShifts<- aggregate(Training2_NrShifts ~ID, old, mean)
+
+mean(old.Training2_NrShifts$Training2_NrShifts)
+sd(old.Training2_NrShifts$Training2_NrShifts)
+min(old.Training2_NrShifts$Training2_NrShifts)
+max(old.Training2_NrShifts$Training2_NrShifts)
+
+#by testing location
+Fife.Training2_NrShifts<- aggregate(Training2_NrShifts ~ID, Fife, mean)
+
+mean(Fife.Training2_NrShifts$Training2_NrShifts)
+sd(Fife.Training2_NrShifts$Training2_NrShifts)
+min(Fife.Training2_NrShifts$Training2_NrShifts)
+max(Fife.Training2_NrShifts$Training2_NrShifts)
+
+Edi.Training2_NrShifts<- aggregate(Training2_NrShifts ~ID, Edi, mean)
+
+mean(Edi.Training2_NrShifts$Training2_NrShifts)
+sd(Edi.Training2_NrShifts$Training2_NrShifts)
+min(Edi.Training2_NrShifts$Training2_NrShifts)
+max(Edi.Training2_NrShifts$Training2_NrShifts)
+```
+Of all 175 children who attempted Training 2a, the mean number of shifts was 1.24 (SD = 0.50, range 1-3).
+
+- 3 years (n = 80): 1.25 (SD = 0.49, range 1-3)
+- 4 years (n = 83): 1.26 (SD = 0.54, range 1-3)
+- 5 years (n = 11): 1 (SD = 0)
+- 6 years (n = 1): 1
+
+There was no differendce between 3- and 4-year-olds in terms of the number of shifts.
+
+- Young (n = 89): 1.25 (SD = 0.48, range 1-3)
+- Old (n = 86): 1.23 (SD = 0.52, range 1-3)
+
+There is no difference between young and old children in the number of shifts.
+
+- Fife (n = 104): 1.22 (SD = 0.50, range 1-3) 
+- Edinburgh (n = 71): 1.27 (SD = 0.50, range 1-3) 
+
+Children from Edinburgh and Fife did not differ in the number of shifts.
+
+## When excluding the three children who did not reach criterion in Training 2a, how many trials were administered?
+```{r}
+Training2_CritReached<-subset(Training1_CritReached, Training2_Success == "yes")
+```
+
+```{r}
+Training2_NumberTrials<- aggregate(Training2_NrTrials ~ID, Training2_CritReached, mean)
+
+mean(Training2_NumberTrials$Training2_NrTrials)
+sd(Training2_NumberTrials$Training2_NrTrials)
+min(Training2_NumberTrials$Training2_NrTrials)
+max(Training2_NumberTrials$Training2_NrTrials)
+
+#Split by age at middle of testing
+#we again select the 3-, 4-, 5-, and 6-year-olds, this time from the sample which excludes the child who did not reach the criterion
+Three.year.olds<-subset(Training2_CritReached, AgeMonths_midtesting >= "36" & AgeMonths_midtesting < "48")
+Four.year.olds<-subset(Training2_CritReached, AgeMonths_midtesting >= "48" & AgeMonths_midtesting < "60")
+Five.year.olds<-subset(Training2_CritReached, AgeMonths_midtesting >= "60" & AgeMonths_midtesting < "72")
+Six.year.olds<-subset(Training2_CritReached, AgeMonths_midtesting >= "72")
+
+#3 years
+ThreeYears.Training2_NumberTrials<- aggregate(Training2_NrTrials ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Training2_NumberTrials$Training2_NrTrials)
+sd(ThreeYears.Training2_NumberTrials$Training2_NrTrials)
+min(ThreeYears.Training2_NumberTrials$Training2_NrTrials)
+max(ThreeYears.Training2_NumberTrials$Training2_NrTrials)
+
+#4 years
+FourYears.Training2_NumberTrials<- aggregate(Training2_NrTrials ~ID, Four.year.olds, mean)
+
+mean(FourYears.Training2_NumberTrials$Training2_NrTrials)
+sd(FourYears.Training2_NumberTrials$Training2_NrTrials)
+min(FourYears.Training2_NumberTrials$Training2_NrTrials)
+max(FourYears.Training2_NumberTrials$Training2_NrTrials)
+
+#5 years
+FiveYears.Training2_NumberTrials<- aggregate(Training2_NrTrials ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Training2_NumberTrials$Training2_NrTrials)
+sd(FiveYears.Training2_NumberTrials$Training2_NrTrials)
+min(FiveYears.Training2_NumberTrials$Training2_NrTrials)
+max(FiveYears.Training2_NumberTrials$Training2_NrTrials)
+
+#6 years
+SixYears.Training2_NumberTrials<- aggregate(Training2_NrTrials ~ID, Six.year.olds, mean)
+
+mean(SixYears.Training2_NumberTrials$Training2_NrTrials)
+sd(SixYears.Training2_NumberTrials$Training2_NrTrials)
+min(SixYears.Training2_NumberTrials$Training2_NrTrials)
+max(SixYears.Training2_NumberTrials$Training2_NrTrials)
+
+# split by median age
+young<-subset(Training2_CritReached, Mediansplit_midtesting_entiresample == "young")
+old<-subset(Training2_CritReached, Mediansplit_midtesting_entiresample == "old")
+
+young.Training2_NrTrials<- aggregate(Training2_NrTrials ~ID, young, mean)
+
+mean(young.Training2_NrTrials$Training2_NrTrials)
+sd(young.Training2_NrTrials$Training2_NrTrials)
+min(young.Training2_NrTrials$Training2_NrTrials)
+max(young.Training2_NrTrials$Training2_NrTrials)
+hist(young.Training2_NrTrials$Training2_NrTrials)
+shapiro.test(young.Training2_NrTrials$Training2_NrTrials)#not normally distributed
+
+old.Training2_NrTrials<- aggregate(Training2_NrTrials ~ID, old, mean)
+
+mean(old.Training2_NrTrials$Training2_NrTrials)
+sd(old.Training2_NrTrials$Training2_NrTrials)
+min(old.Training2_NrTrials$Training2_NrTrials)
+max(old.Training2_NrTrials$Training2_NrTrials)
+hist(old.Training2_NrTrials$Training2_NrTrials)
+shapiro.test(old.Training2_NrTrials$Training2_NrTrials)#not normally distributed
+
+wilcox.test(young.Training2_NrTrials$Training2_NrTrials, old.Training2_NrTrials$Training2_NrTrials, alternative = "greater")
+
+#by testing location
+Fife<-subset(Training2_CritReached, TestingLocation == "Fife")
+Edi<-subset(Training2_CritReached, TestingLocation == "Edinburgh")
+
+Fife.Training2_NrTrials<- aggregate(Training2_NrTrials ~ID, Fife, mean)
+
+mean(Fife.Training2_NrTrials$Training2_NrTrials)
+sd(Fife.Training2_NrTrials$Training2_NrTrials)
+min(Fife.Training2_NrTrials$Training2_NrTrials)
+max(Fife.Training2_NrTrials$Training2_NrTrials)
+
+Edi.Training2_NrTrials<- aggregate(Training2_NrTrials ~ID, Edi, mean)
+
+mean(Edi.Training2_NrTrials$Training2_NrTrials)
+sd(Edi.Training2_NrTrials$Training2_NrTrials)
+min(Edi.Training2_NrTrials$Training2_NrTrials)
+max(Edi.Training2_NrTrials$Training2_NrTrials)
+```
+Of the 172 children who reached the learning criterion in Training 2a, the mean number of administered trials was 11.06 (SD = 5.27, range 6-34).
+
+- 3 years (n = 79): 11.48 (SD = 5.01, range 6-28)
+- 4 years (n = 81): 11.07 (SD = 5.77, range 6-34)
+- 5 years (n = 11): 8.27 (SD = 1.19, range 6-10)
+- 6 years (n = 1): 8
+
+3-year-olds were not administered more trials than 4-year-olds.
+
+- Young (n = 88): 11.50 (SD = 5.41, range 6-33)
+- Old (n = 84): 10.61 (SD = 5.11, range 6-34)
+
+There is no difference between young and old children in the number of trials, W = 3988, p = .183.
+
+- Fife (n = 102): 11.03 (SD = 5.03, range 6-26) 
+- Edinburgh (n = 70): 11.11 (SD = 5.64, range 6-34) 
+
+Children from Edinburgh and Fife did not differ in the number of trials until criterion.
+
+
+## How many errors were made in Training 2a to reach the learning criterion?
+```{r}
+Training2_NumberErrors<- aggregate(Training2_NrErrors ~ID, Training2_CritReached, mean)
+
+mean(Training2_NumberErrors$Training2_NrErrors)
+sd(Training2_NumberErrors$Training2_NrErrors)
+min(Training2_NumberErrors$Training2_NrErrors)
+max(Training2_NumberErrors$Training2_NrErrors)
+
+#Split by age at middle of testing
+#3 years
+ThreeYears.Training2_NumberErrors<- aggregate(Training2_NrErrors ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Training2_NumberErrors$Training2_NrErrors)
+sd(ThreeYears.Training2_NumberErrors$Training2_NrErrors)
+min(ThreeYears.Training2_NumberErrors$Training2_NrErrors)
+max(ThreeYears.Training2_NumberErrors$Training2_NrErrors)
+shapiro.test(ThreeYears.Training2_NumberErrors$Training2_NrErrors)#not normally distributed
+
+#4 years
+FourYears.Training2_NumberErrors<- aggregate(Training2_NrErrors ~ID, Four.year.olds, mean)
+
+mean(FourYears.Training2_NumberErrors$Training2_NrErrors)
+sd(FourYears.Training2_NumberErrors$Training2_NrErrors)
+min(FourYears.Training2_NumberErrors$Training2_NrErrors)
+max(FourYears.Training2_NumberErrors$Training2_NrErrors)
+shapiro.test(FourYears.Training2_NumberErrors$Training2_NrErrors)#not normally distributed
+
+#5 years
+FiveYears.Training2_NumberErrors<- aggregate(Training2_NrErrors ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Training2_NumberErrors$Training2_NrErrors)
+sd(FiveYears.Training2_NumberErrors$Training2_NrErrors)
+min(FiveYears.Training2_NumberErrors$Training2_NrErrors)
+max(FiveYears.Training2_NumberErrors$Training2_NrErrors)
+
+#6 years
+SixYears.Training2_NumberErrors<- aggregate(Training2_NrErrors ~ID, Six.year.olds, mean)
+
+mean(SixYears.Training2_NumberErrors$Training2_NrErrors)
+sd(SixYears.Training2_NumberErrors$Training2_NrErrors)
+min(SixYears.Training2_NumberErrors$Training2_NrErrors)
+max(SixYears.Training2_NumberErrors$Training2_NrErrors)
+
+wilcox.test(ThreeYears.Training2_NumberErrors$Training2_NrErrors, FourYears.Training2_NumberErrors$Training2_NrErrors, alternative = "greater")
+
+# split by median age
+young.Training2_NrErrors<- aggregate(Training2_NrErrors ~ID, young, mean)
+
+mean(young.Training2_NrErrors$Training2_NrErrors)
+sd(young.Training2_NrErrors$Training2_NrErrors)
+min(young.Training2_NrErrors$Training2_NrErrors)
+max(young.Training2_NrErrors$Training2_NrErrors)
+shapiro.test(young.Training2_NrErrors$Training2_NrErrors)#not normally distributed
+
+old.Training2_NrErrors<- aggregate(Training2_NrErrors ~ID, old, mean)
+
+mean(old.Training2_NrErrors$Training2_NrErrors)
+sd(old.Training2_NrErrors$Training2_NrErrors)
+min(old.Training2_NrErrors$Training2_NrErrors)
+max(old.Training2_NrErrors$Training2_NrErrors)
+shapiro.test(old.Training2_NrErrors$Training2_NrErrors)#not normally distributed
+
+wilcox.test(young.Training2_NrErrors$Training2_NrErrors, old.Training2_NrErrors$Training2_NrErrors, alternative = "greater")
+
+
+#by testing location
+Fife.Training2_NrErrors<- aggregate(Training2_NrErrors ~ID, Fife, mean)
+
+mean(Fife.Training2_NrErrors$Training2_NrErrors)
+sd(Fife.Training2_NrErrors$Training2_NrErrors)
+min(Fife.Training2_NrErrors$Training2_NrErrors)
+max(Fife.Training2_NrErrors$Training2_NrErrors)
+
+Edi.Training2_NrErrors<- aggregate(Training2_NrErrors ~ID, Edi, mean)
+
+mean(Edi.Training2_NrErrors$Training2_NrErrors)
+sd(Edi.Training2_NrErrors$Training2_NrErrors)
+min(Edi.Training2_NrErrors$Training2_NrErrors)
+max(Edi.Training2_NrErrors$Training2_NrErrors)
+```
+Of the 172 children who reached the learning criterion in Training 2a, the mean number of errors was 3.21 (SD = 2.57, range 0-17).
+
+- 3 years (n =79): 3.45 (SD = 2.47, range 0-11)
+- 4 years (n = 81): 3.16 (SD = 2.79, range 0-17)
+- 5 years (n = 11): 1.91 (SD = 0.94, range 0-3)
+- 6 years (n = 1): 2
+
+3-year-olds did not make more errors than 4-year-olds, W = 3520, p = .133.
+
+- Young (n = 88): 3.50 (SD = 2.79, range 0-17)
+- Old (n = 84): 2.90 (SD = 2.29, range 0-12)
+
+Young children do not make more errors than old children, W = 4130.5, p = .087.
+
+- Fife (n = 102): 3.26 (SD = 2.51, range 0-11) 
+- Edinburgh (n = 70): 3.13 (SD = 2.67, range 0-17) 
+
+Children from Edinburgh and Fife did not differ in the number of errors.
+
+## Number of shifts
+```{r}
+Training2_NumberShifts<- aggregate(Training2_NrShifts ~ID, Training2_CritReached, mean)
+
+mean(Training2_NumberShifts$Training2_NrShifts)
+sd(Training2_NumberShifts$Training2_NrShifts)
+min(Training2_NumberShifts$Training2_NrShifts)
+max(Training2_NumberShifts$Training2_NrShifts)
+
+#Split by age at middle of testing
+#3 years
+ThreeYears.Training2_NumberShifts<- aggregate(Training2_NrShifts ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Training2_NumberShifts$Training2_NrShifts)
+sd(ThreeYears.Training2_NumberShifts$Training2_NrShifts)
+min(ThreeYears.Training2_NumberShifts$Training2_NrShifts)
+max(ThreeYears.Training2_NumberShifts$Training2_NrShifts)
+
+#4 years
+FourYears.Training2_NumberShifts<- aggregate(Training2_NrShifts ~ID, Four.year.olds, mean)
+
+mean(FourYears.Training2_NumberShifts$Training2_NrShifts)
+sd(FourYears.Training2_NumberShifts$Training2_NrShifts)
+min(FourYears.Training2_NumberShifts$Training2_NrShifts)
+max(FourYears.Training2_NumberShifts$Training2_NrShifts)
+
+#5 years
+FiveYears.Training2_NumberShifts<- aggregate(Training2_NrShifts ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Training2_NumberShifts$Training2_NrShifts)
+sd(FiveYears.Training2_NumberShifts$Training2_NrShifts)
+min(FiveYears.Training2_NumberShifts$Training2_NrShifts)
+max(FiveYears.Training2_NumberShifts$Training2_NrShifts)
+
+#6 years
+SixYears.Training2_NumberShifts<- aggregate(Training2_NrShifts ~ID, Six.year.olds, mean)
+
+mean(SixYears.Training2_NumberShifts$Training2_NrShifts)
+sd(SixYears.Training2_NumberShifts$Training2_NrShifts)
+min(SixYears.Training2_NumberShifts$Training2_NrShifts)
+max(SixYears.Training2_NumberShifts$Training2_NrShifts)
+
+# split by median age
+young.Training2_NrShifts<- aggregate(Training2_NrShifts ~ID, young, mean)
+
+mean(young.Training2_NrShifts$Training2_NrShifts)
+sd(young.Training2_NrShifts$Training2_NrShifts)
+min(young.Training2_NrShifts$Training2_NrShifts)
+max(young.Training2_NrShifts$Training2_NrShifts)
+shapiro.test(young.Training2_NrShifts$Training2_NrShifts)#not normally distributed
+
+old.Training2_NrShifts<- aggregate(Training2_NrShifts ~ID, old, mean)
+
+mean(old.Training2_NrShifts$Training2_NrShifts)
+sd(old.Training2_NrShifts$Training2_NrShifts)
+min(old.Training2_NrShifts$Training2_NrShifts)
+max(old.Training2_NrShifts$Training2_NrShifts)
+shapiro.test(old.Training2_NrShifts$Training2_NrShifts)#not normally distributed
+
+#by testing location
+Fife.Training2_NrShifts<- aggregate(Training2_NrShifts ~ID, Fife, mean)
+
+mean(Fife.Training2_NrShifts$Training2_NrShifts)
+sd(Fife.Training2_NrShifts$Training2_NrShifts)
+min(Fife.Training2_NrShifts$Training2_NrShifts)
+max(Fife.Training2_NrShifts$Training2_NrShifts)
+
+Edi.Training2_NrShifts<- aggregate(Training2_NrShifts ~ID, Edi, mean)
+
+mean(Edi.Training2_NrShifts$Training2_NrShifts)
+sd(Edi.Training2_NrShifts$Training2_NrShifts)
+min(Edi.Training2_NrShifts$Training2_NrShifts)
+max(Edi.Training2_NrShifts$Training2_NrShifts)
+```
+Of the 172 children who reached the learning criterion in Training 2a, the mean number of shifts was 1.23 (SD = 0.48, range 1-3).
+
+- 3 years (n = 79): 1.25 (SD = 0.49, range 1-3)
+- 4 years (n = 81): 1.23 (SD = 0.51, range 1-3)
+- 5 years (n = 11): 1.00 (SD = 0)
+- 6 years (n = 1): 1
+
+There was no difference between 3- and 4-year-olds in the number of shifts made in Training 2a.
+
+- Young (n = 88): 1.25 (SD = 0.48, range 1-3)
+- Old (n = 84): 1.20 (SD = 0.48, range 1-3)
+
+Young and old children did not differ in the number of shifts.
+
+- Fife (n = 102): 1.20 (SD = 0.47, range 1-3) 
+- Edinburgh (n = 70): 1.26 (SD = 0.50, range 1-3) 
+
+Children from Edinburgh and Fife did not differ in the number of shifts.
+
+**172 children proceeded to Day 2.**
+
+# Training 2b
+```{r}
+Training2b_NrShifts<-aggregate(Warmup_NrShifts ~ ID, Training2_CritReached, mean)
+```
+**172 children qualified for Day 2, but due to Covid-19 we could not test 5 of them on the second session**. So **167 children started Day 2**.
+
+## Dropouts
+```{r}
+table(Training2_CritReached$Warmup_Dropout)
+Training2b_Dropout<-subset(Training2_CritReached, Warmup_Dropout !="no")
+```
+Out of the 167 children who started Training 2b, **1 child stopped the training** after 18 trials (ID 33).
+
+
+## Excluding the child who stopped Training 2b, how many trials were administered?
+```{r}
+Training2b_CritReached<-subset(Training2_CritReached, Warmup_Dropout =="no")
+
+Training2b_NumberTrials<- aggregate(Warmup_NrTrials ~ID, Training2b_CritReached, mean)
+
+mean(Training2b_NumberTrials$Warmup_NrTrials)
+sd(Training2b_NumberTrials$Warmup_NrTrials)
+min(Training2b_NumberTrials$Warmup_NrTrials)
+max(Training2b_NumberTrials$Warmup_NrTrials)
+
+#Split by age groups
+#we again select the 3-, 4-, 5-, and 6-year-olds, this time from the sample which excludes the child who did not reach the criterion
+Three.year.olds<-subset(Training2b_CritReached, AgeMonths_midtesting >= "36" & AgeMonths_midtesting < "48")
+Four.year.olds<-subset(Training2b_CritReached, AgeMonths_midtesting >= "48" & AgeMonths_midtesting < "60")
+Five.year.olds<-subset(Training2b_CritReached, AgeMonths_midtesting >= "60" & AgeMonths_midtesting < "72")
+Six.year.olds<-subset(Training2b_CritReached, AgeMonths_midtesting >= "72")
+
+#3 years
+ThreeYears.Training2b_NumberTrials<- aggregate(Warmup_NrTrials ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Training2b_NumberTrials$Warmup_NrTrials)
+sd(ThreeYears.Training2b_NumberTrials$Warmup_NrTrials)
+min(ThreeYears.Training2b_NumberTrials$Warmup_NrTrials)
+max(ThreeYears.Training2b_NumberTrials$Warmup_NrTrials)
+
+#4 years
+FourYears.Training2b_NumberTrials<- aggregate(Warmup_NrTrials ~ID, Four.year.olds, mean)
+
+mean(FourYears.Training2b_NumberTrials$Warmup_NrTrials)
+sd(FourYears.Training2b_NumberTrials$Warmup_NrTrials)
+min(FourYears.Training2b_NumberTrials$Warmup_NrTrials)
+max(FourYears.Training2b_NumberTrials$Warmup_NrTrials)
+
+#5 years
+FiveYears.Training2b_NumberTrials<- aggregate(Warmup_NrTrials ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Training2b_NumberTrials$Warmup_NrTrials)
+sd(FiveYears.Training2b_NumberTrials$Warmup_NrTrials)
+min(FiveYears.Training2b_NumberTrials$Warmup_NrTrials)
+max(FiveYears.Training2b_NumberTrials$Warmup_NrTrials)
+
+#6 years
+SixYears.Training2b_NumberTrials<- aggregate(Warmup_NrTrials ~ID, Six.year.olds, mean)
+
+mean(SixYears.Training2b_NumberTrials$Warmup_NrTrials)
+sd(SixYears.Training2b_NumberTrials$Warmup_NrTrials)
+min(SixYears.Training2b_NumberTrials$Warmup_NrTrials)
+max(SixYears.Training2b_NumberTrials$Warmup_NrTrials)
+
+# split by median age
+young<-subset(Training2b_CritReached, Mediansplit_midtesting_entiresample == "young")
+old<-subset(Training2b_CritReached, Mediansplit_midtesting_entiresample == "old")
+
+young.Training2b_NumberTrials<- aggregate(Warmup_NrTrials ~ID, young, mean)
+
+mean(young.Training2b_NumberTrials$Warmup_NrTrials)
+sd(young.Training2b_NumberTrials$Warmup_NrTrials)
+min(young.Training2b_NumberTrials$Warmup_NrTrials)
+max(young.Training2b_NumberTrials$Warmup_NrTrials)
+
+old.Training2b_NumberTrials<- aggregate(Warmup_NrTrials ~ID, old, mean)
+
+mean(old.Training2b_NumberTrials$Warmup_NrTrials)
+sd(old.Training2b_NumberTrials$Warmup_NrTrials)
+min(old.Training2b_NumberTrials$Warmup_NrTrials)
+max(old.Training2b_NumberTrials$Warmup_NrTrials)
+
+#by testing location
+Fife<-subset(Training2b_CritReached, TestingLocation == "Fife")
+Edi<-subset(Training2b_CritReached, TestingLocation == "Edinburgh")
+
+Fife.Training2b_NumberTrials<- aggregate(Warmup_NrTrials ~ID, Fife, mean)
+
+mean(Fife.Training2b_NumberTrials$Warmup_NrTrials)
+sd(Fife.Training2b_NumberTrials$Warmup_NrTrials)
+min(Fife.Training2b_NumberTrials$Warmup_NrTrials)
+max(Fife.Training2b_NumberTrials$Warmup_NrTrials)
+shapiro.test(Fife.Training2b_NumberTrials$Warmup_NrTrials)#not normally distributed
+
+Edi.Training2b_NumberTrials<- aggregate(Warmup_NrTrials ~ID, Edi, mean)
+
+mean(Edi.Training2b_NumberTrials$Warmup_NrTrials)
+sd(Edi.Training2b_NumberTrials$Warmup_NrTrials)
+min(Edi.Training2b_NumberTrials$Warmup_NrTrials)
+max(Edi.Training2b_NumberTrials$Warmup_NrTrials)
+shapiro.test(Edi.Training2b_NumberTrials$Warmup_NrTrials)#not normally distributed
+
+wilcox.test(Fife.Training2b_NumberTrials$Warmup_NrTrials, Edi.Training2b_NumberTrials$Warmup_NrTrials, alternative = "two.sided")
+```
+**All of the 166 children who attempted Training 2b and did not drop out also reached the learning criterion**. Out of the 166 children who reached the learning criterion in Training 2b, the mean number of administered trials was 8.79 (SD = 4.12, range 6-30).
+
+- 3 years (n = 77): 8.91 (SD = 4.55, range 6-30)
+- 4 years (n = 77): 8.91 (SD = 3.91, range 6-26)
+- 5 years (n = 11): 7.18 (SD = 1.89, range 6-12)
+- 6 years (n = 1): 9
+
+There was no difference between 3- and 4-year-olds in the number of trials administered. 
+
+- Young (n = 86): 8.80 (SD = 4.38, range 6-30)
+- Old (n = 80): 8.79 (SD = 3.85, range 6-26)
+
+Young and old children did not differ in the number of trials administered.
+
+- Fife (n = 97): 9.25 (SD = 4.64, range 6-30) 
+- Edinburgh (n = 69): 8.16 (SD = 3.18, range 6-25) 
+
+Children from Edinburgh and Fife did not differ in the number of trials, W = 3743, p = .183.
+
+
+## Excluding the child who stopped Training 2b, how many errors were made?
+```{r}
+Training2b_NumberErrors<- aggregate(Warmup_NrErrors ~ID, Training2b_CritReached, mean)
+
+mean(Training2b_NumberErrors$Warmup_NrErrors)
+sd(Training2b_NumberErrors$Warmup_NrErrors)
+min(Training2b_NumberErrors$Warmup_NrErrors)
+max(Training2b_NumberErrors$Warmup_NrErrors)
+
+#Split by age
+#3 years
+ThreeYears.Training2b_NumberErrors<- aggregate(Warmup_NrErrors ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Training2b_NumberErrors$Warmup_NrErrors)
+sd(ThreeYears.Training2b_NumberErrors$Warmup_NrErrors)
+min(ThreeYears.Training2b_NumberErrors$Warmup_NrErrors)
+max(ThreeYears.Training2b_NumberErrors$Warmup_NrErrors)
+
+#4 years
+FourYears.Training2b_NumberErrors<- aggregate(Warmup_NrErrors ~ID, Four.year.olds, mean)
+
+mean(FourYears.Training2b_NumberErrors$Warmup_NrErrors)
+sd(FourYears.Training2b_NumberErrors$Warmup_NrErrors)
+min(FourYears.Training2b_NumberErrors$Warmup_NrErrors)
+max(FourYears.Training2b_NumberErrors$Warmup_NrErrors)
+
+#5 years
+FiveYears.Training2b_NumberErrors<- aggregate(Warmup_NrErrors ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Training2b_NumberErrors$Warmup_NrErrors)
+sd(FiveYears.Training2b_NumberErrors$Warmup_NrErrors)
+min(FiveYears.Training2b_NumberErrors$Warmup_NrErrors)
+max(FiveYears.Training2b_NumberErrors$Warmup_NrErrors)
+
+#6 years
+SixYears.Training2b_NumberErrors<- aggregate(Warmup_NrErrors ~ID, Six.year.olds, mean)
+
+mean(SixYears.Training2b_NumberErrors$Warmup_NrErrors)
+sd(SixYears.Training2b_NumberErrors$Warmup_NrErrors)
+min(SixYears.Training2b_NumberErrors$Warmup_NrErrors)
+max(SixYears.Training2b_NumberErrors$Warmup_NrErrors)
+
+# split by median age
+young.Training2b_NumberErrors<- aggregate(Warmup_NrErrors ~ID, young, mean)
+
+mean(young.Training2b_NumberErrors$Warmup_NrErrors)
+sd(young.Training2b_NumberErrors$Warmup_NrErrors)
+min(young.Training2b_NumberErrors$Warmup_NrErrors)
+max(young.Training2b_NumberErrors$Warmup_NrErrors)
+
+old.Training2b_NumberErrors<- aggregate(Warmup_NrErrors ~ID, old, mean)
+
+mean(old.Training2b_NumberErrors$Warmup_NrErrors)
+sd(old.Training2b_NumberErrors$Warmup_NrErrors)
+min(old.Training2b_NumberErrors$Warmup_NrErrors)
+max(old.Training2b_NumberErrors$Warmup_NrErrors)
+
+#by testing location
+Fife.Training2b_NumberErrors<- aggregate(Warmup_NrErrors ~ID, Fife, mean)
+
+mean(Fife.Training2b_NumberErrors$Warmup_NrErrors)
+sd(Fife.Training2b_NumberErrors$Warmup_NrErrors)
+min(Fife.Training2b_NumberErrors$Warmup_NrErrors)
+max(Fife.Training2b_NumberErrors$Warmup_NrErrors)
+shapiro.test(Fife.Training2b_NumberErrors$Warmup_NrErrors)#not normally distributed
+
+Edi.Training2b_NumberErrors<- aggregate(Warmup_NrErrors ~ID, Edi, mean)
+
+mean(Edi.Training2b_NumberErrors$Warmup_NrErrors)
+sd(Edi.Training2b_NumberErrors$Warmup_NrErrors)
+min(Edi.Training2b_NumberErrors$Warmup_NrErrors)
+max(Edi.Training2b_NumberErrors$Warmup_NrErrors)
+shapiro.test(Edi.Training2b_NumberErrors$Warmup_NrErrors)#not normally distributed
+
+wilcox.test(Fife.Training2b_NumberErrors$Warmup_NrErrors, Edi.Training2b_NumberErrors$Warmup_NrErrors, alternative = "two.sided")
+```
+Out of the 166 children who reached the learning criterion in Training 2b, the mean number of errors was 1.64 (SD = 1.94, range 0-12).
+
+- 3 years (n =77): 1.69 (SD = 2.18, range 0-12)
+- 4 years (n =77): 1.69 (SD = 1.77, range 0-9)
+- 5 years (n =11): 0.91 (SD = 1.30, range 0-4)
+- 6 years (n =1): 2
+
+There was no difference between 3- and 4-year-olds in the number of errors. 
+
+- Young (n = 86): 1.64 (SD = 2.10, range 0-12)
+- Old (n = 80): 1.64 (SD = 1.77, range 0-9)
+
+Young and old children did not differ in the number of errors.
+
+- Fife (n = 97): 1.86 (SD = 2.18, range 0-12) 
+- Edinburgh (n = 69): 1.32 (SD = 1.52, range 0-9) 
+
+Children from Edinburgh and Fife did not differ in the number of errors, W = 3753, p = .170.
+
+## Excluding the child who stopped Training 2b, how many shifts were made?
+```{r}
+Training2b_NumberShifts<- aggregate(Warmup_NrShifts ~ID, Training2b_CritReached, mean)
+
+mean(Training2b_NumberShifts$Warmup_NrShifts)
+sd(Training2b_NumberShifts$Warmup_NrShifts)
+min(Training2b_NumberShifts$Warmup_NrShifts)
+max(Training2b_NumberShifts$Warmup_NrShifts)
+
+#Split by age
+#3 years
+ThreeYears.Training2b_NumberShifts<- aggregate(Warmup_NrShifts ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Training2b_NumberShifts$Warmup_NrShifts)
+sd(ThreeYears.Training2b_NumberShifts$Warmup_NrShifts)
+min(ThreeYears.Training2b_NumberShifts$Warmup_NrShifts)
+max(ThreeYears.Training2b_NumberShifts$Warmup_NrShifts)
+
+#4 years
+FourYears.Training2b_NumberShifts<- aggregate(Warmup_NrShifts ~ID, Four.year.olds, mean)
+
+mean(FourYears.Training2b_NumberShifts$Warmup_NrShifts)
+sd(FourYears.Training2b_NumberShifts$Warmup_NrShifts)
+min(FourYears.Training2b_NumberShifts$Warmup_NrShifts)
+max(FourYears.Training2b_NumberShifts$Warmup_NrShifts)
+
+#5 years
+FiveYears.Training2b_NumberShifts<- aggregate(Warmup_NrShifts ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Training2b_NumberShifts$Warmup_NrShifts)
+sd(FiveYears.Training2b_NumberShifts$Warmup_NrShifts)
+min(FiveYears.Training2b_NumberShifts$Warmup_NrShifts)
+max(FiveYears.Training2b_NumberShifts$Warmup_NrShifts)
+
+#6 years
+SixYears.Training2b_NumberShifts<- aggregate(Warmup_NrShifts ~ID, Six.year.olds, mean)
+
+mean(SixYears.Training2b_NumberShifts$Warmup_NrShifts)
+sd(SixYears.Training2b_NumberShifts$Warmup_NrShifts)
+min(SixYears.Training2b_NumberShifts$Warmup_NrShifts)
+max(SixYears.Training2b_NumberShifts$Warmup_NrShifts)
+
+# split by median age
+young.Training2b_NumberShifts<- aggregate(Warmup_NrShifts ~ID, young, mean)
+
+mean(young.Training2b_NumberShifts$Warmup_NrShifts)
+sd(young.Training2b_NumberShifts$Warmup_NrShifts)
+min(young.Training2b_NumberShifts$Warmup_NrShifts)
+max(young.Training2b_NumberShifts$Warmup_NrShifts)
+
+old.Training2b_NumberShifts<- aggregate(Warmup_NrShifts ~ID, old, mean)
+
+mean(old.Training2b_NumberShifts$Warmup_NrShifts)
+sd(old.Training2b_NumberShifts$Warmup_NrShifts)
+min(old.Training2b_NumberShifts$Warmup_NrShifts)
+max(old.Training2b_NumberShifts$Warmup_NrShifts)
+
+#by testing location
+Fife.Training2b_NumberShifts<- aggregate(Warmup_NrShifts ~ID, Fife, mean)
+
+mean(Fife.Training2b_NumberShifts$Warmup_NrShifts)
+sd(Fife.Training2b_NumberShifts$Warmup_NrShifts)
+min(Fife.Training2b_NumberShifts$Warmup_NrShifts)
+max(Fife.Training2b_NumberShifts$Warmup_NrShifts)
+
+Edi.Training2b_NumberShifts<- aggregate(Warmup_NrShifts ~ID, Edi, mean)
+
+mean(Edi.Training2b_NumberShifts$Warmup_NrShifts)
+sd(Edi.Training2b_NumberShifts$Warmup_NrShifts)
+min(Edi.Training2b_NumberShifts$Warmup_NrShifts)
+max(Edi.Training2b_NumberShifts$Warmup_NrShifts)
+```
+Out of the 166 children who reached the learning criterion in Training 2b, the mean number of shifts was 1.20 (SD = 0.43, range 1-3).
+
+- 3 years (n =77): 1.18 (SD = 0.42, range 1-3)
+- 4 years (n =77): 1.25 (SD = 0.46, range 1-3)
+- 5 years (n =11): 1 (SD = 0)
+- 6 years (n =1): 1
+
+There was no difference between 3- and 4-year-olds in the number of shifts. 
+
+- Young (n = 86): 1.17 (SD = 0.41, range 1-3)
+- Old (n = 80): 1.22 (SD = 0.45, range 1-3)
+
+Young and old children did not differ in the number of shifts.
+
+- Fife (n = 97): 1.24 (SD = 0.47, range 1-3) 
+- Edinburgh (n = 69): 1.14 (SD = 0.35, range 1-2) 
+
+Children from Edinburgh and Fife did not differ in the number of shifts.
+
+# Test
+## Dropouts
+167 children reached the learning criterion in training 2b and thus proceeded to the test. How many dropouts where there in the test session?
+```{r}
+test.dropouts<-subset(Training2b_CritReached, Dropout != "no")
+```
+There were **15 dropouts** from the test phase:
+- 1 child stopped after 7 test trials (ID 13)
+- 1 child stopped after 9 test trials (ID 10)
+- 1 child stopped after 13 test trials (ID 39)
+- 1 child stopped after 19 test trials (ID 43)
+- 1 child stopped after 22 test trials (ID 17)
+- 1 child: experimenter error in trial 23 (placed sticker under wrong cup; ID 22)
+- 1 child: experimenter error trial 8 (ID 27)
+- 7 children: experimenter error, E showed sticker after every unsuccessful trial
+- 1 child: experimenter error: E delayed a switch and then missed a switch (ID 52)
+
+We remove all dropouts, so **152 children remain**.
+
+## Valid data
+```{r}
+Shelf.clean<-subset(Training2b_CritReached, Dropout =="no")
+```
+We include all those children who have 27 or more completed test trials. This includes:
+
+- 1 child with 27 trials (because of experimenter error, ID46)
+- 1 child with 32 trials (ID 143)
+- 1 child with 33 trials (because of experimenter error, ID 55)
+- 7 children with 35 trials (because of experimenter error, IDs 25, 52, 82, 127, 154, 165, 139)
+
+```{r}
+Shelf.clean.T1<-subset(Shelf.clean, Phase == "test" & Trial_nr == "1")
+table(Shelf.clean.T1$Sex)
+```
+There were 84 girls and 68 boys with valid data in the test phase.
+
+
+## How many test trials were administered?
+```{r}
+Nr_TestTrials<-aggregate(Test_TotalNrTrials ~ ID, Shelf.clean, mean)
+
+mean(Nr_TestTrials$Test_TotalNrTrials)
+sd(Nr_TestTrials$Test_TotalNrTrials)
+min(Nr_TestTrials$Test_TotalNrTrials)
+max(Nr_TestTrials$Test_TotalNrTrials)
+```
+There are 152 valid cases in the Shelf test.
+Of these, children were administered on average 35.88 trials (SD = 0.60, range 31-36).
+
+Split by age:
+```{r}
+#we again select the 3-, 4-, 5-, and 6-year-olds, this time from the sample which excludes the children who were a dropout in the test trials
+Three.year.olds<-subset(Shelf.clean, AgeMonths_midtesting >= "36" & AgeMonths_midtesting < "48")
+Four.year.olds<-subset(Shelf.clean, AgeMonths_midtesting >= "48" & AgeMonths_midtesting < "60")
+Five.year.olds<-subset(Shelf.clean, AgeMonths_midtesting >= "60" & AgeMonths_midtesting < "72")
+Six.year.olds<-subset(Shelf.clean, AgeMonths_midtesting >= "72")
+
+#3 years
+ThreeYears.Test_TotalNrTrials<- aggregate(Test_TotalNrTrials ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Test_TotalNrTrials$Test_TotalNrTrials)
+sd(ThreeYears.Test_TotalNrTrials$Test_TotalNrTrials)
+min(ThreeYears.Test_TotalNrTrials$Test_TotalNrTrials)
+max(ThreeYears.Test_TotalNrTrials$Test_TotalNrTrials)
+
+#4 years
+FourYears.Test_TotalNrTrials<- aggregate(Test_TotalNrTrials ~ID, Four.year.olds, mean)
+
+mean(FourYears.Test_TotalNrTrials$Test_TotalNrTrials)
+sd(FourYears.Test_TotalNrTrials$Test_TotalNrTrials)
+min(FourYears.Test_TotalNrTrials$Test_TotalNrTrials)
+max(FourYears.Test_TotalNrTrials$Test_TotalNrTrials)
+
+#5 years
+FiveYears.Test_TotalNrTrials<- aggregate(Test_TotalNrTrials ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Test_TotalNrTrials$Test_TotalNrTrials)
+sd(FiveYears.Test_TotalNrTrials$Test_TotalNrTrials)
+min(FiveYears.Test_TotalNrTrials$Test_TotalNrTrials)
+max(FiveYears.Test_TotalNrTrials$Test_TotalNrTrials)
+
+#6 years
+SixYears.Test_TotalNrTrials<- aggregate(Test_TotalNrTrials ~ID, Six.year.olds, mean)
+
+mean(SixYears.Test_TotalNrTrials$Test_TotalNrTrials)
+sd(SixYears.Test_TotalNrTrials$Test_TotalNrTrials)
+min(SixYears.Test_TotalNrTrials$Test_TotalNrTrials)
+max(SixYears.Test_TotalNrTrials$Test_TotalNrTrials)
+
+# split by median age
+young<-subset(Shelf.clean, Mediansplit_midtesting_entiresample == "young")
+old<-subset(Shelf.clean, Mediansplit_midtesting_entiresample == "old")
+
+young.Test_TotalNrTrials<- aggregate(Test_TotalNrTrials ~ID, young, mean)
+
+mean(young.Test_TotalNrTrials$Test_TotalNrTrials)
+sd(young.Test_TotalNrTrials$Test_TotalNrTrials)
+min(young.Test_TotalNrTrials$Test_TotalNrTrials)
+max(young.Test_TotalNrTrials$Test_TotalNrTrials)
+
+old.Test_TotalNrTrials<- aggregate(Test_TotalNrTrials ~ID, old, mean)
+
+mean(old.Test_TotalNrTrials$Test_TotalNrTrials)
+sd(old.Test_TotalNrTrials$Test_TotalNrTrials)
+min(old.Test_TotalNrTrials$Test_TotalNrTrials)
+max(old.Test_TotalNrTrials$Test_TotalNrTrials)
+
+#by testing location
+Fife<-subset(Shelf.clean, TestingLocation == "Fife")
+Edi<-subset(Shelf.clean, TestingLocation == "Edinburgh")
+
+Fife.Test_TotalNrTrials<- aggregate(Test_TotalNrTrials ~ID, Fife, mean)
+
+mean(Fife.Test_TotalNrTrials$Test_TotalNrTrials)
+sd(Fife.Test_TotalNrTrials$Test_TotalNrTrials)
+min(Fife.Test_TotalNrTrials$Test_TotalNrTrials)
+max(Fife.Test_TotalNrTrials$Test_TotalNrTrials)
+shapiro.test(Fife.Test_TotalNrTrials$Test_TotalNrTrials)#not normally distributed
+
+Edi.Test_TotalNrTrials<- aggregate(Test_TotalNrTrials ~ID, Edi, mean)
+
+mean(Edi.Test_TotalNrTrials$Test_TotalNrTrials)
+sd(Edi.Test_TotalNrTrials$Test_TotalNrTrials)
+min(Edi.Test_TotalNrTrials$Test_TotalNrTrials)
+max(Edi.Test_TotalNrTrials$Test_TotalNrTrials)
+shapiro.test(Edi.Test_TotalNrTrials$Test_TotalNrTrials)#not normally distributed
+```
+Number of administered test trials:
+
+- 3 years (n = 68): 35.87 (SD = 0.62, range 32-36)
+- 4 years (n = 77): 35.87 (SD = 0.63, range 31-36)
+- 5 years (n = 11): 36 (SD = 0)
+- 6 years (n = 1): 36
+
+- Young (n = 76): 35.88 (SD = 0.59, range 32-36)
+- Old (n = 76): 35.88 (SD = 0.61, range 31-36)
+
+Young and old children did not differ in the number of administered test trials.
+
+- Fife (n = 86): 35.86 (SD = 0.70, range 31-36) 
+- Edinburgh (n = 66): 35.91 (SD = 0.42, range 33-36) 
+
+Children from Edinburgh and Fife did not differ in the number of administered test trials.
+
+
+## DV: What was the proportion of switches the children achieved out of the number of possible switches?
+```{r}
+Shelf.clean.test <- subset(Shelf.clean, Phase == "test")
+Prop_Switches<-aggregate(ProportionSwitches ~ ID, Shelf.clean.test, mean)
+
+mean(Prop_Switches$ProportionSwitches)
+sd(Prop_Switches$ProportionSwitches)
+min(Prop_Switches$ProportionSwitches)
+max(Prop_Switches$ProportionSwitches)
+
+hist(Prop_Switches$ProportionSwitches,
+     main="", 
+     xlab="Proportion of switches", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+shapiro.test(Prop_Switches$ProportionSwitches)# not normally distributed
+
+wilcox.test(Prop_Switches$ProportionSwitches, mu = 0.2242245, alternative = "two.sided")
+```
+Of the 152 children, the proportion of switches achieved out of the possible number of switches (given the number of trials administered) was 0.57 (SD = 0.26, range 0-1). The variable is not normally distributed, W = 0.959, p < .001.
+Chance level: 0.2242245
+Children's performance is significantly above chance level, V = 11425, p < .001.
+
+Split by age:
+```{r}
+#3 years
+ThreeYears.Prop_Switches<- aggregate(ProportionSwitches ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Prop_Switches$ProportionSwitches)
+sd(ThreeYears.Prop_Switches$ProportionSwitches)
+min(ThreeYears.Prop_Switches$ProportionSwitches)
+max(ThreeYears.Prop_Switches$ProportionSwitches)
+shapiro.test(ThreeYears.Prop_Switches$ProportionSwitches)#not normally distributed
+wilcox.test(ThreeYears.Prop_Switches$ProportionSwitches, mu = 0.2242245, alternative = "two.sided")
+
+hist(ThreeYears.Prop_Switches$ProportionSwitches,
+     main="3-year-olds", 
+     xlab="Proportion of switches", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+#4 years
+FourYears.Prop_Switches<- aggregate(ProportionSwitches ~ID, Four.year.olds, mean)
+
+mean(FourYears.Prop_Switches$ProportionSwitches)
+sd(FourYears.Prop_Switches$ProportionSwitches)
+min(FourYears.Prop_Switches$ProportionSwitches)
+max(FourYears.Prop_Switches$ProportionSwitches)
+shapiro.test(FourYears.Prop_Switches$ProportionSwitches)#not normally distributed
+wilcox.test(FourYears.Prop_Switches$ProportionSwitches, mu = 0.2242245, alternative = "two.sided")
+
+hist(FourYears.Prop_Switches$ProportionSwitches,
+     main="4-year-olds", 
+     xlab="Proportion of switches", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+#5 years
+FiveYears.Prop_Switches<- aggregate(ProportionSwitches ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Prop_Switches$ProportionSwitches)
+sd(FiveYears.Prop_Switches$ProportionSwitches)
+min(FiveYears.Prop_Switches$ProportionSwitches)
+max(FiveYears.Prop_Switches$ProportionSwitches)
+shapiro.test(FiveYears.Prop_Switches$ProportionSwitches)#not normally distributed
+wilcox.test(FiveYears.Prop_Switches$ProportionSwitches, mu = 0.2242245, alternative = "two.sided")
+
+hist(FiveYears.Prop_Switches$ProportionSwitches,
+     main="5-year-olds", 
+     xlab="Proportion of switches", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+#6 years
+SixYears.Prop_Switches<- aggregate(ProportionSwitches ~ID, Six.year.olds, mean)
+
+mean(SixYears.Prop_Switches$ProportionSwitches)
+sd(SixYears.Prop_Switches$ProportionSwitches)
+min(SixYears.Prop_Switches$ProportionSwitches)
+max(SixYears.Prop_Switches$ProportionSwitches)
+
+wilcox.test(ThreeYears.Prop_Switches$ProportionSwitches, FourYears.Prop_Switches$ProportionSwitches, alternative = "less")
+
+# split by median age
+young.ProportionSwitches<- aggregate(ProportionSwitches ~ID, young, mean)
+
+mean(young.ProportionSwitches$ProportionSwitches)
+sd(young.ProportionSwitches$ProportionSwitches)
+min(young.ProportionSwitches$ProportionSwitches)
+max(young.ProportionSwitches$ProportionSwitches)
+shapiro.test(young.ProportionSwitches$ProportionSwitches)#not normally distributed
+wilcox.test(young.ProportionSwitches$ProportionSwitches, mu = 0.2242245, alternative = "two.sided")
+
+old.ProportionSwitches<- aggregate(ProportionSwitches ~ID, old, mean)
+
+mean(old.ProportionSwitches$ProportionSwitches)
+sd(old.ProportionSwitches$ProportionSwitches)
+min(old.ProportionSwitches$ProportionSwitches)
+max(old.ProportionSwitches$ProportionSwitches)
+shapiro.test(old.ProportionSwitches$ProportionSwitches)#not normally distributed
+wilcox.test(old.ProportionSwitches$ProportionSwitches, mu = 0.2242245, alternative = "two.sided")
+
+wilcox.test(young.ProportionSwitches$ProportionSwitches, old.ProportionSwitches$ProportionSwitches, alternative = "less")
+
+#by testing location
+Fife<-subset(Shelf.clean, TestingLocation == "Fife")
+Edi<-subset(Shelf.clean, TestingLocation == "Edinburgh")
+
+Fife.ProportionSwitches<- aggregate(ProportionSwitches ~ID, Fife, mean)
+
+mean(Fife.ProportionSwitches$ProportionSwitches)
+sd(Fife.ProportionSwitches$ProportionSwitches)
+min(Fife.ProportionSwitches$ProportionSwitches)
+max(Fife.ProportionSwitches$ProportionSwitches)
+shapiro.test(Fife.ProportionSwitches$ProportionSwitches)#not normally distributed
+wilcox.test(Fife.ProportionSwitches$ProportionSwitches, mu = 0.2242245, alternative = "two.sided")
+
+Edi.ProportionSwitches<- aggregate(ProportionSwitches ~ID, Edi, mean)
+
+mean(Edi.ProportionSwitches$ProportionSwitches)
+sd(Edi.ProportionSwitches$ProportionSwitches)
+min(Edi.ProportionSwitches$ProportionSwitches)
+max(Edi.ProportionSwitches$ProportionSwitches)
+shapiro.test(Edi.ProportionSwitches$ProportionSwitches)#not normally distributed
+wilcox.test(Edi.ProportionSwitches$ProportionSwitches, mu = 0.2242245, alternative = "two.sided")
+```
+Proportion of achieved switches:
+
+- 3 years (n = 68): 0.51 (SD = 0.26, range 0.09-1), not normally distributed, performance better than chance, V = 2248, p < .001
+- 4 years (n = 72): 0.59 (SD = 0.24, range 0-1), not normally distributed, performance better than chance, V = 2603, p < .001
+- 5 years (n = 11): 0.82 (SD = 0.19, range 0.45-1), not normally distributed, performance better than chance, V = 66, p = .003
+- 6 years (n = 1): 0.82
+
+3-year-olds performed fewer switches than 4-year-olds, W = 1985, p = .026.
+
+- Young (n = 76): 0.52 (SD = 0.26, range 0.09-1), not normally distributed, performance better than chance, V = 2816, p < .001
+- Old (n = 76): 0.63 (SD = 0.24, range 0-1), not normally distributed, performance better than chance, V = 2908, p < .001
+
+Young performed fewer switches than older children, W = 2145.5, p = .003.
+
+- Fife (n = 86): 0.58 (SD = 0.25, range 0-1), not normally distributed, performance better than chance, V = 3701, p < .001
+- Edinburgh (n = 66): 0.56 (SD = 0.27, range 0.09-1), not normally distributed, performance better than chance, V = 2141, p < .001 
+
+Children from Edinburgh and Fife did not differ in the proportion of switches.
+
+
+Boxplots:
+Across the sample
+```{r}
+Shelf.clean.test.T1 <- subset(Shelf.clean.test, Trial_nr == "1")
+library(ggplot2)
+
+p<-  ggplot(
+  data=Shelf.clean.test.T1, aes(x=rep(1, 152), y=ProportionSwitches)) +
+  geom_boxplot(outlier.colour = "black")+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Proportion of switches")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Shelf")
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=0.2242245, linetype="dashed", color = "red") + geom_count()
+```
+
+Split by the three age groups:
+```{r}
+p1<-ggplot(data=Shelf.clean.test.T1, aes(x=AgeGroup_midtesting,y=ProportionSwitches)) +
+  geom_boxplot(aes(group=AgeGroup_midtesting, fill = as.factor(Shelf.clean.test.T1$AgeGroup_midtesting)), outlier.colour = "black") + 
+      ylim(0,1)+
+  xlim(2.5,6.5)+
+  geom_point(alpha=0.3) +
+  labs(x="",y="Proportion of switches")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Shelf")
+
+p1 +  geom_hline(yintercept=0.2242245, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5) +
+  scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 68", "4 years, n = 72", "5 years, n = 11", "6 years, n = 1")) 
+```
+
+Split by age mediansplit:
+```{r}
+library(forcats)
+
+Shelf.clean.test.T1$Mediansplit_midtesting_entiresample<-fct_relevel(Shelf.clean.test.T1$Mediansplit_midtesting_entiresample, "young")
+#changes order of boxplots (young before old)
+
+p1<-  ggplot(
+  data=Shelf.clean.test.T1, aes(x=rep(1, 152), y=ProportionSwitches, fill = Mediansplit_midtesting_entiresample))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Proportion of switches")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Shelf")
+
+
+p1 +  geom_hline(yintercept=0.2242245, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5) + scale_size_area(max_size=10)+
+  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young, n = 76", "old, n = 76"))
+```
+
+Split by testing location
+```{r}
+p1<-  ggplot(
+  data=Shelf.clean.test.T1, aes(x=rep(1, 152), y=ProportionSwitches, fill = TestingLocation))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Proportion of switches")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Shelf")
+
+
+p1 +  geom_hline(yintercept=0.2242245, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5) + scale_size_area(max_size=10)+
+  scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 66", "Fife, n = 86"))
+```
+
+## Plot age as continuous variable against proportion of switches
+```{r}
+p1<- ggplot(Shelf.clean.test.T1, aes(x=AgeMonths_midtesting, y=ProportionSwitches)) + geom_point()+
+ labs(x="Age in months",y="Proportion correct switches")
+
+p1 +  geom_hline(yintercept=0.2242245, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+
+## How many switches were possible?
+```{r}
+Nr_PossibleSwitches<-aggregate(Possible_Switches ~ ID, Shelf.clean, mean)
+
+mean(Nr_PossibleSwitches$Possible_Switches)
+sd(Nr_PossibleSwitches$Possible_Switches)
+min(Nr_PossibleSwitches$Possible_Switches)
+max(Nr_PossibleSwitches$Possible_Switches)
+table(Nr_PossibleSwitches$Possible_Switches)
+```
+The number of possible switches was either 10 or 11. 149 children had 11 possible switches, 3 children had 10 possible switches.
+
+
+## Number of achieved switches
+```{r}
+Nr_Switches<-aggregate(Test_NrSwitches ~ ID, Shelf.clean, mean)
+
+mean(Nr_Switches$Test_NrSwitches)
+sd(Nr_Switches$Test_NrSwitches)
+min(Nr_Switches$Test_NrSwitches)
+max(Nr_Switches$Test_NrSwitches)
+```
+Of the 152 children, the mean number of switches achieved was 6.32 (SD = 2.83, range 0-11).
+
+Split by age:
+```{r}
+#3 years
+ThreeYears.Nr_Switches<- aggregate(Test_NrSwitches ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Nr_Switches$Test_NrSwitches)
+sd(ThreeYears.Nr_Switches$Test_NrSwitches)
+min(ThreeYears.Nr_Switches$Test_NrSwitches)
+max(ThreeYears.Nr_Switches$Test_NrSwitches)
+
+#4 years
+FourYears.Nr_Switches<- aggregate(Test_NrSwitches ~ID, Four.year.olds, mean)
+
+mean(FourYears.Nr_Switches$Test_NrSwitches)
+sd(FourYears.Nr_Switches$Test_NrSwitches)
+min(FourYears.Nr_Switches$Test_NrSwitches)
+max(FourYears.Nr_Switches$Test_NrSwitches)
+
+#5 years
+FiveYears.Nr_Switches<- aggregate(Test_NrSwitches ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Nr_Switches$Test_NrSwitches)
+sd(FiveYears.Nr_Switches$Test_NrSwitches)
+min(FiveYears.Nr_Switches$Test_NrSwitches)
+max(FiveYears.Nr_Switches$Test_NrSwitches)
+
+#6 years
+SixYears.Nr_Switches<- aggregate(Test_NrSwitches ~ID, Six.year.olds, mean)
+
+mean(SixYears.Nr_Switches$Test_NrSwitches)
+sd(SixYears.Nr_Switches$Test_NrSwitches)
+min(SixYears.Nr_Switches$Test_NrSwitches)
+max(SixYears.Nr_Switches$Test_NrSwitches)
+```
+Number of achieved switches:
+
+- 3 years: 5.62 (SD = 2.88, range 1-11)
+- 4 years: 6.64 (SD = 2.62, range 0-11)
+- 5 years: 9.00 (SD = 2.10, range 5-11)
+- 6 years: 9
+
+
+
+## Number of errors
+```{r}
+Nr_Errors<-aggregate(Test_TotalNrMistakes ~ ID, Shelf.clean, mean)
+
+mean(Nr_Errors$Test_TotalNrMistakes)
+sd(Nr_Errors$Test_TotalNrMistakes)
+min(Nr_Errors$Test_TotalNrMistakes)
+max(Nr_Errors$Test_TotalNrMistakes)
+```
+Of the 152 children, the mean number of errors achieved was 11.89 (SD = 7.10, range 0-36).
+
+Split by age:
+```{r}
+#3 years
+ThreeYears.Nr_Errors<- aggregate(Test_TotalNrMistakes ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Nr_Errors$Test_TotalNrMistakes)
+sd(ThreeYears.Nr_Errors$Test_TotalNrMistakes)
+min(ThreeYears.Nr_Errors$Test_TotalNrMistakes)
+max(ThreeYears.Nr_Errors$Test_TotalNrMistakes)
+shapiro.test(ThreeYears.Nr_Errors$Test_TotalNrMistakes)#normally distributed
+t.test(ThreeYears.Nr_Errors$Test_TotalNrMistakes, mu = 18, alternative = "two.sided")
+
+#4 years
+FourYears.Nr_Errors<- aggregate(Test_TotalNrMistakes ~ID, Four.year.olds, mean)
+
+mean(FourYears.Nr_Errors$Test_TotalNrMistakes)
+sd(FourYears.Nr_Errors$Test_TotalNrMistakes)
+min(FourYears.Nr_Errors$Test_TotalNrMistakes)
+max(FourYears.Nr_Errors$Test_TotalNrMistakes)
+shapiro.test(FourYears.Nr_Errors$Test_TotalNrMistakes)#not normally distributed
+wilcox.test(FourYears.Nr_Errors$Test_TotalNrMistakes, mu = 18, alternative = "two.sided")
+
+#5 years
+FiveYears.Nr_Errors<- aggregate(Test_TotalNrMistakes ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Nr_Errors$Test_TotalNrMistakes)
+sd(FiveYears.Nr_Errors$Test_TotalNrMistakes)
+min(FiveYears.Nr_Errors$Test_TotalNrMistakes)
+max(FiveYears.Nr_Errors$Test_TotalNrMistakes)
+shapiro.test(FiveYears.Nr_Errors$Test_TotalNrMistakes)#not normally distributed
+wilcox.test(FiveYears.Nr_Errors$Test_TotalNrMistakes, mu = 18, alternative = "two.sided")
+
+#6 years
+SixYears.Nr_Errors<- aggregate(Test_TotalNrMistakes ~ID, Six.year.olds, mean)
+
+mean(SixYears.Nr_Errors$Test_TotalNrMistakes)
+sd(SixYears.Nr_Errors$Test_TotalNrMistakes)
+min(SixYears.Nr_Errors$Test_TotalNrMistakes)
+max(SixYears.Nr_Errors$Test_TotalNrMistakes)
+
+wilcox.test(FourYears.Nr_Errors$Test_TotalNrMistakes, FiveYears.Nr_Errors$Test_TotalNrMistakes, alternative = "greater")
+
+# split by median age
+young.Nr_Errors<- aggregate(Test_TotalNrMistakes ~ID, young, mean)
+
+mean(young.Nr_Errors$Test_TotalNrMistakes)
+sd(young.Nr_Errors$Test_TotalNrMistakes)
+min(young.Nr_Errors$Test_TotalNrMistakes)
+max(young.Nr_Errors$Test_TotalNrMistakes)
+shapiro.test(young.Nr_Errors$Test_TotalNrMistakes)#normally distributed
+t.test(young.Nr_Errors$Test_TotalNrMistakes, mu = 18, alternative = "two.sided")
+
+old.Nr_Errors<- aggregate(Test_TotalNrMistakes ~ID, old, mean)
+
+mean(old.Nr_Errors$Test_TotalNrMistakes)
+sd(old.Nr_Errors$Test_TotalNrMistakes)
+min(old.Nr_Errors$Test_TotalNrMistakes)
+max(old.Nr_Errors$Test_TotalNrMistakes)
+shapiro.test(old.Nr_Errors$Test_TotalNrMistakes)#not normally distributed
+wilcox.test(old.Nr_Errors$Test_TotalNrMistakes, mu = 18, alternative = "two.sided")
+
+wilcox.test(young.Nr_Errors$Test_TotalNrMistakes, old.Nr_Errors$Test_TotalNrMistakes, alternative = "greater")
+
+#by testing location
+Fife.Nr_Errors<- aggregate(Test_TotalNrMistakes ~ID, Fife, mean)
+
+mean(Fife.Nr_Errors$Test_TotalNrMistakes)
+sd(Fife.Nr_Errors$Test_TotalNrMistakes)
+min(Fife.Nr_Errors$Test_TotalNrMistakes)
+max(Fife.Nr_Errors$Test_TotalNrMistakes)
+shapiro.test(Fife.Nr_Errors$Test_TotalNrMistakes)#not normally distributed
+wilcox.test(Fife.Nr_Errors$Test_TotalNrMistakes, mu = 18, alternative = "two.sided")
+
+Edi.Nr_Errors<- aggregate(Test_TotalNrMistakes ~ID, Edi, mean)
+
+mean(Edi.Nr_Errors$Test_TotalNrMistakes)
+sd(Edi.Nr_Errors$Test_TotalNrMistakes)
+min(Edi.Nr_Errors$Test_TotalNrMistakes)
+max(Edi.Nr_Errors$Test_TotalNrMistakes)
+shapiro.test(Edi.Nr_Errors$Test_TotalNrMistakes)#not normally distributed
+t.test(Edi.Nr_Errors$Test_TotalNrMistakes, mu = 18, alternative = "two.sided")
+```
+Number of errors:
+
+- 3 years (n = 68): 13.72 (SD = 7.33, range 0-33), normally distributed, performance better than chance (18 mistakes), t(67) = -4.810, p < .001
+- 4 years (n = 72): 11.39 (SD = 6.46, range 0-36), not normally distributed, performance better than chance, V = 121, p < .001
+- 5 years: 4.64 (SD = 3.93, range 1-12), not normally distributed, performance better than chance, V = 0, p = .004
+- 6 years: 4
+
+4-year-olds made more mistakes than 5-year-olds, W = 635, p = .001.
+
+- Young (n = 76): 13.50 (SD = 7.20, range 0-33), normally distributed, performance better than chance (18 mistakes), t(75) = -5.449, p < .001
+- Old (n = 76): 12.26 (SD = 7.54, range 0-31), not normally distributed, performance better than chance, V = 110, p < .001
+
+Young made more mistakes than older children, W = 2667.5, p = .002.
+
+- Fife (n = 86): 11.62 (SD = 6.77, range 0-36), not normally distributed, performance better than chance, V = 189, p < .001
+- Edinburgh (n = 66): 12.26 (SD = 7.54, range 0-31), normally distributed, performance better than chance, t(65) = -6.18, p < .001.
+
+Children from Edinburgh and Fife did not differ in the number of mistakes.
+
+## Proportion of switching mistakes out of all administered trials
+```{r}
+ProportionSwitchingMistakes_OutofallTrials<-aggregate(Proportion_SwitchingMistakes ~ ID, Shelf.clean, mean)
+
+mean(ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+sd(ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+min(ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+max(ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+hist(ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+
+shapiro.test(ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+```
+The mean proportion of switching mistakes out of all trials is 0.23 (SD = 0.13, range 0-0.53). Note that only those children are included where we could exactly determine the number of switching mistakes. (1 child missing, ID 26, a 4-year-old).
+
+Split by age:
+```{r}
+#3 years
+ThreeYears.ProportionSwitchingMistakes_OutofallTrials<- aggregate(Proportion_SwitchingMistakes ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+sd(ThreeYears.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+min(ThreeYears.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+max(ThreeYears.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+
+#4 years
+FourYears.ProportionSwitchingMistakes_OutofallTrials<- aggregate(Proportion_SwitchingMistakes ~ID, Four.year.olds, mean)
+
+mean(FourYears.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+sd(FourYears.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+min(FourYears.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+max(FourYears.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+
+#5 years
+FiveYears.ProportionSwitchingMistakes_OutofallTrials<- aggregate(Proportion_SwitchingMistakes ~ID, Five.year.olds, mean)
+
+mean(FiveYears.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+sd(FiveYears.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+min(FiveYears.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+max(FiveYears.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+
+#6 years
+SixYears.ProportionSwitchingMistakes_OutofallTrials<- aggregate(Proportion_SwitchingMistakes ~ID, Six.year.olds, mean)
+
+mean(SixYears.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+sd(SixYears.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+min(SixYears.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+max(SixYears.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+
+# split by median age
+young.ProportionSwitchingMistakes_OutofallTrials<- aggregate(Proportion_SwitchingMistakes ~ID, young, mean)
+
+mean(young.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+sd(young.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+min(young.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+max(young.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+
+old.ProportionSwitchingMistakes_OutofallTrials<- aggregate(Proportion_SwitchingMistakes ~ID, old, mean)
+
+mean(old.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+sd(old.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+min(old.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+max(old.ProportionSwitchingMistakes_OutofallTrials$Proportion_SwitchingMistakes)
+```
+Proportion of switching mistakes out of all trials:
+
+- 3 years (n = 68): 0.26 (SD = 0.13, range 0-0.5)
+- 4 years (n = 71!): 0.23 (SD = 0.12, range 0-0.53)
+- 5 years (n = 11): 0.11 (SD = 0.09, range 0.03-0.30)
+- 6 years: 0.08
+
+- Young (n = 76): 0.26 (SD = 0.13, range 0-0.5)
+- Old (n = 75!): 0.21 (SD = 0.12, range 0-0.53)
+
+
+## Number of switching mistakes
+```{r}
+NrSwitchingMistakes<-aggregate(Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform ~ ID, Shelf.clean.test, mean)
+
+mean(NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+sd(NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+min(NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+max(NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+```
+Of the 152 children, the mean number of switching mistakes is 8.39 (SD = 4.56, range 0-19).
+
+Split by age:
+```{r}
+#3 years
+ThreeYears.NrSwitchingMistakes<- aggregate(Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+sd(ThreeYears.NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+min(ThreeYears.NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+max(ThreeYears.NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+
+#4 years
+FourYears.NrSwitchingMistakes<- aggregate(Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform ~ID, Four.year.olds, mean)
+
+mean(FourYears.NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+sd(FourYears.NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+min(FourYears.NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+max(FourYears.NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+
+#5 years
+FiveYears.NrSwitchingMistakes<- aggregate(Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform ~ID, Five.year.olds, mean)
+
+mean(FiveYears.NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+sd(FiveYears.NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+min(FiveYears.NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+max(FiveYears.NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+
+#6 years
+SixYears.NrSwitchingMistakes<- aggregate(Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform ~ID, Six.year.olds, mean)
+
+mean(SixYears.NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+sd(SixYears.NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+min(SixYears.NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+max(SixYears.NrSwitchingMistakes$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+```
+Number of switching mistakes:
+
+- 3 years: 9.37 (SD = 4.59, range 0-18)
+- 4 years: 8.24 (SD = 4.30, range 0-19)
+- 5 years: 3.91 (SD = 3.18, range 1-11)
+- 6 years: 3
+
+
+
+## Mean number of correct choices
+```{r}
+Prop_CorrectChoices<-aggregate(Success ~ ID, Shelf.clean.test, mean)
+
+mean(Prop_CorrectChoices$Success)
+sd(Prop_CorrectChoices$Success)
+min(Prop_CorrectChoices$Success)
+max(Prop_CorrectChoices$Success)
+```
+The mean number of correct trials is 0.67 (SD = 0.20, range 0-1).
+
+Does performance deviate from chance?
+```{r}
+hist(Prop_CorrectChoices$Success)
+shapiro.test(Prop_CorrectChoices$Success)
+wilcox.test(Prop_CorrectChoices$Success, mu = 0.5)
+```
+Children's proportion of correct trials (M = 0.67, SD = 0.20, range 0-1) is significantly higher than what would be expected if we assumed that children would choose randomly between the two cups on the winning platform, V = 9671, p <. 001.
+
+Split by age:
+```{r}
+Three.year.olds<-subset(Shelf.clean.test, AgeMonths_midtesting >= "36" & AgeMonths_midtesting < "48")
+Four.year.olds<-subset(Shelf.clean.test, AgeMonths_midtesting >= "48" & AgeMonths_midtesting < "60")
+Five.year.olds<-subset(Shelf.clean.test, AgeMonths_midtesting >= "60" & AgeMonths_midtesting < "72")
+Six.year.olds<-subset(Shelf.clean.test, AgeMonths_midtesting >= "72")
+
+#3 years
+ThreeYears.Success<- aggregate(Success ~ID, Three.year.olds, mean)
+
+mean(ThreeYears.Success$Success)
+sd(ThreeYears.Success$Success)
+min(ThreeYears.Success$Success)
+max(ThreeYears.Success$Success)
+
+#4 years
+FourYears.Success<- aggregate(Success ~ID, Four.year.olds, mean)
+
+mean(FourYears.Success$Success)
+sd(FourYears.Success$Success)
+min(FourYears.Success$Success)
+max(FourYears.Success$Success)
+
+#5 years
+FiveYears.Success<- aggregate(Success ~ID, Five.year.olds, mean)
+
+mean(FiveYears.Success$Success)
+sd(FiveYears.Success$Success)
+min(FiveYears.Success$Success)
+max(FiveYears.Success$Success)
+
+#6 years
+SixYears.Success<- aggregate(Success ~ID, Six.year.olds, mean)
+
+mean(SixYears.Success$Success)
+sd(SixYears.Success$Success)
+min(SixYears.Success$Success)
+max(SixYears.Success$Success)
+
+#3-year-olds
+hist(ThreeYears.Success$Success)
+shapiro.test(ThreeYears.Success$Success)#not normally distributed
+wilcox.test(ThreeYears.Success$Success, mu = 0.5)
+
+#4-year-olds
+hist(FourYears.Success$Success)
+shapiro.test(FourYears.Success$Success)#not normally distributed
+wilcox.test(FourYears.Success$Success, mu = 0.5)
+
+#5-year-olds
+hist(FiveYears.Success$Success)
+shapiro.test(FiveYears.Success$Success)#not normally distributed
+wilcox.test(FiveYears.Success$Success, mu = 0.5)
+```
+Mean number of correct choices:
+
+- 3 years (n = 68): 0.61 (SD = 0.20, range 0.08-1)
+- 4 years (n = 72): 0.68 (SD = 0.18, range 0-1)
+- 5 years (n = 11): 0.87 (SD = 0.11, range 0.67-0.97)
+- 6 years (n = 1): 0.89
+
+3-year-olds: perform significantly different from chance (0.5), V = 1692.5, p < .001.
+4-year-olds: perform significantly different from chance (0.5), V = 2358.5, p < .001.
+5-year-olds: perform significantly different from chance (0.5), V = 66, p = .004.
+
+
+
+Boxplot: mean number of correct trials, across ages
+```{r}
+p<-  ggplot(
+  data=Prop_CorrectChoices, aes(x=rep(1, 152), y=Success)) +
+  geom_boxplot(outlier.colour = "black")+
+  ylim(0, 1)+
+  xlim(0,2)+
+  labs(x="",y="Proportion of correct choices")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Shelf")
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) + geom_count()+
+  geom_hline(yintercept=0.5, linetype="dashed", color = "red")
+```
+
+
+
+```{r}
+Mean_prop_success <-read.csv("Mean_proportion_success.csv",header=TRUE, sep = ";")
+
+p1<-ggplot(data=Mean_prop_success, aes(x=Age_group,y=Mean_proportion_success)) +
+  geom_boxplot(aes(group=Age_group, fill = as.factor(Mean_prop_success$Age_group)), outlier.colour = "black") + 
+      ylim(0,1)+
+  xlim(2.5,6.5)+
+  geom_point(alpha=0.3) +
+  labs(x="",y="Proportion of correct choices")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Shelf")
+
+#rep is from 1 to how many IDs there are; fill is the grouping variable
+#position dodge changes the space between the 2 boxplots
+
+p1  +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5)+
+  scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 68", "4 years, n = 71", "5 years, n = 11", "6 years, n = 1"))+
+  theme(legend.title = element_blank())+
+  geom_hline(yintercept=0.5, linetype="dashed", color = "red")
+```
+
+
+We put the proportion correct trials for all the phases into one datasheet:
+```{r}
+str(Shelf.clean)
+T1_propcorrect <- aggregate(Training1_ProportionCorrectTrials ~ ID, Shelf.clean, mean)
+T2a_propcorrect <- aggregate(Training2_ProportionCorrectTrials ~ ID, Shelf.clean, mean)
+T2b_propcorrect <- aggregate(Warmup_ProportionCorrectTrials ~ ID, Shelf.clean, mean)
+Test_propcorrect <- aggregate(Test_ProportionCorrectTrials ~ ID, Shelf.clean, mean)
+```
+
+```{r}
+PropCorrect <-read.csv("ProportionCorrectTrials.csv",header=TRUE, sep = ";")
+names(PropCorrect)[1] <- "ID"
+
+PropCorrect$Phase<-fct_relevel(PropCorrect$Phase, "Training1", "Training2a", "Training2b", "Test")
+
+library(tidyverse)
+ggplot(data = PropCorrect, aes(x = as.numeric(Phase), y = Proportion_CorrectTrials)) + 
+  geom_boxplot(aes(group = Phase, fill = Phase), outlier.shape = NA) +
+  geom_point(aes(color = ID)) +
+  geom_line(aes(group = ID), alpha = 0.2) + 
+  theme(legend.position = "none") + 
+  labs(x = "Phase") +
+ theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+  theme(legend.position = "none")+
+  geom_hline(yintercept=0.5, linetype="dashed", color = "red")
+```
+
+Does performance deviate from chance?
+```{r}
+hist(T1_propcorrect$Training1_ProportionCorrectTrials)
+shapiro.test(T1_propcorrect$Training1_ProportionCorrectTrials)#not normally distributed
+wilcox.test(T1_propcorrect$Training1_ProportionCorrectTrials, mu = 0.5)
+
+hist(T2a_propcorrect$Training2_ProportionCorrectTrials)
+shapiro.test(T2a_propcorrect$Training2_ProportionCorrectTrials)#not normally distributed
+wilcox.test(T2a_propcorrect$Training2_ProportionCorrectTrials, mu = 0.5)
+
+hist(T2b_propcorrect$Warmup_ProportionCorrectTrials)
+shapiro.test(T2b_propcorrect$Warmup_ProportionCorrectTrials)#not normally distributed
+wilcox.test(T2b_propcorrect$Warmup_ProportionCorrectTrials, mu = 0.5)
+
+hist(Test_propcorrect$Test_ProportionCorrectTrials)
+shapiro.test(Test_propcorrect$Test_ProportionCorrectTrials)#not normally distributed
+wilcox.test(Test_propcorrect$Test_ProportionCorrectTrials, mu = 0.5)
+```
+Training 1: Performance significantly above chance (0.5), V = 11626, p < .001
+Training 2a: Performance significantly above chance (0.5), V = 11627, p < .001
+Training 2b: Performance significantly above chance (0.5), V = 11628, p < .001
+Test: Performance significantly above chance (0.5), V = 9705.5, p < .001
+
+
+
+# In the test phase, can age and trial number and the interaction between age and trial number predict success?
+```{r}
+library(lme4)
+
+#we z-transform age and trial number, as we are including them into an interaction
+Shelf.clean.test$z.age.midtesting=as.vector(scale(Shelf.clean.test$AgeMonths_midtesting))#transform age to mean of 0 and SD of 1
+mean(Shelf.clean.test$z.age.midtesting)#check whether it has worked
+sd(Shelf.clean.test$z.age.midtesting)
+
+Shelf.clean.test$z.Trial_nr=as.vector(scale(Shelf.clean.test$Trial_nr))#transform trial number to mean of 0 and SD of 1
+mean(Shelf.clean.test$z.Trial_nr)#check whether it has worked
+sd(Shelf.clean.test$z.Trial_nr)
+
+#Full model
+control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000))
+
+res<-glmer(Success ~ z.age.midtesting + z.Trial_nr + z.age.midtesting:z.Trial_nr + (1+z.Trial_nr|ID), data=Shelf.clean.test, family = binomial, control = control)
+
+null<-glmer(Success ~ 1 + (1+z.Trial_nr|ID), data=Shelf.clean.test, family = binomial, control=control)
+
+anova(null, res, test="Chisq")
+```
+The full model explains the data significantly better than the null model only consisting of the intercept, X2(3) = 50.714, p < .001.
+
+Effect of interaction
+```{r}
+res.nointer<-glmer(Success ~ z.age.midtesting + z.Trial_nr + (1+z.Trial_nr|ID), data=Shelf.clean.test, family = binomial, control=control)
+
+anova(res.nointer, res, test="Chisq")
+
+```
+There is only a marginally significant interaction effect, X2(1) = 3.557, p = .059, so we remove it from the model.
+
+
+```{r}
+res<-glmer(Success ~ z.age.midtesting + z.Trial_nr + (1+z.Trial_nr|ID), data=Shelf.clean.test, family = binomial, control=control)
+
+anova(null, res, test="Chisq")
+```
+The full model explains the data significantly better than the null model only consisting of the intercept, X2(2) = 47.157, p < .001.
+
+Effect of trial number
+```{r}
+res.notrial<-glmer(Success ~ z.age.midtesting + (1+z.Trial_nr|ID), data=Shelf.clean.test, family = binomial, control=control)
+
+anova(res.notrial, res, test="Chisq")
+```
+Trial number has a significant effect, X2(1) = 28.231, p < .001.
+
+Effect of age
+```{r}
+res.noage<-glmer(Success ~ z.Trial_nr + (1+z.Trial_nr|ID), data=Shelf.clean.test, family = binomial, control=control)
+
+anova(res.noage, res, test="Chisq")
+```
+Age has a significant effect, X2(1) = 16.943, p < .001.
+
+```{r}
+summary(res)
+```
+
+## Model assumptions
+```{r}
+source("diagnostic_fcns.r")
+ranef.diagn.plot(res)
+
+#collinearity
+xres=lm(Success ~ z.Trial_nr + z.age.midtesting, data=Shelf.clean.test)
+
+library(car)
+vif(xres)
+
+source("glmm_stability.r")
+m.stab=glmm.model.stab(model.res=res, contr=control)
+m.stab$summary
+```
+
+```{r}
+source("boot_glmm.r")#requires centering of all predictors apart the ones one is interested in. We are interested in both.
+
+boot.res=boot.glmm.pred(model.res=res, excl.warnings=T,
+nboots=1000, para=F, resol=36, use="z.Trial_nr")
+
+boot.res$ci.estimates
+boot.res$ci.predicted
+
+par(mar=c(3, 3, 0.2, 0.2), mgp=c(1.7, 0.3, 0), las=1, tcl=-0.15)
+plot(x=Shelf.clean.test$Trial_nr, y=Shelf.clean.test$Success, pch=19, las=2, ylim=c(0, 1),
+xlab="Trial number", ylab="Probability of success", cex=0.1*sqrt(Shelf.clean.test$ID))
+
+plot.xvals=seq(from=min(Shelf.clean.test$Trial_nr), to=max(Shelf.clean.test$Trial_nr),
+length.out=36)
+
+lines(x=plot.xvals, y=boot.res$ci.predicted$fitted,
+lty=2)
+lines(x=plot.xvals, y=boot.res$ci.predicted$lower.cl,
+lty=3)
+lines(x=plot.xvals, y=boot.res$ci.predicted$upper.cl,
+lty=3)
+
+
+#and now with interaction
+resinter<-glmer(Success ~ z.Trial_nr + Mediansplit_midtesting_entiresample + Mediansplit_midtesting_entiresample:z.Trial_nr + (1+z.Trial_nr|ID), data=Shelf.clean.test, family = binomial, control=control)
+
+boot.res=boot.glmm.pred(model.res=resinter, excl.warnings=T,
+nboots=1000, para=F, resol=36, use="z.Trial_nr")
+
+library(tidyverse)
+shelfagg <- Shelf.clean.test %>%
+  group_by(Trial_nr, Mediansplit_midtesting_entiresample) %>%
+  summarize(Success= mean(Success))%>%
+  ungroup()%>%
+  group_by(Trial_nr)%>%
+    add_count(Success)
+
+plot.xvals=seq(from=min(shelfagg$Trial_nr), to=max(shelfagg$Trial_nr),
+length.out=36)
+
+ci.data<-boot.res$ci.predicted
+
+scatter.int <- ggplot(ci.data, aes( y = fitted)) +
+  geom_point(data=shelfagg, aes(x = Trial_nr, y = Success), size = shelfagg$n, alpha = 0.8) +
+  facet_wrap(~Mediansplit_midtesting_entiresample) +
+  geom_ribbon(data = ci.data%>%filter(Mediansplit_midtesting_entiresample=="old"), aes(x = plot.xvals, y = fitted, ymin = lower.cl, ymax = upper.cl, group = Mediansplit_midtesting_entiresample), fill = "grey", alpha = 0.5) +
+  geom_line(data = ci.data%>%filter(Mediansplit_midtesting_entiresample=="old"), aes(x = plot.xvals, y = fitted), lty = 2) +
+    geom_ribbon(data = ci.data%>%filter(Mediansplit_midtesting_entiresample=="young"), aes(x = plot.xvals, y = fitted, ymin = lower.cl, ymax = upper.cl, group = Mediansplit_midtesting_entiresample), fill = "grey", alpha = 0.5) +
+  geom_line(data = ci.data%>%filter(Mediansplit_midtesting_entiresample=="young"), aes(x = plot.xvals, y = fitted), lty = 2) +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  xlab("Trial number") +
+  ylab("Success") +
+  ylim(0, 1) +
+  geom_hline(yintercept = 0.50, color = "red", linetype = "dashed")
+
+scatter.int
+
+
+# and now with age groups
+Shelf.clean.test$z.age.group=as.vector(scale(Shelf.clean.test$AgeGroup_midtesting))#transform age to mean of 0 and SD of 1
+mean(Shelf.clean.test$z.age.group)#check whether it has worked
+sd(Shelf.clean.test$z.age.group)
+
+resinterage<-glmer(Success ~ z.Trial_nr + z.age.group + z.age.group:z.Trial_nr + (1+z.Trial_nr|ID), data=Shelf.clean.test, family = binomial, control=control)
+
+boot.res=boot.glmm.pred(model.res=resinterage, excl.warnings=T,
+nboots=1000, para=F, resol=36, use="z.Trial_nr")
+
+
+library(tidyverse)
+shelfagg <- Shelf.clean.test %>%
+  group_by(Trial_nr, AgeGroup_midtesting) %>%
+  summarize(Success= mean(Success))%>%
+  ungroup()%>%
+  group_by(Trial_nr)%>%
+    add_count(Success)
+
+plot.xvals=seq(from=min(shelfagg$Trial_nr), to=max(shelfagg$Trial_nr),
+length.out=36)
+
+ci.data<-boot.res$ci.predicted
+table(Shelf.clean.test$AgeGroup_midtesting)
+
+scatter.int <- ggplot(ci.data, aes( y = fitted)) +
+  geom_point(data=shelfagg, aes(x = Trial_nr, y = Success), size = shelfagg$n, alpha = 0.8) +
+  facet_wrap(~AgeGroup_midtesting) 
+
+#for some reason, the following code does not work (does not find AgeGroup_midtesting), so the graph does not show the CIs. Still, one can see that the marginal interaction is driven by the 5- and 6-year-olds (they have good performance in every trial, while the younger children get slowly better over trials)
+#+
+ # geom_ribbon(data = ci.data%>%filter(AgeGroup_midtesting=="3"), aes(x = plot.xvals, y = fitted, ymin = lower.cl, ymax = upper.cl, group = AgeGroup_midtesting), fill = "grey", alpha = 0.5) +
+#  geom_line(data = ci.data%>%filter(AgeGroup_midtesting=="3"), aes(x = plot.xvals, y = fitted), lty = 2) +
+ #   geom_ribbon(data = ci.data%>%filter(AgeGroup_midtesting=="4"), aes(x = plot.xvals, y = fitted, ymin = lower.cl, ymax = upper.cl, group = AgeGroup_midtesting), fill = "grey", alpha = 0.5) +
+  #geom_line(data = ci.data%>%filter(AgeGroup_midtesting=="4"), aes(x = plot.xvals, y = fitted), lty = 2) +
+  #geom_ribbon(data = ci.data%>%filter(AgeGroup_midtesting=="5"), aes(x = plot.xvals, y = fitted, ymin = lower.cl, ymax = upper.cl, group = AgeGroup_midtesting), fill = "grey", alpha = 0.5) +
+  #geom_line(data = ci.data%>%filter(AgeGroup_midtesting=="5"), aes(x = plot.xvals, y = fitted), lty = 2) +
+  #theme_bw() +
+  #theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  #xlab("Trial number") +
+  #ylab("Success") +
+  #ylim(0, 1) +
+  #geom_hline(yintercept = 0.50, color = "red", linetype = "dashed")
+
+scatter.int
+
+```
+
+
+
+
+
+
+
+```{r}
+#Trial 1
+Shelf.clean.trial1<-subset(Shelf.clean.test, Trial_nr == "1")
+Shelf.clean.trial2<-subset(Shelf.clean.test, Trial_nr == "2")
+Shelf.clean.trial3<-subset(Shelf.clean.test, Trial_nr == "3")
+Shelf.clean.trial4<-subset(Shelf.clean.test, Trial_nr == "4")
+Shelf.clean.trial5<-subset(Shelf.clean.test, Trial_nr == "5")
+Shelf.clean.trial6<-subset(Shelf.clean.test, Trial_nr == "6")
+Shelf.clean.trial7<-subset(Shelf.clean.test, Trial_nr == "7")
+Shelf.clean.trial8<-subset(Shelf.clean.test, Trial_nr == "8")
+Shelf.clean.trial9<-subset(Shelf.clean.test, Trial_nr == "9")
+Shelf.clean.trial10<-subset(Shelf.clean.test, Trial_nr == "10")
+Shelf.clean.trial11<-subset(Shelf.clean.test, Trial_nr == "11")
+Shelf.clean.trial12<-subset(Shelf.clean.test, Trial_nr == "12")
+Shelf.clean.trial13<-subset(Shelf.clean.test, Trial_nr == "13")
+Shelf.clean.trial14<-subset(Shelf.clean.test, Trial_nr == "14")
+Shelf.clean.trial15<-subset(Shelf.clean.test, Trial_nr == "15")
+Shelf.clean.trial16<-subset(Shelf.clean.test, Trial_nr == "16")
+Shelf.clean.trial17<-subset(Shelf.clean.test, Trial_nr == "17")
+Shelf.clean.trial18<-subset(Shelf.clean.test, Trial_nr == "18")
+Shelf.clean.trial19<-subset(Shelf.clean.test, Trial_nr == "19")
+Shelf.clean.trial20<-subset(Shelf.clean.test, Trial_nr == "20")
+Shelf.clean.trial21<-subset(Shelf.clean.test, Trial_nr == "21")
+Shelf.clean.trial22<-subset(Shelf.clean.test, Trial_nr == "22")
+Shelf.clean.trial23<-subset(Shelf.clean.test, Trial_nr == "23")
+Shelf.clean.trial24<-subset(Shelf.clean.test, Trial_nr == "24")
+Shelf.clean.trial25<-subset(Shelf.clean.test, Trial_nr == "25")
+Shelf.clean.trial26<-subset(Shelf.clean.test, Trial_nr == "26")
+Shelf.clean.trial27<-subset(Shelf.clean.test, Trial_nr == "27")
+Shelf.clean.trial28<-subset(Shelf.clean.test, Trial_nr == "28")
+Shelf.clean.trial29<-subset(Shelf.clean.test, Trial_nr == "29")
+Shelf.clean.trial30<-subset(Shelf.clean.test, Trial_nr == "30")
+Shelf.clean.trial31<-subset(Shelf.clean.test, Trial_nr == "31")
+Shelf.clean.trial32<-subset(Shelf.clean.test, Trial_nr == "32")
+Shelf.clean.trial33<-subset(Shelf.clean.test, Trial_nr == "33")
+Shelf.clean.trial34<-subset(Shelf.clean.test, Trial_nr == "34")
+Shelf.clean.trial35<-subset(Shelf.clean.test, Trial_nr == "35")
+Shelf.clean.trial36<-subset(Shelf.clean.test, Trial_nr == "36")
+
+mean(Shelf.clean.trial1$Success)
+mean(Shelf.clean.trial2$Success)
+mean(Shelf.clean.trial3$Success)
+mean(Shelf.clean.trial4$Success)
+mean(Shelf.clean.trial5$Success)
+mean(Shelf.clean.trial6$Success)
+mean(Shelf.clean.trial7$Success)
+mean(Shelf.clean.trial8$Success)
+mean(Shelf.clean.trial9$Success)
+mean(Shelf.clean.trial10$Success)
+mean(Shelf.clean.trial11$Success)
+mean(Shelf.clean.trial12$Success)
+mean(Shelf.clean.trial13$Success)
+mean(Shelf.clean.trial14$Success)
+mean(Shelf.clean.trial15$Success)
+mean(Shelf.clean.trial16$Success)
+mean(Shelf.clean.trial17$Success)
+mean(Shelf.clean.trial18$Success)
+mean(Shelf.clean.trial19$Success)
+mean(Shelf.clean.trial20$Success)
+mean(Shelf.clean.trial21$Success)
+mean(Shelf.clean.trial22$Success)
+mean(Shelf.clean.trial23$Success)
+mean(Shelf.clean.trial24$Success)
+mean(Shelf.clean.trial25$Success)
+mean(Shelf.clean.trial26$Success)
+mean(Shelf.clean.trial27$Success)
+mean(Shelf.clean.trial28$Success)
+mean(Shelf.clean.trial29$Success)
+mean(Shelf.clean.trial30$Success)
+mean(Shelf.clean.trial31$Success)
+mean(Shelf.clean.trial32$Success)
+mean(Shelf.clean.trial33$Success)
+mean(Shelf.clean.trial34$Success)
+mean(Shelf.clean.trial35$Success)
+mean(Shelf.clean.trial36$Success)
+
+
+sd(Shelf.clean.trial1$Success)
+sd(Shelf.clean.trial2$Success)
+sd(Shelf.clean.trial3$Success)
+sd(Shelf.clean.trial4$Success)
+sd(Shelf.clean.trial5$Success)
+sd(Shelf.clean.trial6$Success)
+sd(Shelf.clean.trial7$Success)
+sd(Shelf.clean.trial8$Success)
+sd(Shelf.clean.trial9$Success)
+sd(Shelf.clean.trial10$Success)
+sd(Shelf.clean.trial11$Success)
+sd(Shelf.clean.trial12$Success)
+sd(Shelf.clean.trial13$Success)
+sd(Shelf.clean.trial14$Success)
+sd(Shelf.clean.trial15$Success)
+sd(Shelf.clean.trial16$Success)
+sd(Shelf.clean.trial17$Success)
+sd(Shelf.clean.trial18$Success)
+sd(Shelf.clean.trial19$Success)
+sd(Shelf.clean.trial20$Success)
+sd(Shelf.clean.trial21$Success)
+sd(Shelf.clean.trial22$Success)
+sd(Shelf.clean.trial23$Success)
+sd(Shelf.clean.trial24$Success)
+sd(Shelf.clean.trial25$Success)
+sd(Shelf.clean.trial26$Success)
+sd(Shelf.clean.trial27$Success)
+sd(Shelf.clean.trial28$Success)
+sd(Shelf.clean.trial29$Success)
+sd(Shelf.clean.trial30$Success)
+sd(Shelf.clean.trial31$Success)
+sd(Shelf.clean.trial32$Success)
+sd(Shelf.clean.trial33$Success)
+sd(Shelf.clean.trial34$Success)
+sd(Shelf.clean.trial35$Success)
+sd(Shelf.clean.trial36$Success)
+```
+
+```{r}
+Shelf.trialbytrial <-read.csv("Mean_success_by_trial.csv",header=TRUE, sep = ";")
+names(Shelf.trialbytrial)[1] <- "Trial"
+
+library(ggplot2)
+
+ggplot(Shelf.trialbytrial, aes(x=Trial, y=Mean_Success)) + 
+    geom_errorbar(aes(ymin=Mean_Success-SD_Success, ymax=Mean_Success+SD_Success), width=.1) +
+    geom_line() +
+    geom_point()+
+    ylim(-0.2,1.5)+
+    geom_hline(yintercept=.5, colour = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
