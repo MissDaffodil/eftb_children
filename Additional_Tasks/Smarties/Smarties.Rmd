@@ -1,0 +1,391 @@
+---
+title: "Smarties"
+author: "Eva Reindl"
+date: "31 7 2020"
+output: word_document
+---
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+Smarties <-read.csv("Smarties.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+names(Smarties)[1] <- "ID"
+str(Smarties)
+```
+There are 99 children in the dataset.
+
+# Dropouts
+```{r}
+dropouts<-subset(Smarties, Dropout == "yes")
+```
+There are 5 dropouts (4 3-year-olds, 1 4-year-olds; 3 m, 2 f): 
+
+- 1 child did not answer
+- 1 child did not stay attentive
+- 1 child too poor language skills
+- 1 child: experimenter error (did not show child what was inside the box)
+- 1 child: answers not understandable
+
+# Valid data
+```{r}
+Smarties.valid<-subset(Smarties, Dropout == "no")
+```
+There are **94 valid cases** in the Smarties task.
+
+# Description of sample 
+## Gender
+```{r}
+table(Smarties.valid$Gender)
+```
+There are **59 females** and **35 males**.
+
+## Age
+### Age at the beginning of testing
+```{r}
+mean(Smarties.valid$Age_months)
+sd(Smarties.valid$Age_months)
+min(Smarties.valid$Age_months)
+max(Smarties.valid$Age_months)
+
+table(Smarties.valid$Age_group)
+```
+At the beginning of testing, children included in the Smarties task were on average 48.98 months old (SD = 7.43, range 37-70). There were 44 3-year-olds, 42 4-year-olds, and 8 5-year-olds.
+
+### In the middle of testing
+```{r}
+mean(Smarties.valid$AgeMonths_MidTesting)
+sd(Smarties.valid$AgeMonths_MidTesting)
+min(Smarties.valid$AgeMonths_MidTesting)
+max(Smarties.valid$AgeMonths_MidTesting)
+hist(Smarties.valid$AgeMonths_MidTesting)
+
+table(Smarties.valid$AgeGroup_MidTesting)
+table(Smarties.valid$AgeGroup_MidTesting, Smarties.valid$Gender)
+
+boys <- subset(Smarties.valid, Gender == "m")
+girls <- subset(Smarties.valid, Gender == "f")
+
+hist(boys$AgeMonths_MidTesting)
+mean(boys$AgeMonths_MidTesting)
+sd(boys$AgeMonths_MidTesting)
+min(boys$AgeMonths_MidTesting)
+max(boys$AgeMonths_MidTesting)
+shapiro.test(boys$AgeMonths_MidTesting)#normally distributed
+
+hist(girls$AgeMonths_MidTesting)
+mean(girls$AgeMonths_MidTesting)
+sd(girls$AgeMonths_MidTesting)
+min(girls$AgeMonths_MidTesting)
+max(girls$AgeMonths_MidTesting)
+shapiro.test(girls$AgeMonths_MidTesting)#not normally distributed
+
+wilcox.test(Smarties.valid$AgeMonths_MidTesting ~ Smarties.valid$Gender, alternative = "two.sided")
+```
+In the middle of testing, children included in the Smarties task were on average **50.44 months old (SD = 7.39, range 38-72)**. There were  
+
+- 42 3-year-olds (30f, 12m)
+- 40 4-year-olds (22f, 18m)
+- 11 5-year-olds (7f, 4m)
+- 1 6-year-old (1m)
+
+- Boys: M = 51.68 (SD = 7.76, range 38-72)
+- Girls: M = 49.69 (SD = 7.13, range 39-64)
+
+There was no difference between males and females regarding the age distribution, two-sided Wilcoxon test, W = 886.5, p = .254.
+
+### Age mediansplit (based on entire sample)
+```{r}
+table(Smarties.valid$Mediansplit_midtesting_entiresample)
+table(Smarties.valid$Mediansplit_midtesting_entiresample, Smarties.valid$Gender)
+```
+There were **44 young** (30 f, 14 m) and **50 old** (29 f, 21 m) children.
+
+## Testing Location
+All children were from the Fife area.
+
+# Control question 1 (What is inside the box?)
+```{r}
+table(Smarties.valid$What.is.inside)
+```
+All 94 children answered the question correctly.
+
+# Test question 1 (What did you think was inside?)
+```{r}
+table(Smarties.valid$What.did.you.think.was.inside)
+table(Smarties.valid$What.did.you.think.was.inside, Smarties.valid$AgeGroup_MidTesting)
+
+threeandfour <- subset(Smarties.valid, AgeGroup_MidTesting =="3" | AgeGroup_MidTesting == "4")
+table(threeandfour$What.did.you.think.was.inside, threeandfour$AgeGroup_MidTesting)
+chisq.test(threeandfour$What.did.you.think.was.inside, threeandfour$AgeGroup_MidTesting)
+
+table(Smarties.valid$What.did.you.think.was.inside, Smarties.valid$Mediansplit_midtesting_entiresample)
+
+chisq.test(Smarties.valid$What.did.you.think.was.inside, Smarties.valid$Mediansplit_midtesting_entiresample)
+```
+29 children (31%) answered the question correctly, 65 answered wrongly.
+
+- 3y: 9 correct (21%), 33 wrong
+- 4y: 15 correct (37.5%), 25 wrong
+- 5y: 4 correct (36%), 7 wrong
+- 6y: 1 correct (100%)
+
+There is no difference in performance between 3- and 4-year-olds, X2(1) = 1.839, p = .175.
+
+- young: 9 correct (20%), 35 wrong
+- old 20 correct (40%), 30 wrong
+
+There is no difference in performance between young and old children, X(1) = 3.325, p = .068.
+
+
+# Test question 2 (What did x think is inside the box?)
+```{r}
+table(Smarties.valid$What.will.x.think.is.inside)
+table(Smarties.valid$What.will.x.think.is.inside, Smarties.valid$AgeGroup_MidTesting)
+
+table(threeandfour$What.will.x.think.is.inside, threeandfour$AgeGroup_MidTesting)
+chisq.test(threeandfour$What.will.x.think.is.inside, threeandfour$AgeGroup_MidTesting)
+
+table(Smarties.valid$What.will.x.think.is.inside, Smarties.valid$Mediansplit_midtesting_entiresample)
+
+chisq.test(Smarties.valid$What.will.x.think.is.inside, Smarties.valid$Mediansplit_midtesting_entiresample)
+```
+50 children (53%) answered the question correctly, 44 answered wrongly.
+
+- 3y: 19 correct (59%), 23 wrong
+- 4y: 21 correct (51%), 19 wrong
+- 5y: 9 correct (36%), 2 wrong
+- 6y: 1 correct (100%)
+
+There is no difference in performance between 3- and 4-year-olds, X2(1) = 1.191, p = .662.
+
+- young: 19 correct (43%), 25 wrong
+- old: 31 correct (61%), 19 wrong
+
+There is no difference in performance between young and old children, X(1) = 2.616, p = .106.
+
+
+# Control question 2 (What does box look like?)
+```{r}
+table(Smarties.valid$What.does.box.look.like)
+table(Smarties.valid$What.does.box.look.like, Smarties.valid$AgeGroup_MidTesting)
+
+table(threeandfour$What.does.box.look.like, threeandfour$AgeGroup_MidTesting)
+chisq.test(threeandfour$What.does.box.look.like, threeandfour$AgeGroup_MidTesting)
+
+table(Smarties.valid$What.does.box.look.like, Smarties.valid$Mediansplit_midtesting_entiresample)
+
+chisq.test(Smarties.valid$What.does.box.look.like, Smarties.valid$Mediansplit_midtesting_entiresample)
+```
+40 children (42%) answered the question correctly, 54 answered wrongly.
+
+- 3y: 14 correct (33%), 28 wrong
+- 4y: 20 correct (50%), 20 wrong
+- 5y: 6 correct (54%), 5 wrong
+- 6y: 1 wrong (0%)
+
+There is no difference in performance between 3- and 4-year-olds, X2(1) = 1.708, p = .191.
+
+- young: 14 correct (32%), 30 wrong
+- old: 26 correct (52%), 24 wrong
+
+There is no difference in performance between young and old children, X(1) = 3.118, p = .077.
+
+
+# Control question 3 (What is really inside?)
+```{r}
+table(Smarties.valid$What.is.really.inside)
+table(Smarties.valid$What.is.really.inside, Smarties.valid$AgeGroup_MidTesting)
+
+table(threeandfour$What.is.really.inside, threeandfour$AgeGroup_MidTesting)
+chisq.test(threeandfour$What.is.really.inside, threeandfour$AgeGroup_MidTesting)
+
+table(Smarties.valid$What.is.really.inside, Smarties.valid$Mediansplit_midtesting_entiresample)
+
+chisq.test(Smarties.valid$What.is.really.inside, Smarties.valid$Mediansplit_midtesting_entiresample)
+```
+86 children (91%) answered the question correctly, 8 answered wrongly.
+
+- 3y: 38 correct (90%), 4 wrong
+- 4y: 36 correct (90%), 4 wrong
+- 5y: 11 correct (100%)
+- 6y: 1 correct (100%)
+
+There is no difference in performance between 3- and 4-year-olds.
+
+- young: 40 correct (91%), 4 wrong
+- old: 46 correct (92%), 4 wrong
+
+There is no difference in performance between young and old children.
+
+# Score: Own false belief
+```{r}
+mean(Smarties.valid$Score_OwnFalseBelief)
+sd(Smarties.valid$Score_OwnFalseBelief)
+min(Smarties.valid$Score_OwnFalseBelief)
+max(Smarties.valid$Score_OwnFalseBelief)
+
+table(Smarties.valid$Score_OwnFalseBelief)
+
+tapply(Smarties.valid$Score_OwnFalseBelief, Smarties.valid$AgeGroup_MidTesting, mean)
+tapply(Smarties.valid$Score_OwnFalseBelief, Smarties.valid$AgeGroup_MidTesting, sd)
+tapply(Smarties.valid$Score_OwnFalseBelief, Smarties.valid$AgeGroup_MidTesting, min)
+tapply(Smarties.valid$Score_OwnFalseBelief, Smarties.valid$AgeGroup_MidTesting, max)
+
+table(Smarties.valid$Score_OwnFalseBelief, Smarties.valid$AgeGroup_MidTesting)
+
+three <- subset(Smarties.valid, AgeGroup_MidTesting =="3")
+hist(three$Score_OwnFalseBelief)
+shapiro.test(three$Score_OwnFalseBelief)#not normally distributed
+
+four <- subset(Smarties.valid, AgeGroup_MidTesting =="4")
+hist(four$Score_OwnFalseBelief)
+shapiro.test(four$Score_OwnFalseBelief)#not normally distributed
+
+wilcox.test(three$Score_OwnFalseBelief, four$Score_OwnFalseBelief, alternative = "less")
+
+tapply(Smarties.valid$Score_OwnFalseBelief, Smarties.valid$Mediansplit_midtesting_entiresample, mean)
+tapply(Smarties.valid$Score_OwnFalseBelief, Smarties.valid$Mediansplit_midtesting_entiresample, sd)
+tapply(Smarties.valid$Score_OwnFalseBelief, Smarties.valid$Mediansplit_midtesting_entiresample, min)
+tapply(Smarties.valid$Score_OwnFalseBelief, Smarties.valid$Mediansplit_midtesting_entiresample, max)
+
+young <- subset(Smarties.valid, Mediansplit_midtesting_entiresample =="young")
+old <- subset(Smarties.valid, Mediansplit_midtesting_entiresample =="old")
+shapiro.test(young$Score_OwnFalseBelief)#not normally distributed
+shapiro.test(old$Score_OwnFalseBelief)#not normally distributed
+
+wilcox.test(young$Score_OwnFalseBelief, old$Score_OwnFalseBelief, alternative = "less")
+
+```
+
+0 = at least one control question wrong
+1 = control questions correct, test question wrong
+2 = control and test questions correct
+
+The average score is 0.57 (SD = 0.80, range 0-2).
+
+- 3y (n = 42): 0.38 (SD = 0.66, range 0-2)
+- 4y (n = 40): 0.70 (SD = 0.85, range 0-2)
+- 5y (n = 11): 0.91 (SD = 0.94, range 0-2)
+- 6y (n = 1): 0
+
+Three-year-olds have a lower score than 4-year-olds, W = 678, p = .040.
+
+- young (n = 44): 0.36 (SD = 0.65, range 0-2)
+- old (n = 50): 0.76 (SD = 0.87, range 0-2)
+
+Young children have a lower score than older children, W = 836, p = .011.
+
+
+# Score: Other false belief
+```{r}
+mean(Smarties.valid$Score_OtherFalseBelief)
+sd(Smarties.valid$Score_OtherFalseBelief)
+min(Smarties.valid$Score_OtherFalseBelief)
+max(Smarties.valid$Score_OtherFalseBelief)
+
+table(Smarties.valid$Score_OtherFalseBelief)
+
+tapply(Smarties.valid$Score_OtherFalseBelief, Smarties.valid$AgeGroup_MidTesting, mean)
+tapply(Smarties.valid$Score_OtherFalseBelief, Smarties.valid$AgeGroup_MidTesting, sd)
+tapply(Smarties.valid$Score_OtherFalseBelief, Smarties.valid$AgeGroup_MidTesting, min)
+tapply(Smarties.valid$Score_OtherFalseBelief, Smarties.valid$AgeGroup_MidTesting, max)
+
+table(Smarties.valid$Score_OtherFalseBelief, Smarties.valid$AgeGroup_MidTesting)
+
+hist(three$Score_OtherFalseBelief)
+shapiro.test(three$Score_OtherFalseBelief)#not normally distributed
+
+hist(four$Score_OtherFalseBelief)
+shapiro.test(four$Score_OtherFalseBelief)#not normally distributed
+
+wilcox.test(three$Score_OtherFalseBelief, four$Score_OtherFalseBelief, alternative = "less")
+
+tapply(Smarties.valid$Score_OtherFalseBelief, Smarties.valid$Mediansplit_midtesting_entiresample, mean)
+tapply(Smarties.valid$Score_OtherFalseBelief, Smarties.valid$Mediansplit_midtesting_entiresample, sd)
+tapply(Smarties.valid$Score_OtherFalseBelief, Smarties.valid$Mediansplit_midtesting_entiresample, min)
+tapply(Smarties.valid$Score_OtherFalseBelief, Smarties.valid$Mediansplit_midtesting_entiresample, max)
+
+shapiro.test(young$Score_OtherFalseBelief)#not normally distributed
+shapiro.test(old$Score_OtherFalseBelief)#not normally distributed
+
+wilcox.test(young$Score_OtherFalseBelief, old$Score_OtherFalseBelief, alternative = "less")
+```
+
+0 = at least one control question wrong
+1 = control questions correct, test question wrong
+2 = control and test questions correct
+
+The average score is 0.66 (SD = 0.89, range 0-2).
+
+- 3y (n = 42): 0.45 (SD = 0.77, range 0-2)
+- 4y (n = 40): 0.80 (SD = 0.94, range 0-2)
+- 5y (n = 11): 1.00 (SD = 1.00, range 0-2)
+- 6y (n = 1): 0
+
+Three-year-olds have a lower score than 4-year-olds, W = 681, p = .042.
+
+- young (n = 44): 0.43 (SD = 0.76, range 0-2)
+- old (n = 50): 0.86 (SD = 0.95, range 0-2)
+
+Young children have a lower score than older children, W = 842, p = .012.
+
+
+# Total score
+```{r}
+mean(Smarties.valid$TotalScore)
+sd(Smarties.valid$TotalScore)
+min(Smarties.valid$TotalScore)
+max(Smarties.valid$TotalScore)
+
+tapply(Smarties.valid$TotalScore, Smarties.valid$AgeGroup_MidTesting, mean)
+tapply(Smarties.valid$TotalScore, Smarties.valid$AgeGroup_MidTesting, sd)
+tapply(Smarties.valid$TotalScore, Smarties.valid$AgeGroup_MidTesting, min)
+tapply(Smarties.valid$TotalScore, Smarties.valid$AgeGroup_MidTesting, max)
+
+hist(three$TotalScore)
+shapiro.test(three$TotalScore)#not normally distributed
+
+hist(four$TotalScore)
+shapiro.test(four$TotalScore)#not normally distributed
+
+wilcox.test(three$TotalScore, four$TotalScore, alternative = "less")
+
+tapply(Smarties.valid$TotalScore, Smarties.valid$Mediansplit_midtesting_entiresample, mean)
+tapply(Smarties.valid$TotalScore, Smarties.valid$Mediansplit_midtesting_entiresample, sd)
+tapply(Smarties.valid$TotalScore, Smarties.valid$Mediansplit_midtesting_entiresample, min)
+tapply(Smarties.valid$TotalScore, Smarties.valid$Mediansplit_midtesting_entiresample, max)
+
+shapiro.test(young$TotalScore)#not normally distributed
+shapiro.test(old$TotalScore)#not normally distributed
+
+wilcox.test(young$TotalScore, old$TotalScore, alternative = "less")
+```
+
+The average score is 0.85 (SD = 1.18, range 0-3).
+
+- 3y (n = 42): 0.55 (SD = 0.97, range 0-3)
+- 4y (n = 40): 1.05 (SD = 1.28, range 0-3)
+- 5y (n = 11): 1.36 (SD = 1.36, range 0-3)
+- 6y (n = 1): 0
+
+Three-year-olds have a lower score than 4-year-olds, W = 670.5, p = .034.
+
+- young (n = 44): 0.52 (SD = 0.95, range 0-3)
+- old (n = 50): 1.14 (SD = 1.29, range 0-3)
+
+Young children have a lower score than older children, W = 825.5, p = .008.
