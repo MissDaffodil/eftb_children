@@ -1,0 +1,217 @@
+---
+title: "Worlds"
+author: "Eva Reindl"
+date: "31 7 2020"
+output: word_document
+---
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+Worlds <-read.csv("Worlds.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+names(Worlds)[1] <- "ID"
+str(Worlds)
+```
+There are 85 children in the dataset.
+
+
+# Dropouts
+```{r}
+dropouts<-subset(Worlds, Dropout == "yes")
+```
+There are 5 dropouts (2 3-year-olds, 2 4-year-olds, 1 5-year-old; 1 m, 4 f): 
+
+- 2 children opened two cups simultaneously on the test boards
+- 3 times experimenter error (cup was knocked off or a block showed in the test)
+
+# Valid data
+```{r}
+Worlds.valid<-subset(Worlds, Dropout == "no")
+```
+There are **80 valid cases** in the Worlds task.
+
+# Description of sample 
+## Gender
+```{r}
+table(Worlds.valid$Gender)
+```
+There are **48 females** and **32 males**.
+
+## Age
+### Age at the beginning of testing
+```{r}
+mean(Worlds.valid$Age_months)
+sd(Worlds.valid$Age_months)
+min(Worlds.valid$Age_months)
+max(Worlds.valid$Age_months)
+
+table(Worlds.valid$Age_group)
+```
+At the beginning of testing, children included in the Worlds task were on average 48.19 months old (SD = 7.61, range 35-70). There were 1 2-year-old, 39 3-year-olds, 33 4-year-olds, and 7 5-year-olds.
+
+### In the middle of testing
+```{r}
+mean(Worlds.valid$AgeMonths_Midtesting)
+sd(Worlds.valid$AgeMonths_Midtesting)
+table(Worlds.valid$AgeMonths_MidTesting)
+summary(Worlds.valid$AgeMonths_Midtesting)
+
+table(Worlds.valid$AgeGroup_Midtesting)
+table(Worlds.valid$AgeGroup_Midtesting, Worlds.valid$Gender)
+
+boys <- subset(Worlds.valid, Gender == "m")
+girls <- subset(Worlds.valid, Gender == "f")
+
+hist(boys$AgeMonths_Midtesting)
+mean(boys$AgeMonths_Midtesting)
+sd(boys$AgeMonths_Midtesting)
+min(boys$AgeMonths_Midtesting)
+max(boys$AgeMonths_Midtesting)
+shapiro.test(boys$AgeMonths_Midtesting)#normally distributed
+
+hist(girls$AgeMonths_Midtesting)
+mean(girls$AgeMonths_Midtesting)
+sd(girls$AgeMonths_Midtesting)
+min(girls$AgeMonths_Midtesting)
+max(girls$AgeMonths_Midtesting)
+shapiro.test(girls$AgeMonths_Midtesting)#normally distributed
+
+t.test(Worlds.valid$AgeMonths_Midtesting ~ Worlds.valid$Gender, alternative = "two.sided")
+```
+In the middle of testing, children included in the Worlds task were on average **49.75 months old (SD = 7.62, range 36-72)**. There were  
+
+- 38 3-year-olds (24f, 14m)
+- 31 4-year-olds (18f, 13m)
+- 10 5-year-olds (6f, 4m)
+- 1 6-year-old (1m)
+
+- Boys: M = 50.00 (SD = 8.28, range 38-72)
+- Girls: M = 49.58 (SD = 7.23, range 36-64)
+
+There was no difference between males and females regarding the age distribution.
+
+### Age mediansplit (based on entire sample)
+```{r}
+table(Worlds.valid$Mediansplit_midtesting_entiresample)
+table(Worlds.valid$Mediansplit_midtesting_entiresample, Worlds.valid$Gender)
+```
+There were **40 young** (24 f, 16 m) and **40 old** (24 f, 16 m) children.
+
+## Testing Location
+All children were from the Fife area.
+
+# How many children switched by themselves?
+```{r}
+table(Worlds.valid$Switched)
+```
+**78 children switched, 2 did not**. These two were 4 years old.
+
+# Number of cups flipped before switch
+```{r}
+mean(Worlds.valid$Testboard.Cupsliftedbeforeswitch)
+sd(Worlds.valid$Testboard.Cupsliftedbeforeswitch)
+min(Worlds.valid$Testboard.Cupsliftedbeforeswitch)
+max(Worlds.valid$Testboard.Cupsliftedbeforeswitch)
+
+table(Worlds.valid$Testboard.Cupsliftedbeforeswitch)
+
+tapply(Worlds.valid$Testboard.Cupsliftedbeforeswitch, Worlds.valid$AgeGroup_Midtesting, mean)
+tapply(Worlds.valid$Testboard.Cupsliftedbeforeswitch, Worlds.valid$AgeGroup_Midtesting, sd)
+tapply(Worlds.valid$Testboard.Cupsliftedbeforeswitch, Worlds.valid$AgeGroup_Midtesting, min)
+tapply(Worlds.valid$Testboard.Cupsliftedbeforeswitch, Worlds.valid$AgeGroup_Midtesting, max)
+
+three <- subset(Worlds.valid, AgeGroup_Midtesting == "3")
+four <- subset(Worlds.valid, AgeGroup_Midtesting == "4")
+
+shapiro.test(three$Testboard.Cupsliftedbeforeswitch)#not normally distributed
+shapiro.test(four$Testboard.Cupsliftedbeforeswitch)#not normally distributed
+wilcox.test(three$Testboard.Cupsliftedbeforeswitch, four$Testboard.Cupsliftedbeforeswitch, alternative = "two.sided")
+
+
+tapply(Worlds.valid$Testboard.Cupsliftedbeforeswitch, Worlds.valid$Mediansplit_midtesting_entiresample, mean)
+tapply(Worlds.valid$Testboard.Cupsliftedbeforeswitch, Worlds.valid$Mediansplit_midtesting_entiresample, sd)
+tapply(Worlds.valid$Testboard.Cupsliftedbeforeswitch, Worlds.valid$Mediansplit_midtesting_entiresample, min)
+tapply(Worlds.valid$Testboard.Cupsliftedbeforeswitch, Worlds.valid$Mediansplit_midtesting_entiresample, max)
+
+young <- subset(Worlds.valid, Mediansplit_midtesting_entiresample == "young")
+old <- subset(Worlds.valid, Mediansplit_midtesting_entiresample == "old")
+
+shapiro.test(young$Testboard.Cupsliftedbeforeswitch)#not normally distributed
+shapiro.test(old$Testboard.Cupsliftedbeforeswitch)#not normally distributed
+wilcox.test(young$Testboard.Cupsliftedbeforeswitch, old$Testboard.Cupsliftedbeforeswitch, alternative = "two.sided")
+```
+Children switched after an average of **6.46 lifted cups** (SD = 4.10, range 1-10).
+
+- 22 children (**27.5%** out of all children, including the ones who did not switch), **switched after 1 cup**
+- 6 after 2 cups
+- 2 after 3 cups
+- 1 after 5 cups
+- 3 after 7 cups
+- 2 after 8 cups
+- 5 after 9 cups
+- **39 (49%) after 10 cups** 
+
+- 3y: 5.53 (SD = 4.08, range 1-10)
+- 4y: 7.52 (SD = 3.82, range 1-10)
+- 5y: 7.30 (SD = 4.35, range 1-10)
+- 6y: 1
+
+**3-year-olds switched after fewer cups than 4-year-olds**, W = 427, p = .038.
+
+- young: 5.75 (SD = 4.09, range 1-10)
+- old: 7.17 (SD = 4.03, range 1-10)
+
+**Young and old children did not differ** in the number of cups lifted before they switched, W = 643.5, p = .106.
+
+
+# Time before switch
+```{r}
+mean(Worlds.valid$TimeUntilSwitchinSec, na.rm = T)
+sd(Worlds.valid$TimeUntilSwitchinSec, na.rm = T)
+min(Worlds.valid$TimeUntilSwitchinSec, na.rm = T)
+max(Worlds.valid$TimeUntilSwitchinSec, na.rm = T)
+
+tapply(Worlds.valid$TimeUntilSwitchinSec, Worlds.valid$AgeGroup_Midtesting, mean, na.rm = T)
+tapply(Worlds.valid$TimeUntilSwitchinSec, Worlds.valid$AgeGroup_Midtesting, sd, na.rm = T)
+tapply(Worlds.valid$TimeUntilSwitchinSec, Worlds.valid$AgeGroup_Midtesting, min, na.rm = T)
+tapply(Worlds.valid$TimeUntilSwitchinSec, Worlds.valid$AgeGroup_Midtesting, max, na.rm = T)
+
+shapiro.test(three$TimeUntilSwitchinSec)#not normally distributed
+shapiro.test(four$TimeUntilSwitchinSec)#normally distributed
+wilcox.test(three$TimeUntilSwitchinSec, four$TimeUntilSwitchinSec, alternative = "two.sided")
+
+
+tapply(Worlds.valid$TimeUntilSwitchinSec, Worlds.valid$Mediansplit_midtesting_entiresample, mean, na.rm = T)
+tapply(Worlds.valid$TimeUntilSwitchinSec, Worlds.valid$Mediansplit_midtesting_entiresample, sd, na.rm = T)
+tapply(Worlds.valid$TimeUntilSwitchinSec, Worlds.valid$Mediansplit_midtesting_entiresample, min, na.rm = T)
+tapply(Worlds.valid$TimeUntilSwitchinSec, Worlds.valid$Mediansplit_midtesting_entiresample, max, na.rm = T)
+```
+
+Children switched after an average of 46.35 seconds (SD = 38.32, range 2-153).
+
+- 3y: 45.66 (SD = 39.83, range 2-137)
+- 4y: 54.62 (SD = 38.94, range 3-153)
+- 5y: 29.40 (SD = 23.76, range 4-84)
+- 6y: 2
+
+3-year-olds did not switch sooner than 4-year-olds, W = 474, p = .333.
+
+- young: 46.57 (SD = 39.33, range 2-137)
+- old: 46.10 (SD = 37.77, range 2-153)
+
+Young and old children do not differ in the time after which they switched.
