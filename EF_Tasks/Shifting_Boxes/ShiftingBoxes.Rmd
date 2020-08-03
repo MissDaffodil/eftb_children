@@ -1219,7 +1219,7 @@ ggplot(CumShiftBoxRev, aes(x=Trial_nr, y=Mean_CumulativeProportionCorrect)) +
 ```
 
 
-# CD: All children who started that phase, independent of whether or not they reached criterion in SD (this will not be used for the actual analysis, is here jst for sake of completion)
+# CD: All children who started that phase, independent of whether or not they reached criterion in SD (this will not be used for the actual analysis, is here just for sake of completion)
 ## How many children started the task?
 ```{r}
 ShiftingBoxes.CD <- subset(ShiftingBoxes, Phase == "Compound Discrimination")
@@ -1562,6 +1562,91 @@ In the CD phase, the mean proportion of correct trials was **0.56 (SD = 0.18, ra
 
 **Children in Fife and Edinburgh do not differ** in their performance in CD, W = 2326.5, p = .407
 
+Boxplot: Proportion of correct trials, across ages
+```{r}
+library(ggplot2)
+
+p<-  ggplot(
+  data=ShiftingBoxes.CD.Trial1.valid, aes(x=rep(1, 132), y=Proportion_Correct)) +
+  geom_boxplot(outlier.colour = "black")+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Proportion of correct trials")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Boxes")
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) + geom_count()+
+  geom_hline(yintercept=0.5, linetype="dashed", color = "red")
+```
+
+Boxplot, mean proportion of correct trials, by age groups
+```{r}
+p1<-ggplot(data=ShiftingBoxes.CD.Trial1.valid, aes(x=AgeGroup_midtesting,y=Proportion_Correct)) +
+  geom_boxplot(aes(group=AgeGroup_midtesting, fill = as.factor(ShiftingBoxes.CD.Trial1.valid$AgeGroup_midtesting)), outlier.colour = "black") + 
+      ylim(0,1)+
+  xlim(2.5,6.5)+
+  geom_point(alpha=0.3) +
+  labs(x="",y="Proportion of correct trials")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Boxes")
+
+p1  +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5)+
+  scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 56", "4 years, n = 64", "5 years, n = 11", "6 years, n = 1"))+
+  theme(legend.title = element_blank())+
+  geom_hline(yintercept=0.5, linetype="dashed", color = "red")
+```
+
+Boxplot, mediansplit age
+```{r}
+library(forcats)
+ShiftingBoxes.CD.Trial1.valid$Mediansplit_midtesting_entiresample <- fct_relevel(ShiftingBoxes.CD.Trial1.valid$Mediansplit_midtesting_entiresample, "young")
+#changes order of boxplots (young before old)
+
+p1<-  ggplot(
+  data=ShiftingBoxes.CD.Trial1.valid, aes(x=rep(1, 132), y=Proportion_Correct, fill = Mediansplit_midtesting_entiresample))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Proportion of correct trials")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Boxes - CD")
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5) + scale_size_area(max_size=10)+
+  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young, n = 66", "old, n = 66"))
+```
+
+Split by testing location
+```{r}
+p1<-  ggplot(
+  data=ShiftingBoxes.CD.Trial1.valid, aes(x=rep(1, 132), y=Proportion_Correct, fill = TestingLocation))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Proportion of correct trials")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Boxes")
+
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5) + scale_size_area(max_size=10)+
+  scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 58", "Fife, n = 74"))
+```
+
+# Plot age as continuous variable against proportion correct
+```{r}
+p1<- ggplot(ShiftingBoxes.CD.Trial1.valid, aes(x=AgeMonths_midtesting, y=Proportion_Correct)) + geom_point()+
+ labs(x="Age in months",y="Proportion correct")
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+
 ## Criterion reached
 ```{r}
 table(ShiftingBoxes.CD.Trial1.valid$Criterion.reached)
@@ -1754,6 +1839,42 @@ ggplot(CumShiftBoxCD, aes(x=Trial_nr, y=Mean_CumulativeProportionCorrect)) +
 ```
 
 
+
+
+
+
+# What is the effect of age and trial number on performance in CD (all children)?
+```{r}
+library(lme4)
+#we z-transform age and trial number, as we are including them into an interaction
+ShiftingBoxes.CD.valid$z.age.midtesting=as.vector(scale(ShiftingBoxes.CD.valid$AgeMonths_midtesting))#transform age to mean of 0 and SD of 1
+mean(ShiftingBoxes.CD.valid$z.age.midtesting)#check whether it has worked
+sd(ShiftingBoxes.CD.valid$z.age.midtesting)
+
+ShiftingBoxes.CD.valid$z.Trial_nr=as.vector(scale(ShiftingBoxes.CD.valid$Trial_nr))#transform trial number to mean of 0 and SD of 1
+mean(ShiftingBoxes.CD.valid$z.Trial_nr)#check whether it has worked
+sd(ShiftingBoxes.CD.valid$z.Trial_nr)
+
+#Full model
+contr<-glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=10000000))
+
+res<-glmer(success ~ z.age.midtesting + z.Trial_nr + z.age.midtesting:z.Trial_nr + (1+z.Trial_nr|ID), data=ShiftingBoxes.CD.valid, family = binomial, control = contr)#singular fit
+
+res<-glmer(success ~ z.age.midtesting + z.Trial_nr + z.age.midtesting:z.Trial_nr + (1|ID) + (0+z.Trial_nr|ID), data=ShiftingBoxes.CD.valid, family = binomial, control = contr)#converges, singular fit
+
+summary(res)
+```
+The initial full model yields a singular fit. This is because the variance for the random slope of trial on ID is basically 0, so we remove this term from the model.
+```{r}
+res<-glmer(success ~ z.age.midtesting + z.Trial_nr + z.age.midtesting:z.Trial_nr + (1|ID), data=ShiftingBoxes.CD.valid, family = binomial, control = contr)#converges, no singular fit warning
+
+#null model
+null<-glmer(success ~ 1 + (1|ID), data=ShiftingBoxes.CD.valid, family = binomial, control = contr)
+
+anova(null, res, test="Chisq")
+```
+
+Together, age, trial number and the interaction between age and trial number do not explain the data significantly better than a null model containing only the intercept, X2(3) = 6.291, p = .098.
 
 # CD: Only those children who reached criterion in SD
 

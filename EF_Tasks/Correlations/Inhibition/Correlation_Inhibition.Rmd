@@ -1,0 +1,71 @@
+---
+title: "Correlation Inhibition"
+author: "Eva Reindl"
+date: "3 8 2020"
+output: word_document
+---
+
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+Inhibition.all <-read.csv("All_InhibitionTasks.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+names(Inhibition.all)[1] <- "ID"
+str(Inhibition.all)
+```
+
+Correlation table 
+```{r}
+library(dplyr)
+keep = select(Inhibition.all, -1)
+a<-round(cor(keep, use = "complete.obs"), 2)
+
+library(knitr)
+kable(a, caption = "Correlation coefficients")
+```
+
+Correlation coefficients, Ns, p-values
+```{r}
+library("Hmisc")
+rcorr(as.matrix(keep))
+```
+
+```{r}
+library("corrplot")
+Inhibition.all<-Inhibition.all[-1]
+Inhibition.all <- na.omit(Inhibition.all)
+
+matrix<-cor(Inhibition.all)
+
+p.mat <- cor.mtest(Inhibition.all)$p
+
+col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
+corrplot(matrix, method = "color", col = col(200),
+         type = "upper", order = "hclust", number.cex = .5,
+         addCoef.col = "black", # Add coefficient of correlation
+         tl.col = "black", tl.srt = 50, # Text label color and rotation
+         # Combine with significance
+         tl.cex = 0.8,
+         cl.ratio = 1,
+         p.mat = p.mat, sig.level = 0.05, insig = "blank", 
+         # hide correlation coefficient on the principal diagonal
+         diag = TRUE)
+
+
+pairs(Inhibition.all, pch = 19)
+```
