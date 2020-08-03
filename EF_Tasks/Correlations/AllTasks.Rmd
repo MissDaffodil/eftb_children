@@ -1,0 +1,80 @@
+---
+title: "All_Correlations"
+author: "Eva Reindl"
+date: "3 8 2020"
+output: word_document
+---
+
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+All.tasks <-read.csv("CombinedFile.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+names(All.tasks)[1] <- "ID"
+str(All.tasks)
+```
+
+Correlation table 
+```{r}
+library(dplyr)
+keep = select(All.tasks, -1, -2, -3, -4, -5, -9, -10, -12)
+a<-round(cor(keep, method="pearson", use = "pairwise.complete.obs"), 2)
+
+library(knitr)
+kable(a, caption = "Correlation coefficients")
+```
+
+Correlation coefficients, Ns, p-values
+```{r}
+library("Hmisc")
+rcorr(as.matrix(keep))
+```
+
+```{r}
+library("corrplot")
+library("reshape2")
+keep <- na.omit(keep)
+
+p.mat <- cor.mtest(keep)$p
+
+
+library(ggcorrplot)
+corr <- cor(keep)
+p.mat <- cor_pmat(keep)
+ggcorrplot(a, hc.order = TRUE,
+    type = "lower", p.mat =p.mat, lab=FALSE, sig.level = 0.1)
+
+
+  get_upper_tri <- function(a){
+    a[lower.tri(a)]<- NA
+    return(a)}
+
+upper_tri <- get_upper_tri(a)
+melted_a=melt(a, na.rm = TRUE)
+ggplot(data = melted_a, aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile()+
+  geom_text(aes(Var2, Var1, label = value), color = "black", size = 2) +
+ scale_fill_gradient2(low = "blue", high = "red", 
+   midpoint = 0, limit = c(-1,1), space = "Lab", 
+   name=" Pearson Correlation") +
+  theme_minimal()+ 
+ theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+    size = 8, hjust = 1))+
+  labs(x="",y="")+
+ coord_fixed()
+```
