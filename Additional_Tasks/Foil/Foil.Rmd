@@ -1,0 +1,415 @@
+---
+title: "Foil"
+author: "Eva Reindl"
+date: "24 4 2020"
+output: word_document
+---
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+Foil <-read.csv("Foil.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+names(Foil)[1] <- "ID"
+str(Foil)
+```
+There are 87 children in the dataset. 
+
+# Dropouts
+```{r}
+Foil.dropout <-subset(Foil, Dropout =="yes")
+```
+Of the 87 children, there are **6 dropouts** (3 m, 3 f; 3 3-year-olds, 2 4-year-olds, 1 5-year-old):
+
+- 1 child stopped in additional warm-up trials
+- 1 child stopped after 4 trials
+- 1 child stopped after 5 trials
+- 1 child experimenter errors (holes were not of equal size)
+- 1 child experimenter error (saw experimenter bait cups through camera)
+- 1 child experimenter error (put sticker in wrong cup early)
+
+**81 children are remaining**.
+
+# Valid data
+```{r}
+Foil.valid.T1 <-subset(Foil, Dropout =="no" & Trial_Nr =="1")
+table(Foil.valid.T1$StoppedEarly)
+```
+These 81 children include 1 child (ID 133) who only received 7 test trials (as tin foil ran out). We decide to include this child as this child completed 75% of test trials.
+
+
+# Description of sample
+## Gender distribution
+```{r}
+table(Foil.valid.T1$Gender)
+```
+There were 47 girls and 34 boys.
+
+## Age
+### Age at the beginning of testing
+```{r}
+mean(Foil.valid.T1$Age_months)
+sd(Foil.valid.T1$Age_months)
+min(Foil.valid.T1$Age_months)
+max(Foil.valid.T1$Age_months)
+
+table(Foil.valid.T1$Age_group)
+
+table(Foil.valid.T1$Age_group, Foil.valid.T1$Gender)
+```
+At the beginning of testing, the children who had valid data on the Foil task were on average 48.37 months (SD = 7.29, range 36-70) old. There were 39 3-year-olds, 36 4-year-olds, and 6 5-year-olds.
+
+- 3y: 24 f, 15 m
+- 4y: 21 f, 15 m
+- 5y: 2 f, 4 m
+
+### Age in the middle of testing
+```{r}
+mean(Foil.valid.T1$Midtesting_age_months)
+sd(Foil.valid.T1$Midtesting_age_months)
+min(Foil.valid.T1$Midtesting_age_months)
+max(Foil.valid.T1$Midtesting_age_months)
+
+table(Foil.valid.T1$Midtesting_age_group)
+
+table(Foil.valid.T1$Midtesting_age_group, Foil.valid.T1$Gender)
+```
+In the middle of testing, the children who had valid data on the Foil task were on average **49.91 months (SD = 7.34, range 38-72)** old. There were **37 3-year-olds, 35 4-year-olds, 8 5-year-olds, and 1 6-year-old**.
+
+- 3y: 24 f, 13 m
+- 4y: 19 f, 16 m
+- 5y: 4 f, 4 m
+- 6y: 1m
+
+### Age mediansplit (based on entire sample)
+```{r}
+table(Foil.valid.T1$Mediansplit_midtesting_entiresample)
+
+table(Foil.valid.T1$Mediansplit_midtesting_entiresample, Foil.valid.T1$Gender)
+```
+There were **39 young** and **42 old** children.
+
+- young: 23 f, 19 m
+- old: 24 f, 15 m
+
+## Testing location
+All children were from the Fife area.
+
+# Criterion reached
+```{r}
+table(Foil.valid.T1$Warm.up.Crit.reached)
+```
+Of the 81 children, 4 children (all 3 years old) did not reach the warm-up criterion. 77 children (95%) reached the warm-up criterion.
+
+# Number of administered test trials
+```{r}
+Foil.valid.T1.critreached<-subset(Foil.valid.T1, Warm.up.Crit.reached =="yes, within 2 trials" | Warm.up.Crit.reached =="yes, within 7 trials")
+
+table(Foil.valid.T1.critreached$Nr.AdministeredTestTrials)
+```
+76 children were administered 8 trials, 1 child got 7 trials.
+
+# Proportion of correct trials
+```{r}
+mean(Foil.valid.T1.critreached$ProportionCorrect)
+sd(Foil.valid.T1.critreached$ProportionCorrect)
+min(Foil.valid.T1.critreached$ProportionCorrect)
+max(Foil.valid.T1.critreached$ProportionCorrect)
+
+hist(Foil.valid.T1.critreached$ProportionCorrect)
+shapiro.test(Foil.valid.T1.critreached$ProportionCorrect)
+wilcox.test(Foil.valid.T1.critreached$ProportionCorrect, mu = 0.5, alternative = "two.sided")
+
+#by age groups
+table(Foil.valid.T1.critreached$Midtesting_age_group)
+tapply(Foil.valid.T1.critreached$ProportionCorrect, Foil.valid.T1.critreached$Midtesting_age_group, mean)
+tapply(Foil.valid.T1.critreached$ProportionCorrect, Foil.valid.T1.critreached$Midtesting_age_group, sd)
+tapply(Foil.valid.T1.critreached$ProportionCorrect, Foil.valid.T1.critreached$Midtesting_age_group, min)
+tapply(Foil.valid.T1.critreached$ProportionCorrect, Foil.valid.T1.critreached$Midtesting_age_group, max)
+
+three.years<- subset(Foil.valid.T1.critreached, Midtesting_age_group =="3")
+four.years<- subset(Foil.valid.T1.critreached, Midtesting_age_group =="4")
+five.years<- subset(Foil.valid.T1.critreached, Midtesting_age_group =="5")
+
+shapiro.test(three.years$ProportionCorrect)
+shapiro.test(four.years$ProportionCorrect)
+shapiro.test(five.years$ProportionCorrect)
+
+wilcox.test(three.years$ProportionCorrect,mu = 0.5, alternative = "two.sided")
+t.test(four.years$ProportionCorrect, mu = 0.5, alternative = "two.sided")
+wilcox.test(five.years$ProportionCorrect,mu = 0.5, alternative = "two.sided")
+
+#by mediansplit
+table(Foil.valid.T1.critreached$Mediansplit_midtesting_entiresample)
+tapply(Foil.valid.T1.critreached$ProportionCorrect, Foil.valid.T1.critreached$Mediansplit_midtesting_entiresample, mean)
+tapply(Foil.valid.T1.critreached$ProportionCorrect, Foil.valid.T1.critreached$Mediansplit_midtesting_entiresample, sd)
+tapply(Foil.valid.T1.critreached$ProportionCorrect, Foil.valid.T1.critreached$Mediansplit_midtesting_entiresample, min)
+tapply(Foil.valid.T1.critreached$ProportionCorrect, Foil.valid.T1.critreached$Mediansplit_midtesting_entiresample, max)
+
+young<- subset(Foil.valid.T1.critreached, Mediansplit_midtesting_entiresample =="young")
+old<- subset(Foil.valid.T1.critreached, Mediansplit_midtesting_entiresample =="old")
+
+shapiro.test(young$ProportionCorrect)
+shapiro.test(old$ProportionCorrect)
+
+t.test(young$ProportionCorrect,mu = 0.5, alternative = "two.sided")
+wilcox.test(old$ProportionCorrect, mu = 0.5, alternative = "two.sided")
+```
+Of the 77 children who reached the warm-up criterion in the Foil task, children had on average a proportion of 0.57 (SD = 0.20, range .12-1) test trials correct. This variable is not normally distributed, W = 0.957, p = .010. Performance is significantly above chance, V = 1417.5, p = .004.
+
+- 3y (n = 33): 0.53 (SD = 0.19, range 0.12-0.87), normally distributed, W = 0.954, p = .179, performance at chance, V = 180, p = .387
+- 4y (n = 35): 0.55 (SD = 0.20, range 0.25-0.87), not normally distributed, W = 0.913, p = .009, performance at chance, t(34) = 1.502, p = .142
+- 5y (n = 8): 0.79 (SD = 0.15, range 0.62-1), normally distributed, W = 0.879, p = .186, performance above chance, V = 36, p = .014
+- 6y (n = 1): 0.75
+
+- young (n = 35): 0.54 (SD = 0.19, range 0.12-0.87), normally distributed, W = 0.956, p = .176, performance at chance, t(34) = 1.340, p = .189
+- old (n = 42): 0.59 (SD = 0.21, range 0.25-1), not normally distributed, W = 0.939, p = .027, performance above chance, V = 522, p = .009
+
+Boxplot:
+```{r}
+library(ggplot2)
+
+p<-  ggplot(
+  data=Foil.valid.T1.critreached, aes(x=rep(1, 77), y=ProportionCorrect)) +
+  geom_boxplot(outlier.colour = "black")+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean proportion of correct trials")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Foil")
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") + geom_count()
+```
+
+
+Boxplot:
+```{r}
+p1<-ggplot(data=Foil.valid.T1.critreached, aes(x=Midtesting_age_group,y=ProportionCorrect)) +
+  geom_boxplot(aes(group=Midtesting_age_group, fill = as.factor(Midtesting_age_group)), outlier.colour = "black") + 
+      ylim(0,1)+
+  xlim(2.5,6.5)+
+  geom_point(alpha=0.3) +
+  labs(x="",y="Mean proportion correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Foil")
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ 
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5)+
+  scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 33", "4 years, n = 35", "5 years, n = 8", "6 years, n = 1"))
+```
+
+
+```{r}
+library(forcats)
+
+Foil.valid.T1.critreached$Mediansplit_midtesting_entiresample<-fct_relevel(Foil.valid.T1.critreached$Mediansplit_midtesting_entiresample, "young")
+#changes order of boxplots (young before old)
+
+p1<-  ggplot(
+  data=Foil.valid.T1.critreached, aes(x=rep(1, 77), y=ProportionCorrect, fill = Mediansplit_midtesting_entiresample))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean proportion of searches correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Foil")
+
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
+  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young, n = 35", "old, n = 42"))
+```
+
+## Plot age as continuous variable against proportion correct
+```{r}
+p1<- ggplot(Foil.valid.T1.critreached, aes(x=Midtesting_age_months , y=ProportionCorrect)) + geom_point()+
+ labs(x="Age in months",y="Proportion correct")
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+# Cumulative proportion correct
+```{r}
+#Trial 1
+Foil.trial1<-subset(Foil.valid.T1.critreached, Trial_Nr == "1")
+
+#Trial 2
+Foil.trial2<-subset(Foil.valid.T1.critreached, Trial_Nr == "2")
+
+#Trial 3
+Foil.trial3<-subset(Foil.valid.T1.critreached, Trial_Nr == "3")
+
+#Trial 4
+Foil.trial4<-subset(Foil.valid.T1.critreached, Trial_Nr == "4")
+
+#Trial 5
+Foil.trial5<-subset(Foil.valid.T1.critreached, Trial_Nr == "5")
+
+#Trial 6
+Foil.trial6<-subset(Foil.valid.T1.critreached, Trial_Nr == "6")
+
+#Trial 7
+Foil.trial7<-subset(Foil.valid.T1.critreached, Trial_Nr == "7")
+
+#Trial 8
+Foil.trial8<-subset(Foil.valid.T1.critreached, Trial_Nr == "8")
+
+
+mean(Foil.trial1$CumulativeProportionCorrect)#.59
+sd(Foil.trial1$CumulativeProportionCorrect)#.49
+
+mean(Foil.trial2$CumulativeProportionCorrect)#.60
+sd(Foil.trial2$CumulativeProportionCorrect)#.37
+
+mean(Foil.trial3$CumulativeProportionCorrect)#.59
+sd(Foil.trial3$CumulativeProportionCorrect)#.30
+
+mean(Foil.trial4$CumulativeProportionCorrect)#.59
+sd(Foil.trial4$CumulativeProportionCorrect)#.27
+
+mean(Foil.trial5$CumulativeProportionCorrect)#.60
+sd(Foil.trial5$CumulativeProportionCorrect)#.24
+
+mean(Foil.trial6$CumulativeProportionCorrect)#.60
+sd(Foil.trial6$CumulativeProportionCorrect)#.23
+
+mean(Foil.trial7$CumulativeProportionCorrect)#.59
+sd(Foil.trial7$CumulativeProportionCorrect)#.20
+
+mean(Foil.trial8$CumulativeProportionCorrect)#.57
+sd(Foil.trial8$CumulativeProportionCorrect)#.20
+
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+Graph <-read.csv("CumulPropCorrect.csv",header=TRUE, sep = ";")
+names(Graph)[1] <- "Trial_nr"
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(Graph, aes(x=Trial_nr, y=Mean_proportionCorrect)) + 
+    geom_errorbar(aes(ymin=Mean_proportionCorrect-SD_ProportionCorrect, ymax=Mean_proportionCorrect+SD_ProportionCorrect), width=.1) +
+    geom_line() +
+    geom_point()+
+  ylim(0,1.2)
+```
+
+We use the arbitrary rule to decide that we want to include anyone who has done 75% of the trials, i.e., 6 trials and up. This means that we can include 1 child. We do that and re-run all the previous lines and find no change.
+
+# Can age and trial number predict children's success?
+```{r}
+library(lme4)
+Foil.valid <-subset(Foil, Dropout =="no" & Warm.up.Crit.reached =="yes, within 2 trials" | Warm.up.Crit.reached =="yes, within 7 trials")
+
+Foil.valid$z.age=as.vector(scale(Foil.valid$Midtesting_age_months))#transform age to mean of 0 and SD of 1
+mean(Foil.valid$z.age)#check whether it has worked
+sd(Foil.valid$z.age)
+
+Foil.valid$z.trial=as.vector(scale(Foil.valid$Trial_Nr))#transform trial to mean of 0 and SD of 1
+mean(Foil.valid$z.trial)#check whether it has worked
+sd(Foil.valid$z.trial)
+
+contr<-glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=10000000))
+res<-glmer(Trial_correct ~ z.age + z.trial + z.age:z.trial + (1+z.trial|ID), data=Foil.valid, family=binomial, control=contr)
+
+null <- glmer(Trial_correct ~ 1 + (1+z.trial|ID), data=Foil.valid, family=binomial, control=contr)
+
+anova(null, res, test="Chisq")#significant
+```
+Trial number, age, and the interaction between trial number and age explain the data significantly better than a null model only containing the intercept, X2(3) = 11.415, p = .010.
+
+## Effect of interaction 
+```{r}
+contr<-glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=10000000))
+res.nointer<-glmer(Trial_correct ~ z.age + z.trial + (1+z.trial|ID), data=Foil.valid, family=binomial, control=contr)
+
+anova(res.nointer, res, test="Chisq")
+```
+The interaction term has no effect, so we remove it from the model.
+
+```{r}
+contr<-glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=10000000))
+res<-glmer(Trial_correct ~ z.age + z.trial + (1+z.trial|ID), data=Foil.valid, family=binomial, control=contr)
+
+anova(null, res, test="Chisq")
+
+summary(res)
+```
+Trial number and age explain the data significantly better than a null model only containing the intercept, X2(2) = 11.4, p = .003
+
+## Effect of terms
+```{r}
+contr<-glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=10000000))
+res.noage<-glmer(Trial_correct ~ z.trial + (1+z.trial|ID), data=Foil.valid, family=binomial, control=contr)
+
+anova(res.noage, res, test="Chisq")
+```
+There is a significant positive effect of age, X2(1) = 6.858, p = .009.
+
+```{r}
+contr<-glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=10000000))
+res.notrial<-glmer(Trial_correct ~ z.age + (1+z.trial|ID), data=Foil.valid, family=binomial, control=contr)
+
+anova(res.notrial, res, test="Chisq")
+```
+There is a significant negative effect of trial, X2(1) = 4.526, p = .033.
+
+## Model assumptions
+```{r}
+source("diagnostic_fcns.r")
+ranef.diagn.plot(res)
+
+#collinearity
+xres=lm(Trial_correct ~ z.age + z.trial , data=Foil.valid)
+
+library(car)
+vif(xres)
+
+source("glmm_stability.r")
+m.stab=glmm.model.stab(model.res=res)
+m.stab$summary
+```
+
+```{r}
+source("boot_glmm.r")#requires centering of all predictors apart the ones one is interested in. We are interested in both.
+
+boot.res=boot.glmm.pred(model.res=res, excl.warnings=T,
+nboots=1000, para=F, resol=8, use="z.trial")
+
+boot.res$ci.estimates
+boot.res$ci.predicted
+
+par(mar=c(3, 3, 0.2, 0.2), mgp=c(1.7, 0.3, 0), las=1, tcl=-0.15)
+plot(x=Foil.valid$Trial_Nr, y=Foil.valid$Trial_correct, pch=19, las=2, ylim=c(0, 1),
+xlab="Trial number", ylab="Probability of success", cex=0.1*sqrt(Foil.valid$ID))
+
+plot.xvals=seq(from=min(Foil.valid$Trial_Nr), to=max(Foil.valid$Trial_Nr),
+length.out=8)
+
+lines(x=plot.xvals, y=boot.res$ci.predicted$fitted,
+lty=2)
+lines(x=plot.xvals, y=boot.res$ci.predicted$lower.cl,
+lty=3)
+lines(x=plot.xvals, y=boot.res$ci.predicted$upper.cl,
+lty=3)
+```
