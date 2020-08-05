@@ -1,0 +1,1154 @@
+---
+title: "Inhibition Grid"
+author: "Eva Reindl"
+date: "18 7 2020"
+output: word_document
+---
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+Grid <-read.csv("Inhib_Grid.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+#recode variables
+names(Grid)[1] <- "ID"
+
+str(Grid)
+```
+
+# Dropouts
+```{r}
+Grid.dropout <- subset(Grid, CleanData =="Dropout")
+
+Grid.valid <- subset(Grid, CleanData !="Dropout")
+Grid.valid.T1 <- subset(Grid.valid, Trial == "1" & SearchNr =="1")
+```
+There were **11 clear dropouts** (all female, 7 3-year-olds, 3 4-year-olds, 1 5-year-old):
+
+- 1 child stopped reacting (ID 13)
+- 1 child experimenter error (camera was positioned badly so that coding was impossible; ID 33)
+- 1 child experimenter error (E forgot to bait the box, ID 47)
+- 2 child experimenter error (heavy intervention and prompting by E, IDs 145, 17)
+- 2 children experimenter error (opaque door was open from the start, IDs 21, 31)
+- 2 children experimenter error (only put 6 trasnparent boxes, IDs 11, 45)
+- 1 child did not react at all (ID 99)
+- 1 child picked box up and flipped it towards her so that animals fell out (ID 18)
+
+There are 155 remaining children in the dataset.
+
+# Description of dataset
+## Gender
+```{r}
+table(Grid.valid.T1$Sex)
+```
+There are 79 girls and 76 boys.
+
+## Age
+### Age at the beginning of testing
+```{r}
+mean(Grid.valid.T1$Age_months)
+sd(Grid.valid.T1$Age_months)
+min(Grid.valid.T1$Age_months)
+max(Grid.valid.T1$Age_months)
+hist(Grid.valid.T1$Age_months)
+
+table(Grid.valid.T1$Age_group)
+```
+At the beginning of testing, the 156 children were 49.21 (SD = 6.94, range 36-70) months old. There were 68 3-year-olds, 76 4-year-olds, 10 5-year-olds, and 1 6-year-old.
+
+### Age in the middle of testing
+```{r}
+mean(Grid.valid.T1$Midtesting_age_months)
+sd(Grid.valid.T1$Midtesting_age_months)
+min(Grid.valid.T1$Midtesting_age_months)
+max(Grid.valid.T1$Midtesting_age_months)
+hist(Grid.valid.T1$Midtesting_age_months)
+
+table(Grid.valid.T1$Midtesting_age_group)
+```
+In the middle of testing, the 155 children were 49.67 (SD = 6.94, range 36-72) months old. There were 69 3-year-olds, 75 4-year-olds, 10 5-year-olds, and 1 6-year-old.
+
+### Mediansplit age (based on entire sample)
+```{r}
+table(Grid.valid.T1$Mediansplit_midtesting_entiresample)
+```
+There were 79 young and 76 old children.
+
+## Testing location
+```{r}
+table(Grid.valid.T1$TestingLocation)
+table(Grid.valid.T1$TestingLocation, Grid.valid.T1$Midtesting_age_group)
+
+tapply(Grid.valid.T1$Midtesting_age_months, Grid.valid.T1$TestingLocation, mean)
+tapply(Grid.valid.T1$Midtesting_age_months, Grid.valid.T1$TestingLocation, sd)
+tapply(Grid.valid.T1$Midtesting_age_months, Grid.valid.T1$TestingLocation, min)
+tapply(Grid.valid.T1$Midtesting_age_months, Grid.valid.T1$TestingLocation, max)
+```
+65 children were from Edinburgh, 90 children from Fife.
+
+Edinburgh: 49.37 (SD = 5.70, range 36-58)
+- 3y: 27
+- 4y: 38
+
+Fife: 49.89 (SD = 7.74, range 36-72)
+- 3y: 42
+- 4y: 37
+- 5y: 10
+- 6y: 1
+
+There is no difference in mean age between the two testing locations.
+
+# Clean data
+```{r}
+table(Grid.valid.T1$CleanData)
+table(Grid.valid.T1$CleanData, Grid.valid.T1$TestingLocation)
+```
+62 children have clean data, 93 children have some kind of issue.
+
+- Edinburgh: 3 children (5%) have clean data, 62 don't
+- Fife: 59 children (65%) have clean data, 31 don't
+
+# Type of issues
+```{r}
+table(Grid.valid.T1$Issue)
+table(Grid.valid.T1$CleanData, Grid.valid.T1$TestingLocation)
+```
+
+- Door bent inwards/outwards: 10
+- Door bent inwards/outwards and experimenter intervention at start: 1
+- Door bent inwards/outwards and experimenter intervention during trial, possibly intervention at start: 1
+- door wobble: 8
+- Door wobble and experimenter intervention at start: 7
+- door wobble and experimenter intervention during trial: 8
+- door wobble, experimenter intervention at start and during trial: 5
+- door wobble, possibly experimenter intervention at start: 2
+- Experimenter intervention at start: 13
+-  Experimenter intervention at start and during trial: 8
+-   Experimenter intervention during trial: 8
+- Experimenter intervention during trial, possibly also at start : 5
+- no video, latencies cannot be coded: 1
+- received help: 11
+- suspicious, probably door wobble: 2
+- very inattentive: 1
+
+# Trial 1
+
+## 6 searches after the first toy was found
+### How many transparent doors were touched in the 6 searches after the first toy was found (here, these 6 searches are counted by ignoring repeated visits to opaque doors, but punishing for repeated visits to transparent doors)
+
+#### If we take all data
+```{r}
+table(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+mean(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+sd(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+min(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+max(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+
+hist(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+
+#age groups
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1$Midtesting_age_group, mean)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1$Midtesting_age_group, sd)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1$Midtesting_age_group, min)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1$Midtesting_age_group, max)
+
+Three.years <- subset(Grid.valid.T1, Midtesting_age_group == "3")
+Four.years <- subset(Grid.valid.T1, Midtesting_age_group == "4")
+Five.years <- subset(Grid.valid.T1, Midtesting_age_group == "5")
+
+hist(Three.years$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+hist(Four.years$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+hist(Five.years$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+
+shapiro.test(Three.years$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)#not normally distributed
+shapiro.test(Four.years$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)#not normally distributed
+
+wilcox.test(Three.years$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Four.years$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, alternative = "greater")
+
+# mediansplit age
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1$Mediansplit_midtesting_entiresample, mean)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1$Mediansplit_midtesting_entiresample, sd)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1$Mediansplit_midtesting_entiresample, min)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1$Mediansplit_midtesting_entiresample, max)
+
+young <- subset(Grid.valid.T1, Mediansplit_midtesting_entiresample == "young")
+old <- subset(Grid.valid.T1, Mediansplit_midtesting_entiresample == "old")
+
+shapiro.test(young$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)#not normally distributed
+shapiro.test(old$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)#not normally distributed
+
+wilcox.test(young$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, old$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, alternative = "greater")
+
+# testing location
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1$TestingLocation, mean)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1$TestingLocation, sd)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1$TestingLocation, min)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1$TestingLocation, max)
+
+```
+With data from all 155 children, children reached on average 1.43 (SD = 1.46, range 0-6) times to transparent doors in the first 6 unique searches after the first toy was found (not counting repeated visits to opaque doors). This variable is rather left-skewed.
+
+- 3y (n = 69): 1.58 (SD = 1.49, range 0-6)
+- 4y (n = 75): 1.33 (SD = 1.48, range 0-6)
+- 5y (n = 10): 1.30 (SD = 1.06, range 0-3)
+- 6y (n = 1): 0
+
+3- and 4-year-olds don't differ in how often they touch transparent doors after finding the first toy, W = 2868.5, p = .123.
+
+- young (n = 79): 1.57 (SD = 1.46, range 0-6)
+- Old (n = 76): 1.29 (SD = 1.45, range 0-6)
+
+Young children did not go back to transparent doors more often than older children, W = 3373, p = .085.
+
+- Edinburgh (n = 65): 1.48 (SD = 1.29, range 0-4)
+- Fife (n = 90): 1.40 (SD = 1.58, range 0-6)
+
+Children from Edinburgh and Fife do not differ in how often they touch transparent doors after finding the first toy.
+
+
+#### If we take only clean data
+```{r}
+Grid.valid.T1.clean <- subset(Grid.valid.T1, CleanData == "yes")
+
+mean(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+sd(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+min(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+max(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+
+hist(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+
+#age groups
+table(Grid.valid.T1.clean$Midtesting_age_group)
+tapply(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1.clean$Midtesting_age_group, mean)
+tapply(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1.clean$Midtesting_age_group, sd)
+tapply(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1.clean$Midtesting_age_group, min)
+tapply(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1.clean$Midtesting_age_group, max)
+
+Three.years.clean <- subset(Grid.valid.T1.clean, Midtesting_age_group == "3")
+Four.years.clean <- subset(Grid.valid.T1.clean, Midtesting_age_group == "4")
+Five.years.clean <- subset(Grid.valid.T1.clean, Midtesting_age_group == "5")
+
+hist(Three.years.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+hist(Four.years.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+hist(Five.years.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)
+
+
+# mediansplit age
+table(Grid.valid.T1.clean$Mediansplit_midtesting_entiresample)
+tapply(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, mean)
+tapply(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, sd)
+tapply(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, min)
+tapply(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, max)
+
+young.clean <- subset(Grid.valid.T1.clean, Mediansplit_midtesting_entiresample == "young")
+old.clean <- subset(Grid.valid.T1.clean, Mediansplit_midtesting_entiresample == "old")
+
+shapiro.test(young.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)#not normally distributed
+shapiro.test(old.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored)#not normally distributed
+
+wilcox.test(young.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, old.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches_redundantsearchesofopaquedoorsareignored, alternative = "greater")
+```
+With data from the 62 children with clean data, children reached on average 1.39 (SD = 1.68, range 0-6) times to transparent doors in the first 6 unique searches after the first toy was found (not counting repeated visits to opaque doors). This variable is very left-skewed.
+
+- 3y (n = 32): 1.47 (SD = 1.66, range 0-6)
+- 4y (n = 22): 1.50 (SD = 1.92, range 0-6)
+- 5y (n = 7): 0.86 (SD = 0.90, range 0-2)
+- 6y (n = 1): 0
+
+3- and4-year-olds do not differ in how often they touch transparent doors after finding the first toy.
+
+- young (n = 34): 1.41 (SD = 1.63, range 0-6)
+- Old (n = 28): 1.36 (SD = 1.77, range 0-6)
+
+Young and old children did not differ, W = 507.5, p = .323.
+
+
+
+### How many transparent doors were touched in the 6 immediate searches after the first toy was found
+
+#### If we take all data
+```{r}
+mean(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)
+sd(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)
+min(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)
+max(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)
+
+hist(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)
+
+
+#age groups
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1$Midtesting_age_group, mean)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1$Midtesting_age_group, sd)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1$Midtesting_age_group, min)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1$Midtesting_age_group, max)
+
+hist(Three.years$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)
+hist(Four.years$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)
+hist(Five.years$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)
+
+wilcox.test(Three.years$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Four.years$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, alternative = "greater")
+
+# mediansplit age
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1$Mediansplit_midtesting_entiresample, mean)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1$Mediansplit_midtesting_entiresample, sd)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1$Mediansplit_midtesting_entiresample, min)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1$Mediansplit_midtesting_entiresample, max)
+
+
+shapiro.test(young$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)#not normally distributed
+shapiro.test(old$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)#not normally distributed
+
+wilcox.test(young$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, old$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, alternative = "greater")
+
+# testing location
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1$TestingLocation, mean)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1$TestingLocation, sd)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1$TestingLocation, min)
+tapply(Grid.valid.T1$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1$TestingLocation, max)
+
+Fife <- subset(Grid.valid.T1, TestingLocation =="Fife")
+Edi <- subset(Grid.valid.T1, TestingLocation =="Edinburgh")
+
+wilcox.test(Fife$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Edi$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, alternative = "two.sided")
+
+```
+With data from all 155 children, children reached on average 1.24 (SD = 1.34, range 0-5) times to transparent doors in the first 6  searches after the first toy was found. This variable is rather left-skewed.
+
+- 3y (n = 69): 1.36 (SD = 1.36, range 0-5)
+- 4y (n = 75): 1.21 (SD = 1.38, range 0-5)
+- 5y (n = 10): 0.80 (SD = 0.79, range 0-2)
+- 6y (n = 1): 0
+
+3- and 4-year-olds do not differ in how often they go back to transparent doors after finding the first animal, W = 2785, p = .205.
+
+- young (n = 79): 1.38 (SD = 1.35, range 0-5)
+- Old (n = 76): 1.10 (SD = 1.32, range 0-5)
+
+Young and old children do not differ in how often they go back to transparent doors after finding the first animal, W = 3393, p = .072.
+
+- Edinburgh (n = 65): 1.37 (SD = 1.26, range 0-4)
+- Fife (n = 90): 1.15 (SD = 1.40, range 0-5)
+
+There was no difference between the two testing locations in how often children touched trasnparent doors after finding the first animal, W = 2549.5, p = .155.
+
+
+#### If we take only clean data
+```{r}
+mean(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)
+sd(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)
+min(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)
+max(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)
+
+hist(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)
+
+#age groups
+tapply(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1.clean$Midtesting_age_group, mean)
+tapply(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1.clean$Midtesting_age_group, sd)
+tapply(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1.clean$Midtesting_age_group, min)
+tapply(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1.clean$Midtesting_age_group, max)
+
+hist(Three.years.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)
+hist(Four.years.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)
+hist(Five.years.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)
+
+
+# mediansplit age
+tapply(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, mean)
+tapply(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, sd)
+tapply(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, min)
+tapply(Grid.valid.T1.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, max)
+
+shapiro.test(young.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)#not normally distributed
+shapiro.test(old.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches)#not normally distributed
+
+wilcox.test(young.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, old.clean$AfterFirstAnimalWasFound_HowManyTransparentDoorsAreTouched_WithinTheNext6Searches, alternative = "greater")
+```
+With data from the 62 children with clean data, children reached on average 1.11 (SD = 1.48, range 0-5) times to transparent doors in the first 6  searches after the first toy was found. This variable is very left-skewed.
+
+- 3y (n = 32): 1.25 (SD = 1.48, range 0-5)
+- 4y (n = 22): 1.14 (SD = 1.67, range 0-5)
+- 5y (n = 7): 0.57 (SD = 0.79, range 0-2)
+- 6y (n = 1): 0
+
+- young (n = 34): 1.20 (SD = 1.45, range 0-5)
+- Old (n = 28): 1.00 (SD = 1.54, range 0-5)
+
+
+## Preferred DV: Proportion correct (not punishing for repeated visits to transparent doors)
+### all data
+```{r}
+table(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches)
+mean(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches)
+sd(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches)
+min(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches)
+max(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches)
+
+hist(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches)
+shapiro.test(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches)
+
+wilcox.test(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches, mu = 0.5, alternative = "two.sided")
+
+
+#age groups
+tapply(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1$Midtesting_age_group, mean)
+tapply(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1$Midtesting_age_group, sd)
+tapply(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1$Midtesting_age_group, min)
+tapply(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1$Midtesting_age_group, max)
+
+hist(Three.years$ProportionCorrectOutOfFirstSixUniqueSearches)
+hist(Four.years$ProportionCorrectOutOfFirstSixUniqueSearches)
+hist(Five.years$ProportionCorrectOutOfFirstSixUniqueSearches)
+
+shapiro.test(Three.years$ProportionCorrectOutOfFirstSixUniqueSearches)
+shapiro.test(Four.years$ProportionCorrectOutOfFirstSixUniqueSearches)
+shapiro.test(Five.years$ProportionCorrectOutOfFirstSixUniqueSearches)
+
+wilcox.test(Three.years$ProportionCorrectOutOfFirstSixUniqueSearches, mu = 0.5, alternative = "two.sided")
+wilcox.test(Four.years$ProportionCorrectOutOfFirstSixUniqueSearches, mu = 0.5, alternative = "two.sided")
+t.test(Five.years$ProportionCorrectOutOfFirstSixUniqueSearches, mu = 0.5, alternative = "two.sided")
+
+wilcox.test(Three.years$ProportionCorrectOutOfFirstSixUniqueSearches, Four.years$ProportionCorrectOutOfFirstSixUniqueSearches, alternative = "less")
+
+# mediansplit age
+tapply(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1$Mediansplit_midtesting_entiresample, mean)
+tapply(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1$Mediansplit_midtesting_entiresample, sd)
+tapply(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1$Mediansplit_midtesting_entiresample, min)
+tapply(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1$Mediansplit_midtesting_entiresample, max)
+
+
+# testing location
+tapply(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1$TestingLocation, mean)
+tapply(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1$TestingLocation, sd)
+tapply(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1$TestingLocation, min)
+tapply(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1$TestingLocation, max)
+
+Edi <- subset(Grid.valid.T1, TestingLocation == "Edinburgh")
+Fife <- subset(Grid.valid.T1, TestingLocation == "Fife")
+
+shapiro.test(Edi$ProportionCorrectOutOfFirstSixUniqueSearches)#not normally distributed
+shapiro.test(Fife$ProportionCorrectOutOfFirstSixUniqueSearches)#not normally distributed
+
+wilcox.test(Edi$ProportionCorrectOutOfFirstSixUniqueSearches, Fife$ProportionCorrectOutOfFirstSixUniqueSearches, alternative = "two.sided")
+
+
+
+Zeynep <- subset(Grid.valid.T1, Experimenter == "Zeynep")
+OtherExp <- subset(Grid.valid.T1, Experimenter != "Zeynep")
+
+#Zeynep
+mean(Zeynep$ProportionCorrectOutOfFirstSixUniqueSearches)
+sd(Zeynep$ProportionCorrectOutOfFirstSixUniqueSearches)
+min(Zeynep$ProportionCorrectOutOfFirstSixUniqueSearches)
+max(Zeynep$ProportionCorrectOutOfFirstSixUniqueSearches)
+hist(Zeynep$ProportionCorrectOutOfFirstSixUniqueSearches)
+
+#Other experimenters
+mean(OtherExp$ProportionCorrectOutOfFirstSixUniqueSearches)
+sd(OtherExp$ProportionCorrectOutOfFirstSixUniqueSearches)
+min(OtherExp$ProportionCorrectOutOfFirstSixUniqueSearches)
+max(OtherExp$ProportionCorrectOutOfFirstSixUniqueSearches)
+hist(OtherExp$ProportionCorrectOutOfFirstSixUniqueSearches)
+
+shapiro.test(Zeynep$ProportionCorrectOutOfFirstSixUniqueSearches)#not normally distributed
+shapiro.test(OtherExp$ProportionCorrectOutOfFirstSixUniqueSearches)# not normally distributed
+
+wilcox.test(Zeynep$ProportionCorrectOutOfFirstSixUniqueSearches, OtherExp$ProportionCorrectOutOfFirstSixUniqueSearches)
+```
+With data from all 155 children, children had on average 0.54 (SD = 0.26, range 0-1) searches out of the first 6 searches (not counting any repeated visits) correct. The distribution of this variable ok, but not normally distributed, W = 0.946, p < .001.
+
+- 3y (n = 69): 0.52 (SD = 0.25, range 0-1)
+- 4y (n = 75): 0.55 (SD = 0.28, range 0-1)
+- 5y (n = 10): 0.58 (SD = 0.18, range 0.33-0.83)
+- 6y (n = 1): 0.67
+
+- young (n = 79): 0.53 (SD = 0.25, range 0-1)
+- Old (n = 76): 0.55 (SD = 0.27, range 0-1)
+
+- Edinburgh (n = 65): 0.58 (SD = 0.27, range 0-1)
+- Fife (n = 90): 0.51 (SD = 0.25, range 0-1)
+
+There is no difference between Edinburgh children and Fife children in the proportion correct, W = 3388.5, p = .087.
+
+- Zeynep: 0.57 (SD = 0.28, 0-1)
+- Other experimenters: 0.51 (SD = 0.24, 0-1)
+
+There is no difference between children tested by Zeynep and children tested by other experimenters in the proportion correct, W = 3339, p = .139.
+
+Boxplots
+```{r}
+library(ggplot2)
+
+p<-  ggplot(
+  data=Grid.valid.T1, aes(x=rep(1, 155), y=ProportionCorrectOutOfFirstSixUniqueSearches)) +
+  geom_boxplot(outlier.colour = "black")+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean proportion of correct searches")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Inhibition Grid")
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") + geom_count()
+```
+
+Boxplot by age groups:
+```{r}
+p1<-ggplot(data=Grid.valid.T1, aes(x=Midtesting_age_group,y=ProportionCorrectOutOfFirstSixUniqueSearches)) +
+  geom_boxplot(aes(group=Midtesting_age_group, fill = as.factor(Midtesting_age_group)), outlier.colour = "black") + 
+      ylim(0,1)+
+  xlim(2.5,6.5)+
+  geom_point(alpha=0.3) +
+  labs(x="",y="Mean proportion correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Inhibition Grid: proportion of correct searches")
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ 
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5)+
+  scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 69", "4 years, n = 75", "5 years, n = 10", "6 years, n = 1"))
+```
+
+By age mediansplit
+```{r}
+library(forcats)
+
+Grid.valid.T1$Mediansplit_midtesting_entiresample<-fct_relevel(Grid.valid.T1$Mediansplit_midtesting_entiresample, "young")
+#changes order of boxplots (young before old)
+
+p1<-  ggplot(
+  data=Grid.valid.T1, aes(x=rep(1, 155), y=ProportionCorrectOutOfFirstSixUniqueSearches, fill = Mediansplit_midtesting_entiresample))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean proportion of searches correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Inhibition Grid: Mean proportion of correct searches")
+
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
+  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young, n = 79", "old, n = 76"))
+```
+
+by testing location
+```{r}
+p1<-  ggplot(
+  data=Grid.valid.T1, aes(x=rep(1, 155), y=ProportionCorrectOutOfFirstSixUniqueSearches, fill = TestingLocation))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean proportion of searches correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Inhibition Grid: Mean proportion of correct searches")
+
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
+  scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 65", "Fife, n = 90"))
+```
+
+
+### Plot age as continuous variable against proportion correct
+```{r}
+p1<- ggplot(Grid.valid.T1, aes(x=Midtesting_age_months , y=ProportionCorrectOutOfFirstSixUniqueSearches)) + geom_point()+
+ labs(x="Age in months",y="Proportion correct")
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+### Can age predict children's success?
+```{r}
+library(lme4)
+
+Grid.valid.T1$z.age=as.vector(scale(Grid.valid.T1$Midtesting_age_months ))#transform age to mean of 0 and SD of 1
+mean(Grid.valid.T1$z.age)#check whether it has worked
+sd(Grid.valid.T1$z.age)
+
+res<-lm(ProportionCorrectOutOfFirstSixUniqueSearches ~ z.age, data=Grid.valid.T1)
+null<-lm(ProportionCorrectOutOfFirstSixUniqueSearches ~ 1, data=Grid.valid.T1)
+
+anova(null, res, test="Chisq")#significant
+```
+Age cannot predict the proportion corect ouf of the first 6 searches, X2(1) = 0.138, p = .153.
+
+## only clean data
+```{r}
+mean(Grid.valid.T1.clean$ProportionCorrectOutOfFirstSixUniqueSearches)
+sd(Grid.valid.T1.clean$ProportionCorrectOutOfFirstSixUniqueSearches)
+min(Grid.valid.T1.clean$ProportionCorrectOutOfFirstSixUniqueSearches)
+max(Grid.valid.T1.clean$ProportionCorrectOutOfFirstSixUniqueSearches)
+
+hist(Grid.valid.T1.clean$ProportionCorrectOutOfFirstSixUniqueSearches)
+
+#age groups
+tapply(Grid.valid.T1.clean$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1.clean$Midtesting_age_group, mean)
+tapply(Grid.valid.T1.clean$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1.clean$Midtesting_age_group, sd)
+tapply(Grid.valid.T1.clean$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1.clean$Midtesting_age_group, min)
+tapply(Grid.valid.T1.clean$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1.clean$Midtesting_age_group, max)
+
+# mediansplit age
+tapply(Grid.valid.T1.clean$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, mean)
+tapply(Grid.valid.T1.clean$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, sd)
+tapply(Grid.valid.T1.clean$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, min)
+tapply(Grid.valid.T1.clean$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, max)
+```
+With data from the 60 children with clean data, children reached on average 0.49 (SD = 0.24, range 0-1) times to transparent doors in the first 6  searches after the first toy was found.
+
+- 3y (n = 32): 0.50 (SD = 0.25, range 0-1)
+- 4y (n = 22): 0.45 (SD = 0.27, range 0-1)
+- 5y (n = 7): 0.55 (SD = 0.18, range 0.33-0.83)
+- 6y (n = 1): 0.67
+
+- young (n = 34): 0.51 (SD = 0.25, range 0-1)
+- Old (n = 28): 0.46 (SD = 0.24, range 0-1)
+
+
+# Proportion correct (punishing for repeated visits to transparent doors)
+## all data
+```{r}
+mean(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+sd(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+min(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+max(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+
+hist(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+
+#age groups
+tapply(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1$Midtesting_age_group, mean)
+tapply(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1$Midtesting_age_group, sd)
+tapply(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1$Midtesting_age_group, min)
+tapply(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1$Midtesting_age_group, max)
+
+shapiro.test(Three.years$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)#not normally distributed
+shapiro.test(Four.years$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)#not normally distributed
+
+wilcox.test(Three.years$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Four.years$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, alternative = "less")
+
+# mediansplit age
+tapply(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1$Mediansplit_midtesting_entiresample, mean)
+tapply(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1$Mediansplit_midtesting_entiresample, sd)
+tapply(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1$Mediansplit_midtesting_entiresample, min)
+tapply(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1$Mediansplit_midtesting_entiresample, max)
+
+# testing location
+tapply(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1$TestingLocation, mean)
+tapply(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1$TestingLocation, sd)
+tapply(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1$TestingLocation, min)
+tapply(Grid.valid.T1$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1$TestingLocation, max)
+
+shapiro.test(Edi$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)#not normally distributed
+shapiro.test(Fife$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)#not normally distributed
+
+wilcox.test(Edi$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Fife$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, alternative = "two.sided")
+
+#Zeynep
+mean(Zeynep$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+sd(Zeynep$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+min(Zeynep$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+max(Zeynep$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+hist(Zeynep$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+
+#Other experimenters
+mean(OtherExp$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+sd(OtherExp$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+min(OtherExp$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+max(OtherExp$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+hist(OtherExp$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+
+shapiro.test(Zeynep$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)#not normally distributed
+shapiro.test(OtherExp$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)# not normally distributed
+
+wilcox.test(Zeynep$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, OtherExp$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+```
+With data from all 155 children, children had on average 0.39 (SD = 0.29, range 0-1) searches out of the first 6 searches (punishing repeated visits to transparent doors) correct.
+
+- 3y (n = 69): 0.38 (SD = 0.28, range 0-1)
+- 4y (n = 75): 0.41 (SD = 0.30, range 0-1)
+- 5y (n = 10): 0.32 (SD = 0.33, range 0-0.83)
+- 6y (n = 1): 0.67
+
+3-year-olds did not perform worse than 4-year-olds, W = 2419, p = .247.
+
+- young (n = 79): 0.39 (SD = 0.29, range 0-1)
+- Old (n = 76): 0.39 (SD = 0.30, range 0-1)
+
+There was no difference between young and old children.
+
+- Edinburgh (n = 65): 0.49 (SD = 0.30, range 0-1)
+- Fife (n = 90): 0.31 (SD = 0.26, range 0-1)
+
+Children in Edinburgh perform better than children in Fife, W = 3945, p < .001.
+
+- Zeynep: 0.49 (SD = 0.30, 0-1)
+- Other experimenters: 0.32 (SD = 0.26, 0-1)
+
+Children tested by Zeynep perform better than children tested by other experimenters, W = 3895, p < .001.
+
+## only clean data
+```{r}
+mean(Grid.valid.T1.clean$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+sd(Grid.valid.T1.clean$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+min(Grid.valid.T1.clean$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+max(Grid.valid.T1.clean$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+
+hist(Grid.valid.T1.clean$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors)
+
+#age groups
+tapply(Grid.valid.T1.clean$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1.clean$Midtesting_age_group, mean)
+tapply(Grid.valid.T1.clean$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1.clean$Midtesting_age_group, sd)
+tapply(Grid.valid.T1.clean$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1.clean$Midtesting_age_group, min)
+tapply(Grid.valid.T1.clean$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1.clean$Midtesting_age_group, max)
+
+# mediansplit age
+tapply(Grid.valid.T1.clean$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, mean)
+tapply(Grid.valid.T1.clean$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, sd)
+tapply(Grid.valid.T1.clean$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, min)
+tapply(Grid.valid.T1.clean$ProportionCorrect_PunishingForRepeatedVisitsToTransparentDoors, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, max)
+```
+With data from the 62 children with clean data, children reached on average 0.34 (SD = 0.26, range 0-1) times to transparent doors in the first 6  searches after the first toy was found (punishing for repeated visits to transparent doors).
+
+- 3y (n = 32): 0.36 (SD = 0.25, range 0-1)
+- 4y (n = 22): 0.30 (SD = 0.25, range 0-1)
+- 5y (n = 7): 0.36 (SD = 0.32, range 0-0.83)
+- 6y (n = 1): 0.67
+
+- young (n = 34): 0.34 (SD = 0.26, range 0-1)
+- Old (n = 28): 0.35 (SD = 0.26, range 0-1)
+
+# New DV: no redundant searches punished: 2 phases combined, proportion of transparent boxes touched
+## all data
+```{r}
+mean(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+sd(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+min(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+max(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+
+hist(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+
+#age groups
+tapply(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$Midtesting_age_group, mean)
+tapply(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$Midtesting_age_group, sd)
+tapply(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$Midtesting_age_group, min)
+tapply(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$Midtesting_age_group, max)
+
+shapiro.test(Three.years$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)#normally distributed
+shapiro.test(Four.years$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)#normally distributed
+
+t.test(Three.years$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Four.years$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, alternative = "greater")
+
+# mediansplit age
+tapply(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$Mediansplit_midtesting_entiresample, mean)
+tapply(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$Mediansplit_midtesting_entiresample, sd)
+tapply(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$Mediansplit_midtesting_entiresample, min)
+tapply(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$Mediansplit_midtesting_entiresample, max)
+
+shapiro.test(young$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)#normally distributed
+shapiro.test(old$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)#normally distributed
+
+t.test(young$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, old$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, alternative = "greater")
+
+# testing location
+tapply(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$TestingLocation, mean)
+tapply(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$TestingLocation, sd)
+tapply(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$TestingLocation, min)
+tapply(Grid.valid.T1$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$TestingLocation, max)
+
+#Zeynep
+mean(Zeynep$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+sd(Zeynep$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+min(Zeynep$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+max(Zeynep$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+hist(Zeynep$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+
+#Other experimenters
+mean(OtherExp$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+sd(OtherExp$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+min(OtherExp$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+max(OtherExp$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+hist(OtherExp$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+```
+With data from all 155 children, the proportion of transparent doors touched was on average 0.35 (SD = 0.17, range 0-0.87).
+
+- 3y (n = 69): 0.36 (SD = 0.16, range 0-0.70)
+- 4y (n = 75): 0.33 (SD = 0.19, range 0-0.87)
+- 5y (n = 10): 0.33 (SD = 0.09, range 0.12-0.45)
+- 6y (n = 1): 0.22
+
+3-year-olds did not perform worse than 4-year-olds, t(140.62) = 1.120, p = .132.
+
+- young (n = 79): 0.36 (SD = 0.16, range 0-0.70)
+- Old (n = 76): 0.33 (SD = 0.18, range 0-0.87)
+
+Young children did not perform worse than old children, t(147.91) = 1.203, p = .115.
+
+- Edinburgh (n = 65): 0.34 (SD = 0.18, range 0-0.67)
+- Fife (n = 90): 0.35 (SD = 0.17, range 0-0.87)
+
+There was no difference in performance between testing locations.
+
+- Zeynep: 0.34 (SD = 0.18, 0-0.67)
+- Other experimenters: 0.35 (SD = 0.17, 0-0.87)
+
+There was no difference in performance between children tested by Zeynep and children tested by other researchers.
+
+
+
+## only clean data
+```{r}
+mean(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+sd(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+min(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+max(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+
+hist(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+
+#age groups
+tapply(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$Midtesting_age_group, mean)
+tapply(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$Midtesting_age_group, sd)
+tapply(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$Midtesting_age_group, min)
+tapply(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$Midtesting_age_group, max)
+
+# mediansplit age
+tapply(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, mean)
+tapply(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, sd)
+tapply(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, min)
+tapply(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, max)
+
+# testing location
+table(Grid.valid.T1.clean$TestingLocation)
+tapply(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$TestingLocation, mean)
+tapply(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$TestingLocation, sd)
+tapply(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$TestingLocation, min)
+tapply(Grid.valid.T1.clean$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$TestingLocation, max)
+```
+With data from the 62 children with clean data, the proportion of transparent doors touched was on average 0.36 (SD = 0.18, range 0-0.87).
+
+- 3y (n = 32): 0.36 (SD = 0.16, range 0-0.70)
+- 4y (n = 22): 0.38 (SD = 0.22, range 0-0.87)
+- 5y (n = 7): 0.30 (SD = 0.09, range 0.12-0.42)
+- 6y (n = 1): 0.22
+
+- young (n = 34): 0.35 (SD = 0.17, range 0-0.70)
+- Old (n = 28): 0.37 (SD = 0.19, range 0-0.87)
+
+- Edinburgh (n = 3): 0.28 (SD = 0.26, 0.12-0.58)
+- Fife (n = 59): 0.36 (SD = 0.17, 0-0.87)
+
+
+
+
+# New DV: Redundant searches to transparent doors punished: 2 phases combined, proportion of transparent boxes touched
+## all data
+```{r}
+mean(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+sd(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+min(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+max(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+
+hist(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+
+#age groups
+tapply(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$Midtesting_age_group, mean)
+tapply(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$Midtesting_age_group, sd)
+tapply(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$Midtesting_age_group, min)
+tapply(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$Midtesting_age_group, max)
+
+shapiro.test(Three.years$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)#normally distributed
+shapiro.test(Four.years$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)#not normally distributed
+
+wilcox.test(Three.years$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Four.years$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, alternative = "greater")
+
+# mediansplit age
+tapply(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$Mediansplit_midtesting_entiresample, mean)
+tapply(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$Mediansplit_midtesting_entiresample, sd)
+tapply(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$Mediansplit_midtesting_entiresample, min)
+tapply(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$Mediansplit_midtesting_entiresample, max)
+
+shapiro.test(young$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)#normally distributed
+shapiro.test(old$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)#normally distributed
+
+t.test(young$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, old$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, alternative = "greater")
+
+# testing location
+tapply(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$TestingLocation, mean)
+tapply(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$TestingLocation, sd)
+tapply(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$TestingLocation, min)
+tapply(Grid.valid.T1$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1$TestingLocation, max)
+
+shapiro.test(Edi$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)#not normally distributed
+shapiro.test(Fife$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)#normally distributed
+
+wilcox.test(Edi$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Fife$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, alternative = "two.sided")
+
+#Zeynep
+mean(Zeynep$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+sd(Zeynep$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+min(Zeynep$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+max(Zeynep$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+hist(Zeynep$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)
+
+#Other experimenters
+mean(OtherExp$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+sd(OtherExp$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+min(OtherExp$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+max(OtherExp$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+hist(OtherExp$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+
+shapiro.test(Zeynep$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)#not normally distributed
+shapiro.test(OtherExp$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched)#normally distributed
+
+wilcox.test(Zeynep$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, OtherExp$NoRedundantSearchesPunished_2Phases_ProportionTransparentBoxesTouched, alternative = "two.sided")
+```
+With data from all 155 children, the proportion of transparent doors touched was on average 0.42 (SD = 0.19, range 0-0.92).
+
+- 3y (n = 69): 0.44 (SD = 0.18, range 0-0.92)
+- 4y (n = 75): 0.41 (SD = 0.19, range 0-0.87)
+- 5y (n = 10): 0.47 (SD = 0.21, range 0.12-0.75)
+- 6y (n = 1): 0.22
+
+3-year-olds did not perform worse than 4-year-olds, W = 2857.5, p = .140.
+
+- young (n = 79): 0.44 (SD = 0.18, range 0-0.92)
+- Old (n = 76): 0.41 (SD = 0.20, range 0-0.87)
+
+Young children did not perform worse than old children, t(148.49) = 0.831, p = .203.
+
+- Edinburgh (n = 65): 0.38 (SD = 0.19, range 0-0.75)
+- Fife (n = 90): 0.45 (SD = 0.18, range 0-0.92)
+
+There was no difference in performance between testing locations, W = 2515, p = .134.
+
+- Zeynep: 0.39 (SD = 0.19, 0-0.75)
+- Other experimenters: 0.45 (SD = 0.18, 0-0.92)
+
+There was no difference in performance between children tested by Zeynep and children tested by other researchers, W = 2975.5, p = .890.
+
+## only clean data
+```{r}
+mean(Grid.valid.T1.clean$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+sd(Grid.valid.T1.clean$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+min(Grid.valid.T1.clean$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+max(Grid.valid.T1.clean$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+
+hist(Grid.valid.T1.clean$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched)
+
+#age groups
+tapply(Grid.valid.T1.clean$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$Midtesting_age_group, mean)
+tapply(Grid.valid.T1.clean$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$Midtesting_age_group, sd)
+tapply(Grid.valid.T1.clean$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$Midtesting_age_group, min)
+tapply(Grid.valid.T1.clean$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$Midtesting_age_group, max)
+
+# mediansplit age
+tapply(Grid.valid.T1.clean$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, mean)
+tapply(Grid.valid.T1.clean$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, sd)
+tapply(Grid.valid.T1.clean$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, min)
+tapply(Grid.valid.T1.clean$RedundantSearchesToTransparentDoorsPunished_2Phases_ProportionTransparentBoxesTouched, Grid.valid.T1.clean$Mediansplit_midtesting_entiresample, max)
+```
+With data from the 62 children with clean data, the proportion of transparent doors touched was on average 0.44 (SD = 0.19, range 0-0.92).
+
+- 3y (n = 32): 0.44 (SD = 0.19, range 0-0.92)
+- 4y (n = 22): 0.46 (SD = 0.19, range 0-0.87)
+- 5y (n = 7): 0.41 (SD = 0.20, range 0.12-0.67)
+- 6y (n = 1): 0.22
+
+- young (n = 34): 0.44 (SD = 0.18, range 0-0.92)
+- Old (n = 28): 0.43 (SD = 0.20, range 0-0.87)
+
+## First box touched
+```{r}
+table(Grid.valid.T1$FirstBoxTouched)
+table(Grid.valid.T1$FirstBoxTouched, Grid.valid.T1$TestingLocation)
+chisq.test(Grid.valid.T1$FirstBoxTouched, Grid.valid.T1$TestingLocation)
+```
+123 children touched a transparent box first, 32 children touched an opaque box first.
+
+- Edinburgh: 45 transparent, 20 opaque
+- Fife: 78 transparent, 12 opaque
+
+Children in Edinburgh touched an opaque door more often than children in Fife, X2(1) = 5.980, p = .014.
+
+
+
+
+# Trial 2
+```{r}
+Grid.valid.T2 <- subset(Grid.valid, Trial == "2" & SearchNr =="1")
+```
+154 children have a second trial.
+
+## Preferred DV: Proportion correct (not punishing for repeated visits to transparent doors)
+### all data
+```{r}
+mean(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches)
+sd(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches)
+min(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches)
+max(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches)
+
+hist(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches)
+shapiro.test(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches)
+
+
+#age groups
+table(Grid.valid.T2$Midtesting_age_group)
+tapply(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T2$Midtesting_age_group, mean)
+tapply(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T2$Midtesting_age_group, sd)
+tapply(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T2$Midtesting_age_group, min)
+tapply(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T2$Midtesting_age_group, max)
+
+# mediansplit age
+table(Grid.valid.T2$Mediansplit_midtesting_entiresample)
+tapply(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T2$Mediansplit_midtesting_entiresample, mean)
+tapply(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T2$Mediansplit_midtesting_entiresample, sd)
+tapply(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T2$Mediansplit_midtesting_entiresample, min)
+tapply(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T2$Mediansplit_midtesting_entiresample, max)
+
+
+# testing location
+table(Grid.valid.T2$TestingLocation)
+tapply(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T2$TestingLocation, mean)
+tapply(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T2$TestingLocation, sd)
+tapply(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T2$TestingLocation, min)
+tapply(Grid.valid.T2$ProportionCorrectOutOfFirstSixUniqueSearches, Grid.valid.T2$TestingLocation, max)
+
+Edi <- subset(Grid.valid.T2, TestingLocation == "Edinburgh")
+Fife <- subset(Grid.valid.T2, TestingLocation == "Fife")
+
+shapiro.test(Edi$ProportionCorrectOutOfFirstSixUniqueSearches)#not normally distributed
+shapiro.test(Fife$ProportionCorrectOutOfFirstSixUniqueSearches)#not normally distributed
+
+wilcox.test(Edi$ProportionCorrectOutOfFirstSixUniqueSearches, Fife$ProportionCorrectOutOfFirstSixUniqueSearches, alternative = "two.sided")
+
+
+
+Zeynep <- subset(Grid.valid.T2, Experimenter == "Zeynep")
+OtherExp <- subset(Grid.valid.T2, Experimenter != "Zeynep")
+
+#Zeynep
+mean(Zeynep$ProportionCorrectOutOfFirstSixUniqueSearches)
+sd(Zeynep$ProportionCorrectOutOfFirstSixUniqueSearches)
+min(Zeynep$ProportionCorrectOutOfFirstSixUniqueSearches)
+max(Zeynep$ProportionCorrectOutOfFirstSixUniqueSearches)
+hist(Zeynep$ProportionCorrectOutOfFirstSixUniqueSearches)
+
+#Other experimenters
+mean(OtherExp$ProportionCorrectOutOfFirstSixUniqueSearches)
+sd(OtherExp$ProportionCorrectOutOfFirstSixUniqueSearches)
+min(OtherExp$ProportionCorrectOutOfFirstSixUniqueSearches)
+max(OtherExp$ProportionCorrectOutOfFirstSixUniqueSearches)
+hist(OtherExp$ProportionCorrectOutOfFirstSixUniqueSearches)
+
+shapiro.test(Zeynep$ProportionCorrectOutOfFirstSixUniqueSearches)#not normally distributed
+shapiro.test(OtherExp$ProportionCorrectOutOfFirstSixUniqueSearches)# not normally distributed
+
+wilcox.test(Zeynep$ProportionCorrectOutOfFirstSixUniqueSearches, OtherExp$ProportionCorrectOutOfFirstSixUniqueSearches)
+```
+With data from all 154 children, children had on average 0.86 (SD = 0.18, range 0.33-1) searches out of the first 6 searches (not counting any repeated visits) correct. The variable is right-skewed and not normally distributed, W = 0.758, p < .001.
+
+- 3y (n = 68): 0.84 (SD = 0.17, range 0.33-1)
+- 4y (n = 75): 0.87 (SD = 0.19, range 0.33-1)
+- 5y (n = 10): 0.93 (SD = 0.12, range 0.67-1)
+- 6y (n = 1): 1
+
+- young (n = 78): 0.85 (SD = 0.17, range 0.33-1)
+- Old (n = 76): 0.88 (SD = 0.19, range 0.33-1)
+
+- Edinburgh (n = 65): 0.87 (SD = 0.17, range 0.33-1)
+- Fife (n = 89): 0.85 (SD = 0.18, range 0.33-1)
+
+There is no difference between testing locations, W = 2704.5.5, p = .453.
+
+- Zeynep: 0.85 (SD = 0.18, 0.33-1)
+- Other experimenters: 0.87 (SD = 0.17, 0.33-1)
+
+There is no difference between children tested by Zeynep and children tested by other experimenters in the proportion correct, W = 2664, p = .339.
+
+Boxplots
+```{r}
+library(ggplot2)
+
+p<-  ggplot(
+  data=Grid.valid.T2, aes(x=rep(1, 154), y=ProportionCorrectOutOfFirstSixUniqueSearches)) +
+  geom_boxplot(outlier.colour = "black")+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean proportion of correct searches")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Inhibition Grid")
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") + geom_count()
+```
+
+Boxplot by age groups:
+```{r}
+p1<-ggplot(data=Grid.valid.T2, aes(x=Midtesting_age_group,y=ProportionCorrectOutOfFirstSixUniqueSearches)) +
+  geom_boxplot(aes(group=Midtesting_age_group, fill = as.factor(Midtesting_age_group)), outlier.colour = "black") + 
+      ylim(0,1)+
+  xlim(2.5,6.5)+
+  geom_point(alpha=0.3) +
+  labs(x="",y="Mean proportion correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Inhibition Grid: proportion of correct searches")
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ 
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5)+
+  scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 68", "4 years, n = 75", "5 years, n = 10", "6 years, n = 1"))
+```
+
+By age mediansplit
+```{r}
+library(forcats)
+
+Grid.valid.T2$Mediansplit_midtesting_entiresample<-fct_relevel(Grid.valid.T2$Mediansplit_midtesting_entiresample, "young")
+#changes order of boxplots (young before old)
+
+p1<-  ggplot(
+  data=Grid.valid.T2, aes(x=rep(1, 154), y=ProportionCorrectOutOfFirstSixUniqueSearches, fill = Mediansplit_midtesting_entiresample))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean proportion of searches correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Inhibition Grid: Mean proportion of correct searches")
+
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
+  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young, n = 78", "old, n = 76"))
+```
+
+by testing location
+```{r}
+p1<-  ggplot(
+  data=Grid.valid.T2, aes(x=rep(1, 154), y=ProportionCorrectOutOfFirstSixUniqueSearches, fill = TestingLocation))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean proportion of searches correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Inhibition Grid: Mean proportion of correct searches")
+
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_point(pch = 21, position = position_jitterdodge(0,0,1.5)) +
+  scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 65", "Fife, n = 89"))
+```
+
