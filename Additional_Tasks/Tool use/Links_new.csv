@@ -1,0 +1,42 @@
+﻿Source;Target ;Value
+Some trial and error;Success;5
+Focus on tube only;Uses stick on tube;25
+Uses stick on tube;Focus on tube only - No success;23
+Focus on tube only;Uses hand on tube;12
+Uses hand on tube;Focus on tube only - No success;12
+Attends to tool boxes;Uses stick on tool boxes;9
+Uses stick on tool boxes;Tries to get hose with stick;5
+Tries to get hose with stick;Attends to tool boxes - No success;6
+Attends to tool boxes;Uses hand on tool boxes;18
+Uses hand on tool boxes;Tries to get hose with hand;4
+Tries to get hose with hand;Attends to tool boxes - No success;2
+Uses stick on tool boxes;Tries to get distractor tool with stick;4
+Tries to get distractor tool with stick;Attends to tool boxes - No success;3
+Uses hand on tool boxes;Tries to get distractor tool with hand;14
+Tries to get distractor tool with hand;Attends to tool boxes - No success;3
+Tries to get hose with hand;Gets hose with hand;4
+Gets hose with hand;Incorrect success - Attends to tool boxes;8
+Focus on tube only;Blows into tube;1
+Blows into tube;Incorrect success - Focus on tube only;3
+Focus on tube only;Little/no interaction;4
+Little/no interaction;Focus on tube only - No success;4
+Tries to get distractor tool with hand;Gets distractor tool with hand;10
+Gets distractor tool with hand;Uses distractor tool on tube;8
+Uses distractor tool on tube;Gets another distractor tool with hand;3
+Gets another distractor tool with hand;Uses second distractor tool on tube;2
+Uses second distractor tool on tube;Gets hose with hand;2
+Tries to get distractor tool with hand;Gets hose with hand;1
+Uses stick on tube;Blows into tube;2
+Gets distractor tool with hand;Uses distractor tool on tool boxes;1
+Uses distractor tool on tool boxes;Tries to get hose with distractor tool;1
+Tries to get hose with distractor tool;Gets hose with distractor tool;1
+Gets hose with distractor tool;Incorrect success - Attends to tool boxes;1
+Uses distractor tool on tube;Attends to tool boxes - No success;3
+Gets distractor tool with hand;Attends to tool boxes - No success;1
+Hose was retrieved first;Success;1
+Tries to get distractor tool with stick;Gets distractor tool with stick;1
+Gets distractor tool with stick;Tries to get hose with stick;1
+Uses distractor tool on tube;Tries to get hose with hand;2
+Gets another distractor tool with hand;Uses second distractor tool on tool boxes;1
+Uses second distractor tool on tool boxes;Tries to get hose with second distractor tool;1
+Tries to get hose with second distractor tool;Gets hose with hand;1
