@@ -1,0 +1,165 @@
+---
+title: "BRIEF-P"
+author: "Eva Reindl"
+date: "25 8 2020"
+output: word_document
+---
+
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+BRIEF <-read.csv("BRIEF-P.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+names(BRIEF)[1] <- "ID"
+str(BRIEF)
+```
+115 children contributed data to the BRIEF-P.
+
+# Descriptive statistics
+```{r}
+table(BRIEF$Midtesting_age_group)
+table(BRIEF$Mediansplit_midtesting_entiresample)
+table(BRIEF$TestingLocation)
+table(BRIEF$TestingLocation, BRIEF$Age_group)
+tapply(BRIEF$Midtesting_age_months, BRIEF$TestingLocation, mean)
+```
+There were 51 3-year-olds, 54 4-year-olds, 9 5-year-olds, and 1 6-year-old. There were 59 young and 56 old children. 
+71 children were from Fife, 44 children from Edinburgh.
+
+## Inhibit
+```{r}
+mean(BRIEF$Inhibit)
+sd(BRIEF$Inhibit)
+min(BRIEF$Inhibit)
+max(BRIEF$Inhibit)
+hist(BRIEF$Inhibit)
+
+tapply(BRIEF$Inhibit, BRIEF$Midtesting_age_group, mean)
+tapply(BRIEF$Inhibit, BRIEF$Midtesting_age_group, sd)
+tapply(BRIEF$Inhibit, BRIEF$Midtesting_age_group, min)
+tapply(BRIEF$Inhibit, BRIEF$Midtesting_age_group, max)
+
+tapply(BRIEF$Inhibit, BRIEF$Mediansplit_midtesting_entiresample, mean)
+tapply(BRIEF$Inhibit, BRIEF$Mediansplit_midtesting_entiresample, sd)
+tapply(BRIEF$Inhibit, BRIEF$Mediansplit_midtesting_entiresample, min)
+tapply(BRIEF$Inhibit, BRIEF$Mediansplit_midtesting_entiresample, max)
+
+tapply(BRIEF$Inhibit, BRIEF$TestingLocation, mean)
+tapply(BRIEF$Inhibit, BRIEF$TestingLocation, sd)
+tapply(BRIEF$Inhibit, BRIEF$TestingLocation, min)
+tapply(BRIEF$Inhibit, BRIEF$TestingLocation, max)
+
+Edi <- subset(BRIEF, TestingLocation == "Edinburgh")
+Fife <- subset(BRIEF, TestingLocation == "Fife")
+shapiro.test(Edi$Inhibit)#not normally distributed
+shapiro.test(Fife$Inhibit)#not normally distributed
+wilcox.test(BRIEF$Inhibit ~ BRIEF$TestingLocation, alternative = "two.sided")
+```
+The mean Inhibit score was 51.16 (SD = 11.33, range 34-87).
+
+- 3y (n = 51): 53.31 (SD = 12.06, range 34-85)
+- 4y (n = 54): 49.17 (SD = 11.00, range 36-87)
+- 5y (n = 51): 51.11 (SD = 7.97, range 43-65)
+- 6y (n = 1): 50
+
+- young (n = 59): 52.71 (SD = 11.56, range 34-85)
+- old (n = 56): 49.53 (SD = 10.95, range 36-87)
+
+- Fife (n = 71): 53.13 (SD = 11.84, range 36-87)
+- Edinburgh (n = 44): 48.00 (SD = 9.78, range 34-78)
+Children in Fife have a higher Inhibition score than children in Edinburgh, W = 1150, p = .018.
+
+## Shift
+```{r}
+mean(BRIEF$Shift)
+sd(BRIEF$Shift)
+min(BRIEF$Shift)
+max(BRIEF$Shift)
+
+tapply(BRIEF$Shift, BRIEF$Midtesting_age_group, mean)
+tapply(BRIEF$Shift, BRIEF$Midtesting_age_group, sd)
+tapply(BRIEF$Shift, BRIEF$Midtesting_age_group, min)
+tapply(BRIEF$Shift, BRIEF$Midtesting_age_group, max)
+
+tapply(BRIEF$Shift, BRIEF$Mediansplit_midtesting_entiresample, mean)
+tapply(BRIEF$Shift, BRIEF$Mediansplit_midtesting_entiresample, sd)
+tapply(BRIEF$Shift, BRIEF$Mediansplit_midtesting_entiresample, min)
+tapply(BRIEF$Shift, BRIEF$Mediansplit_midtesting_entiresample, max)
+
+tapply(BRIEF$Shift, BRIEF$TestingLocation, mean)
+tapply(BRIEF$Shift, BRIEF$TestingLocation, sd)
+tapply(BRIEF$Shift, BRIEF$TestingLocation, min)
+tapply(BRIEF$Shift, BRIEF$TestingLocation, max)
+
+shapiro.test(Edi$Shift)#not normally distributed
+shapiro.test(Fife$Shift)#not normally distributed
+wilcox.test(BRIEF$Shift ~ BRIEF$TestingLocation, alternative = "two.sided")
+```
+The mean Shift score was 47.39 (SD = 9.06, range 37-86).
+
+- 3y (n = 51): 48.14 (SD = 11.15, range 37-86)
+- 4y (n = 54): 47.09 (SD = 7.29, range 38-64)
+- 5y (n = 51): 45.22 (SD = 5.43, range 38-52)
+- 6y (n = 1): 45
+
+- young (n = 59): 47.95 (SD = 10.58, range 37-86)
+- old (n = 56): 46.80 (SD = 7.16, range 38-64)
+
+- Fife (n = 71): 48.34 (SD = 9.93, range 37-86)
+- Edinburgh (n = 44): 45.86 (SD = 7.27, range 37-64)
+Children in Fife do not differ in their performance, W = 1361.5, p = .248.
+
+## Working memory
+```{r}
+mean(BRIEF$WorkingMemory)
+sd(BRIEF$WorkingMemory)
+min(BRIEF$WorkingMemory)
+max(BRIEF$WorkingMemory)
+
+tapply(BRIEF$WorkingMemory, BRIEF$Midtesting_age_group, mean)
+tapply(BRIEF$WorkingMemory, BRIEF$Midtesting_age_group, sd)
+tapply(BRIEF$WorkingMemory, BRIEF$Midtesting_age_group, min)
+tapply(BRIEF$WorkingMemory, BRIEF$Midtesting_age_group, max)
+
+tapply(BRIEF$WorkingMemory, BRIEF$Mediansplit_midtesting_entiresample, mean)
+tapply(BRIEF$WorkingMemory, BRIEF$Mediansplit_midtesting_entiresample, sd)
+tapply(BRIEF$WorkingMemory, BRIEF$Mediansplit_midtesting_entiresample, min)
+tapply(BRIEF$WorkingMemory, BRIEF$Mediansplit_midtesting_entiresample, max)
+
+tapply(BRIEF$WorkingMemory, BRIEF$TestingLocation, mean)
+tapply(BRIEF$WorkingMemory, BRIEF$TestingLocation, sd)
+tapply(BRIEF$WorkingMemory, BRIEF$TestingLocation, min)
+tapply(BRIEF$WorkingMemory, BRIEF$TestingLocation, max)
+
+shapiro.test(Edi$WorkingMemory)#not normally distributed
+shapiro.test(Fife$WorkingMemory)#not normally distributed
+wilcox.test(BRIEF$WorkingMemory ~ BRIEF$TestingLocation, alternative = "two.sided")
+```
+The mean WM score was 51.00 (SD = 12.30, range 36-96).
+
+- 3y (n = 51): 52.88 (SD = 12.88, range 36-93)
+- 4y (n = 54): 49.17 (SD = 12.15, range 36-96)
+- 5y (n = 51): 50.33 (SD = 9.22, range 40-66)
+- 6y (n = 1): 60
+
+- young (n = 59): 52.29 (SD = 12.38, range 36-93)
+- old (n = 56): 49.64 (SD = 12.17, range 38-96)
+
+- Fife (n = 71): 51.98 (SD = 13.19, range 36-96)
+- Edinburgh (n = 44): 49.41 (SD = 10.65, range 36-74)
+Children in Fife do not differ in their performance, W = 1408, p = .376.
