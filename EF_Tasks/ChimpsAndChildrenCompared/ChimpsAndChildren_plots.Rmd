@@ -1,0 +1,308 @@
+---
+title: "Chimps and Children compared"
+author: "Eva Reindl"
+date: "27 8 2020"
+output: word_document
+---
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+BothSpecies <-read.csv("ChimpsAndChildren.csv",header=TRUE, sep = ";")
+library(ggplot2)
+library(cowplot)
+names(BothSpecies)[1] <- "ID"
+str(BothSpecies)
+```
+
+# WM Updating
+```{r}
+sum(is.na(BothSpecies$WMUpdating))
+```
+1 missing value, so N = 237
+
+Boxplot:
+```{r}
+p1<-  ggplot(
+  data=BothSpecies, aes(x=rep(1, 238), y=WMUpdating, fill = Species))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean prop correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Updating")+
+  geom_hline(yintercept=0.57965, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank())  +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5)+
+  theme(legend.position = "none")
+p1
+```
+
+# WM Grid
+```{r}
+sum(is.na(BothSpecies$WMGrid))
+```
+58 missing values, so N = 180
+
+Boxplot:
+```{r}
+p2<-  ggplot(
+  data=BothSpecies, aes(x=rep(1, 238), y=WMGrid, fill = Species))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean distance")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Grid")+
+  geom_hline(yintercept=0.5376574, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank())  +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5)+
+  theme(legend.position = "none")
+p2
+```
+
+# WM Boxes
+```{r}
+sum(is.na(BothSpecies$WMBoxes))
+```
+36 missing values, so N = 202
+
+Boxplot:
+```{r}
+p3<-  ggplot(
+  data=BothSpecies, aes(x=rep(1, 238), y=WMBoxes, fill = Species))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean prop correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("WM Boxes")+
+geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank())  +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5)+
+  theme(legend.position = "none")
+p3
+```
+
+# Inhibition Boxes
+```{r}
+sum(is.na(BothSpecies$GlassCeiling))
+```
+59 missing values, so N = 179
+
+Boxplot:
+```{r}
+p4<-  ggplot(
+  data=BothSpecies, aes(x=rep(1, 238), y=GlassCeiling, fill = Species))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean prop correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Inhibition Boxes")+
+geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank())  +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5)+
+  theme(legend.position = "none")
+p4
+```
+
+# Inhibition Cylinder
+```{r}
+sum(is.na(BothSpecies$Cylinder))
+```
+43 missing values, so N = 195
+
+Boxplot:
+```{r}
+p5<-  ggplot(
+  data=BothSpecies, aes(x=rep(1, 238), y=Cylinder, fill = Species))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean prop correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Inhibition Cylinder")+
+geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank())  +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5)+
+  theme(legend.position = "none")
+p5
+```
+
+# Inhibition Grid
+```{r}
+sum(is.na(BothSpecies$InhibGrid))
+```
+43 missing values, so N = 211
+
+Boxplot:
+```{r}
+p6<-  ggplot(
+  data=BothSpecies, aes(x=rep(1, 238), y=InhibGrid, fill = Species))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean prop correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Inhibition Grid")+
+geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank())  +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5)+
+  theme(legend.position = "none")
+p6
+```
+
+# Shifting Tray
+```{r}
+sum(is.na(BothSpecies$Tray))
+```
+38 missing values, so N = 200
+
+Boxplot:
+```{r}
+p7<-  ggplot(
+  data=BothSpecies, aes(x=rep(1, 238), y=Tray, fill = Species))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean prop correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Tray")+
+geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank())  +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5)+
+  theme(legend.position = "none")
+p7
+```
+
+# Shifting Shelf
+```{r}
+sum(is.na(BothSpecies$Shelf))
+```
+36 missing values, so N = 202
+
+Boxplot:
+```{r}
+p8<-  ggplot(
+  data=BothSpecies, aes(x=rep(1, 238), y=Shelf, fill = Species))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean prop of switches")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Shelf")+
+geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank())  +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5)+
+  theme(legend.position = "none")
+p8
+```
+
+# Shifting Boxes
+```{r}
+sum(is.na(BothSpecies$CD_all))
+```
+53 missing values, so N = 185
+
+Boxplot:
+```{r}
+p9<-  ggplot(
+  data=BothSpecies, aes(x=rep(1, 238), y=CD_all, fill = Species))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean prop correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Shifting Boxes")+
+geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank())  +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5)+
+  theme(legend.position = "none")
+p9
+```
+
+# Reversal
+```{r}
+sum(is.na(BothSpecies$Reversal))
+```
+83 missing values, so N = 155
+
+Boxplot:
+```{r}
+p10<-  ggplot(
+  data=BothSpecies, aes(x=rep(1, 238), y=Reversal, fill = Species))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean prop correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Reversal")+
+geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank())  +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5)+
+  theme(legend.position = "none")
+p10
+```
+
+# EDS
+```{r}
+sum(is.na(BothSpecies$EDS))
+```
+160 missing values, so N = 78
+
+Boxplot:
+```{r}
+p11<-  ggplot(
+  data=BothSpecies, aes(x=rep(1, 238), y=EDS, fill = Species))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean prop correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("EDS")+
+ geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5)+
+  theme(legend.position = "none")
+p11
+```
+
+
+# SD
+```{r}
+sum(is.na(BothSpecies$SD))
+```
+43 missing values, so N = 195
+
+Boxplot:
+```{r}
+p12<-  ggplot(
+  data=BothSpecies, aes(x=rep(1, 238), y=SD, fill = Species))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Mean prop correct")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("SD")+
+geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5)+
+  theme(legend.position = "none")
+p12
+```
+
+```{r}
+plot_grid(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, rel_widths = c(1, 1), rel_heights = c(5,5), ncol = 3, nrow = 4)
+```
