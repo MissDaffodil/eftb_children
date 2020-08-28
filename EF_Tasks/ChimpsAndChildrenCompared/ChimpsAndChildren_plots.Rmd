@@ -303,6 +303,6 @@ geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
 p12
 ```
 
-```{r}
-plot_grid(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, rel_widths = c(1, 1), rel_heights = c(5,5), ncol = 3, nrow = 4)
+```{r fig.height=15, fig.width=10}
+plot_grid(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, rel_widths = c(1, 1,1), rel_heights = c(4,4,4,4), ncol = 3, nrow = 4)
 ```
