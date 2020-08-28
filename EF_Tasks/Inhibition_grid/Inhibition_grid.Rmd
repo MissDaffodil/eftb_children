@@ -562,6 +562,15 @@ p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
   scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 65", "Fife, n = 90"))
 ```
 
+```{r}
+library(lme4)
+res <- lm(ProportionCorrectOutOfFirstSixUniqueSearches ~ Midtesting_age_months, data = Grid.valid.T1)
+
+
+null<- lm(ProportionCorrectOutOfFirstSixUniqueSearches ~ 1, data = Grid.valid.T1)
+
+anova(null, res, test="Chisq")
+```
 
 ### Plot age as continuous variable against proportion correct
 ```{r}
