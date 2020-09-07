@@ -121,6 +121,7 @@ All children were from the Fife area.
 "Who is Sally? Who is Ann?"
 ```{r}
 table(Sally.valid$WhoSally_WhoAnn)
+table(Sally.valid$WhoSally_WhoAnn, Sally.valid$AgeGroup_midtesting)
 ```
 Out of the 102 children, **100 children (98%) passed the first control question**. Note that the experimenter repeated the explanation and the questions up to 3 times, so not all of the children passed the question the first time.
 
@@ -157,6 +158,12 @@ Out of the 102 children, **40 children (39%) passed the test question**.
 ```{r}
 table(Sally.valid$Where.block.really)
 table(Sally.valid$Where.block.really, Sally.valid$AgeGroup_midtesting)
+
+table(threeandfour$Where.block.really, threeandfour$AgeGroup_midtesting)
+chisq.test(threeandfour$Where.block.really, threeandfour$AgeGroup_midtesting)
+
+table(Sally.valid$Where.block.really, Sally.valid$Mediansplit_midtesting_entiresample)
+chisq.test(Sally.valid$Where.block.really, Sally.valid$Mediansplit_midtesting_entiresample)
 ```
 Out of the 102 children, **90 children (88%) passed the second control question**. 
 
@@ -164,6 +171,9 @@ Out of the 102 children, **90 children (88%) passed the second control question*
 - 4y (n = 43): 38 correct (88%)
 - 5y (n = 13): 13 correct (100%)
 - 6y (n = 1): 1 correct (100%)
+
+No difference between 3- and 4-year-olds, X2(1) = 0.051, p = .821.
+No difference between young and old children, X2(1) = 1.476, p = .224.
 
 # Control question 3
 "Where was the block in the beginning?"
