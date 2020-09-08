@@ -168,7 +168,7 @@ chisq.test(Smarties.valid$What.will.x.think.is.inside, Smarties.valid$Medianspli
 
 - 3y: 19 correct (59%), 23 wrong
 - 4y: 21 correct (51%), 19 wrong
-- 5y: 9 correct (36%), 2 wrong
+- 5y: 9 correct (82%), 2 wrong
 - 6y: 1 correct (100%)
 
 There is no difference in performance between 3- and 4-year-olds, X2(1) = 1.191, p = .662.
@@ -357,6 +357,8 @@ tapply(Smarties.valid$TotalScore, Smarties.valid$AgeGroup_MidTesting, sd)
 tapply(Smarties.valid$TotalScore, Smarties.valid$AgeGroup_MidTesting, min)
 tapply(Smarties.valid$TotalScore, Smarties.valid$AgeGroup_MidTesting, max)
 
+table(Smarties.valid$TotalScore, Smarties.valid$AgeGroup_MidTesting)
+
 hist(three$TotalScore)
 shapiro.test(three$TotalScore)#not normally distributed
 
@@ -383,9 +385,112 @@ The average score is 0.85 (SD = 1.18, range 0-3).
 - 5y (n = 11): 1.36 (SD = 1.36, range 0-3)
 - 6y (n = 1): 0
 
+3y (n = 42):
+
+- 0 points: 30 (71%)
+- 1 point: 4 (9%)
+- 2 points: 5 (12%)
+- 3 points: 3 (7%)
+
+4y (n = 40):
+
+- 0 points: 22 (55%)
+- 1 point: 3 (7%)
+- 2 points: 6 (15%)
+- 3 points: 9 (22%)
+
+5y (n = 11):
+
+- 0 points: 5 (45%)
+- 1 point: 0 (0%)
+- 2 points: 3 (27%)
+- 3 points: 3(27%)
+
+6y (n = 1):
+
+- 0 points: 1 (100%)
+
 Three-year-olds have a lower score than 4-year-olds, W = 670.5, p = .034.
 
 - young (n = 44): 0.52 (SD = 0.95, range 0-3)
 - old (n = 50): 1.14 (SD = 1.29, range 0-3)
 
 Young children have a lower score than older children, W = 825.5, p = .008.
+
+
+# DV: Test correct (yes/no) for those children who have all control questions correct
+```{r}
+passed.control <- subset(Smarties.valid, GotAtLeastOneControlQuestionWrong == "0")
+```
+Out of the 94 children, **37 children (39%) passed the control question and are included** into the analysis.
+
+## own false belief question
+```{r}
+table(passed.control$What.did.you.think.was.inside)
+table(passed.control$What.did.you.think.was.inside, passed.control$AgeGroup_MidTesting)
+
+threeandfour <- subset(passed.control, AgeGroup_MidTesting == "3" | AgeGroup_MidTesting == "4")
+
+table(threeandfour$What.did.you.think.was.inside, threeandfour$AgeGroup_MidTesting)
+chisq.test(threeandfour$What.did.you.think.was.inside, threeandfour$AgeGroup_MidTesting)
+
+table(passed.control$What.did.you.think.was.inside, passed.control$Mediansplit_midtesting_entiresample)
+chisq.test(passed.control$What.did.you.think.was.inside, passed.control$Mediansplit_midtesting_entiresample)
+```
+Out of the 37 children, 19 children **(51%) passed the own false belief test question**.
+
+- 3y (n = 13): 5 correct (38%)
+- 4y (n = 18): 10 correct (55%)
+- 5y (n = 6): 4 correct (67%)
+
+3- and 4-year-olds did not differ in performance, X2(1) = 0.331, p = .565.
+
+- young (n = 13): 5 correct (38%)
+- old (n = 24): 14 correct (58%)
+
+No difference between young and old children, X2(1) = 0.656, p = .418.
+
+## other false belief question
+```{r}
+table(passed.control$What.will.x.think.is.inside)
+table(passed.control$What.will.x.think.is.inside, passed.control$AgeGroup_MidTesting)
+
+table(threeandfour$What.will.x.think.is.inside, threeandfour$AgeGroup_MidTesting)
+chisq.test(threeandfour$What.will.x.think.is.inside, threeandfour$AgeGroup_MidTesting)
+
+table(passed.control$What.will.x.think.is.inside, passed.control$Mediansplit_midtesting_entiresample)
+chisq.test(passed.control$What.will.x.think.is.inside, passed.control$Mediansplit_midtesting_entiresample)
+```
+Out of the 37 children, 27 children **(73%) passed the other false belief test question**.
+
+- 3y (n = 13): 8 correct (61%)
+- 4y (n = 18): 14 correct (78%)
+- 5y (n = 6): 5 correct (83%)
+
+3- and 4-year-olds did not differ in performance, X2(1) = 0.339, p = .561.
+
+- young (n = 13): 8 correct (61%)
+- old (n = 24): 19 correct (79%)
+
+No difference between young and old children, X2(1) = 0.585, p = .444.
+
+
+## Plot score, age groups
+```{r}
+Scoreplot <-read.csv("Score_Smarties.csv",header=TRUE, sep = ";")
+names(Scoreplot)[1] <- "AgeGroup_midtesting"
+Scoreplot$Score <- as.factor(Scoreplot$Score)
+
+library(ggplot2)
+
+p <- ggplot(Scoreplot, aes(x=Score, y=Percentage, fill=Score)) +
+geom_bar(position="dodge", stat="identity") +
+    ggtitle("Percentages of scores reached by age group") +
+    facet_wrap(~AgeGroup_midtesting) +
+    theme(legend.position="none") +
+    xlab("Score")+
+    ylab("Percentage of children reaching the respective score")
+
+p + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
+```
