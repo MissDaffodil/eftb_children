@@ -307,9 +307,15 @@ table(Sally.valid$Score)
 table(Sally.valid$Score, Sally.valid$AgeGroup_midtesting)
 table(Sally.valid$Score, Sally.valid$Mediansplit_midtesting_entiresample)
 
+mean(Sally.valid$Score)
+sd(Sally.valid$Score)
+min(Sally.valid$Score)
+max(Sally.valid$Score)
+
 library(MASS)
 Sally.valid$Score <- as.factor(Sally.valid$Score)
 res <- polr(Score ~ AgeMonths_midtesting, data= Sally.valid)
+
 summary(res)
 
 #make table
@@ -378,7 +384,7 @@ library(ggplot2)
 
 p <- ggplot(Scoreplot, aes(x=Score, y=Percentage, fill=Score)) +
 geom_bar(position="dodge", stat="identity") +
-    ggtitle("Percentages of scores reached by age groups") +
+    ggtitle("Percentages of scores reached by age group") +
     facet_wrap(~AgeGroup_midtesting) +
     theme(legend.position="none") +
     xlab("Score")+
