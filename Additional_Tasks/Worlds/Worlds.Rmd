@@ -215,3 +215,19 @@ Children switched after an average of 46.35 seconds (SD = 38.32, range 2-153).
 - old: 46.10 (SD = 37.77, range 2-153)
 
 Young and old children do not differ in the time after which they switched.
+
+## Boxplot
+```{r}
+library(ggplot2)
+p1<-ggplot(data=Worlds.valid, aes(x=AgeGroup_Midtesting,y=Testboard.Cupsliftedbeforeswitch)) +
+  geom_boxplot(aes(group=AgeGroup_Midtesting, fill = as.factor(AgeGroup_Midtesting)), outlier.colour = "black") + 
+      ylim(1,10)+
+  geom_point(alpha=0.3) +
+  labs(x="Age group",y="Number of cups lifted before switch")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Worlds")
+
+p1 + 
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5)+ scale_fill_discrete(name = "Age group midtesting", labels = c("3 years", "4 years", "5 years", "6 years")) 
+```
