@@ -111,6 +111,12 @@ tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$Gender, mean)
 tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$Gender, sd)
 tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$Gender, min)
 tapply(BPVS.clean$BPVS_StandardizedScore, BPVS.clean$Gender, max)
+
+library(lme4)
+res <- lm(BPVS_StandardizedScore ~ Gender, data = BPVS.clean)
+null <- lm(BPVS_StandardizedScore ~ 1, data = BPVS.clean)
+
+anova(null, res, test="Chisq")
 ```
 
 - Girls (n = 79): M = 103.71 (SD = 11.98, range 82-126)
@@ -291,3 +297,27 @@ shapiro.test(Fife$BPVS_StandardizedScore)#not normally distributed
 wilcox.test(BPVS.clean$BPVS_StandardizedScore ~ BPVS.clean$TestingLocation, alternative = "greater")
 ```
 For the Fife children, the distribution is bimodal, which is not the case for the Edinburgh children.
+
+# LM without z-transforming age
+```{r}
+res<-lm(BPVS_StandardizedScore ~ Midtesting_age_months + TestingLocation, data = BPVS.clean)
+null<-lm(BPVS_StandardizedScore ~ 1, data = BPVS.clean)
+anova(null, res, test="Chisq")
+
+#effect of age
+res.noage<-lm(BPVS_StandardizedScore ~ TestingLocation, data = BPVS.clean)
+anova(res.noage, res, test="Chisq")
+
+#effect of testing location
+res.notl<-lm(BPVS_StandardizedScore ~ Midtesting_age_months, data = BPVS.clean)
+anova(res.notl, res, test="Chisq")
+
+```
+
+# Plot age as continuous variable against BPVS score
+```{r}
+p1<- ggplot(BPVS.clean, aes(x=Midtesting_age_months, y=BPVS_StandardizedScore)) + geom_point()
+
+p1 +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
