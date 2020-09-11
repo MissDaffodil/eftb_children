@@ -1,0 +1,170 @@
+---
+title: "ToolUse"
+author: "Eva Reindl"
+date: "10 8 2020"
+output: html_document
+always_allow_html: yes
+
+---
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+Links <-read.csv("Links_new.csv",header=TRUE, sep = ";")
+names(Links)[1] <- "Source"
+```
+
+```{r}
+library(networkD3)
+library(dplyr)
+
+nodes <- data.frame(
+  name=c(as.character(Links$Source), 
+  as.character(Links$Target)) %>% unique()
+)
+
+Links$IDsource <- match(Links$Source, nodes$name)-1 
+Links$IDtarget <- match(Links$Target, nodes$name)-1
+
+
+sankeyNetwork(Links = Links, Nodes = nodes,
+              Source = "IDsource", Target = "IDtarget",
+              Value = "Value", NodeID = "name", 
+              sinksRight=FALSE)
+```
+
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+Tool <-read.csv("Tool.csv",header=TRUE, sep = ";")
+names(Tool)[1] <- "ID"
+```
+There were 84 children in the dataset.
+
+# Dropouts
+```{r}
+Tool.dropout <- subset(Tool, Dropout =="yes")
+```
+There were **9 dropouts** (6 3-year-olds, 1 4-year-olds, 2 5-year-olds; 5 m, 4 f).
+
+- 3 children dropped out because of a change in protocol
+- 3 children dropped out because of experimenter error (tube/boxes was not firmly fixed on table)
+- 1 child dropped out because of experimenter error (table was not standing on a flat surface)
+- 1 child dropped out because of experimenter error (testing outside, wind blew into tube and removed reward)
+- 1 child was dropped because they did not understand the instructions (bilingual, too poor language skills)
+
+**75 valid datapoints** are remaining. 
+
+# Description of dataset
+## Gender
+```{r}
+Tool.valid <- subset(Tool, Dropout =="no")
+table(Tool.valid$Gender)
+```
+There are 49 girls and 26 boys.
+
+## Age
+### Age at the beginning of testing
+```{r}
+mean(Tool.valid$Age_months)
+sd(Tool.valid$Age_months)
+min(Tool.valid$Age_months)
+max(Tool.valid$Age_months)
+hist(Tool.valid$Age_months)
+
+table(Tool.valid$Age_group)
+```
+At the beginning of testing, the 75 children were 48.23 (SD = 7.32, range 35-70) months old. There were 1 2-year-old, 35 3-year-olds, 34 4-year-olds, and 5 5-year-olds.
+
+### Age in the middle of testing
+```{r}
+mean(Tool.valid$MidtestingAgeMonths)
+sd(Tool.valid$MidtestingAgeMonths)
+min(Tool.valid$MidtestingAgeMonths)
+max(Tool.valid$MidtestingAgeMonths)
+hist(Tool.valid$MidtestingAgeMonths)
+
+table(Tool.valid$MidtestingAgeGroup)
+```
+In the middle of testing, the 75 children were 49.84 (SD = 7.34, range 36-72) months old. There were 34 3-year-olds, 33 4-year-olds, 7 5-year-olds, and 1 6-year-old.
+
+### Mediansplit age (based on entire sample)
+```{r}
+table(Tool.valid$Mediansplit_midtesting_entiresample)
+```
+There were 36 young and 39 old children.
+
+## Testing location
+All children were from the Fife area.
+
+# Score
+```{r}
+mean(Tool.valid$Score, na.rm = T)
+sd(Tool.valid$Score, na.rm = T)
+min(Tool.valid$Score, na.rm = T)
+max(Tool.valid$Score, na.rm = T)
+hist(Tool.valid$Score)
+
+table(Tool.valid$Score)
+table(Tool.valid$Score, Tool.valid$MidtestingAgeGroup)
+table(Tool.valid$Score, Tool.valid$Mediansplit_midtesting_entiresample)
+```
+We created scores for all children, including the children with incorrect success, but without those who had incorrect success by blowing out the reward of the tube.
+**71 children had a score**:
+The mean score was 3.98 (SD = 3.48, range 0-12). The variable was highly left-skewed.
+
+## Ordered logistic regression
+```{r}
+library(MASS)
+Tool.valid$Score <- as.factor(Tool.valid$Score)
+
+#we z-transform age and trial number, as we are including them into an interaction
+Tool.valid$z.age=as.vector(scale(Tool.valid$MidtestingAgeMonths))#transform age to mean of 0 and SD of 1
+mean(Tool.valid$z.age)#check whether it has worked
+sd(Tool.valid$z.age)
+
+Tool.valid$Gender
+
+res <- polr(Score ~ z.age, data = Tool.valid)
+null <- polr(Score ~ 1, data = Tool.valid)
+
+anova(null, res, test="Chisq")
+
+#without age z-transformed
+res <- polr(Score ~ MidtestingAgeMonths, data = Tool.valid)
+null <- polr(Score ~ 1, data = Tool.valid)
+
+anova(null, res, test="Chisq")
+
+
+```
+Age does not significantly contribute to model fit, X2(1) = 2.89, p = .089.
+
+# Plot age as continuous variable against score
+```{r}
+library(ggplot2)
+p1<- ggplot(Tool.valid, aes(x=MidtestingAgeMonths, y=Score)) + geom_point()+
+ labs(x="Age in months",y="Score")
+
+p1 +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+
+# Success
+```{r}
+table(Tool.valid$Success)
+table(Tool.valid$Success, Tool.valid$MidtestingAgeGroup)
+```
