@@ -203,7 +203,7 @@ p8<-  ggplot(
   labs(x="",y="Mean prop of switches")+
   theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
   ggtitle("Shifting Shelf")+
-geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+geom_hline(yintercept=0.2242245, linetype="dashed", color = "red") +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank())  +
   geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5)+
   theme(legend.position = "none")
@@ -225,7 +225,7 @@ p9<-  ggplot(
   xlim(0,2)+
   labs(x="",y="Mean prop correct")+
   theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
-  ggtitle("Shifting Boxes")+
+  ggtitle("CD")+
 geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank())  +
   geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5)+
