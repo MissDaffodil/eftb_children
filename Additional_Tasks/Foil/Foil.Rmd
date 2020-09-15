@@ -152,6 +152,9 @@ wilcox.test(three.years$ProportionCorrect,mu = 0.5, alternative = "two.sided")
 t.test(four.years$ProportionCorrect, mu = 0.5, alternative = "two.sided")
 wilcox.test(five.years$ProportionCorrect,mu = 0.5, alternative = "two.sided")
 
+threeandfour <- subset(Foil.valid.T1.critreached, Midtesting_age_group =="3" | Midtesting_age_group =="4")
+wilcox.test(threeandfour$ProportionCorrect ~ threeandfour$Midtesting_age_group, alternative = "less")
+
 #by mediansplit
 table(Foil.valid.T1.critreached$Mediansplit_midtesting_entiresample)
 tapply(Foil.valid.T1.critreached$ProportionCorrect, Foil.valid.T1.critreached$Mediansplit_midtesting_entiresample, mean)
@@ -167,6 +170,8 @@ shapiro.test(old$ProportionCorrect)
 
 t.test(young$ProportionCorrect,mu = 0.5, alternative = "two.sided")
 wilcox.test(old$ProportionCorrect, mu = 0.5, alternative = "two.sided")
+
+wilcox.test(Foil.valid.T1.critreached$ProportionCorrect ~ Foil.valid.T1.critreached$Mediansplit_midtesting_entiresample, alternative = "greater")
 ```
 Of the 77 children who reached the warm-up criterion in the Foil task, children had on average a proportion of 0.57 (SD = 0.20, range .12-1) test trials correct. This variable is not normally distributed, W = 0.957, p = .010. Performance is significantly above chance, V = 1417.5, p = .004.
 
