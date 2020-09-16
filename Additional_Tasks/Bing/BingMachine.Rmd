@@ -1,0 +1,353 @@
+---
+title: "Bing machine analysis"
+author: "Zeynep Civelek"
+date: "August 11, 2020"
+output: word_document
+---
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#LOAD DATA AND LIBRARIES
+setwd("C:\\")#sets the working directory, this is where your datafile is
+bing <-read.csv("bing_data.csv", header=TRUE)
+library(lme4)
+library(readr)
+library(tidyverse)
+library(sjPlot)
+library(ggthemes)
+library(gridExtra)
+library(reshape2)
+library(car)
+library("ggpubr")
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+#OVERVIEW
+str(bing)
+
+#recode variables
+bing$id <- as.factor(bing$id)
+bing$Age_group <- as.factor(bing$Age_group)
+
+levels(bing$Age_group)
+
+str(bing)
+```
+
+
+# Dropouts
+```{r}
+dropouts<-subset(bing, Dropout == "yes")
+```
+We have 5 dropouts (1 child stopped after 4 trials, 1 child stopped after 8 trials, 1 child stopped after 9 trials, 1 child where RA gave away the game by saying "let's watch and listen", 1 child with an experimenter error in trial 11 (wrong noise) so we only had 10 trials).
+
+# Which children to include?
+We eventually decided to include children who have completed 75% (i.e., 15 trials) of the test trials. So I'm removing these 5 children from further analyses.
+
+# Removing the dropouts from data
+```{r}
+bingvalid<-subset(bing, Dropout=="no")
+#aggregating by ID to see the sample size
+bing_individual <- bingvalid %>%
+  group_by(id, Gender, Age_months, Midtesting_age_months, Midtesting_age_group, Median_split_age) %>%
+  summarize(Success_in0and1 = mean(Success_in0and1))%>%
+  ungroup()%>%
+  group_by(Midtesting_age_group)%>%
+  add_count(Success_in0and1)
+```
+
+Final **sample size is 65**.
+
+# Sample description
+## Gender distribution
+```{r}
+table(bing_individual$Gender)
+table(bing_individual$Gender, bing_individual$Midtesting_age_group)
+boys <- subset(bing_individual, Gender == "m")
+girls <- subset(bing_individual, Gender == "f")
+hist(boys$Midtesting_age_group)
+shapiro.test(boys$Midtesting_age_group)#is not normally distributed
+hist(girls$Midtesting_age_group)
+shapiro.test(girls$Midtesting_age_group)#is not normally distributed
+wilcox.test(bing_individual$Midtesting_age_group ~ bing_individual$Gender, alternative = "two.sided")
+```
+There are **39 girls** and **26 boys**.
+
+- Girls: 22 3y, 14 4y, 3 5y
+- Boys: 10 3y, 12 4y, 4 5y
+
+There is no difference in the age distribution between boys and girls.
+
+## Age
+### Age at beginning of testing
+```{r}
+mean(bing_individual$Age_months)
+sd(bing_individual$Age_months)
+min(bing_individual$Age_months)
+max(bing_individual$Age_months)
+table(bing_individual$Age_months)
+```
+At the beginning of testing, the children who had valid data on the Bing Machine task were on average 47.57 months (SD = 6.93, range 36-64) old. There were 34 3-year-olds, 26 4-year-olds, and 5 5-year-olds.
+
+### Age in the middle of testing
+```{r}
+mean(bing_individual$Midtesting_age_months)
+sd(bing_individual$Midtesting_age_months)
+min(bing_individual$Midtesting_age_months)
+max(bing_individual$Midtesting_age_months)
+table(bing_individual$Midtesting_age_months)
+```
+In the middle of testing, the children who had valid data on the Bing Machine task were on average **49.29 months (SD = 6.90, range 39-65)** old. There were 
+
+- 32 3-year-olds
+- 26 4-year-olds
+- 7 5-year-olds
+
+### Age mediansplit by entire sample
+Median is 49 months
+
+```{r}
+table(bing_individual$Median_split_age)
+```
+
+There are **34 young** and **31 old** children.
+
+# Warm-up
+```{r}
+levels(bingvalid$Training_Crit_reached)
+```
+All children (N=65) passed the transparent training within 3 trials (the minimum number of required trials to pass).
+
+Number of correct trials in Test
+```{r}
+mean(bingvalid$Test_Nr_CorrectTrials)
+sd(bingvalid$Test_Nr_CorrectTrials)
+min(bingvalid$Test_Nr_CorrectTrials)
+max(bingvalid$Test_Nr_CorrectTrials)
+quantile(bingvalid$Test_Nr_CorrectTrials)
+hist(bingvalid$Test_Nr_CorrectTrials)
+
+tapply(bingvalid$Test_Nr_CorrectTrials, bingvalid$Midtesting_age_group, mean)
+tapply(bingvalid$Test_Nr_CorrectTrials, bingvalid$Midtesting_age_group, sd)
+tapply(bingvalid$Test_Nr_CorrectTrials, bingvalid$Midtesting_age_group, min)
+tapply(bingvalid$Test_Nr_CorrectTrials, bingvalid$Midtesting_age_group, max)
+
+tapply(bingvalid$Test_Nr_CorrectTrials, bingvalid$Median_split_age, mean)
+tapply(bingvalid$Test_Nr_CorrectTrials, bingvalid$Median_split_age, sd)
+tapply(bingvalid$Test_Nr_CorrectTrials, bingvalid$Median_split_age, min)
+tapply(bingvalid$Test_Nr_CorrectTrials, bingvalid$Median_split_age, max)
+```
+The average number of correct trials was 9.70 (SD = 2.57, range 5-17). 50% of the children had 9 or fewer trials correct. The distribution of correct trials is skewed.
+Split by age:
+- 3-year-olds: M = 9.53 (2.32, range 6-17)
+- 4-year-olds: M = 9.76 (2.79, range 5-17)
+- 5-year-olds: M = 10.29 (2.72, range 7-14)
+Thus, numerically, all age groups seem to be performing equally.
+In terms of the median split of age, we found:
+- young children: 9.71 (SD = 2.38, range 6-17)
+- old children: 9.70 (SD = 2.76, range 5-17)
+So using the median split, there was no difference between the groups.
+
+DV: Proportion correct
+```{r}
+mean(bingvalid$ProportionCorrect)
+sd(bingvalid$ProportionCorrect)
+min(bingvalid$ProportionCorrect)
+max(bingvalid$ProportionCorrect)
+quantile(bingvalid$ProportionCorrect)
+hist(bingvalid$ProportionCorrect)
+shapiro.test(bingvalid$ProportionCorrect)#not normally distributed
+
+tapply(bingvalid$ProportionCorrect, bingvalid$Midtesting_age_group, mean)
+tapply(bingvalid$ProportionCorrect, bingvalid$Midtesting_age_group, sd)
+tapply(bingvalid$ProportionCorrect, bingvalid$Midtesting_age_group, min)
+tapply(bingvalid$ProportionCorrect, bingvalid$Midtesting_age_group, max)
+
+tapply(bingvalid$ProportionCorrect, bingvalid$Median_split_age, mean)
+tapply(bingvalid$ProportionCorrect, bingvalid$Median_split_age, sd)
+tapply(bingvalid$ProportionCorrect, bingvalid$Median_split_age, min)
+tapply(bingvalid$ProportionCorrect, bingvalid$Median_split_age, max)
+```
+The average proportion of correct trials was 49.03% (SD = 13.23, range 30-93.75%). 50% of the children had 45% or a smaller proportion of their trials correct. The DV is not normally distributed, W = 0.907, p < .001.
+
+Split by age:
+- 3-year-olds: M = 47.65% (11.60, range 30-85%)
+- 4-year-olds: M = 50.09% (14.80, range 31.25-93.75%)
+- 5-year-olds: M = 51.43 (13.60, range 35-70%)
+Thus, numerically, all age groups seem to perform equally.
+In terms of the median split of age, we found:
+- young children: 48.53 (SD = 11.92, range 30-85%)
+- old children: 49.50 (SD = 14.55, range 31.25-93.75%)
+So using the median split, there doesn't seem to be a difference between the groups.
+
+Does performance deviate from chance?
+```{r}
+boxplot(bing_individual$Success_in0and1)
+
+wilcox.test(bing_individual$Success_in0and1, mu = 0.5)
+
+young <-bing_individual%>%
+  filter(Median_split_age == "young")
+wilcox.test(young$Success_in0and1, mu = 0.5)
+
+old <-bing_individual%>%
+  filter(Median_split_age == "old")
+wilcox.test(old$Success_in0and1, mu = 0.5)
+```
+
+Children's proportion correct is not different from chance, V = 610.5, p = .352. Neither young (V = 182, p = .447) nor old children (V = 137, p = .719) performed differently than chance.
+
+Boxplot:
+```{r}
+
+p<-  ggplot(data=bing_individual, aes(x=rep(1, 65), y=Success_in0and1)) +
+  geom_boxplot(outlier.colour = "black")+
+  ylim(0,1)+
+  xlim(0,2)+
+  labs(x="",y="Proportion of correct trials")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Bing Machine")
+
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") + geom_count()
+```
+Boxplot split by age:
+```{r}
+library(forcats)
+
+bing_individual$Median_split_age<-fct_relevel(bing_individual$Median_split_age, "young")
+#changes order of boxplots (young before old)
+
+p1<-  ggplot(
+  data=bing_individual, aes(x=rep(1, 65), y=Success_in0and1, fill = Median_split_age))+
+  geom_boxplot(outlier.colour = "black", position=position_dodge(1.5))+
+  ylim(0,1)+
+  xlim(0,2)+
+  #scale_size(range = c(.01, 24))+
+  labs(x="",y="Proportion of correct trials")+
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  ggtitle("Bing Machine")
+
+#rep is from 1 to how many IDs there are; fill is the grouping variable
+#position dodge changes the space between the 2 boxplots
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5) + scale_size_area(max_size=10)+
+  scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young (36-49 months), n = 34", "old (50-73 months), n = 31"))
+
+#y intercept adds chance line
+#removes grey background, grid lines and x axis ticks
+#says dots should vary in size according to count, adds the individual points to both boxplots and also moves them in space, makes dots slightly transparent
+#changes label for the legend
+```
+Boxplot split by the three age groups:
+```{r}
+str(bing_individual)
+bing_individual$Midtesting_age_group <- as.factor(bing_individual$Midtesting_age_group)
+
+p1<-ggplot(data=bing_individual, aes(x=factor(Midtesting_age_group), y=Success_in0and1, fill=factor(Midtesting_age_group))) +
+  geom_boxplot(aes(group=Midtesting_age_group), outlier.colour = "black") + 
+      ylim(0,1)+
+  geom_point(alpha=0.3) +
+  labs(x="",y="Proportion of correct trials")+
+  ggtitle("Bing Machine")
+
+#rep is from 1 to how many IDs there are; fill is the grouping variable
+#position dodge changes the space between the 2 boxplots
+
+p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
+  geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5) 
+
+#y intercept adds chance line
+#removes grey background, grid lines and x axis ticks
+#says dots should vary in size according to count, adds the individual points to both boxplots and also moves them in space, makes dots slightly transparent
+#changes label for the legend
+```
+
+Can children's performance be predicted by age?
+```{r}
+bingvalid$z.age.midtesting=as.vector(scale(bingvalid$Midtesting_age_months))
+bingvalid$z.trialno=as.vector(scale(bingvalid$Trial_nr))
+
+full<-glmer(Success_in0and1 ~ z.age.midtesting + z.trialno + z.age.midtesting:z.trialno + (1+z.trialno|id), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))#singular fit
+summary(full)
+
+full<-glmer(Success_in0and1 ~ z.age.midtesting + z.trialno + z.age.midtesting:z.trialno + (1|id) + (0+z.trialno|id), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
+```
+
+Comparison against null model
+```{r}
+null<-glmer(Success_in0and1 ~ 1 + (1|id) + (0+z.trialno|id), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
+
+anova(null, full, test="Chisq")
+```
+Trial number, age, and the interaction between trial number and age together explained the data better than a null model only containing an intercept, X2(3) = 9.481, p = .023. 
+
+
+Check for significance of terms
+
+```{r}
+full.nointer<-glmer(Success_in0and1 ~ z.age.midtesting + z.trialno + (1|id) + (0+z.trialno|id), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
+
+anova(full.nointer, full, test="Chisq")
+```
+The interaction effect is not significant, so we remove it from the model.
+
+```{r}
+full<-glmer(Success_in0and1 ~ z.age.midtesting + z.trialno + (1|id) + (0+z.trialno|id), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
+
+anova(null, full, test="Chisq")
+```
+Age and trial number explain the data significantly better than a null model, X2(2) = 7.255, p = .026.
+
+Effect of age
+```{r}
+full.noage<-glmer(Success_in0and1 ~  z.trialno + (1|id) + (0+z.trialno|id), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
+
+anova(full.noage, full, test="Chisq")
+```
+No age effect, X2(1) = 0.272, p = .602.
+
+
+Effect of trial number
+```{r}
+full.notrial<-glmer(Success_in0and1 ~  z.age.midtesting + (1|id) + (0+z.trialno|id), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
+
+anova(full.notrial, full, test="Chisq")
+```
+Effetc of trial number, X2(1) = 7.014, p = .008.
+
+
+
+
+
+Plot
+```{r}
+trialnoagg <- aggregate(bingvalid$Success_in0and1, by = list(trialno = bingvalid$Trial_nr), function(x) c(mean = mean(x), sd = sd(x)))
+trialnoagg <- do.call(data.frame, trialnoagg)
+
+colnames(trialnoagg) <- c("trial.no", "mean", "sd")
+
+trialnoagg$names <- c(paste(trialnoagg$trialno, "trial number"))
+
+limits <- aes(ymax = trialnoagg$mean + trialnoagg$sd,
+              ymin = trialnoagg$mean - trialnoagg$sd)
+
+p=ggplot(trialnoagg, aes(x=factor(trial.no), y=mean, group=1)) +geom_line() + xlab("")
+p + geom_line(size=1.2) + geom_errorbar(limits, position = position_dodge(0.9), width = 0.10) + labs(x= "Trial number", y = "Mean number of correct choices") + ggtitle("Performance across trials") + geom_hline(yintercept=0.50, linetype="dashed", color="red", size=1)  + theme(legend.text = element_text(size = 8)) + ylim(0.00,1.00)+ theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_blank())
+
+```
+Performance seems to get better over trials but this is expected in this task as children have no way of knowing where to locate the reward in the first trial.
