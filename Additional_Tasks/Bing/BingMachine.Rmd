@@ -330,6 +330,28 @@ anova(full.notrial, full, test="Chisq")
 ```
 Effetc of trial number, X2(1) = 7.014, p = .008.
 
+```{r}
+#plotting trial no with CIs
+source("./Roger_functions/boot_glmm.r")
+#requires centering of all predictors apart the ones one is interested in. We are interested in both.
+boot.res=boot.glmm.pred(model.res=full2, excl.warnings=T,
+nboots=1000, para=F, resol=20, use="z.trialno")
+boot.res$ci.estimates
+boot.res$ci.predicted
+```
+```{r}
+par(mar=c(3, 3, 0.2, 0.2), mgp=c(1.7, 0.3, 0), las=1, tcl=-0.15)
+plot(x=bingvalid$Trial_nr, y=bingvalid$Success_in0and1, pch=19, las=2, ylim=c(0, 1),
+xlab="Trial number", ylab="Probability of success",)
+plot.xvals=seq(from=min(bingvalid$Trial_nr), to=max(bingvalid$Trial_nr),
+length.out=20)
+lines(x=plot.xvals, y=boot.res$ci.predicted$fitted,
+lty=2)
+lines(x=plot.xvals, y=boot.res$ci.predicted$lower.cl,
+lty=3)
+lines(x=plot.xvals, y=boot.res$ci.predicted$upper.cl,
+lty=3)
+```
 
 
 
