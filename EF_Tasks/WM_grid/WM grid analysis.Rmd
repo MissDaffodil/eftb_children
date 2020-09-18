@@ -434,6 +434,7 @@ shapiro.test(meandistance$distance_c01)#normally distributed
 ```
 The mean distance from the reward was 0.84 (SD = 0.31, range 0.17-1.60). The DV is normally distributed, W = 0.987, p = .251.
 
+
 Boxplot:
 ```{r}
 library(ggplot2)
@@ -502,11 +503,24 @@ hist(meandistance.revertnewrange$revertdistance_newrange,
      xlim=c(0,1))
 ```
 
+#rescaled Mean
+```{r}
+mean(meandistance.revertnewrange$revertdistance_newrange)
+sd(meandistance.revertnewrange$revertdistance_newrange)
+min(meandistance.revertnewrange$revertdistance_newrange)
+max(meandistance.revertnewrange$revertdistance_newrange)
+```
+
+
 ### Do children perform significantly below chance?
 #### Test against all cells
 Christoph's simulation is based on 1000000 iterations of 12 random choices of a cell on the 4x4 grid. The distance between these random choices and the hiding location of the reward was then calculated. The mean distance of the these random choices from the  reward is used as the hypothetical chance value.
 ```{r}
 t.test(meandistance$distance_c01, mu=1.954, alternative = "two.sided")
+
+#rescaled
+0.5376574
+t.test(meandistance.revertnewrange$revertdistance_newrange, mu=0.5376574, alternative = "two.sided")
 ```
 Mean distance vs chance value (1.954): M = 0.84 (SD = 0.31, range 0.17-1.60) is significantly better than chance, t(126) = -40.65, p < .001.
 
@@ -584,6 +598,19 @@ hist(five$distance,
 
 threeandfour <- subset(Grid.short, AgeGroup_midtesting == "3" | AgeGroup_midtesting == "4")
 t.test(threeandfour$distance ~ threeandfour$AgeGroup_midtesting, alternative = "two.sided")
+
+#rescaled
+library(scales)
+Grid.short$distance_newrange <- rescale(Grid.short$distance, to=c(0, 1), from=c(0, 3.605551))
+#revert scale, so that high numbers mean closeness to reward
+Grid.short$distance_newrange <- 1-Grid.short$distance_newrange
+
+tapply(Grid.short$distance_newrange, Grid.short$AgeGroup_midtesting, mean)
+tapply(Grid.short$distance_newrange, Grid.short$AgeGroup_midtesting, sd)
+tapply(Grid.short$distance_newrange, Grid.short$AgeGroup_midtesting, min)
+tapply(Grid.short$distance_newrange, Grid.short$AgeGroup_midtesting, max)
+
+
 ```
 
 - 3y (n = 55): M = 0.93 (SD = 0.29, range 0.45-1.60)
@@ -690,6 +717,14 @@ hist(old$distance,
      xlim=c(0,3.7))
 
 t.test(Grid.short$distance ~ Grid.short$Mediansplit_midtesting_entiresample, paired = FALSE, alternative = "less")
+
+#rescaled
+tapply(Grid.short$distance_newrange, Grid.short$Mediansplit_midtesting_entiresample, mean)
+tapply(Grid.short$distance_newrange, Grid.short$Mediansplit_midtesting_entiresample, sd)
+tapply(Grid.short$distance_newrange, Grid.short$Mediansplit_midtesting_entiresample, min)
+tapply(Grid.short$distance_newrange, Grid.short$Mediansplit_midtesting_entiresample, max)
+
+t.test(Grid.short$distance_newrange ~ Grid.short$Mediansplit_midtesting_entiresample, paired = FALSE, alternative = "greater")
 ```
 
 - young (n = 65): M = 0.93 (SD = 0.28, range 0.45-1.60)
@@ -814,6 +849,16 @@ hist(Edinburgh$distance,
      xlim=c(0,3.7))
 
 t.test(Grid.short$distance ~ Grid.short$TestingLocation, paired = FALSE, alternative = "less")
+
+
+#rescaled
+tapply(Grid.short$distance_newrange, Grid.short$TestingLocation, mean)
+tapply(Grid.short$distance_newrange, Grid.short$TestingLocation, sd)
+tapply(Grid.short$distance_newrange, Grid.short$TestingLocation, min)
+tapply(Grid.short$distance_newrange, Grid.short$TestingLocation, max)
+
+
+t.test(Grid.short$distance_newrange ~ Grid.short$TestingLocation, paired = FALSE, alternative = "two.sided")
 ```
 
 - Fife (n = 69): 0.88 (SD = 0.27, range 0.33-1.47)
@@ -1195,7 +1240,7 @@ FUN=length)$x
 
 par(mar=c(3, 3, 0.2, 0.2), mgp=c(1.7, 0.3, 0), las=1, tcl=-0.15)
 
-plot(x=test.trials$Trial, y=test.trials$distance_c01, pch=19, las=1, ylim=c(0, 3.7),
+plot(x=test.trials$Trial, y=test.trials$distance_c01, pch=19, las=1, ylim=c(0, 1),
 xlab="Trial number", ylab="distance", cex=0.2*sqrt(xx$N))
 
 plot.xvals=seq(from=min(test.trials$Trial), to=max(test.trials$Trial),
@@ -1226,3 +1271,73 @@ geom_line(data=boot.res$ci.predicted, aes(x = plot.xvals, y=boot.res$ci.predicte
   xlim(0,13)+
   geom_hline(yintercept=1.667, linetype="dashed", color = "red")
 ```
+
+
+
+
+
+
+
+# Considering BPVS: Can the distance be predicted by age?
+We aim to investigate the potential role of testing location.
+```{r}
+library(lme4)
+
+#select only those children who have  BPVS score
+BPVS <- subset(test.trials, BPVS_Score != "NA")
+
+BPVS$z.age=as.vector(scale(BPVS$AgeMonths_midtesting))#transform age to mean of 0 and SD of 1
+mean(BPVS$z.age)#check whether it has worked
+sd(BPVS$z.age)
+
+contr<-lmerControl(optimizer="bobyqa", optCtrl=list(maxfun=10000000))
+dist<-lmer(distance_c01 ~ BPVS_Score+ z.age + Trial + TestingLocation + (1+Trial|ID), data=BPVS, REML=FALSE, control=contr)#singular fit
+
+#remove correlation
+dist<-lmer(distance_c01 ~ BPVS_Score+ z.age + Trial + TestingLocation + (1|ID) + (0+Trial|ID), data=BPVS, REML=FALSE, control=contr)#singular fit
+summary(dist)
+```
+The variance for the random slope of trial on ID is effectively 0, so we exclude it from the model.
+```{r}
+dist<-lmer(distance_c01 ~ BPVS_Score + z.age + Trial + TestingLocation + (1|ID), data=BPVS, REML=FALSE, control=contr)
+
+null.dist<-lmer(distance_c01 ~ 1 + (1|ID), data=BPVS, REML=FALSE, control=contr)
+
+anova(null.dist, dist, test="Chisq")#significant
+summary(dist)
+```
+Together, BPVS_Score, age, trial number, and testing location explain the data significantly better than the null model, X(4) = 26.221, p < .001.
+
+**Effect of BPVS score**
+```{r}
+dist.nobpvs<-lmer(distance_c01 ~ z.age + Trial + TestingLocation + (1|ID), data=BPVS, REML=FALSE, control=contr)
+
+anova(dist.nobpvs, dist, test="Chisq")#significant
+```
+There is a significant effect of BPVS score on children's success, X2(1) = 6.64, p = .010.
+
+**Effect of age**
+```{r}
+dist.noage<-lmer(distance_c01 ~ BPVS_Score + Trial + TestingLocation + (1|ID), data=BPVS, REML=FALSE, control=contr)
+
+anova(dist.noage, dist, test="Chisq")#significant
+```
+Age has a significant effect on distance, X2(1) = 6.053, p = .014.
+
+**Effect of trial number**
+```{r}
+dist.notrial<-lmer(distance_c01 ~ BPVS_Score+z.age + TestingLocation + (1|ID), data=BPVS, REML=FALSE, control=contr)
+
+anova(dist.notrial, dist, test="Chisq")#significant
+```
+Trial number has a significant effect on distance, X2(1) = 5.232, p = .022.
+
+**Effect of testing location**
+```{r}
+dist.noloc<-lmer(distance_c01 ~ BPVS_Score + z.age + Trial + (1|ID), data=BPVS, REML=FALSE, control=contr)
+
+anova(dist.noloc, dist, test="Chisq")#significant
+```
+Location has no effect on distance anymore, X2(1) = 2.213, p = .137.
+
+
