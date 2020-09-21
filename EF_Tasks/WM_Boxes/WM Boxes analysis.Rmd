@@ -22,7 +22,7 @@ setwd("C:\\")#sets the working directory, this is where your datafile is
 WM.boxes <-read.csv("WM_Boxes.csv",header=TRUE, sep = ";")
 ```
 
-```{r}
+```{r} 
 #OVERVIEW
 #recode variables
 WM.boxes$Age_group <- as.factor(WM.boxes$Age_group)#this converts a variable classified as continuous into a categorical variable
@@ -769,4 +769,43 @@ summary(res)
 drop1(res)
 cbind(coefficients(res), confint(res))
 ```
-There is a significant effect of age (X2(1) = 0.239, p = .004) and testing location (X2(1) = 0.359, p < .001). With each standard deviation increase in age, the proportion correct increases by 0.04 (95% CI [0.01; 0.01]) percentage points. When moving from Edinburgh to Fife, the expected score for a child of mean age decreases by 0.10 (95% CI [0.04; 0.16]) percentage points.
+There is a significant effect of age (X2(1) = 0.239, p = .004) and testing location (X2(1) = 0.359, p < .001). With each standard deviation increase in age, the proportion correct increases by 0.04 (95% CI [0.01; 0.01]) percentage points. When going from Edinburgh to Fife, the expected score for a child of mean age decreases by 0.10 (95% CI [0.04; 0.16]) percentage points.
+
+
+# Accounting for BPVS score: Can age and testing location predict children's proportion of correct searches?
+```{r}
+library(lme4)
+WM.boxes.valid.TT1.BPVS <- subset(WM.boxes.valid.TT1, BPVS_Score !="NA")
+
+WM.boxes.valid.TT1.BPVS$z.age=as.vector(scale(WM.boxes.valid.TT1.BPVS$AgeMonths_midtesting))#transform age to mean of 0 and SD of 1
+mean(WM.boxes.valid.TT1.BPVS$z.age)#check whether it has worked
+sd(WM.boxes.valid.TT1.BPVS$z.age)
+
+res <- lm(ProportionCorrectinTest ~ BPVS_Score + z.age + TestingLocation + z.age:TestingLocation, data = WM.boxes.valid.TT1.BPVS)
+```
+
+```{r}
+null<-lm(ProportionCorrectinTest ~ 1, data = WM.boxes.valid.TT1.BPVS)
+anova(null, res, test="Chisq")
+```
+Together, BPVS score, age, testing location, and the interaction between age and testing location explain the data better than a null model only containing the intercept, X2(4) = 0.665, p < .001.
+
+Effect of interaction
+```{r}
+res.nointer <- lm(ProportionCorrectinTest ~ BPVS_Score + z.age + TestingLocation, data = WM.boxes.valid.TT1.BPVS)
+anova(res.nointer, res, test="Chisq")
+```
+The interaction term does not increase model fit, X2(1) = 0.00, p = .872, so we exclude it from the model.
+
+```{r}
+res <- lm(ProportionCorrectinTest ~ BPVS_Score + z.age + TestingLocation, data = WM.boxes.valid.TT1.BPVS)
+anova(null, res, test="Chisq")
+```
+Together, BPVS score, age and testing location explain the data better than a null model only containing the intercept, X2(3) = 0.665, p < .001.
+
+```{r}
+summary(res)
+drop1(res)
+cbind(coefficients(res), confint(res))
+```
+There is a significant effect of age (X2(1) = 0.293, p = .001) and testing location (X2(1) = 0.300, p = .001), but not of BPVS score (X2(1) = 0.011, p = .522).
