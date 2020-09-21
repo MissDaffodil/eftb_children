@@ -1,0 +1,722 @@
+---
+title: "Scrambled_Boxes"
+author: "Eva Reindl"
+date: "18 9 2020"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+Scrambled <-read.csv("Scrambled.csv",header=TRUE, sep = ";")
+```
+
+```{r}
+#OVERVIEW
+#recode variables
+names(Scrambled)[1] <- "ID"
+
+str(Scrambled)
+```
+
+# How many children are in the dataset? 
+```{r}
+Scrambled.FirstTrialFirstRound<- subset(Scrambled, Trial =="1" & RoundNr =="1")
+```
+There are 198 children in the dataset.
+
+# Dropouts
+```{r}
+Scrambled.dropouts<- subset(Scrambled, StoppedEarly == "yes")
+```
+One child (D 172) stopped the game after 6 rounds in the first trial. This child will be excluded from further analyses.
+
+# Valid data
+```{r}
+Scrambled.valid<- subset(Scrambled, StoppedEarly == "no")
+```
+**197 children have valid data** on the Scrambled box task.
+
+# Sample description
+## Gender distribution
+```{r}
+Scrambled.valid.FirstTrialFirstRound <- subset(Scrambled.valid, Trial =="1" & RoundNr =="1")
+table(Scrambled.valid.FirstTrialFirstRound$Gender)
+```
+There are 109 females and 88 males.
+
+## Age
+### Age at beginning of testing
+```{r}
+mean(Scrambled.valid.FirstTrialFirstRound$Age_months)
+sd(Scrambled.valid.FirstTrialFirstRound$Age_months)
+min(Scrambled.valid.FirstTrialFirstRound$Age_months)
+max(Scrambled.valid.FirstTrialFirstRound$Age_months)
+hist(Scrambled.valid.FirstTrialFirstRound$Age_months)
+
+table(Scrambled.valid.FirstTrialFirstRound$Age_group)
+```
+Children who contributed to this task were, at the beginning of testing, on average 48.60 months old (SD = 6.87, range 35-70). There were 1 2-year-old, 88 3-year-olds, 98 4-year-olds, and 10 5-year-olds.
+
+## Age in the middle of testing
+```{r}
+mean(Scrambled.valid.FirstTrialFirstRound$Midtesting_age_months)
+sd(Scrambled.valid.FirstTrialFirstRound$Midtesting_age_months)
+min(Scrambled.valid.FirstTrialFirstRound$Midtesting_age_months)
+max(Scrambled.valid.FirstTrialFirstRound$Midtesting_age_months)
+hist(Scrambled.valid.FirstTrialFirstRound$Midtesting_age_months)
+
+table(Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group)
+```
+Children in this task were on average **49.63 months old (SD = 6.87, range 36-72)** when they were in the middle of the test battery. There were 
+
+- 86 3-year-olds
+- 97 4-year-olds
+- 13 5-year-olds
+- 1 6-year-old
+
+## Age mediansplit
+```{r}
+table(Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample)
+```
+There are **97 young** and **100 old** children.
+
+# Testing location
+```{r}
+table(Scrambled.valid.FirstTrialFirstRound$TestingLocation)
+```
+120 children were from Fife, 77 children were from Edinburgh.
+
+# Trial 1
+## Total number of rounds administered
+```{r}
+mean(Scrambled.valid.FirstTrialFirstRound$TotalNr_Rounds)
+sd(Scrambled.valid.FirstTrialFirstRound$TotalNr_Rounds)
+min(Scrambled.valid.FirstTrialFirstRound$TotalNr_Rounds)
+max(Scrambled.valid.FirstTrialFirstRound$TotalNr_Rounds)
+
+tapply(Scrambled.valid.FirstTrialFirstRound$TotalNr_Rounds, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group, mean)
+tapply(Scrambled.valid.FirstTrialFirstRound$TotalNr_Rounds, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group, sd)
+tapply(Scrambled.valid.FirstTrialFirstRound$TotalNr_Rounds, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group, min)
+tapply(Scrambled.valid.FirstTrialFirstRound$TotalNr_Rounds, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group, max)
+
+tapply(Scrambled.valid.FirstTrialFirstRound$TotalNr_Rounds, Scrambled.valid.FirstTrialFirstRound$TestingLocation, mean)
+tapply(Scrambled.valid.FirstTrialFirstRound$TotalNr_Rounds, Scrambled.valid.FirstTrialFirstRound$TestingLocation, sd)
+tapply(Scrambled.valid.FirstTrialFirstRound$TotalNr_Rounds, Scrambled.valid.FirstTrialFirstRound$TestingLocation, min)
+tapply(Scrambled.valid.FirstTrialFirstRound$TotalNr_Rounds, Scrambled.valid.FirstTrialFirstRound$TestingLocation, max)
+
+tapply(Scrambled.valid.FirstTrialFirstRound$TotalNr_Rounds, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample, mean)
+tapply(Scrambled.valid.FirstTrialFirstRound$TotalNr_Rounds, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample, sd)
+tapply(Scrambled.valid.FirstTrialFirstRound$TotalNr_Rounds, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample, min)
+tapply(Scrambled.valid.FirstTrialFirstRound$TotalNr_Rounds, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample, max)
+```
+In trial 1, the total number of administered trials was 9.15 (SD = 1.22, range 8-11).
+
+- 3y: 9.24 (SD = 1.21, range 8-11)
+- 4y: 9.05 (SD = 1.25, range 8-11)
+- 3y: 9.38 (SD = 1.12, range 8-11)
+- 3y: 8 
+
+- Edinburgh: 9.09 (SD = 1.25, range 8-11)
+- Fife: 9.19 (SD = 1.21, range 8-11)
+
+- young: 9.23 (SD = 1.19, range 8-11)
+- old: 9.08 (SD = 1.25, 8-11)
+
+## Emptied all boxes
+```{r}
+table(Scrambled.valid.FirstTrialFirstRound$emptied_all_boxes)
+
+table(Scrambled.valid.FirstTrialFirstRound$emptied_all_boxes, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group)
+
+table(Scrambled.valid.FirstTrialFirstRound$emptied_all_boxes, Scrambled.valid.FirstTrialFirstRound$TestingLocation)
+
+table(Scrambled.valid.FirstTrialFirstRound$emptied_all_boxes, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample)
+```
+161 children (82%) emptied all boxes, 36 did not.
+
+- 3y: 71 yes (93%), 15 no
+- 4y: 79 yes (81%), 18 no
+- 5y: 10 yes (77%), 3 no
+- 6y: 1y 
+
+- Edinburgh: 64 yes (83%), 13 no
+- Fife: 97 yes (80%), 23 no
+
+- young: 81 yes (83%), 16 no
+- old: 80 yes (80%), 20 no
+
+## Number of boxes emptied
+```{r}
+mean(Scrambled.valid.FirstTrialFirstRound$NrBoxesEmptied)
+sd(Scrambled.valid.FirstTrialFirstRound$NrBoxesEmptied)
+min(Scrambled.valid.FirstTrialFirstRound$NrBoxesEmptied)
+max(Scrambled.valid.FirstTrialFirstRound$NrBoxesEmptied)
+
+tapply(Scrambled.valid.FirstTrialFirstRound$NrBoxesEmptied, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group, mean)
+tapply(Scrambled.valid.FirstTrialFirstRound$NrBoxesEmptied, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group, sd)
+tapply(Scrambled.valid.FirstTrialFirstRound$NrBoxesEmptied, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group, min)
+tapply(Scrambled.valid.FirstTrialFirstRound$NrBoxesEmptied, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group, max)
+
+tapply(Scrambled.valid.FirstTrialFirstRound$NrBoxesEmptied, Scrambled.valid.FirstTrialFirstRound$TestingLocation, mean)
+tapply(Scrambled.valid.FirstTrialFirstRound$NrBoxesEmptied, Scrambled.valid.FirstTrialFirstRound$TestingLocation, sd)
+tapply(Scrambled.valid.FirstTrialFirstRound$NrBoxesEmptied, Scrambled.valid.FirstTrialFirstRound$TestingLocation, min)
+tapply(Scrambled.valid.FirstTrialFirstRound$NrBoxesEmptied, Scrambled.valid.FirstTrialFirstRound$TestingLocation, max)
+
+tapply(Scrambled.valid.FirstTrialFirstRound$NrBoxesEmptied, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample, mean)
+tapply(Scrambled.valid.FirstTrialFirstRound$NrBoxesEmptied, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample, sd)
+tapply(Scrambled.valid.FirstTrialFirstRound$NrBoxesEmptied, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample, min)
+tapply(Scrambled.valid.FirstTrialFirstRound$NrBoxesEmptied, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample, max)
+```
+In trial 1, the total number of emptied boxes was 7.79 (SD = 0.48, range 5-8).
+
+- 3y: 7.78 (SD = 0.54, range 5-8)
+- 4y: 7.80 (SD = 0.42, range 6-8)
+- 5y: 7.77 (SD = 0.44, range 7-8)
+- 6y: 8 
+
+- Edinburgh: 7.82 (SD = 0.42, range 6-8)
+- Fife: 7.77 (SD = 0.51, range 5-8)
+
+- young: 7.79 (SD = 0.52, range 5-8)
+- old: 7.79 (SD = 0.43, range 6-8)
+
+## Effiency
+```{r}
+mean(Scrambled.valid.FirstTrialFirstRound$Efficiency)
+sd(Scrambled.valid.FirstTrialFirstRound$Efficiency)
+min(Scrambled.valid.FirstTrialFirstRound$Efficiency)
+max(Scrambled.valid.FirstTrialFirstRound$Efficiency)
+
+shapiro.test(Scrambled.valid.FirstTrialFirstRound$Efficiency)
+hist(Scrambled.valid.FirstTrialFirstRound$Efficiency,
+     xlab="Efficiency", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+tapply(Scrambled.valid.FirstTrialFirstRound$Efficiency, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group, mean)
+tapply(Scrambled.valid.FirstTrialFirstRound$Efficiency, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group, sd)
+tapply(Scrambled.valid.FirstTrialFirstRound$Efficiency, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group, min)
+tapply(Scrambled.valid.FirstTrialFirstRound$Efficiency, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group, max)
+
+tapply(Scrambled.valid.FirstTrialFirstRound$Efficiency, Scrambled.valid.FirstTrialFirstRound$TestingLocation, mean)
+tapply(Scrambled.valid.FirstTrialFirstRound$Efficiency, Scrambled.valid.FirstTrialFirstRound$TestingLocation, sd)
+tapply(Scrambled.valid.FirstTrialFirstRound$Efficiency, Scrambled.valid.FirstTrialFirstRound$TestingLocation, min)
+tapply(Scrambled.valid.FirstTrialFirstRound$Efficiency, Scrambled.valid.FirstTrialFirstRound$TestingLocation, max)
+
+tapply(Scrambled.valid.FirstTrialFirstRound$Efficiency, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample, mean)
+tapply(Scrambled.valid.FirstTrialFirstRound$Efficiency, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample, sd)
+tapply(Scrambled.valid.FirstTrialFirstRound$Efficiency, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample, min)
+tapply(Scrambled.valid.FirstTrialFirstRound$Efficiency, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample, max)
+```
+In trial 1, mean efficiency was 0.87 (SD = 0.14, range 0.45-1).
+
+- 3y: 0.86 (SD = 0.14, range 0.45-1)
+- 4y: 0.88 (SD = 0.14, range 0.54-1)
+- 5y: 0.84 (SD = 0.13, range 0.64-1)
+- 6y: 1
+
+- Edinburgh: 0.88 (SD = 0.14, range 0.54-1)
+- Fife: 0.86 (SD = 0.14, range 0.45-1)
+
+- young: 0.86 (SD = 0.14, range 0.45-1)
+- old: 0.88 (SD = 0.15, range 0.54-1)
+
+## For those children wo did make an error, how many correct trials did they have before the first error occurred?
+```{r}
+Scrambled.valid.FirstTrialFirstRound.mademistake <- subset(Scrambled.valid.FirstTrialFirstRound, NoSearches_before_FirstError != "no error")
+
+mean(Scrambled.valid.FirstTrialFirstRound.mademistake$NoSearches_before_FirstError_numeric)
+sd(Scrambled.valid.FirstTrialFirstRound.mademistake$NoSearches_before_FirstError_numeric)
+min(Scrambled.valid.FirstTrialFirstRound.mademistake$NoSearches_before_FirstError_numeric)
+max(Scrambled.valid.FirstTrialFirstRound.mademistake$NoSearches_before_FirstError_numeric)
+```
+110 children made an error. Those children had an average of 5.35 (SD = 1.85, range 1-7) rounds correct before making the first error.
+
+## Efficiency when disregarding the first trial 
+So that efficiency could also be 0
+```{r}
+mean(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch)
+sd(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch)
+min(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch)
+max(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch)
+
+shapiro.test(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch)
+hist(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch,
+     xlab="Efficiency", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+tapply(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group, mean)
+tapply(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group, sd)
+tapply(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group, min)
+tapply(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.FirstTrialFirstRound$Midtesting_age_group, max)
+
+tapply(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.FirstTrialFirstRound$TestingLocation, mean)
+tapply(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.FirstTrialFirstRound$TestingLocation, sd)
+tapply(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.FirstTrialFirstRound$TestingLocation, min)
+tapply(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.FirstTrialFirstRound$TestingLocation, max)
+
+tapply(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample, mean)
+tapply(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample, sd)
+tapply(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample, min)
+tapply(Scrambled.valid.FirstTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.FirstTrialFirstRound$Mediansplit_midtesting_entiresample, max)
+```
+In trial 1, mean efficiency was 0.86 (SD = 0.16, range 0.40-1).
+
+- 3y: 0.84 (SD = 0.16, range 0.4-1)
+- 4y: 0.87 (SD = 0.16, range 0.5-1)
+- 5y: 0.82 (SD = 0.15, range 0.6-1)
+- 6y: 1
+
+- Edinburgh: 0.87 (SD = 0.16, range 0.5-1)
+- Fife: 0.85 (SD = 0.16, range 0.4-1)
+
+- young: 0.85 (SD = 0.15, range 0.4-1)
+- old: 0.86 (SD = 0.16, range 0.5-1)
+
+
+
+## Can Success be predicted by age?
+```{r}
+Scrambled.valid.T1 <- subset(Scrambled.valid, Trial == "1" & RoundNr !="1")
+#we z-transform age 
+Scrambled.valid.T1$z.age.midtesting=as.vector(scale(Scrambled.valid.T1$Midtesting_age_months))#transform age to mean of 0 and SD of 1
+mean(Scrambled.valid.T1$z.age.midtesting)#check whether it has worked
+sd(Scrambled.valid.T1$z.age.midtesting)
+
+Scrambled.valid.T1$z.round=as.vector(scale(Scrambled.valid.T1$RoundNr))
+mean(Scrambled.valid.T1$z.round)#check whether it has worked
+sd(Scrambled.valid.T1$z.round)
+
+library(lme4)
+res<-glmer(Correct ~ z.age.midtesting + z.round + z.age.midtesting:z.round + (1|ID), data=Scrambled.valid.T1, family = binomial)#singular fit
+
+null<-glmer(Correct ~ 1 + (1|ID), data=Scrambled.valid.T1, family = binomial)#singular fit
+
+anova(null, res, test="Chisq")
+```
+Together, trial number, age, and the interaction explain the data better than a null model, X2(3) = 307.37, p < .001.
+
+```{r}
+res.nointer<-glmer(Correct ~ z.age.midtesting + z.round + (1|ID), data=Scrambled.valid.T1, family = binomial)
+
+anova(res.nointer, res, test="Chisq")
+```
+The interaction term has a significant effect, X2(1) = 23.125, p < .001.
+
+```{r}
+three <- subset(Scrambled.valid.T1, Midtesting_age_group == "3")
+#we z-transform age 
+three$z.age.midtesting=as.vector(scale(three$Midtesting_age_months))#transform age to mean of 0 and SD of 1
+mean(three$z.age.midtesting)#check whether it has worked
+sd(three$z.age.midtesting)
+
+three$z.round=as.vector(scale(three$RoundNr))
+mean(three$z.round)#check whether it has worked
+sd(three$z.round)
+
+library(lme4)
+res<-glmer(Correct ~ z.round + (1|ID), data=three, family = binomial)#singular fit
+
+null<-glmer(Correct ~ 1 + (1|ID), data=three, family = binomial)#singular fit
+
+anova(null, res, test="Chisq")
+```
+
+```{r}
+#plotting trial no with CIs
+source("boot_glmm.r")
+#requires centering of all predictors apart the ones one is interested in. We are interested in both.
+boot.res=boot.glmm.pred(model.res=res, excl.warnings=T,
+nboots=1000, para=F, resol=10, use="z.round")
+boot.res$ci.estimates
+boot.res$ci.predicted
+
+par(mar=c(3, 3, 0.2, 0.2), mgp=c(1.7, 0.3, 0), las=1, tcl=-0.15)
+plot(x=three$RoundNr, y=three$Correct, pch=19, las=2, ylim=c(0, 1),
+xlab="Trial number", ylab="Probability of success", main = "3-year-olds")
+plot.xvals=seq(from=min(three$RoundNr), to=max(three$RoundNr),
+length.out=10)
+lines(x=plot.xvals, y=boot.res$ci.predicted$fitted,
+lty=2)
+lines(x=plot.xvals, y=boot.res$ci.predicted$lower.cl,
+lty=3)
+lines(x=plot.xvals, y=boot.res$ci.predicted$upper.cl,
+lty=3)
+```
+
+
+```{r}
+four <- subset(Scrambled.valid.T1, Midtesting_age_group == "4")
+#we z-transform age 
+four$z.age.midtesting=as.vector(scale(four$Midtesting_age_months))#transform age to mean of 0 and SD of 1
+mean(four$z.age.midtesting)#check whether it has worked
+sd(four$z.age.midtesting)
+
+four$z.round=as.vector(scale(four$RoundNr))
+mean(four$z.round)#check whether it has worked
+sd(four$z.round)
+
+library(lme4)
+res1<-glmer(Correct ~ z.round + (1|ID), data=four, family = binomial)#singular fit
+
+null<-glmer(Correct ~ 1 + (1|ID), data=four, family = binomial)
+
+anova(null, res1, test="Chisq")
+```
+
+```{r}
+boot.res=boot.glmm.pred(model.res=res1, excl.warnings=T,
+nboots=1000, para=F, resol=10, use="z.round")
+boot.res$ci.estimates
+boot.res$ci.predicted
+
+par(mar=c(3, 3, 0.2, 0.2), mgp=c(1.7, 0.3, 0), las=1, tcl=-0.15)
+plot(x=four$RoundNr, y=four$Correct, pch=19, las=2, ylim=c(0, 1),
+xlab="Trial number", ylab="Probability of success", main = "4-year-olds")
+plot.xvals=seq(from=min(four$RoundNr), to=max(four$RoundNr),
+length.out=10)
+lines(x=plot.xvals, y=boot.res$ci.predicted$fitted,
+lty=2)
+lines(x=plot.xvals, y=boot.res$ci.predicted$lower.cl,
+lty=3)
+lines(x=plot.xvals, y=boot.res$ci.predicted$upper.cl,
+lty=3)
+```
+
+
+```{r}
+five <- subset(Scrambled.valid.T1, Midtesting_age_group == "5" |Midtesting_age_group == "6")
+#we z-transform age 
+five$z.age.midtesting=as.vector(scale(five$Midtesting_age_months))#transform age to mean of 0 and SD of 1
+mean(five$z.age.midtesting)#check whether it has worked
+sd(five$z.age.midtesting)
+
+five$z.round=as.vector(scale(five$RoundNr))
+mean(five$z.round)#check whether it has worked
+sd(five$z.round)
+
+library(lme4)
+res2<-glmer(Correct ~ z.round + (1|ID), data=five, family = binomial)#singular fit
+
+null<-glmer(Correct ~ 1 + (1|ID), data=five, family = binomial)#singular fit
+
+anova(null, res2, test="Chisq")
+
+
+boot.res=boot.glmm.pred(model.res=res2, excl.warnings=T,
+nboots=1000, para=F, resol=10, use="z.round")
+boot.res$ci.estimates
+boot.res$ci.predicted
+
+par(mar=c(3, 3, 0.2, 0.2), mgp=c(1.7, 0.3, 0), las=1, tcl=-0.15)
+plot(x=five$RoundNr, y=five$Correct, pch=19, las=2, ylim=c(0, 1),
+xlab="Trial number", ylab="Probability of success", main = "5-year-olds")
+plot.xvals=seq(from=min(five$RoundNr), to=max(five$RoundNr),
+length.out=10)
+lines(x=plot.xvals, y=boot.res$ci.predicted$fitted,
+lty=2)
+lines(x=plot.xvals, y=boot.res$ci.predicted$lower.cl,
+lty=3)
+lines(x=plot.xvals, y=boot.res$ci.predicted$upper.cl,
+lty=3)
+```
+
+
+# Trial 2
+## Total number of rounds administered
+```{r}
+Scrambled.valid.SecondTrialFirstRound <- subset(Scrambled.valid, Trial =="2" & RoundNr =="1")
+
+mean(Scrambled.valid.SecondTrialFirstRound$TotalNr_Rounds)
+sd(Scrambled.valid.SecondTrialFirstRound$TotalNr_Rounds)
+min(Scrambled.valid.SecondTrialFirstRound$TotalNr_Rounds)
+max(Scrambled.valid.SecondTrialFirstRound$TotalNr_Rounds)
+
+tapply(Scrambled.valid.SecondTrialFirstRound$TotalNr_Rounds, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group, mean)
+tapply(Scrambled.valid.SecondTrialFirstRound$TotalNr_Rounds, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group, sd)
+tapply(Scrambled.valid.SecondTrialFirstRound$TotalNr_Rounds, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group, min)
+tapply(Scrambled.valid.SecondTrialFirstRound$TotalNr_Rounds, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group, max)
+
+tapply(Scrambled.valid.SecondTrialFirstRound$TotalNr_Rounds, Scrambled.valid.SecondTrialFirstRound$TestingLocation, mean)
+tapply(Scrambled.valid.SecondTrialFirstRound$TotalNr_Rounds, Scrambled.valid.SecondTrialFirstRound$TestingLocation, sd)
+tapply(Scrambled.valid.SecondTrialFirstRound$TotalNr_Rounds, Scrambled.valid.SecondTrialFirstRound$TestingLocation, min)
+tapply(Scrambled.valid.SecondTrialFirstRound$TotalNr_Rounds, Scrambled.valid.SecondTrialFirstRound$TestingLocation, max)
+
+tapply(Scrambled.valid.SecondTrialFirstRound$TotalNr_Rounds, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, mean)
+tapply(Scrambled.valid.SecondTrialFirstRound$TotalNr_Rounds, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, sd)
+tapply(Scrambled.valid.SecondTrialFirstRound$TotalNr_Rounds, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, min)
+tapply(Scrambled.valid.SecondTrialFirstRound$TotalNr_Rounds, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, max)
+```
+In trial 2, the total number of administered trials was 9.75 (SD = 1.27, range 8-11).
+
+- 3y: 10.12 (SD = 1.16, range 8-11)
+- 4y: 9.59 (SD = 1.24, range 8-11)
+- 3y: 8.31 (SD = 0.85, range 8-11)
+- 3y: 11
+
+- Edinburgh: 9.86 (SD = 1.24, range 8-11)
+- Fife: 9.68 (SD = 1.28, range 8-11)
+
+- young: 10.09 (SD = 1.18, range 8-11)
+- old: 9.41 (SD = 1.27, 8-11)
+
+## Emptied all boxes
+```{r}
+table(Scrambled.valid.SecondTrialFirstRound$emptied_all_boxes)
+
+table(Scrambled.valid.SecondTrialFirstRound$emptied_all_boxes, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group)
+
+table(Scrambled.valid.SecondTrialFirstRound$emptied_all_boxes, Scrambled.valid.SecondTrialFirstRound$TestingLocation)
+
+table(Scrambled.valid.SecondTrialFirstRound$emptied_all_boxes, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample)
+```
+125 children (68%) emptied all boxes, 59 did not.
+
+- 3y: 46 yes (55%), 38 no
+- 4y: 66 yes (77%), 20 no
+- 5y: 13 yes (100%)
+- 6y: 0 yes 
+
+- Edinburgh: 47 yes (66%), 24 no
+- Fife: 78 yes (69%), 35 no
+
+- young: 53 yes (57%), 40 no
+- old: 72 yes (79%), 19 no
+
+## Number of boxes emptied
+```{r}
+mean(Scrambled.valid.SecondTrialFirstRound$NrBoxesEmptied)
+sd(Scrambled.valid.SecondTrialFirstRound$NrBoxesEmptied)
+min(Scrambled.valid.SecondTrialFirstRound$NrBoxesEmptied)
+max(Scrambled.valid.SecondTrialFirstRound$NrBoxesEmptied)
+
+tapply(Scrambled.valid.SecondTrialFirstRound$NrBoxesEmptied, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group, mean)
+tapply(Scrambled.valid.SecondTrialFirstRound$NrBoxesEmptied, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group, sd)
+tapply(Scrambled.valid.SecondTrialFirstRound$NrBoxesEmptied, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group, min)
+tapply(Scrambled.valid.SecondTrialFirstRound$NrBoxesEmptied, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group, max)
+
+tapply(Scrambled.valid.SecondTrialFirstRound$NrBoxesEmptied, Scrambled.valid.SecondTrialFirstRound$TestingLocation, mean)
+tapply(Scrambled.valid.SecondTrialFirstRound$NrBoxesEmptied, Scrambled.valid.SecondTrialFirstRound$TestingLocation, sd)
+tapply(Scrambled.valid.SecondTrialFirstRound$NrBoxesEmptied, Scrambled.valid.SecondTrialFirstRound$TestingLocation, min)
+tapply(Scrambled.valid.SecondTrialFirstRound$NrBoxesEmptied, Scrambled.valid.SecondTrialFirstRound$TestingLocation, max)
+
+tapply(Scrambled.valid.SecondTrialFirstRound$NrBoxesEmptied, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, mean)
+tapply(Scrambled.valid.SecondTrialFirstRound$NrBoxesEmptied, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, sd)
+tapply(Scrambled.valid.SecondTrialFirstRound$NrBoxesEmptied, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, min)
+tapply(Scrambled.valid.SecondTrialFirstRound$NrBoxesEmptied, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, max)
+```
+In trial 2, the total number of emptied boxes was 7.59 (SD = 0.65, range 5-8).
+
+- 3y: 7.42 (SD = 0.70, range 6-8)
+- 4y: 7.71 (SD = 0.61, range 5-8)
+- 5y: 8.00 (SD = 0)
+- 6y: 7
+
+- Edinburgh: 7.60 (SD = 0.60, range 6-8)
+- Fife: 7.58 (SD = 0.69, range 5-8)
+
+- young: 7.45 (SD = 0.68, range 6-8)
+- old: 7.74 (SD = 0.59, range 5-8)
+
+## Effiency
+```{r}
+mean(Scrambled.valid.SecondTrialFirstRound$Efficiency)
+sd(Scrambled.valid.SecondTrialFirstRound$Efficiency)
+min(Scrambled.valid.SecondTrialFirstRound$Efficiency)
+max(Scrambled.valid.SecondTrialFirstRound$Efficiency)
+
+shapiro.test(Scrambled.valid.SecondTrialFirstRound$Efficiency)
+hist(Scrambled.valid.SecondTrialFirstRound$Efficiency,
+     xlab="Efficiency", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+tapply(Scrambled.valid.SecondTrialFirstRound$Efficiency, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group, mean)
+tapply(Scrambled.valid.SecondTrialFirstRound$Efficiency, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group, sd)
+tapply(Scrambled.valid.SecondTrialFirstRound$Efficiency, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group, min)
+tapply(Scrambled.valid.SecondTrialFirstRound$Efficiency, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group, max)
+
+tapply(Scrambled.valid.SecondTrialFirstRound$Efficiency, Scrambled.valid.SecondTrialFirstRound$TestingLocation, mean)
+tapply(Scrambled.valid.SecondTrialFirstRound$Efficiency, Scrambled.valid.SecondTrialFirstRound$TestingLocation, sd)
+tapply(Scrambled.valid.SecondTrialFirstRound$Efficiency, Scrambled.valid.SecondTrialFirstRound$TestingLocation, min)
+tapply(Scrambled.valid.SecondTrialFirstRound$Efficiency, Scrambled.valid.SecondTrialFirstRound$TestingLocation, max)
+
+tapply(Scrambled.valid.SecondTrialFirstRound$Efficiency, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, mean)
+tapply(Scrambled.valid.SecondTrialFirstRound$Efficiency, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, sd)
+tapply(Scrambled.valid.SecondTrialFirstRound$Efficiency, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, min)
+tapply(Scrambled.valid.SecondTrialFirstRound$Efficiency, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, max)
+```
+In trial 2, mean efficiency was 0.80 (SD = 0.15, range 0.45-1).
+
+- 3y: 0.75 (SD = 0.15, range 0.54-1)
+- 4y: 0.82 (SD = 0.15, range 0.45-1)
+- 5y: 0.97 (SD = 0.08, range 0.73-1)
+- 6y: 0.63
+
+- Edinburgh: 0.79 (SD = 0.15, range 0.54-1)
+- Fife: 0.80 (SD = 0.16, range 0.45-1)
+
+- young: 0.75 (SD = 0.15, range 0.54-1)
+- old: 0.84 (SD = 0.15, range 0.45-1)
+
+## For those children wo did make an error, how many correct trials did they have before the first error occurred?
+```{r}
+Scrambled.valid.SecondTrialFirstRound.mademistake <- subset(Scrambled.valid.SecondTrialFirstRound, NoSearches_before_FirstError != "no error")
+
+mean(Scrambled.valid.SecondTrialFirstRound.mademistake$NoSearches_before_FirstError_numeric)
+sd(Scrambled.valid.SecondTrialFirstRound.mademistake$NoSearches_before_FirstError_numeric)
+min(Scrambled.valid.SecondTrialFirstRound.mademistake$NoSearches_before_FirstError_numeric)
+max(Scrambled.valid.SecondTrialFirstRound.mademistake$NoSearches_before_FirstError_numeric)
+```
+136 children made an error. Those children had an average of 5.16 (SD = 1.70, range 1-7) rounds correct before making the first error.
+
+## Efficiency when disregarding the first trial 
+So that efficiency could also be 0
+```{r}
+mean(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch)
+sd(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch)
+min(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch)
+max(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch)
+
+shapiro.test(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch)
+hist(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch,
+     xlab="Efficiency", 
+     ylab="Number of children",
+     border="black", 
+     col="grey",
+     xlim=c(0,1))
+
+tapply(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group, mean)
+tapply(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group, sd)
+tapply(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group, min)
+tapply(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.SecondTrialFirstRound$Midtesting_age_group, max)
+
+threeandfour <- subset(Scrambled.valid.SecondTrialFirstRound, Midtesting_age_group =="3"| Midtesting_age_group =="4")
+wilcox.test(threeandfour$EfficiencyDisregardingFirstSearch ~ threeandfour$Midtesting_age_group, alternative = "less")
+
+tapply(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.SecondTrialFirstRound$TestingLocation, mean)
+tapply(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.SecondTrialFirstRound$TestingLocation, sd)
+tapply(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.SecondTrialFirstRound$TestingLocation, min)
+tapply(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.SecondTrialFirstRound$TestingLocation, max)
+
+tapply(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, mean)
+tapply(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, sd)
+tapply(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, min)
+tapply(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch, Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, max)
+
+wilcox.test(Scrambled.valid.SecondTrialFirstRound$EfficiencyDisregardingFirstSearch ~ Scrambled.valid.SecondTrialFirstRound$Mediansplit_midtesting_entiresample, alternative = "greater")
+```
+In trial 2, mean efficiency was 0.78 (SD = 0.17, range 0.40-1).
+
+- 3y: 0.72 (SD = 0.16, range 0.5-1)
+- 4y: 0.80 (SD = 0.16, range 0.4-1)
+- 5y: 0.97 (SD = 0.09, range 0.7-1)
+- 6y: 0.60
+
+- Edinburgh: 0.77 (SD = 0.16, range 0.5-1)
+- Fife: 0.78 (SD = 0.17, range 0.4-1)
+
+- young: 0.73 (SD = 0.16, range 0.5-1)
+- old: 0.82 (SD = 0.17, range 0.4-1)
+
+## Can Success be predicted by age?
+```{r}
+Scrambled.valid.T2 <- subset(Scrambled.valid, Trial == "2" & RoundNr !="1")
+#we z-transform age 
+Scrambled.valid.T2$z.age.midtesting=as.vector(scale(Scrambled.valid.T2$Midtesting_age_months))#transform age to mean of 0 and SD of 1
+mean(Scrambled.valid.T2$z.age.midtesting)#check whether it has worked
+sd(Scrambled.valid.T2$z.age.midtesting)
+
+Scrambled.valid.T2$z.round=as.vector(scale(Scrambled.valid.T2$RoundNr))
+mean(Scrambled.valid.T2$z.round)#check whether it has worked
+sd(Scrambled.valid.T2$z.round)
+
+library(lme4)
+res<-glmer(Correct ~ z.age.midtesting + z.round + z.age.midtesting:z.round + (1|ID), data=Scrambled.valid.T2, family = binomial)#singular fit
+
+null<-glmer(Correct ~ 1 + (1|ID), data=Scrambled.valid.T2, family = binomial)#singular fit
+
+anova(null, res, test="Chisq")
+```
+Together, trial number, age, and the interaction explain the data better than a null model, X2(3) = 380.76, p < .001.
+
+```{r}
+res.nointer<-glmer(Correct ~ z.age.midtesting + z.round + (1|ID), data=Scrambled.valid.T2, family = binomial)#singular fit
+
+anova(res.nointer, res, test="Chisq")
+```
+The interaction term has no effect, X2(1) = 0.134, p = .713.
+
+Remove interaction term from model
+```{r}
+res<-glmer(Correct ~ z.age.midtesting + z.round + (1|ID), data=Scrambled.valid.T2, family = binomial)#singular fit
+
+null<-glmer(Correct ~ 1 + (1|ID), data=Scrambled.valid.T2, family = binomial)#singular fit
+
+anova(null, res, test="Chisq")
+```
+Together, trial number and age explain the data better than a null model, X2(2) = 380.63, p < .001.
+
+Effect of age 
+```{r}
+res.noage<-glmer(Correct ~ z.round + (1|ID), data=Scrambled.valid.T2, family = binomial)#singular fit
+
+anova(res.noage, res, test="Chisq")
+```
+Age has a significant effect, X2(1) = 17.639, p < .001.
+
+Effect of round number 
+```{r}
+res.notrial<-glmer(Correct ~ z.age.midtesting + (1|ID), data=Scrambled.valid.T2, family = binomial)#singular fit
+
+anova(res.notrial, res, test="Chisq")
+```
+Round number has a significant effect, X2(1) = 357.81, p < .001.
+
+## Plot age as continuous variable against efficiency
+```{r}
+library(ggplot2)
+p1<- ggplot(Scrambled.valid.SecondTrialFirstRound, aes(x=Midtesting_age_months, y=EfficiencyDisregardingFirstSearch)) + geom_point()
+
+p1 +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) 
+```
+
+Effect of trial number
+```{r}
+boot.res=boot.glmm.pred(model.res=res, excl.warnings=T,
+nboots=1000, para=F, resol=10, use="z.round")
+boot.res$ci.estimates
+boot.res$ci.predicted
+
+par(mar=c(3, 3, 0.2, 0.2), mgp=c(1.7, 0.3, 0), las=1, tcl=-0.15)
+plot(x=Scrambled.valid.T2$RoundNr, y=Scrambled.valid.T2$Correct, pch=19, las=2, ylim=c(0, 1),
+xlab="Trial number", ylab="Probability of success")
+plot.xvals=seq(from=min(Scrambled.valid.T2$RoundNr), to=max(Scrambled.valid.T2$RoundNr),
+length.out=10)
+lines(x=plot.xvals, y=boot.res$ci.predicted$fitted,
+lty=2)
+lines(x=plot.xvals, y=boot.res$ci.predicted$lower.cl,
+lty=3)
+lines(x=plot.xvals, y=boot.res$ci.predicted$upper.cl,
+lty=3)
+```
