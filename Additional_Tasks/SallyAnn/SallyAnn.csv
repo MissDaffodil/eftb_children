@@ -1,105 +1,120 @@
-﻿ID;Gender;Age_months;Age_group;AgeMonths_midtesting;AgeGroup_midtesting;Mediansplit_midtesting_entiresample;AdditionalSupportNeeds;Dropout;ReasonDropout;WhoSally_WhoAnn;Where.Sally.look;Where.Sally.look.Numbers;Where.block.really;Where.was.block.inbeginning;GotAtLeastOneControlQuestionWrong ;GotTestCorrectButAtLeastOneControlWrong;"Score (at least one control wrong, test wrong = 0; at least one control wrong, test correct = 0; all controls correct, test wrong = 1, all controls correct, test correct = 2)";Video;Comment
-1;m;61;5;62;5;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID1_AdditionalTask_SallyAnn_m_5y;
-2;m;42;3;42;3;young;no information;no;;wrong;wrong;0;wrong;wrong;1;0;0;ID2_AdditionalTask_SallyAnn_m_3y;had trouble identifying the names in the first control question
-3;m;43;3;44;3;young;no information;no;;correct;wrong;0;correct;correct;0;0;1;ID3_AdditionalTask_SallyAnn_m_3y;
-4;m;62;5;63;5;old;no information;no;;correct;wrong;0;correct;correct;0;0;1;ID4_AdditionalTask_SallyAnn_5m;
-5;f;45;3;46;3;young;no information;no;;correct;wrong;0;correct;wrong;1;0;0;ID5_AdditionalTask_SallyAnn_f_3y;
-6;m;40;3;40;3;young;no;no;;correct;wrong;0;correct;wrong;1;0;0;ID6_AdditionalTask_SallyAnn_m_3y;
-7;m;46;3;46;3;young;no information;no;;correct;wrong;0;correct;correct;0;0;1;ID7_AdditionalTask_SallyAnn_m_3y;
-8;m;58;4;58;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID8_AdditionalTask_SallyAnn_m_4y;
-9;f;40;3;41;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID9_AdditionalTask_SallyAnn_f_3y;
-10;m;43;3;44;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID10_AdditionalTask_SallyAnn_m_3y;
-11;f;62;5;63;5;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID11_AdditionalTask_SallyAnn_f_5y;
-12;f;62;5;63;5;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID12_AdditionalTask_SallyAnn_f_5y;
-13;f;41;3;42;3;young;no;no;;correct;correct;1;correct;correct;0;0;2;ID13_AdditionalTask_SallyAnn_f_3y;
-14;m;43;3;44;3;young;no information;no;;correct;correct;1;wrong;wrong;1;1;0;ID14_AdditionalTask_SallyAnn_m_3y;
-19;f;37;3;39;3;young;no;no;;correct;wrong;0;correct;wrong;1;0;0;ID19_AdditionalTask_SallyAnn_f_3y;
-20;f;53;4;56;4;old;suffers from prolonged febrile convulsions;no;;correct;correct;1;correct;correct;0;0;2;ID20_AdditionalTask_SallyAnn_f_4y;"for question ""where was block in beginning"" only pointed to the correct locatin, when asked again for a verbal response, pointed to the other box"
-21;f;41;3;43;3;young;no information;no;;correct;wrong;0;correct;correct;0;0;1;ID21_AdditionalTask_SallyAnn_f_3y;
-22;f;54;4;57;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID22_AdditionalTask_SallyAnn_f_4y;
-23;f;51;4;54;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID23_AdditionalTask_SallyAnn_f_4y;
-26;m;49;4;52;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID26_AdditionalTask_SallyAnn_m_4y;
-27;f;53;4;55;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID27_AdditionalTask_SallyAnn_f_4y;
-28;m;47;3;49;4;young;Speech is slightly impaired;no;;correct;wrong;0;wrong;wrong;1;0;0;ID28_AdditionalTask_SallyAnn_m_3y;
-29;f;49;4;50;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID29_AdditionalTask_SallyAnn_f_4y;
-30;m;51;4;52;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID30_AdditionalTask_SallyAnn_m_4y;
-31;f;44;3;44;3;young;no;no;;correct;wrong;0;correct;wrong;1;0;0;ID31_AdditionalTask_SallyAnn_f_3y;
-32;f;43;3;43;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID32_AdditionalTask_SallyAnn_f_3y;
-33;f;46;3;47;3;young;mild developmental delay, non epileptic episode, sensory issues;no;;wrong;wrong;0;correct;correct;1;0;0;ID33_AdditionalTask_SallyAnn_f_3y;
-34;f;46;3;46;3;young;global developmental delay;no;;correct;wrong;0;correct;correct;0;0;1;ID34_AdditionalTask_SallyAnn_f_3y;
-35;m;37;3;38;3;young;no;no;;correct;correct;1;correct;wrong;1;1;0;ID35_WM_ScrambledBox_AdditionalTask_SallyAnn_m_3y;
-36;m;38;3;41;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID36_WM_ScrambledBox_AdditionalTask_SallyAnn_m_3y;
-37;f;37;3;40;3;young;no;no;;correct;wrong;0;correct;wrong;1;0;0;ID37_WM_ScrambledBox_AdditionalTask_SallyAnn_f_3y;
-45;f;48;4;51;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID45_AdditionalTask_SallyAnn_f_4y;
-46;f;48;4;50;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID46_AdditionalTask_SallyAnn_f_4y;
-47;f;51;4;54;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID47_AdditionalTask_SallyAnn_f_4y;
-48;m;42;3;44;3;young;no;no;;correct;correct;1;correct;wrong;1;1;0;ID48_AdditionalTask_SallyAnn_m_3y;for last control question, (did not listen, wanted to show where it really was)
-49;m;37;3;38;3;young;no;yes;got the first 2 questions correct, but didn't pay attention, probably got the ToM question correct by chance;;;1;;;;;;ID49_AdditionalTask_SallyAnn_m_3y_Dropout;
-50;f;43;3;45;3;young;no information;no;;correct;correct;1;correct;correct;0;0;2;ID50_AdditionalTask_SallyAnn_f_3y;
-51;f;41;3;43;3;young;no information;no;;correct;wrong;0;correct;correct;0;0;1;ID51_AdditionalTask_SallyAnn_f_3y;
-52;f;41;3;43;3;young;no information;no;;correct;wrong;0;correct;correct;0;0;1;ID52_AdditionalTask_SallyAnn_f_3y;
-53;f;42;3;44;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID53_AdditionalTask_SallyAnn_f_3y;
-66;m;54;4;56;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID66_AdditionalTask_SallyAnn_m_4y;
-67;m;47;3;49;4;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID67_AdditionalTask_SallyAnn_m_3y;
-68;f;48;4;50;4;old;no;no;;correct;wrong;0;wrong;correct;1;0;0;ID68_AdditionalTask_SallyAnn_f_4y;
-69;m;51;4;54;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID69_AdditionalTask_SallyAnn_m_4y;
-70;f;50;4;52;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID70_AdditionalTask_SallyAnn_f_4y;
-71;f;50;4;52;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID71_AdditionalTask_SallyAnn_f_4y;
-72;m;58;4;60;5;old;speech is not great and so can be difficult to understand sometimes;no;;correct;correct;1;correct;correct;0;0;2;ID72_AdditionalTask_SallyAnn_m_4y;
-75;f;39;3;40;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID75_AdditionalTask_SallyAnn_f_3y;
-76;m;51;4;52;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID76_AdditionalTask_SallyAnn_m_4y;
-77;f;41;3;42;3;young;no information;no;;correct;wrong;0;wrong;wrong;1;0;0;ID77_AdditionalTask_SallyAnn_f_3y;
-78;m;41;3;43;3;young;no;no;;correct;correct;1;correct;correct;0;0;2;ID78_AdditionalTask_SallyAnn_m_3y;
-79;f;45;3;46;3;young;no;no;;correct;wrong;0;correct;wrong;1;0;0;ID79_AdditionalTask_SallyAnn_f_3y;
-80;f;43;3;45;3;young;no information;no;;correct;correct;1;correct;wrong;1;1;0;ID80_AdditionalTask_SallyAnn_f_3y;
-81;m;42;3;44;3;young;no;no;;correct;wrong;0;wrong;correct;1;0;0;ID81_AdditionalTask_SallyAnn_m_3y;
-82;f;39;3;42;3;young;no;no;;correct;correct;1;correct;correct;0;0;2;ID82_AdditionalTask_SallyAnn_f_3y;
-83;f;50;4;52;4;old;no information;no;;correct;correct;1;correct;correct;0;0;2;ID83_AdditionalTask_SallyAnn_f_4y;
-84;f;50;4;52;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID84_AdditionalTask_SallyAnn_f_4y;
-85;f;35;2;36;3;young;no information;no;;correct;wrong;0;wrong;correct;1;0;0;ID85_AdditionalTask_SallyAnn_f_2y;
-86;m;49;4;52;4;old;no;no;;correct;wrong;0;correct;wrong;1;0;0;video failed;
-87;f;52;4;54;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID87_AdditionalTask_SallyAnn_f_4y;
-88;m;36;3;39;3;young;no information;yes;too poor language comprehension (bilingual);;;1;;;;;;ID88_AdditionalTask_SallyAnn_m_3y;
-89;m;43;3;45;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID89_AdditionalTask_SallyAnn_m_3y;
-91;f;38;3;40;3;young;no;no;;correct;correct;1;correct;wrong;1;1;0;ID91_AdditionalTask_SallyAnn_f_3y;"child said ""don't know"" as answer to the last question, then pointed to basket"
-92;m;50;4;51;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID92_AdditionalTask_SallyAnn_m_4y;
-93;f;45;3;46;3;young;no information;no;;correct;correct;1;correct;wrong;1;1;0;no video (battery ran out);"child said before Sally returned ""now she will look into the box"", so am sure she knew the task. But according to coding scheme she would get 0 points!"
-94;f;45;3;47;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;no video because camera ran out of battery;
-95;f;45;3;47;3;young;no information;no;;correct;wrong;0;correct;wrong;1;0;0;ID95_AdditionalTask_SallyAnn_f_3y;
-96;m;54;4;56;4;old;Speech Therapy;no;;correct;wrong;0;correct;wrong;1;0;0;ID96_AdditionalTask_SallyAnn_m_4y;
-97;m;53;4;55;4;old;no information;no;;correct;correct;1;correct;correct;0;0;1;ID97_AdditionalTask_SallyAnn_m_4y;
-98;f;46;3;47;3;young;speech + language;no;;correct;correct;1;correct;wrong;1;1;0;ID98_AdditionalTask_SallyAnn_f_3y;
-99;f;45;3;47;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID99_AdditionalTask_SallyAnn_f_3y;
-100;m;57;4;59;4;old;no information;no;;correct;correct;1;correct;correct;0;0;2;ID100_AdditionalTask_SallyAnn_m_4y;
-116;f;59;4;61;5;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID116_AdditionalTask_SallyAnn_f_4y;
-117;m;64;5;65;5;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID117_AdditionalTask_SallyAnn_m_5y;
-118;f;63;5;64;5;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID118_AdditionalTask_SallyAnn_f_5y;
-119;f;59;4;61;5;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID119_AdditionalTask_SallyAnn_f_4y;
-120;m;70;5;72;6;old;no;no;;correct;correct;1;correct;correct;0;0;2;no video, camera died;
-121;f;58;4;60;5;old;no;no;;correct;correct;1;correct;correct;0;0;2;no video, camera died;
-122;f;53;4;54;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID122_AdditionalTask_SallyAnn_f_4y;
-123;f;52;4;53;4;old;no information;no;;correct;wrong;0;correct;correct;0;0;1;ID123_AdditionalTask_SallyAnn_f_4y;
-124;m;52;4;52;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID124_AdditionalTask_SallyAnn_m_4y;
-125;m;40;3;41;3;young;no;no;;correct;wrong;0;correct;wrong;1;0;0;ID125_AdditionalTask_SallyAnn_m_3y;
-127;f;58;4;59;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID127_AdditionalTask_SallyAnn_f_4y;
-128;f;39;3;39;3;young;no information;no;;correct;correct;1;wrong;correct;1;1;0;ID128_AdditionalTask_SallyAnn_f_3y;
-129;f;54;4;55;4;old;developmental delay by about 12 months - improving now, she is in foster care;no;;correct;wrong;0;correct;wrong;1;0;0;ID129_AdditionalTask_SallyAnn_f_4y;
-130;f;45;3;46;3;young;no;no;;correct;wrong;0;correct;wrong;1;0;0;ID130_AdditionalTask_SallyAnn_f_3y;
-131;m;53;4;53;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID131_AdditionalTask_SallyAnn_m_4y;
-132;f;57;4;58;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID132_AdditionalTask_SallyAnn_f_4y;
-133;f;64;5;64;5;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID133_AdditionalTask_SallyAnn_f_5y;
-134;m;58;4;59;4;old;no information;no;;correct;correct;1;wrong;correct;1;1;0;ID134_AdditionalTask_SallyAnn_m_4y;child opens box when asked where is the block really
-135;m;54;4;55;4;old;no information;no;;correct;wrong;0;correct;correct;0;0;1;ID135_AdditionalTask_SallyAnn_m_4y;
-136;m;53;4;54;4;old;no information;no;;correct;correct;1;correct;wrong;1;1;0;ID136_AdditionalTask_SallyAnn_m_4y;
-138;m;45;3;46;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID138_AdditionalTask_SallyAnn_m_3y;
-139;f;42;3;42;3;young;no information;no;;correct;wrong;0;correct;wrong;1;0;0;ID139_AdditionalTask_SallyAnn_f_3y;
-140;f;52;4;53;4;old;no information;no;;correct;correct;1;correct;correct;0;0;2;ID140_AdditionalTask_SallyAnn_f_4y;
-141;f;58;4;58;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID141_AdditionalTask_SallyAnn_f_4y;
-143;f;43;3;44;3;young;no;no;;correct;correct;1;correct;wrong;1;1;0;ID143_AdditionalTask_SallyAnn_f_3y;said 'don't know' after being asked 3 times in last control question
-126;f;53;4;54;4;old;no information;no;;correct;wrong;0;wrong;wrong;1;0;0;ID126_AdditionalTask_SallyAnn_f_4y;
-137;f;43;3;44;3;young;no;no;;correct;correct;1;wrong;correct;1;1;0;ID137_AdditionalTask_SallyAnn_f_3y;
-181;f;56;4;56;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID181_AdditionalTask_SallyAnn_f_4y;
-182;f;56;4;56;4;old;no;no;;correct;correct;1;wrong;wrong;1;1;0;ID182_AdditionalTask_SallyAnn_f_4y;child said 'in the basket' for Q4
-183;m;61;5;61;5;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID183_AdditionalTask_SallyAnn_m_5y;
-184;m;58;4;58;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID184_AdditionalTask_SallyAnn_m_4y;
-185;f;60;5;60;5;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID185_AdditionalTask_SallyAnn_f_5y;
+﻿ID;Gender;Age_months;Age_group;AgeMonths_midtesting;AgeGroup_midtesting;Mediansplit_midtesting_entiresample;AdditionalSupportNeeds;Dropout;ReasonDropout;WhoSally_WhoAnn;Where.Sally.look;Where.Sally.look.Numbers;Where.block.really;Where.was.block.inbeginning;GotAtLeastOneControlQuestionWrong ;GotTestCorrectButAtLeastOneControlWrong;"Score (at least one control wrong, test wrong = 0; at least one control wrong, test correct = 0; all controls correct, test wrong = 1, all controls correct, test correct = 2)";Video;Comment;PC1;PC2
+1;m;61;5;62;5;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID1_AdditionalTask_SallyAnn_m_5y;;-2.472;-0.253
+2;m;42;3;42;3;young;no information;no;;wrong;wrong;0;wrong;wrong;1;0;0;ID2_AdditionalTask_SallyAnn_m_3y;had trouble identifying the names in the first control question;0.961;-0.717
+3;m;43;3;44;3;young;no information;no;;correct;wrong;0;correct;correct;0;0;1;ID3_AdditionalTask_SallyAnn_m_3y;;-1.378;-0.499
+4;m;62;5;63;5;old;no information;no;;correct;wrong;0;correct;correct;0;0;1;ID4_AdditionalTask_SallyAnn_5m;;-1.746;-1.605
+5;f;45;3;46;3;young;no information;no;;correct;wrong;0;correct;wrong;1;0;0;ID5_AdditionalTask_SallyAnn_f_3y;;-0.146;-1.519
+6;m;40;3;40;3;young;no;no;;correct;wrong;0;correct;wrong;1;0;0;ID6_AdditionalTask_SallyAnn_m_3y;;;
+7;m;46;3;46;3;young;no information;no;;correct;wrong;0;correct;correct;0;0;1;ID7_AdditionalTask_SallyAnn_m_3y;;-0.584;-0.149
+8;m;58;4;58;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID8_AdditionalTask_SallyAnn_m_4y;;-0.159;-1.772
+9;f;40;3;41;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID9_AdditionalTask_SallyAnn_f_3y;;1.242;0.978
+10;m;43;3;44;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID10_AdditionalTask_SallyAnn_m_3y;;;
+11;f;62;5;63;5;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID11_AdditionalTask_SallyAnn_f_5y;;;
+12;f;62;5;63;5;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID12_AdditionalTask_SallyAnn_f_5y;;-0.429;1.627
+13;f;41;3;42;3;young;no;no;;correct;correct;1;correct;correct;0;0;2;ID13_AdditionalTask_SallyAnn_f_3y;;;
+14;m;43;3;44;3;young;no information;no;;correct;correct;1;wrong;wrong;1;1;0;ID14_AdditionalTask_SallyAnn_m_3y;;2.436;0.621
+19;f;37;3;39;3;young;no;no;;correct;wrong;0;correct;wrong;1;0;0;ID19_AdditionalTask_SallyAnn_f_3y;;0.626;0.245
+20;f;53;4;56;4;old;suffers from prolonged febrile convulsions;no;;correct;correct;1;correct;correct;0;0;2;ID20_AdditionalTask_SallyAnn_f_4y;"for question ""where was block in beginning"" only pointed to the correct locatin, when asked again for a verbal response, pointed to the other box";0.671;0.376
+21;f;41;3;43;3;young;no information;no;;correct;wrong;0;correct;correct;0;0;1;ID21_AdditionalTask_SallyAnn_f_3y;;;
+22;f;54;4;57;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID22_AdditionalTask_SallyAnn_f_4y;;;
+23;f;51;4;54;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID23_AdditionalTask_SallyAnn_f_4y;;1.515;-0.752
+26;m;49;4;52;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID26_AdditionalTask_SallyAnn_m_4y;;;
+27;f;53;4;55;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID27_AdditionalTask_SallyAnn_f_4y;;;
+28;m;47;3;49;4;young;Speech is slightly impaired;no;;correct;wrong;0;wrong;wrong;1;0;0;ID28_AdditionalTask_SallyAnn_m_3y;;;
+29;f;49;4;50;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID29_AdditionalTask_SallyAnn_f_4y;;;
+30;m;51;4;52;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID30_AdditionalTask_SallyAnn_m_4y;;;
+31;f;44;3;44;3;young;no;no;;correct;wrong;0;correct;wrong;1;0;0;ID31_AdditionalTask_SallyAnn_f_3y;;;
+32;f;43;3;43;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID32_AdditionalTask_SallyAnn_f_3y;;0.654;1.058
+33;f;46;3;47;3;young;mild developmental delay, non epileptic episode, sensory issues;no;;wrong;wrong;0;correct;correct;1;0;0;ID33_AdditionalTask_SallyAnn_f_3y;;;
+34;f;46;3;46;3;young;global developmental delay;no;;correct;wrong;0;correct;correct;0;0;1;ID34_AdditionalTask_SallyAnn_f_3y;;;
+35;m;37;3;38;3;young;no;no;;correct;correct;1;correct;wrong;1;1;0;ID35_WM_ScrambledBox_AdditionalTask_SallyAnn_m_3y;;;
+36;m;38;3;41;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID36_WM_ScrambledBox_AdditionalTask_SallyAnn_m_3y;;;
+37;f;37;3;40;3;young;no;no;;correct;wrong;0;correct;wrong;1;0;0;ID37_WM_ScrambledBox_AdditionalTask_SallyAnn_f_3y;;;
+45;f;48;4;51;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID45_AdditionalTask_SallyAnn_f_4y;;;
+46;f;48;4;50;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID46_AdditionalTask_SallyAnn_f_4y;;;
+47;f;51;4;54;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID47_AdditionalTask_SallyAnn_f_4y;;-1.160;0.807
+48;m;42;3;44;3;young;no;no;;correct;correct;1;correct;wrong;1;1;0;ID48_AdditionalTask_SallyAnn_m_3y;for last control question, (did not listen, wanted to show where it really was);-1.120;-0.044
+49;m;37;3;38;3;young;no;yes;got the first 2 questions correct, but didn't pay attention, probably got the ToM question correct by chance;;;1;;;;;;ID49_AdditionalTask_SallyAnn_m_3y_Dropout;;;
+50;f;43;3;45;3;young;no information;no;;correct;correct;1;correct;correct;0;0;2;ID50_AdditionalTask_SallyAnn_f_3y;;;
+51;f;41;3;43;3;young;no information;no;;correct;wrong;0;correct;correct;0;0;1;ID51_AdditionalTask_SallyAnn_f_3y;;0.841;1.397
+52;f;41;3;43;3;young;no information;no;;correct;wrong;0;correct;correct;0;0;1;ID52_AdditionalTask_SallyAnn_f_3y;;;
+53;f;42;3;44;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID53_AdditionalTask_SallyAnn_f_3y;;;
+66;m;54;4;56;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID66_AdditionalTask_SallyAnn_m_4y;;;
+67;m;47;3;49;4;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID67_AdditionalTask_SallyAnn_m_3y;;;
+68;f;48;4;50;4;old;no;no;;correct;wrong;0;wrong;correct;1;0;0;ID68_AdditionalTask_SallyAnn_f_4y;;0.883;-0.02
+69;m;51;4;54;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID69_AdditionalTask_SallyAnn_m_4y;;0.914;2.552
+70;f;50;4;52;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID70_AdditionalTask_SallyAnn_f_4y;;-0.197;0.184
+71;f;50;4;52;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID71_AdditionalTask_SallyAnn_f_4y;;-3.066;-1.109
+72;m;58;4;60;5;old;speech is not great and so can be difficult to understand sometimes;no;;correct;correct;1;correct;correct;0;0;2;ID72_AdditionalTask_SallyAnn_m_4y;;-1.611;-0.366
+75;f;39;3;40;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID75_AdditionalTask_SallyAnn_f_3y;;;
+76;m;51;4;52;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID76_AdditionalTask_SallyAnn_m_4y;;-0.145;-1.562
+77;f;41;3;42;3;young;no information;no;;correct;wrong;0;wrong;wrong;1;0;0;ID77_AdditionalTask_SallyAnn_f_3y;;0.499;-1.133
+78;m;41;3;43;3;young;no;no;;correct;correct;1;correct;correct;0;0;2;ID78_AdditionalTask_SallyAnn_m_3y;;;
+79;f;45;3;46;3;young;no;no;;correct;wrong;0;correct;wrong;1;0;0;ID79_AdditionalTask_SallyAnn_f_3y;;-2.566;-2.166
+80;f;43;3;45;3;young;no information;no;;correct;correct;1;correct;wrong;1;1;0;ID80_AdditionalTask_SallyAnn_f_3y;;-0.558;-0.326
+81;m;42;3;44;3;young;no;no;;correct;wrong;0;wrong;correct;1;0;0;ID81_AdditionalTask_SallyAnn_m_3y;;;
+82;f;39;3;42;3;young;no;no;;correct;correct;1;correct;correct;0;0;2;ID82_AdditionalTask_SallyAnn_f_3y;;;
+83;f;50;4;52;4;old;no information;no;;correct;correct;1;correct;correct;0;0;2;ID83_AdditionalTask_SallyAnn_f_4y;;;
+84;f;50;4;52;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID84_AdditionalTask_SallyAnn_f_4y;;;
+85;f;35;2;36;3;young;no information;no;;correct;wrong;0;wrong;correct;1;0;0;ID85_AdditionalTask_SallyAnn_f_2y;;;
+86;m;49;4;52;4;old;no;no;;correct;wrong;0;correct;wrong;1;0;0;video failed;;;
+87;f;52;4;54;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID87_AdditionalTask_SallyAnn_f_4y;;1.329;-1.004
+88;m;36;3;39;3;young;no information;yes;too poor language comprehension (bilingual);;;1;;;;;;ID88_AdditionalTask_SallyAnn_m_3y;;;
+89;m;43;3;45;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID89_AdditionalTask_SallyAnn_m_3y;;0.17;1.985
+91;f;38;3;40;3;young;no;no;;correct;correct;1;correct;wrong;1;1;0;ID91_AdditionalTask_SallyAnn_f_3y;"child said ""don't know"" as answer to the last question, then pointed to basket";-0.684;-0.636
+92;m;50;4;51;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID92_AdditionalTask_SallyAnn_m_4y;;0.434;1.126
+93;f;45;3;46;3;young;no information;no;;correct;correct;1;correct;wrong;1;1;0;no video (battery ran out);"child said before Sally returned ""now she will look into the box"", so am sure she knew the task. But according to coding scheme she would get 0 points!";;
+94;f;45;3;47;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;no video because camera ran out of battery;;-0.882;0.944
+95;f;45;3;47;3;young;no information;no;;correct;wrong;0;correct;wrong;1;0;0;ID95_AdditionalTask_SallyAnn_f_3y;;1.317;-0.615
+96;m;54;4;56;4;old;Speech Therapy;no;;correct;wrong;0;correct;wrong;1;0;0;ID96_AdditionalTask_SallyAnn_m_4y;;0.047;0.772
+97;m;53;4;55;4;old;no information;no;;correct;correct;1;correct;correct;0;0;1;ID97_AdditionalTask_SallyAnn_m_4y;;0.296;-0.053
+98;f;46;3;47;3;young;speech + language;no;;correct;correct;1;correct;wrong;1;1;0;ID98_AdditionalTask_SallyAnn_f_3y;;;
+99;f;45;3;47;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID99_AdditionalTask_SallyAnn_f_3y;;;
+100;m;57;4;59;4;old;no information;no;;correct;correct;1;correct;correct;0;0;2;ID100_AdditionalTask_SallyAnn_m_4y;;-0.727;-0.577
+116;f;59;4;61;5;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID116_AdditionalTask_SallyAnn_f_4y;;-1.652;0.025
+117;m;64;5;65;5;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID117_AdditionalTask_SallyAnn_m_5y;;;
+118;f;63;5;64;5;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID118_AdditionalTask_SallyAnn_f_5y;;2.766;-2.532
+119;f;59;4;61;5;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID119_AdditionalTask_SallyAnn_f_4y;;-1.014;-0.985
+120;m;70;5;72;6;old;no;no;;correct;correct;1;correct;correct;0;0;2;no video, camera died;;;
+121;f;58;4;60;5;old;no;no;;correct;correct;1;correct;correct;0;0;2;no video, camera died;;1.174;-0.45
+122;f;53;4;54;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID122_AdditionalTask_SallyAnn_f_4y;;2.831;0.101
+123;f;52;4;53;4;old;no information;no;;correct;wrong;0;correct;correct;0;0;1;ID123_AdditionalTask_SallyAnn_f_4y;;;
+124;m;52;4;52;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID124_AdditionalTask_SallyAnn_m_4y;;-0.304;0.577
+125;m;40;3;41;3;young;no;no;;correct;wrong;0;correct;wrong;1;0;0;ID125_AdditionalTask_SallyAnn_m_3y;;;
+126;f;53;4;54;4;old;no information;no;;correct;wrong;0;wrong;wrong;1;0;0;ID126_AdditionalTask_SallyAnn_f_4y;;;
+127;f;58;4;59;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID127_AdditionalTask_SallyAnn_f_4y;;;
+128;f;39;3;39;3;young;no information;no;;correct;correct;1;wrong;correct;1;1;0;ID128_AdditionalTask_SallyAnn_f_3y;;;
+129;f;54;4;55;4;old;developmental delay by about 12 months - improving now, she is in foster care;no;;correct;wrong;0;correct;wrong;1;0;0;ID129_AdditionalTask_SallyAnn_f_4y;;;
+130;f;45;3;46;3;young;no;no;;correct;wrong;0;correct;wrong;1;0;0;ID130_AdditionalTask_SallyAnn_f_3y;;0.746;-0.75
+131;m;53;4;53;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID131_AdditionalTask_SallyAnn_m_4y;;;
+132;f;57;4;58;4;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID132_AdditionalTask_SallyAnn_f_4y;;;
+133;f;64;5;64;5;old;no;no;;correct;wrong;0;correct;correct;0;0;1;ID133_AdditionalTask_SallyAnn_f_5y;;1.621;0.135
+134;m;58;4;59;4;old;no information;no;;correct;correct;1;wrong;correct;1;1;0;ID134_AdditionalTask_SallyAnn_m_4y;child opens box when asked where is the block really;;
+135;m;54;4;55;4;old;no information;no;;correct;wrong;0;correct;correct;0;0;1;ID135_AdditionalTask_SallyAnn_m_4y;;;
+136;m;53;4;54;4;old;no information;no;;correct;correct;1;correct;wrong;1;1;0;ID136_AdditionalTask_SallyAnn_m_4y;;;
+137;f;43;3;44;3;young;no;no;;correct;correct;1;wrong;correct;1;1;0;ID137_AdditionalTask_SallyAnn_f_3y;;;
+138;m;45;3;46;3;young;no;no;;correct;wrong;0;correct;correct;0;0;1;ID138_AdditionalTask_SallyAnn_m_3y;;;
+139;f;42;3;42;3;young;no information;no;;correct;wrong;0;correct;wrong;1;0;0;ID139_AdditionalTask_SallyAnn_f_3y;;;
+140;f;52;4;53;4;old;no information;no;;correct;correct;1;correct;correct;0;0;2;ID140_AdditionalTask_SallyAnn_f_4y;;;
+141;f;58;4;58;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID141_AdditionalTask_SallyAnn_f_4y;;;
+143;f;43;3;44;3;young;no;no;;correct;correct;1;correct;wrong;1;1;0;ID143_AdditionalTask_SallyAnn_f_3y;said 'don't know' after being asked 3 times in last control question;;
+181;f;56;4;56;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID181_AdditionalTask_SallyAnn_f_4y;;;
+182;f;56;4;56;4;old;no;no;;correct;correct;1;wrong;wrong;1;1;0;ID182_AdditionalTask_SallyAnn_f_4y;child said 'in the basket' for Q4;;
+183;m;61;5;61;5;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID183_AdditionalTask_SallyAnn_m_5y;;;
+184;m;58;4;58;4;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID184_AdditionalTask_SallyAnn_m_4y;;;
+185;f;60;5;60;5;old;no;no;;correct;correct;1;correct;correct;0;0;2;ID185_AdditionalTask_SallyAnn_f_5y;;;
+;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;

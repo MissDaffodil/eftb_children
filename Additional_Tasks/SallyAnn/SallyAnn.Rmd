@@ -393,3 +393,44 @@ geom_bar(position="dodge", stat="identity") +
 p + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
 
 ```
+
+# Can the score be predicted by the Principal Components?
+```{r}
+
+library(MASS)
+Sally.valid.PC <- subset(Sally.valid, PC1 != "NA")
+
+Sally.valid.PC$Score <- as.factor(Sally.valid.PC$Score)
+res <- polr(Score ~ PC1 + PC2 + AgeMonths_midtesting, data= Sally.valid.PC)
+
+null <- polr(Score ~ 1, data= Sally.valid.PC)
+
+anova(null, res, test="Chisq")
+
+summary(res)
+```
+Age and the two PC can explain the data better than a null model.
+
+## Effect of age
+```{r}
+res.noage <- polr(Score ~ PC1 + PC2, data= Sally.valid.PC)
+
+anova(res.noage, res, test="Chisq")
+```
+Significant effect of age.
+
+## Effect of PC1
+```{r}
+res.noPCOne <- polr(Score ~ AgeMonths_midtesting + PC2, data= Sally.valid.PC)
+
+anova(res.noPCOne, res, test="Chisq")
+```
+No effect of PC1.
+
+## Effect of PC2
+```{r}
+res.noPCTwo <- polr(Score ~ AgeMonths_midtesting + PC1, data= Sally.valid.PC)
+
+anova(res.noPCTwo, res, test="Chisq")
+```
+No effect of PC2.
