@@ -596,6 +596,21 @@ anova(null, res, test="Chisq")#significant
 ```
 Age cannot predict the proportion corect ouf of the first 6 searches, X2(1) = 0.138, p = .153.
 
+### Considering BPVS score: Can age predict children's success?
+```{r}
+Grid.valid.T1.BPVS <- subset(Grid.valid.T1, BPVS_Score != "NA")
+
+Grid.valid.T1.BPVS$z.age=as.vector(scale(Grid.valid.T1.BPVS$Midtesting_age_months ))#transform age to mean of 0 and SD of 1
+mean(Grid.valid.T1.BPVS$z.age)#check whether it has worked
+sd(Grid.valid.T1.BPVS$z.age)
+
+res<-lm(ProportionCorrectOutOfFirstSixUniqueSearches ~ z.age + BPVS_Score, data=Grid.valid.T1.BPVS)
+null<-lm(ProportionCorrectOutOfFirstSixUniqueSearches ~ 1, data=Grid.valid.T1.BPVS)
+
+anova(null, res, test="Chisq")#significant
+```
+Age and BPVS score together cannot predict the proportion corect ouf of the first 6 searches, X2(2) = 0.124, p = .413.
+
 ## only clean data
 ```{r}
 mean(Grid.valid.T1.clean$ProportionCorrectOutOfFirstSixUniqueSearches)
