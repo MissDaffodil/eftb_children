@@ -556,3 +556,77 @@ vif(xres)
 source("glmm_stability.r")
 m.stab=glmm.model.stab(model.res=res)
 ```
+
+
+# Considering BPVS: Can the proportion of correct searches be predicted by age and trial number?
+We are not testing for an effect of testing location here, as the above results indicate that there is no difference in performance.
+```{r}
+Cyl.validtrials <- subset(Cyl.valid, Trialnr_OnlyValidTrials != "NA")
+Cyl.validtrials.BPVS <- subset(Cyl.validtrials, BPVS_Score != "NA")
+
+Cyl.validtrials.BPVS$z.age=as.vector(scale(Cyl.validtrials.BPVS$Age_months_midtesting))#transform age to mean of 0 and SD of 1
+mean(Cyl.validtrials.BPVS$z.age)#check whether it has worked
+sd(Cyl.validtrials.BPVS$z.age)
+
+Cyl.validtrials.BPVS$z.trial=as.vector(scale(Cyl.validtrials.BPVS$Trialnr_OnlyValidTrials))#transform trial to mean of 0 and SD of 1
+mean(Cyl.validtrials.BPVS$z.trial)#check whether it has worked
+sd(Cyl.validtrials.BPVS$z.trial)
+
+contr<-glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=10000000))
+res<-glmer(GotSticker ~ BPVS_Score + z.age + z.trial + z.age:z.trial + (1+z.trial|ID), data=Cyl.validtrials.BPVS, family=binomial, control=contr)#model failed to converge
+
+res<-glmer(GotSticker ~ BPVS_Score + z.age + z.trial + z.age:z.trial + (1|ID) + (0+z.trial|ID), data=Cyl.validtrials.BPVS, family=binomial, control=contr)#model failed to converge
+
+res<-glmer(GotSticker ~ BPVS_Score + z.age + z.trial + z.age:z.trial + (1|ID), data=Cyl.validtrials.BPVS, family=binomial, control=contr)#model failed to converge
+
+Cyl.validtrials.BPVS$z.BPVS_Score=as.vector(scale(Cyl.validtrials.BPVS$BPVS_Score))#transform BPVS score to mean of 0 and SD of 1
+mean(Cyl.validtrials.BPVS$z.BPVS_Score)#check whether it has worked
+sd(Cyl.validtrials.BPVS$z.BPVS_Score)
+
+contr<-glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=10000000))
+res<-glmer(GotSticker ~ z.BPVS_Score + z.age + z.trial + z.age:z.trial + (1+z.trial|ID), data=Cyl.validtrials.BPVS, family=binomial, control=contr)
+
+null <- glmer(GotSticker ~ 1 + (1+z.trial|ID), data=Cyl.validtrials.BPVS, family=binomial, control=contr)
+
+anova(null, res, test="Chisq")#significant
+```
+Together, BPVS score, age, trial number, and the interaction between age and trial number can explain the data significantly better than a null model only consisting of the intercept, X2(4) = 19.762, p < .001.
+
+**Effect of interaction term**
+```{r}
+res.nointer<-glmer(GotSticker ~ z.BPVS_Score + z.age + z.trial + (1+z.trial|ID), data=Cyl.validtrials.BPVS, family=binomial, control=contr)
+
+anova(res.nointer, res, test="Chisq")
+```
+There is no effect of the interaction term (X2(1) = 1.380, p = .240), so we remove it from the model.
+
+```{r}
+res<-glmer(GotSticker ~ z.BPVS_Score + z.age + z.trial + (1+z.trial|ID), data=Cyl.validtrials.BPVS, family=binomial, control=contr)
+
+anova(null, res, test="Chisq")
+```
+Together, BPVS score, age, and trial number can explain the data significantly better than a null model only consisting of the intercept, X2(3) = 18.382, p < .001.
+
+**Effect of trial number**
+```{r}
+res.notrial<-glmer(GotSticker ~ z.BPVS_Score + z.age + (1+z.trial|ID), data=Cyl.validtrials.BPVS, family=binomial, control=contr)
+
+anova(res.notrial, res, test="Chisq")
+```
+There is no effect of trial number, X2(1) = 1.707, p = .191.
+
+**Effect of age**
+```{r}
+res.noage<-glmer(GotSticker ~ z.BPVS_Score + z.trial + (1+z.trial|ID), data=Cyl.validtrials.BPVS, family=binomial, control=contr)
+
+anova(res.noage, res, test="Chisq")
+```
+There is a significant effect of age, X2(1) = 14.912, p < .001.
+
+**Effect of BPVS score**
+```{r}
+res.noBPVS<-glmer(GotSticker ~ z.age + z.trial + (1+z.trial|ID), data=Cyl.validtrials.BPVS, family=binomial, control=contr)
+
+anova(res.noBPVS, res, test="Chisq")
+```
+There is no effect of the BPVS score, X2(1) = 0.179, p = .672.
