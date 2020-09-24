@@ -494,3 +494,18 @@ geom_bar(position="dodge", stat="identity") +
 p + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
 
 ```
+
+# Can the Principal Components predict the Smarties score?
+```{r}
+Smarties.valid.PC <- subset(Smarties.valid, PC1 != "NA")
+mean(Smarties.valid.PC$PC1)
+table(Smarties.valid.PC$PC1)
+
+res <- lm(TotalScore ~ PC1 + PC2, data = Smarties.valid.PC)
+null <- lm(TotalScore ~ 1, data = Smarties.valid.PC)
+
+anova(null, res, test="Chisq")
+
+summary(res)
+```
+PC1 and PC2 cannot predict the Total score in the Smarties task.
