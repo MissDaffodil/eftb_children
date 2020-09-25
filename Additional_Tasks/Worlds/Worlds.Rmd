@@ -231,3 +231,13 @@ p1 +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
   geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5)+ scale_fill_discrete(name = "Age group midtesting", labels = c("3 years", "4 years", "5 years", "6 years")) 
 ```
+
+# Effect of Principal components?
+```{r}
+Worlds.valid.PC <- subset(Worlds.valid, PC1 !="NA")
+res <- lm(Testboard.Cupsliftedbeforeswitch ~ PC1 + PC2, data = Worlds.valid.PC)
+null <- lm(Testboard.Cupsliftedbeforeswitch ~ 1, data = Worlds.valid.PC)
+
+anova(null, res, test="Chisq")
+```
+PC1 and PC2 cannot predict performance on number of cups lifted, X2(2) = 38.362, p = .039.
