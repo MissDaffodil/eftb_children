@@ -20,7 +20,7 @@ knitr::opts_knit$set(root.dir = "C:\\")
 ```{r}
 #LOAD DATA
 setwd("C:\\")#sets the working directory, this is where your datafile is
-All.tasks <-read.csv("CombinedFile.csv",header=TRUE, sep = ";")
+All.tasks <-read.csv("CombinedFile_alltasks.csv",header=TRUE, sep = ";")
 ```
 
 ```{r}
