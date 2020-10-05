@@ -970,3 +970,62 @@ p<-ggpaired(Tray.T1, cond1 = "No Location change", cond2 = "Location change",
   ylab = "Proportion of correct trials")
 p + theme(legend.position = "none")
 ```
+
+
+
+# Including BPVS: Can children's success be predicted by age?
+```{r}
+library(lme4)
+Tray.valid.BPVS <-subset(Tray.valid, BPVS_Score != "NA")
+
+Tray.valid.BPVS$z.age.midtesting=as.vector(scale(Tray.valid.BPVS$AgeMonths_midtesting))#transform age to mean of 0 and SD of 1
+mean(Tray.valid.BPVS$z.age.midtesting)#check whether it has worked
+sd(Tray.valid.BPVS$z.age.midtesting)
+
+Tray.valid.BPVS$z.Trial_no=as.vector(scale(Tray.valid.BPVS$Trial_no))#transform trial number to mean of 0 and SD of 1
+
+Tray.valid.BPVS$z.BPVS_Score=as.vector(scale(Tray.valid.BPVS$BPVS_Score))#transform BPVS score to mean of 0 and SD of 1
+
+contr<-glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=10000000))
+res<-glmer(Trial_Got_sticker ~ z.BPVS_Score +z.age.midtesting + z.Trial_no + z.age.midtesting:z.Trial_no + (1+z.Trial_no|ID), data=Tray.valid.BPVS, family = binomial, control=contr)#singular fit
+
+#remove correlation between random effects
+res<-glmer(Trial_Got_sticker ~ z.BPVS_Score + z.age.midtesting + z.Trial_no + z.age.midtesting:z.Trial_no + (1|ID) + (0+z.Trial_no|ID), data=Tray.valid.BPVS,  family = binomial, control=contr)#no singular fit warning
+```
+
+Comparison against null model
+```{r}
+null<-glmer(Trial_Got_sticker ~ 1 + (1|ID) + (0+z.Trial_no|ID), data=Tray.valid.BPVS, family = binomial, control=contr)
+
+anova(null, res, test="Chisq")
+```
+Trial number, BPVS score, age, and the interaction between trial number and age together can explain the data significantly better than a null model only containing an intercept, X2(4) = 54.98, p < .001.
+
+Effect of interaction
+```{r}
+nointer<-glmer(Trial_Got_sticker ~ z.BPVS_Score + z.age.midtesting + z.Trial_no + (1|ID) + (0+z.Trial_no|ID), data=Tray.valid.BPVS, family = binomial, control=contr)
+
+anova(nointer, res, test="Chisq")
+```
+The effect of interaction is not significant, X2(1) = 0.931, p = .335, therefore, we remove the term from the model.
+
+```{r}
+res<-glmer(Trial_Got_sticker ~ z.BPVS_Score + z.age.midtesting + z.Trial_no + (1|ID) + (0+z.Trial_no|ID), data=Tray.valid.BPVS, family = binomial, control=contr)
+
+null<-glmer(Trial_Got_sticker ~ 1 + (1|ID) + (0+z.Trial_no|ID), data=Tray.valid.BPVS, family = binomial, control=contr)
+
+anova(null, res, test="Chisq")
+
+null2<-glmer(Trial_Got_sticker ~ 1 + z.Trial_no + (1|ID) + (0+z.Trial_no|ID), data=Tray.valid, family = binomial, control=contr)
+
+anova(null2, res, test="Chisq")
+```
+Trial number, BPVS score, and age can explain the data significantly better than a null model only containing an intercept, X2(3) = 54.052, p < .001.
+
+
+Effect of terms
+```{r}
+summary(res)
+drop1(res, test = "Chisq")
+```
+There is a significant effect of trial number, p < .001, but no effect of age, p = .751, and no effect of the BPVS score, p = .057.
