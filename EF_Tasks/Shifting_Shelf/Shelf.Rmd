@@ -2656,3 +2656,77 @@ ggplot(Shelf.trialbytrial, aes(x=Trial, y=Mean_Success)) +
     geom_hline(yintercept=.5, colour = "red") +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 ```
+
+
+# Including BPVS score: In the test phase, can age and trial number and the interaction between age and trial number predict success?
+```{r}
+library(lme4)
+Shelf.clean.test.BPVS <- subset(Shelf.clean.test, BPVS_Score !="NA")
+
+#we z-transform age and trial number, as we are including them into an interaction
+Shelf.clean.test.BPVS$z.age.midtesting=as.vector(scale(Shelf.clean.test.BPVS$AgeMonths_midtesting))#transform age to mean of 0 and SD of 1
+mean(Shelf.clean.test.BPVS$z.age.midtesting)#check whether it has worked
+sd(Shelf.clean.test.BPVS$z.age.midtesting)
+
+Shelf.clean.test.BPVS$z.Trial_nr=as.vector(scale(Shelf.clean.test.BPVS$Trial_nr))#transform trial number to mean of 0 and SD of 1
+mean(Shelf.clean.test.BPVS$z.Trial_nr)#check whether it has worked
+sd(Shelf.clean.test.BPVS$z.Trial_nr)
+
+Shelf.clean.test.BPVS$z.BPVS_Score=as.vector(scale(Shelf.clean.test.BPVS$BPVS_Score))#transform trial number to mean of 0 and SD of 1
+mean(Shelf.clean.test.BPVS$z.BPVS_Score)#check whether it has worked
+sd(Shelf.clean.test.BPVS$z.BPVS_Score)
+
+#Full model
+control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000))
+
+res<-glmer(Success ~ z.BPVS_Score + z.age.midtesting + z.Trial_nr + z.age.midtesting:z.Trial_nr + (1+z.Trial_nr|ID), data=Shelf.clean.test.BPVS, family = binomial, control = control)
+
+null<-glmer(Success ~ 1 + (1+z.Trial_nr|ID), data=Shelf.clean.test.BPVS, family = binomial, control=control)
+
+anova(null, res, test="Chisq")
+```
+The full model explains the data significantly better than the null model only consisting of the intercept, X2(4) = 39.015, p < .001.
+
+Effect of interaction
+```{r}
+res.nointer<-glmer(Success ~ z.BPVS_Score+ z.age.midtesting + z.Trial_nr + (1+z.Trial_nr|ID), data=Shelf.clean.test.BPVS, family = binomial, control=control)
+
+anova(res.nointer, res, test="Chisq")
+
+```
+There is no significant interaction effect, X2(1) = 0.968, p = .325, so we remove it from the model.
+
+
+```{r}
+res<-glmer(Success ~ z.BPVS_Score + z.age.midtesting + z.Trial_nr + (1+z.Trial_nr|ID), data=Shelf.clean.test.BPVS, family = binomial, control=control)
+
+anova(null, res, test="Chisq")
+
+summary(res)
+```
+The full model explains the data significantly better than the null model only consisting of the intercept, X2(3) = 38.047, p < .001.
+
+Effect of trial number
+```{r}
+res.notrial<-glmer(Success ~ z.BPVS_Score + z.age.midtesting + (1+z.Trial_nr|ID), data=Shelf.clean.test.BPVS, family = binomial, control=control)
+
+anova(res.notrial, res, test="Chisq")
+```
+Trial number has a significant effect, X2(1) = 21.391, p < .001.
+
+Effect of age
+```{r}
+res.noage<-glmer(Success ~ z.BPVS_Score + z.Trial_nr + (1+z.Trial_nr|ID), data=Shelf.clean.test.BPVS, family = binomial, control=control)
+
+anova(res.noage, res, test="Chisq")
+```
+Age has a significant effect, X2(1) = 14.889, p < .001.
+
+Effect of BPVS score
+```{r}
+res.nobpvs<-glmer(Success ~ z.age.midtesting + z.Trial_nr + (1+z.Trial_nr|ID), data=Shelf.clean.test.BPVS, family = binomial, control=control)
+
+anova(res.nobpvs, res, test="Chisq")
+```
+There is no effect of the BPVS score, X2(1) = 0.00, p = .992.
+
