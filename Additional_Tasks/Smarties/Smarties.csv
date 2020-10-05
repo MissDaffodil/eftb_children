@@ -1,100 +1,100 @@
-﻿ID;Gender;Age_months;Age_group;AdditionalSupportNeeds;AgeMonths_MidTesting;AgeGroup_MidTesting;Mediansplit_midtesting_entiresample;Dropout;Reason_dropout;What.is.inside;What.did.you.think.was.inside;What.will.x.think.is.inside;What.does.box.look.like;What.is.really.inside;GotAtLeastOneControlQuestionWrong;GotOwnFalseBeliefCorrectButAtLeastOneControlWrong;GotOtherFalseBeliefCorrectButAtLeastOneControlWrong;Score_OwnFalseBelief;Score_OtherFalseBelief;TotalScore;Video;Comments
-11;f;62;5;no;63;5;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID11_AdditionalTask_Smarties_f_5y;
-12;f;62;5;no;63;5;old;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID12_AdditionalTask_Smarties_f_5y;
-10;m;43;3;no;44;3;young;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID10_AdditionalTask_Smarties_m_3y;
-8;m;58;4;no;58;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID8_AdditionalTask_Smarties_m_4y;
-9;f;40;3;no;41;3;young;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID9_AdditionalTask_Smarties_f_3y;
-1;m;61;5;no;62;5;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID1_AdditionalTask_Smarties_m_5y;
-2;m;42;3;no information;42;3;young;yes;no answer;;;;;;;;;;;;ID2_AdditionalTask_Smarties_m_3y;Doesn't answer first question, we stopped test, is bilingual, probably had difficulties to follow
-4;m;62;5;no information;63;5;old;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID4_AdditionalTask_Smarties_m_y;
-5;f;45;3;no information;46;3;young;no;;Correct;Correct;Wrong;Correct;Correct;0;0;0;2;1;2;ID5_AdditionalTask_Smarties_f_3y;
-6;m;40;3;no;40;3;young;no;;Correct;Wrong;Wrong;Wrong;Wrong;1;0;0;0;0;0;ID6_AdditionalTask_Smarties_m_3y;very unconcentrated / might not have known what smarties are
-7;m;46;3;no information;46;3;young;no;;Correct;Wrong;Wrong;Correct;Correct;0;0;0;1;1;1;no video, camera died;Q2 and 3: I don't know
-3;m;43;3;no information;44;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID3_AdditionalTask_Smarties_m_3y;
-14;m;43;3;no information;44;3;young;no;;Correct;Wrong;Wrong;Correct;Correct;0;0;0;1;1;1;ID14_AdditionalTask_Smarties_m_3y;
-13;f;41;3;no;42;3;young;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID13_AdditionalTask_Smarties_f_3y;
-30;m;51;4;no;52;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID30_WM_InterferenceIB_AdditionalTask_Smarties_m_4y;"Q3: First ""I don't know"", then wrong answer"
-29;f;49;4;no;50;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID30_WM_InterferenceIB_AdditionalTask_Smarties_m_4y;
-31;f;44;3;no;44;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID31_WM_InterferenceIB_AdditionalTask_Smarties_f_3y_ID32_WM_InterferenceIB_AdditionalTask_Smarties_f_3y;
-32;f;43;3;no;43;3;young;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID31_WM_InterferenceIB_AdditionalTask_Smarties_f_3y_ID32_WM_InterferenceIB_AdditionalTask_Smarties_f_3y;
-26;m;49;4;no;52;4;old;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID26_WM_InterferenceIB_AdditionalTask_Smarties_m_4y;
-28;m;47;3;Speech is slightly impaired;49;4;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID28_WM_InterferenceIB_AdditionalTask_Smarties_m_3y;
-35;m;37;3;no;38;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID35_WM_InterferenceIB_AdditionalTask_Smarties_m_3y;
-37;f;37;3;no;40;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID37_WM_InterferenceIB_AdditionalTask_Smarties_f_3y;
-36;m;38;3;no;41;3;young;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID36_WM_InterferenceIB_AdditionalTask_Smarties_m_3y;
-33;f;46;3;mild developmental delay, non epileptic episode, sensory issues;47;3;young;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID33_WM_InterferenceIB_AdditionalTask_Smarties_f_3y;very hard to understand
-34;f;46;3;global developmental delay;46;3;young;no;;Correct;Correct;Correct;Wrong;Correct;1;1;1;0;0;0;ID34_WM_InterferenceIB_AdditionalTask_Smarties_f_3y;very hard to understand
-27;f;53;4;no;55;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID27_WM_InterferenceIB_AdditionalTask_Smarties_f_4y;
-20;f;53;4;suffers from prolonged febrile convulsions;56;4;old;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID20_WM_InterferenceIB_AdditionalTask_Smarties_f_4y;
-50;f;43;3;no information;45;3;young;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID50_AdditionalTask_Smarties_f_3y;
-51;f;41;3;no information;43;3;young;no;;Correct;Correct;Correct;Wrong;Correct;1;1;1;0;0;0;ID51_AdditionalTask_Smarties_f_3y;really seems to me as if she would know it but the 4th question is so hard…
-23;f;51;4;no;54;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID23_AdditionalTask_Smarties_f_4y;
-79;f;45;3;no;46;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID79_AdditionalTask_Smarties_f_3y;first just nodded to every answer, E had to give some encouragement to get a verbal answer, seemed confused
-76;m;51;4;no;52;4;old;no;;Correct;Correct;Wrong;Wrong;Correct;1;1;0;0;0;0;ID76_AdditionalTask_Smarties_m_4y;When first asked what is inside the box, he answered before properly looking into the box and actually answered Smarties
-75;f;39;3;no;40;3;young;no;;Correct;Wrong;Wrong;Correct;Correct;0;0;0;1;1;1;ID75_AdditionalTask_Smarties_f_3y;
-77;f;41;3;no information;42;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID77_AdditionalTask_Smarties_f_3y;
-82;f;39;3;no;42;3;young;no;;Correct;Wrong;Wrong;Correct;Correct;0;0;0;1;1;1;ID82_AdditionalTask_Smarties_f_3y;
-80;f;43;3;no information;45;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID80_AdditionalTask_Smarties_f_3y;
-85;f;35;3;no information;36;3;young;yes;did not stay attentive, utterances not understandable, E stopped after first question;Correct;;no answer;;;;;;;;;ID85_AdditionalTask_Smarties_f_2y;
-78;m;41;3;no;43;3;young;no;;Correct;Correct;Correct;Wrong;Correct;1;1;1;0;0;0;ID78_AdditionalTask_Smarties_m_3y;
-84;f;50;4;no;52;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID84_AdditionalTask_Smarties_f_4y;
-86;m;49;4;no;52;4;old;no;;Correct;Wrong;Wrong;Wrong;Wrong;1;0;0;0;0;0;ID86_AdditionalTask_Smarties_m_4y;
-83;f;50;4;no information;52;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID83_AdditionalTask_Smarties_f_4y;
-72;m;58;4;speech is not great and so can be difficult to understand sometimes;60;5;old;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID72_AdditionalTask_Smarties_m_4y;
-71;f;50;4;no;52;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID71_AdditionalTask_Smarties_f_4y;
-70;f;50;4;no;52;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID70_AdditionalTask_Smarties_f_4y;
-19;f;37;3;no;39;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID19_AdditionalTask_Smarties_f_3y;
-21;f;41;3;no information;43;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID21_AdditionalTask_Smarties_f_3y;
-87;f;52;4;no;54;4;old;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID87_AdditionalTask_Smarties_f_4y;
-89;m;43;3;no;45;3;young;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID89_AdditionalTask_Smarties_m_3y;"when asked what friend will think is inside it, smiled at first and said ""he will think there are smarties inside it"""
-91;f;38;3;no;40;3;young;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID91_AdditionalTask_Smarties_f_3y;
-92;m;50;4;no;51;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID92_AdditionalTask_Smarties_m_4y;
-93;f;45;3;no information;46;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID93_AdditionalTask_Smarties_f_3y;
-95;f;45;3;no information;47;3;young;no;;Correct;Wrong;Correct;Correct;Wrong;1;0;1;0;0;0;ID95_AdditionalTask_Smarties_f_3y;
-96;m;54;4;Speech Therapy;56;4;old;no;;Correct;Correct;Correct;Wrong;Wrong;1;1;1;0;0;0;ID96_AdditionalTask_Smarties_m_4y;was hard to understand
-98;f;46;3;speech + language;47;3;young;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;0;0;0;ID98_AdditionalTask_Smarties_f_3y;"First question: ""Pink""; Last question: nodded when I said ""crayons"" but didn't give answer"
-97;m;53;4;no information;55;4;old;no;;Correct;Wrong;Wrong;Correct;Correct;0;0;0;1;1;1;ID97_AdditionalTask_Smarties_m_4y;
-99;f;45;3;no;47;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID99_AdditionalTask_Smarties_f_3y;
-22;f;54;4;no;57;4;old;no;;Correct;Correct;Wrong;Wrong;Correct;1;1;0;0;0;0;ID22_AdditionalTask_Smarties_f_4y;
-100;m;57;4;no information;59;4;old;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID100_AdditionalTask_Smarties_m_4y;"when asked what a friend would think, he even said ""because it looks like it has smarties"", then the next question he got wrong!!"
-94;f;45;3;no;47;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID94_AdditionalTask_Smarties_f_3y;"In the question ""what does the box look like"", she said ""no"", then opened box, didn't understand question"
-88;m;36;3;no information;39;3;young;yes;"very poor language skills (bilingual), on first question just said ""look, look"" and did not give answer";;;;;;;;;;;;ID88_AdditionalTask_Smarties_m_3y_Dropout;
-116;f;59;4;no;61;5;old;no;;Correct;Correct;Wrong;Correct;Correct;0;0;0;2;1;2;no video, camera died;"in question 1, was a bit unclear, said ""crayons"" first, before I finished the sentence, then changed her answer to ""smarties"". We decided to code this as ""smarties"""
-119;f;59;4;no;61;5;old;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;no video, camera died;
-118;f;63;5;no;64;5;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;no video, camera died;
-45;f;48;4;no;51;4;old;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID45_AdditionalTask_Smarties_f_4y;
-48;m;42;3;no;44;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID48_AdditionalTask_Smarties_m_3y;
-47;f;51;4;no;54;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID47_AdditionalTask_Smarties_f_4y;
-46;f;48;4;no;50;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID46_AdditionalTask_Smarties_f_4y;
-52;f;41;3;no information;43;3;young;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID52_AdditionalTask_Smarties_f_3y;
-53;f;42;3;no;44;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID53_AdditionalTask_Smarties_f_3y;
-66;m;54;4;no;56;4;old;no;;Correct;Wrong;Wrong;Correct;Correct;0;0;0;1;1;1;ID66_AdditionalTask_Smarties_m_4y;
-67;m;47;3;no;49;4;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID67_AdditionalTask_Smarties_m_3y;"for question ""does it look like this box…"" he said ""crayons….it has smarties all over it"""
-68;f;48;4;no;50;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID68_AdditionalTask_Smarties_f_4y;
-69;m;51;4;no;54;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID69_AdditionalTask_Smarties_m_4y;
-81;m;42;3;no;44;3;young;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID81_AdditionalTask_Smarties_m_3y;
-122;f;53;4;no;54;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID122_AdditionalTask_Smarties_f_4y;
-123;f;52;4;no information;53;4;old;yes;experimenter error, E did not show child what was really inside the box;Wrong;Correct;Correct;Wrong;Wrong;;;1;;;;ID123_AdditionalTask_Smarties_f_4y;
-124;m;52;4;no;52;4;old;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID124_AdditionalTask_Smarties_m_4y;
-125;m;40;3;no;41;3;young;yes;Could not understand ;;Wrong;;;;;0;;;;;no video;"hard to understand/no answer. Answer to ""what will x think"" was ""Points at himself ('me,me')"""
-130;f;45;3;no;46;3;young;no;;Correct;Wrong;Wrong;Wrong;Wrong;1;0;0;0;0;0;ID130_AdditionalTask_Smarties_f_3y;
-128;f;39;3;no information;39;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID128_AdditionalTask_Smarties_f_3y;
-127;f;58;4;no;59;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID127_AdditionalTask_Smarties_f_4y;"Child said 'when I opened it, it had crayons.' for Q ""does it look like…"""
-133;f;64;5;no;64;5;old;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID133_AdditionalTask_Smarties_f_5y;
-121;f;58;4;no;60;5;old;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID121_AdditionalTask_Smarties_f_4y;
-120;m;70;5;no;72;6;old;no;;Correct;Correct;Correct;Wrong;Correct;1;1;1;0;0;0;ID120_AdditionalTask_Smarties_m_5y;"answered question ""what does box look like?"" wrong, but seemed confused"
-117;m;64;5;no;65;5;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID117_AdditionalTask_Smarties_m_5y;
-138;m;45;3;no;46;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID138_AdditionalTask_Smarties_m_3y;
-136;m;53;4;no information;54;4;old;no;;Correct;Correct;Correct;Correct;Wrong;1;1;1;0;0;0;ID136_AdditionalTask_Smarties_m_4y;
-134;m;58;4;no information;59;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID134_AdditionalTask_Smarties_m_4y;
-140;f;52;4;no information;53;4;old;no;;Correct;Correct;Wrong;Correct;Correct;0;0;0;2;1;2;ID140_AdditionalTask_Smarties_f_4y;Q1:  said sweets then changed to crayons 
-135;m;54;4;no information;55;4;old;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID135_AdditionalTask_Smarties_m_4y;
-143;f;43;3;no;44;3;young;no;;Correct;Wrong;Correct;Wrong;Wrong;1;0;1;0;0;0;ID143_AdditionalTask_Smarties_f_3y;Last question: Don’t know (was asked twice) 
-139;f;42;3;no information;42;3;young;no;;Correct;Correct;Correct;Wrong;Correct;1;1;1;0;0;0;ID139_AdditionalTask_Smarties_f_3y;
-141;f;58;4;no;58;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID141_AdditionalTask_Smarties_f_4y;Q3 was phrased the opposite way round - 'will she think there are smarties inside it or will she think there are crayons inside it' vs 'crayons…smarties'
-132;f;57;4;no;58;4;old;no;;Correct;Correct;Correct;Correct;Wrong;1;1;1;0;0;0;ID132_AdditionalTask_Smarties_f_4y;
-131;m;53;4;no;53;4;old;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID131_AdditionalTask_Smarties_m_4y;
-126;f;53;4;no information;54;4;old;no;;Correct;Wrong;Wrong;Correct;Correct;0;0;0;1;1;1;ID126_AdditionalTask_Smarties_f_4y;
-137;f;43;3;no;44;3;young;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID137_AdditionalTask_Smarties_f_3y;
-129;f;54;4;developmental delay by about 12 months - improving now, she is in foster care;55;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID129_AdditionalTask_Smarties_f_4y;
-181;f;56;4;no;56;4;old;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID181_AdditionalTask_Smarties_f_4y;
+﻿ID;Gender;Age_months;Age_group;AdditionalSupportNeeds;AgeMonths_MidTesting;AgeGroup_MidTesting;Mediansplit_midtesting_entiresample;Dropout;Reason_dropout;What.is.inside;What.did.you.think.was.inside;What.will.x.think.is.inside;What.does.box.look.like;What.is.really.inside;GotAtLeastOneControlQuestionWrong;GotOwnFalseBeliefCorrectButAtLeastOneControlWrong;GotOtherFalseBeliefCorrectButAtLeastOneControlWrong;Score_OwnFalseBelief;Score_OtherFalseBelief;TotalScore;Video;Comments;PC1;PC2
+1;m;61;5;no;62;5;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID1_AdditionalTask_Smarties_m_5y;;-2.472;-0.253
+2;m;42;3;no information;42;3;young;yes;no answer;;;;;;;;;;;;ID2_AdditionalTask_Smarties_m_3y;Doesn't answer first question, we stopped test, is bilingual, probably had difficulties to follow;0.961;-0.717
+3;m;43;3;no information;44;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID3_AdditionalTask_Smarties_m_3y;;-1.378;-0.499
+4;m;62;5;no information;63;5;old;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID4_AdditionalTask_Smarties_m_y;;-1.746;-1.605
+5;f;45;3;no information;46;3;young;no;;Correct;Correct;Wrong;Correct;Correct;0;0;0;2;1;2;ID5_AdditionalTask_Smarties_f_3y;;-0.146;-1.519
+6;m;40;3;no;40;3;young;no;;Correct;Wrong;Wrong;Wrong;Wrong;1;0;0;0;0;0;ID6_AdditionalTask_Smarties_m_3y;very unconcentrated / might not have known what smarties are;;
+7;m;46;3;no information;46;3;young;no;;Correct;Wrong;Wrong;Correct;Correct;0;0;0;1;1;1;no video, camera died;Q2 and 3: I don't know;-0.584;-0.149
+8;m;58;4;no;58;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID8_AdditionalTask_Smarties_m_4y;;-0.159;-1.772
+9;f;40;3;no;41;3;young;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID9_AdditionalTask_Smarties_f_3y;;1.242;0.978
+10;m;43;3;no;44;3;young;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID10_AdditionalTask_Smarties_m_3y;;;
+11;f;62;5;no;63;5;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID11_AdditionalTask_Smarties_f_5y;;;
+12;f;62;5;no;63;5;old;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID12_AdditionalTask_Smarties_f_5y;;-0.429;1.627
+13;f;41;3;no;42;3;young;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID13_AdditionalTask_Smarties_f_3y;;;
+14;m;43;3;no information;44;3;young;no;;Correct;Wrong;Wrong;Correct;Correct;0;0;0;1;1;1;ID14_AdditionalTask_Smarties_m_3y;;2.436;0.621
+19;f;37;3;no;39;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID19_AdditionalTask_Smarties_f_3y;;1208;0.243
+20;f;53;4;suffers from prolonged febrile convulsions;56;4;old;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID20_WM_InterferenceIB_AdditionalTask_Smarties_f_4y;;0.626;0.245
+21;f;41;3;no information;43;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID21_AdditionalTask_Smarties_f_3y;;;
+22;f;54;4;no;57;4;old;no;;Correct;Correct;Wrong;Wrong;Correct;1;1;0;0;0;0;ID22_AdditionalTask_Smarties_f_4y;;;
+23;f;51;4;no;54;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID23_AdditionalTask_Smarties_f_4y;;1;0.376
+26;m;49;4;no;52;4;old;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID26_WM_InterferenceIB_AdditionalTask_Smarties_m_4y;;;
+27;f;53;4;no;55;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID27_WM_InterferenceIB_AdditionalTask_Smarties_f_4y;;;
+28;m;47;3;Speech is slightly impaired;49;4;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID28_WM_InterferenceIB_AdditionalTask_Smarties_m_3y;;;
+29;f;49;4;no;50;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID30_WM_InterferenceIB_AdditionalTask_Smarties_m_4y;;;
+30;m;51;4;no;52;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID30_WM_InterferenceIB_AdditionalTask_Smarties_m_4y;"Q3: First ""I don't know"", then wrong answer";;
+31;f;44;3;no;44;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID31_WM_InterferenceIB_AdditionalTask_Smarties_f_3y_ID32_WM_InterferenceIB_AdditionalTask_Smarties_f_3y;;;
+32;f;43;3;no;43;3;young;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID31_WM_InterferenceIB_AdditionalTask_Smarties_f_3y_ID32_WM_InterferenceIB_AdditionalTask_Smarties_f_3y;;1515;-1
+33;f;46;3;mild developmental delay, non epileptic episode, sensory issues;47;3;young;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID33_WM_InterferenceIB_AdditionalTask_Smarties_f_3y;very hard to understand;;
+34;f;46;3;global developmental delay;46;3;young;no;;Correct;Correct;Correct;Wrong;Correct;1;1;1;0;0;0;ID34_WM_InterferenceIB_AdditionalTask_Smarties_f_3y;very hard to understand;;
+35;m;37;3;no;38;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID35_WM_InterferenceIB_AdditionalTask_Smarties_m_3y;;;
+36;m;38;3;no;41;3;young;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID36_WM_InterferenceIB_AdditionalTask_Smarties_m_3y;;;
+37;f;37;3;no;40;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID37_WM_InterferenceIB_AdditionalTask_Smarties_f_3y;;;
+45;f;48;4;no;51;4;old;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID45_AdditionalTask_Smarties_f_4y;;;
+46;f;48;4;no;50;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID46_AdditionalTask_Smarties_f_4y;;;
+47;f;51;4;no;54;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID47_AdditionalTask_Smarties_f_4y;;2.440;-0.969
+48;m;42;3;no;44;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID48_AdditionalTask_Smarties_m_3y;;1;1058
+50;f;43;3;no information;45;3;young;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID50_AdditionalTask_Smarties_f_3y;;;
+51;f;41;3;no information;43;3;young;no;;Correct;Correct;Correct;Wrong;Correct;1;1;1;0;0;0;ID51_AdditionalTask_Smarties_f_3y;really seems to me as if she would know it but the 4th question is so hard…;0.241;1
+52;f;41;3;no information;43;3;young;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID52_AdditionalTask_Smarties_f_3y;;;
+53;f;42;3;no;44;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID53_AdditionalTask_Smarties_f_3y;;;
+66;m;54;4;no;56;4;old;no;;Correct;Wrong;Wrong;Correct;Correct;0;0;0;1;1;1;ID66_AdditionalTask_Smarties_m_4y;;;
+67;m;47;3;no;49;4;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID67_AdditionalTask_Smarties_m_3y;"for question ""does it look like this box…"" he said ""crayons….it has smarties all over it""";;
+68;f;48;4;no;50;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID68_AdditionalTask_Smarties_f_4y;;1758;2000
+69;m;51;4;no;54;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID69_AdditionalTask_Smarties_m_4y;;1337;0
+70;f;50;4;no;52;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID70_AdditionalTask_Smarties_f_4y;;-0.44;0.197
+71;f;50;4;no;52;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID71_AdditionalTask_Smarties_f_4y;;1;0
+72;m;58;4;speech is not great and so can be difficult to understand sometimes;60;5;old;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID72_AdditionalTask_Smarties_m_4y;;-1.160;0.807
+75;f;39;3;no;40;3;young;no;;Correct;Wrong;Wrong;Correct;Correct;0;0;0;1;1;1;ID75_AdditionalTask_Smarties_f_3y;;;
+76;m;51;4;no;52;4;old;no;;Correct;Correct;Wrong;Wrong;Correct;1;1;0;0;0;0;ID76_AdditionalTask_Smarties_m_4y;When first asked what is inside the box, he answered before properly looking into the box and actually answered Smarties;-1120;0
+77;f;41;3;no information;42;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID77_AdditionalTask_Smarties_f_3y;;0.841;1.397
+78;m;41;3;no;43;3;young;no;;Correct;Correct;Correct;Wrong;Correct;1;1;1;0;0;0;ID78_AdditionalTask_Smarties_m_3y;;;
+79;f;45;3;no;46;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID79_AdditionalTask_Smarties_f_3y;first just nodded to every answer, E had to give some encouragement to get a verbal answer, seemed confused;-2.157;1
+80;f;43;3;no information;45;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID80_AdditionalTask_Smarties_f_3y;;1449;0.224
+81;m;42;3;no;44;3;young;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID81_AdditionalTask_Smarties_m_3y;;;
+82;f;39;3;no;42;3;young;no;;Correct;Wrong;Wrong;Correct;Correct;0;0;0;1;1;1;ID82_AdditionalTask_Smarties_f_3y;;;
+83;f;50;4;no information;52;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID83_AdditionalTask_Smarties_f_4y;;;
+84;f;50;4;no;52;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID84_AdditionalTask_Smarties_f_4y;;;
+85;f;35;3;no information;36;3;young;yes;did not stay attentive, utterances not understandable, E stopped after first question;Correct;;no answer;;;;;;;;;ID85_AdditionalTask_Smarties_f_2y;;;
+86;m;49;4;no;52;4;old;no;;Correct;Wrong;Wrong;Wrong;Wrong;1;0;0;0;0;0;ID86_AdditionalTask_Smarties_m_4y;;;
+87;f;52;4;no;54;4;old;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID87_AdditionalTask_Smarties_f_4y;;-2.233;1
+88;m;36;3;no information;39;3;young;yes;"very poor language skills (bilingual), on first question just said ""look, look"" and did not give answer";;;;;;;;;;;;ID88_AdditionalTask_Smarties_m_3y_Dropout;;;
+89;m;43;3;no;45;3;young;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID89_AdditionalTask_Smarties_m_3y;"when asked what friend will think is inside it, smiled at first and said ""he will think there are smarties inside it""";-0.242;-1.139
+91;f;38;3;no;40;3;young;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID91_AdditionalTask_Smarties_f_3y;;2300;-1227
+92;m;50;4;no;51;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID92_AdditionalTask_Smarties_m_4y;;-1028;1.067
+93;f;45;3;no information;46;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID93_AdditionalTask_Smarties_f_3y;;;
+94;f;45;3;no;47;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID94_AdditionalTask_Smarties_f_3y;"In the question ""what does the box look like"", she said ""no"", then opened box, didn't understand question";2392;-1702
+95;f;45;3;no information;47;3;young;no;;Correct;Wrong;Correct;Correct;Wrong;1;0;1;0;0;0;ID95_AdditionalTask_Smarties_f_3y;;0;0.545
+96;m;54;4;Speech Therapy;56;4;old;no;;Correct;Correct;Correct;Wrong;Wrong;1;1;1;0;0;0;ID96_AdditionalTask_Smarties_m_4y;was hard to understand;-0.747;1295
+97;m;53;4;no information;55;4;old;no;;Correct;Wrong;Wrong;Correct;Correct;0;0;0;1;1;1;ID97_AdditionalTask_Smarties_m_4y;;0.883;-0.02
+98;f;46;3;speech + language;47;3;young;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;0;0;0;ID98_AdditionalTask_Smarties_f_3y;"First question: ""Pink""; Last question: nodded when I said ""crayons"" but didn't give answer";;
+99;f;45;3;no;47;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID99_AdditionalTask_Smarties_f_3y;;;
+100;m;57;4;no information;59;4;old;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID100_AdditionalTask_Smarties_m_4y;"when asked what a friend would think, he even said ""because it looks like it has smarties"", then the next question he got wrong!!";0.914;2552
+116;f;59;4;no;61;5;old;no;;Correct;Correct;Wrong;Correct;Correct;0;0;0;2;1;2;no video, camera died;"in question 1, was a bit unclear, said ""crayons"" first, before I finished the sentence, then changed her answer to ""smarties"". We decided to code this as ""smarties""";0;0.184
+117;m;64;5;no;65;5;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID117_AdditionalTask_Smarties_m_5y;;;
+118;f;63;5;no;64;5;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;no video, camera died;;-3.066;-1.109
+119;f;59;4;no;61;5;old;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;no video, camera died;;-1.611;-0.366
+120;m;70;5;no;72;6;old;no;;Correct;Correct;Correct;Wrong;Correct;1;1;1;0;0;0;ID120_AdditionalTask_Smarties_m_5y;"answered question ""what does box look like?"" wrong, but seemed confused";;
+121;f;58;4;no;60;5;old;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID121_AdditionalTask_Smarties_f_4y;;-1.169;0.231
+122;f;53;4;no;54;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID122_AdditionalTask_Smarties_f_4y;;-1;0.831
+123;f;52;4;no information;53;4;old;yes;experimenter error, E did not show child what was really inside the box;Wrong;Correct;Correct;Wrong;Wrong;;;1;;;;ID123_AdditionalTask_Smarties_f_4y;;;
+124;m;52;4;no;52;4;old;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID124_AdditionalTask_Smarties_m_4y;;-0.145;-1562
+125;m;40;3;no;41;3;young;yes;Could not understand ;;Wrong;;;;;0;;;;;no video;"hard to understand/no answer. Answer to ""what will x think"" was ""Points at himself ('me,me')""";;
+126;f;53;4;no information;54;4;old;no;;Correct;Wrong;Wrong;Correct;Correct;0;0;0;1;1;1;ID126_AdditionalTask_Smarties_f_4y;;;
+127;f;58;4;no;59;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID127_AdditionalTask_Smarties_f_4y;"Child said 'when I opened it, it had crayons.' for Q ""does it look like…""";;
+128;f;39;3;no information;39;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID128_AdditionalTask_Smarties_f_3y;;;
+129;f;54;4;developmental delay by about 12 months - improving now, she is in foster care;55;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID129_AdditionalTask_Smarties_f_4y;;;
+130;f;45;3;no;46;3;young;no;;Correct;Wrong;Wrong;Wrong;Wrong;1;0;0;0;0;0;ID130_AdditionalTask_Smarties_f_3y;;0.499;-1133
+131;m;53;4;no;53;4;old;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID131_AdditionalTask_Smarties_m_4y;;;
+132;f;57;4;no;58;4;old;no;;Correct;Correct;Correct;Correct;Wrong;1;1;1;0;0;0;ID132_AdditionalTask_Smarties_f_4y;;;
+133;f;64;5;no;64;5;old;no;;Correct;Wrong;Correct;Wrong;Correct;1;0;1;0;0;0;ID133_AdditionalTask_Smarties_f_5y;;-2.566;-2166
+134;m;58;4;no information;59;4;old;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID134_AdditionalTask_Smarties_m_4y;;;
+135;m;54;4;no information;55;4;old;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID135_AdditionalTask_Smarties_m_4y;;;
+136;m;53;4;no information;54;4;old;no;;Correct;Correct;Correct;Correct;Wrong;1;1;1;0;0;0;ID136_AdditionalTask_Smarties_m_4y;;;
+137;f;43;3;no;44;3;young;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID137_AdditionalTask_Smarties_f_3y;;;
+138;m;45;3;no;46;3;young;no;;Correct;Wrong;Wrong;Wrong;Correct;1;0;0;0;0;0;ID138_AdditionalTask_Smarties_m_3y;;;
+139;f;42;3;no information;42;3;young;no;;Correct;Correct;Correct;Wrong;Correct;1;1;1;0;0;0;ID139_AdditionalTask_Smarties_f_3y;;;
+140;f;52;4;no information;53;4;old;no;;Correct;Correct;Wrong;Correct;Correct;0;0;0;2;1;2;ID140_AdditionalTask_Smarties_f_4y;Q1:  said sweets then changed to crayons ;;
+141;f;58;4;no;58;4;old;no;;Correct;Correct;Correct;Correct;Correct;0;0;0;2;2;3;ID141_AdditionalTask_Smarties_f_4y;Q3 was phrased the opposite way round - 'will she think there are smarties inside it or will she think there are crayons inside it' vs 'crayons…smarties';;
+143;f;43;3;no;44;3;young;no;;Correct;Wrong;Correct;Wrong;Wrong;1;0;1;0;0;0;ID143_AdditionalTask_Smarties_f_3y;Last question: Don’t know (was asked twice) ;;
+181;f;56;4;no;56;4;old;no;;Correct;Wrong;Correct;Correct;Correct;0;0;0;1;2;2;ID181_AdditionalTask_Smarties_f_4y;;;

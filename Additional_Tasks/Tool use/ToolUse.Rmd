@@ -2,7 +2,7 @@
 title: "ToolUse"
 author: "Eva Reindl"
 date: "10 8 2020"
-output: word_document
+output: html_document
 always_allow_html: yes
 
 ---
@@ -125,7 +125,6 @@ We created scores for all children, including the children with incorrect succes
 **71 children had a score**:
 The mean score was 3.98 (SD = 3.48, range 0-12). The variable was highly left-skewed.
 
-We aim to run an 
 ## Ordered logistic regression
 ```{r}
 library(MASS)
@@ -143,10 +142,17 @@ null <- polr(Score ~ 1, data = Tool.valid)
 
 anova(null, res, test="Chisq")
 
+#without age z-transformed
+res <- polr(Score ~ MidtestingAgeMonths, data = Tool.valid)
+null <- polr(Score ~ 1, data = Tool.valid)
+
+anova(null, res, test="Chisq")
 ```
 Age does not significantly contribute to model fit, X2(1) = 2.89, p = .089.
 
-# Plot age as continuous variable against proportion correct
+
+
+# Plot age as continuous variable against score
 ```{r}
 library(ggplot2)
 p1<- ggplot(Tool.valid, aes(x=MidtestingAgeMonths, y=Score)) + geom_point()+
@@ -162,3 +168,22 @@ p1 +
 table(Tool.valid$Success)
 table(Tool.valid$Success, Tool.valid$MidtestingAgeGroup)
 ```
+
+## Can the Principal components predict the Tool use score?
+```{r}
+Tool.valid.PC <- subset(Tool.valid, PC1 != "NA")
+Tool.valid.PC$Score <- as.factor(Tool.valid.PC$Score)
+
+#we z-transform age and trial number, as we are including them into an interaction
+Tool.valid.PC$z.age=as.vector(scale(Tool.valid.PC$MidtestingAgeMonths))#transform age to mean of 0 and SD of 1
+mean(Tool.valid.PC$z.age)#check whether it has worked
+sd(Tool.valid.PC$z.age)
+
+Tool.valid.PC$Gender
+
+res <- polr(Score ~ z.age + PC1 + PC2, data = Tool.valid.PC)
+null <- polr(Score ~ 1, data = Tool.valid.PC)
+
+anova(null, res, test="Chisq")
+```
+Age and the PC scores cannot predict the tool use score.

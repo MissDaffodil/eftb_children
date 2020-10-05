@@ -421,10 +421,26 @@ lty=3)
 
 # Effect of Principal components?
 ```{r}
-Foil.valid.T1.PC <- subset(Foil.valid.T1, PC1 !="NA")
-res <- lm(Trial_correct ~ PC1 + PC2, data = Foil.valid.T1.PC)
-null <- lm(Trial_correct ~ 1, data = Foil.valid.T1.PC)
+Foil.valid <-subset(Foil, Dropout =="no" & Warm.up.Crit.reached =="yes, within 2 trials" | Warm.up.Crit.reached =="yes, within 7 trials")
+Foil.valid.PC <- subset(Foil.valid, PC1 !="NA")
 
-anova(null, res, test="Chisq")
+Foil.valid.PC$z.age=as.vector(scale(Foil.valid.PC$Midtesting_age_months))#transform age to mean of 0 and SD of 1
+mean(Foil.valid.PC$z.age)#check whether it has worked
+sd(Foil.valid.PC$z.age)
+
+Foil.valid.PC$z.trial=as.vector(scale(Foil.valid.PC$Trial_Nr))#transform trial to mean of 0 and SD of 1
+mean(Foil.valid.PC$z.trial)#check whether it has worked
+sd(Foil.valid.PC$z.trial)
+
+contr<-glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=10000000))
+res<-glmer(Trial_correct ~ PC1 + PC2 + z.age + z.trial + (1+z.trial|ID), data=Foil.valid.PC, family=binomial, control=contr)#singular fit
+
+res<-glmer(Trial_correct ~ PC1 + PC2 + z.age + z.trial + (1|ID) + (0+z.trial|ID), data=Foil.valid.PC, family=binomial, control=contr)#singular fit
+
+null <- glmer(Trial_correct ~ 1 + (1|ID) + (0+z.trial|ID), data=Foil.valid.PC, family=binomial, control=contr)
+
+anova(null, res, test="Chisq")#marginally significant
+summary(res)
 ```
-PC1 and PC2 cannot predict performance on the foil task, X2(2) = 0.895, p = .136.
+```
+Together, age, trial number and the two principal components cannot explain the data better than a null model, X2(4) = 9.204, p = .056.

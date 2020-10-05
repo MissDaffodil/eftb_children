@@ -87,22 +87,22 @@
 13;f;41;3;42;3;no;young;no;;no;yes, within 2 trials;7;yes;1;7;1;8;7;1;8;0.875;ID13_AdditionalTask_Foil_f_3y;;;
 13;f;41;3;42;3;no;young;no;;no;yes, within 2 trials;8;no;0;7;0.875;8;7;1;8;0.875;ID13_AdditionalTask_Foil_f_3y;;;
 14;m;43;3;44;3;no information;young;no;;no;no (2 out of 5 correct);1;;0;;;;;;;;ID14_AdditionalTask_Foil_m_3y;;2.436;0.621
-19;f;37;3;39;3;no;young;no;;no;yes, within 2 trials;1;no;0;0;0;8;5;3;8;0.625;ID19_AdditionalTask_Foil_f_3y;;0.626;0.245
-19;f;37;3;39;3;no;young;no;;no;yes, within 2 trials;2;yes;1;1;0.5;8;5;3;8;0.625;ID19_AdditionalTask_Foil_f_3y;;0.626;0.245
-19;f;37;3;39;3;no;young;no;;no;yes, within 2 trials;3;no;0;1;0.333333333;8;5;3;8;0.625;ID19_AdditionalTask_Foil_f_3y;;0.626;0.245
-19;f;37;3;39;3;no;young;no;;no;yes, within 2 trials;4;yes;1;2;0.5;8;5;3;8;0.625;ID19_AdditionalTask_Foil_f_3y;;0.626;0.245
-19;f;37;3;39;3;no;young;no;;no;yes, within 2 trials;5;yes;1;3;0.6;8;5;3;8;0.625;ID19_AdditionalTask_Foil_f_3y;;0.626;0.245
-19;f;37;3;39;3;no;young;no;;no;yes, within 2 trials;6;yes;1;4;0.666666667;8;5;3;8;0.625;ID19_AdditionalTask_Foil_f_3y;;0.626;0.245
-19;f;37;3;39;3;no;young;no;;no;yes, within 2 trials;7;yes;1;5;0.714285714;8;5;3;8;0.625;ID19_AdditionalTask_Foil_f_3y;;0.626;0.245
-19;f;37;3;39;3;no;young;no;;no;yes, within 2 trials;8;no;0;5;0.625;8;5;3;8;0.625;ID19_AdditionalTask_Foil_f_3y;;0.626;0.245
-20;f;53;4;56;4;suffers from prolonged febrile convulsions;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;4;4;8;0.5;ID20_AdditionalTask_Foil_f_4y;;0.671;0.376
-20;f;53;4;56;4;suffers from prolonged febrile convulsions;old;no;;no;yes, within 2 trials;2;no;0;1;0.5;8;4;4;8;0.5;ID20_AdditionalTask_Foil_f_4y;;0.671;0.376
-20;f;53;4;56;4;suffers from prolonged febrile convulsions;old;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;4;4;8;0.5;ID20_AdditionalTask_Foil_f_4y;;0.671;0.376
-20;f;53;4;56;4;suffers from prolonged febrile convulsions;old;no;;no;yes, within 2 trials;4;yes;1;3;0.75;8;4;4;8;0.5;ID20_AdditionalTask_Foil_f_4y;;0.671;0.376
-20;f;53;4;56;4;suffers from prolonged febrile convulsions;old;no;;no;yes, within 2 trials;5;no;0;3;0.6;8;4;4;8;0.5;ID20_AdditionalTask_Foil_f_4y;;0.671;0.376
-20;f;53;4;56;4;suffers from prolonged febrile convulsions;old;no;;no;yes, within 2 trials;6;no;0;3;0.5;8;4;4;8;0.5;ID20_AdditionalTask_Foil_f_4y;;0.671;0.376
-20;f;53;4;56;4;suffers from prolonged febrile convulsions;old;no;;no;yes, within 2 trials;7;yes;1;4;0.571428571;8;4;4;8;0.5;ID20_AdditionalTask_Foil_f_4y;;0.671;0.376
-20;f;53;4;56;4;suffers from prolonged febrile convulsions;old;no;;no;yes, within 2 trials;8;no;0;4;0.5;8;4;4;8;0.5;ID20_AdditionalTask_Foil_f_4y;;0.671;0.376
+19;f;37;3;39;3;no;young;no;;no;yes, within 2 trials;1;no;0;0;0;8;5;3;8;0.625;ID19_AdditionalTask_Foil_f_3y;;1.208;0.243
+19;f;37;3;39;3;no;young;no;;no;yes, within 2 trials;2;yes;1;1;0.5;8;5;3;8;0.625;ID19_AdditionalTask_Foil_f_3y;;1.208;0.243
+19;f;37;3;39;3;no;young;no;;no;yes, within 2 trials;3;no;0;1;0.333333333;8;5;3;8;0.625;ID19_AdditionalTask_Foil_f_3y;;1.208;0.243
+19;f;37;3;39;3;no;young;no;;no;yes, within 2 trials;4;yes;1;2;0.5;8;5;3;8;0.625;ID19_AdditionalTask_Foil_f_3y;;1.208;0.243
+19;f;37;3;39;3;no;young;no;;no;yes, within 2 trials;5;yes;1;3;0.6;8;5;3;8;0.625;ID19_AdditionalTask_Foil_f_3y;;1.208;0.243
+19;f;37;3;39;3;no;young;no;;no;yes, within 2 trials;6;yes;1;4;0.666666667;8;5;3;8;0.625;ID19_AdditionalTask_Foil_f_3y;;1.208;0.243
+19;f;37;3;39;3;no;young;no;;no;yes, within 2 trials;7;yes;1;5;0.714285714;8;5;3;8;0.625;ID19_AdditionalTask_Foil_f_3y;;1.208;0.243
+19;f;37;3;39;3;no;young;no;;no;yes, within 2 trials;8;no;0;5;0.625;8;5;3;8;0.625;ID19_AdditionalTask_Foil_f_3y;;1.208;0.243
+20;f;53;4;56;4;suffers from prolonged febrile convulsions;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;4;4;8;0.5;ID20_AdditionalTask_Foil_f_4y;;0.626;0.245
+20;f;53;4;56;4;suffers from prolonged febrile convulsions;old;no;;no;yes, within 2 trials;2;no;0;1;0.5;8;4;4;8;0.5;ID20_AdditionalTask_Foil_f_4y;;0.626;0.245
+20;f;53;4;56;4;suffers from prolonged febrile convulsions;old;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;4;4;8;0.5;ID20_AdditionalTask_Foil_f_4y;;0.626;0.245
+20;f;53;4;56;4;suffers from prolonged febrile convulsions;old;no;;no;yes, within 2 trials;4;yes;1;3;0.75;8;4;4;8;0.5;ID20_AdditionalTask_Foil_f_4y;;0.626;0.245
+20;f;53;4;56;4;suffers from prolonged febrile convulsions;old;no;;no;yes, within 2 trials;5;no;0;3;0.6;8;4;4;8;0.5;ID20_AdditionalTask_Foil_f_4y;;0.626;0.245
+20;f;53;4;56;4;suffers from prolonged febrile convulsions;old;no;;no;yes, within 2 trials;6;no;0;3;0.5;8;4;4;8;0.5;ID20_AdditionalTask_Foil_f_4y;;0.626;0.245
+20;f;53;4;56;4;suffers from prolonged febrile convulsions;old;no;;no;yes, within 2 trials;7;yes;1;4;0.571428571;8;4;4;8;0.5;ID20_AdditionalTask_Foil_f_4y;;0.626;0.245
+20;f;53;4;56;4;suffers from prolonged febrile convulsions;old;no;;no;yes, within 2 trials;8;no;0;4;0.5;8;4;4;8;0.5;ID20_AdditionalTask_Foil_f_4y;;0.626;0.245
 21;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;1;no;0;0;0;8;4;4;8;0.5;ID21_AdditionalTask_Foil_f_3y;;;
 21;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;2;yes;1;1;0.5;8;4;4;8;0.5;ID21_AdditionalTask_Foil_f_3y;;;
 21;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;3;no;0;1;0.333333333;8;4;4;8;0.5;ID21_AdditionalTask_Foil_f_3y;;;
@@ -119,14 +119,14 @@
 22;f;54;4;57;4;no;old;no;;no;yes, within 2 trials;6;yes;1;6;1;8;7;1;8;0.875;ID22_AdditionalTask_Foil_f_4y;;;
 22;f;54;4;57;4;no;old;no;;no;yes, within 2 trials;7;no;0;6;0.857142857;8;7;1;8;0.875;ID22_AdditionalTask_Foil_f_4y;;;
 22;f;54;4;57;4;no;old;no;;no;yes, within 2 trials;8;yes;1;7;0.875;8;7;1;8;0.875;ID22_AdditionalTask_Foil_f_4y;;;
-23;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;5;3;8;0.625;ID23_AdditionalTask_Foil_f_4y;;1.515;-0.752
-23;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;2;no;0;1;0.5;8;5;3;8;0.625;ID23_AdditionalTask_Foil_f_4y;;1.515;-0.752
-23;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;5;3;8;0.625;ID23_AdditionalTask_Foil_f_4y;;1.515;-0.752
-23;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;4;yes;1;3;0.75;8;5;3;8;0.625;ID23_AdditionalTask_Foil_f_4y;;1.515;-0.752
-23;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;5;yes;1;4;0.8;8;5;3;8;0.625;ID23_AdditionalTask_Foil_f_4y;;1.515;-0.752
-23;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;6;yes;1;5;0.833333333;8;5;3;8;0.625;ID23_AdditionalTask_Foil_f_4y;;1.515;-0.752
-23;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;7;no;0;5;0.714285714;8;5;3;8;0.625;ID23_AdditionalTask_Foil_f_4y;;1.515;-0.752
-23;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;8;no;0;5;0.625;8;5;3;8;0.625;ID23_AdditionalTask_Foil_f_4y;;1.515;-0.752
+23;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;5;3;8;0.625;ID23_AdditionalTask_Foil_f_4y;;0.671;0.376
+23;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;2;no;0;1;0.5;8;5;3;8;0.625;ID23_AdditionalTask_Foil_f_4y;;0.671;0.376
+23;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;5;3;8;0.625;ID23_AdditionalTask_Foil_f_4y;;0.671;0.376
+23;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;4;yes;1;3;0.75;8;5;3;8;0.625;ID23_AdditionalTask_Foil_f_4y;;0.671;0.376
+23;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;5;yes;1;4;0.8;8;5;3;8;0.625;ID23_AdditionalTask_Foil_f_4y;;0.671;0.376
+23;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;6;yes;1;5;0.833333333;8;5;3;8;0.625;ID23_AdditionalTask_Foil_f_4y;;0.671;0.376
+23;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;7;no;0;5;0.714285714;8;5;3;8;0.625;ID23_AdditionalTask_Foil_f_4y;;0.671;0.376
+23;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;8;no;0;5;0.625;8;5;3;8;0.625;ID23_AdditionalTask_Foil_f_4y;;0.671;0.376
 26;m;49;4;52;4;no;old;no;;no;yes, within 2 trials;1;no;0;0;0;8;3;5;8;0.375;ID26_AdditionalTask_Foil_m_4y;;;
 26;m;49;4;52;4;no;old;no;;no;yes, within 2 trials;2;yes;1;1;0.5;8;3;5;8;0.375;ID26_AdditionalTask_Foil_m_4y;;;
 26;m;49;4;52;4;no;old;no;;no;yes, within 2 trials;3;no;0;1;0.333333333;8;3;5;8;0.375;ID26_AdditionalTask_Foil_m_4y;;;
@@ -175,14 +175,14 @@
 31;f;44;3;44;3;no;young;no;;no;yes, within 2 trials;6;no;0;3;0.5;8;3;5;8;0.375;no video;;;
 31;f;44;3;44;3;no;young;no;;no;yes, within 2 trials;7;no;0;3;0.428571429;8;3;5;8;0.375;no video;;;
 31;f;44;3;44;3;no;young;no;;no;yes, within 2 trials;8;no;0;3;0.375;8;3;5;8;0.375;no video;;;
-32;f;43;3;43;3;no;young;no;;no;yes, within 2 trials;1;no;0;0;0;8;5;3;8;0.625;ID32_AdditionalTask_Foil_f_3y;;0.654;1.058
-32;f;43;3;43;3;no;young;no;;no;yes, within 2 trials;2;yes;1;1;0.5;8;5;3;8;0.625;ID32_AdditionalTask_Foil_f_3y;;0.654;1.058
-32;f;43;3;43;3;no;young;no;;no;yes, within 2 trials;3;no;0;1;0.333333333;8;5;3;8;0.625;ID32_AdditionalTask_Foil_f_3y;;0.654;1.058
-32;f;43;3;43;3;no;young;no;;no;yes, within 2 trials;4;no;0;1;0.25;8;5;3;8;0.625;ID32_AdditionalTask_Foil_f_3y;;0.654;1.058
-32;f;43;3;43;3;no;young;no;;no;yes, within 2 trials;5;yes;1;2;0.4;8;5;3;8;0.625;ID32_AdditionalTask_Foil_f_3y;;0.654;1.058
-32;f;43;3;43;3;no;young;no;;no;yes, within 2 trials;6;yes;1;3;0.5;8;5;3;8;0.625;ID32_AdditionalTask_Foil_f_3y;;0.654;1.058
-32;f;43;3;43;3;no;young;no;;no;yes, within 2 trials;7;yes;1;4;0.571428571;8;5;3;8;0.625;ID32_AdditionalTask_Foil_f_3y;;0.654;1.058
-32;f;43;3;43;3;no;young;no;;no;yes, within 2 trials;8;yes;1;5;0.625;8;5;3;8;0.625;ID32_AdditionalTask_Foil_f_3y;;0.654;1.058
+32;f;43;3;43;3;no;young;no;;no;yes, within 2 trials;1;no;0;0;0;8;5;3;8;0.625;ID32_AdditionalTask_Foil_f_3y;;1.515;-0.752
+32;f;43;3;43;3;no;young;no;;no;yes, within 2 trials;2;yes;1;1;0.5;8;5;3;8;0.625;ID32_AdditionalTask_Foil_f_3y;;1.515;-0.752
+32;f;43;3;43;3;no;young;no;;no;yes, within 2 trials;3;no;0;1;0.333333333;8;5;3;8;0.625;ID32_AdditionalTask_Foil_f_3y;;1.515;-0.752
+32;f;43;3;43;3;no;young;no;;no;yes, within 2 trials;4;no;0;1;0.25;8;5;3;8;0.625;ID32_AdditionalTask_Foil_f_3y;;1.515;-0.752
+32;f;43;3;43;3;no;young;no;;no;yes, within 2 trials;5;yes;1;2;0.4;8;5;3;8;0.625;ID32_AdditionalTask_Foil_f_3y;;1.515;-0.752
+32;f;43;3;43;3;no;young;no;;no;yes, within 2 trials;6;yes;1;3;0.5;8;5;3;8;0.625;ID32_AdditionalTask_Foil_f_3y;;1.515;-0.752
+32;f;43;3;43;3;no;young;no;;no;yes, within 2 trials;7;yes;1;4;0.571428571;8;5;3;8;0.625;ID32_AdditionalTask_Foil_f_3y;;1.515;-0.752
+32;f;43;3;43;3;no;young;no;;no;yes, within 2 trials;8;yes;1;5;0.625;8;5;3;8;0.625;ID32_AdditionalTask_Foil_f_3y;;1.515;-0.752
 33;f;46;3;47;3;mild developmental delay, non epileptic episode, sensory issues;young;yes;stopped game after 4th test trial;yes, after 4th test trial;yes, within 7 trials;1;no;0;0;0;4;2;2;4;0.5;ID33_AdditionalTask_Foil_f_3y_Dropout;;;
 33;f;46;3;47;3;mild developmental delay, non epileptic episode, sensory issues;young;yes;stopped game after 4th test trial;yes, after 4th test trial;yes, within 7 trials;2;yes;1;1;0.5;4;2;2;4;0.5;ID33_AdditionalTask_Foil_f_3y_Dropout;;;
 33;f;46;3;47;3;mild developmental delay, non epileptic episode, sensory issues;young;yes;stopped game after 4th test trial;yes, after 4th test trial;yes, within 7 trials;3;no;0;1;0.333333333;4;2;2;4;0.5;ID33_AdditionalTask_Foil_f_3y_Dropout;;;
@@ -228,31 +228,31 @@
 46;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;6;no;0;2;0.333333333;8;2;6;8;0.25;ID46_AdditionalTask_Foil_f_4y;"""it's a bit tricky"", is clearly guessing, doesn't pay much attention";;
 46;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;7;no;0;2;0.285714286;8;2;6;8;0.25;ID46_AdditionalTask_Foil_f_4y;"""it's a bit tricky"", is clearly guessing, doesn't pay much attention";;
 46;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;8;no;0;2;0.25;8;2;6;8;0.25;ID46_AdditionalTask_Foil_f_4y;"""it's a bit tricky"", is clearly guessing, doesn't pay much attention";;
-47;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;1;no;0;0;0;8;4;4;8;0.5;ID47_AdditionalTask_Foil_f_4y;did not ask;-1.160;0.807
-47;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;2;no;0;0;0;8;4;4;8;0.5;ID47_AdditionalTask_Foil_f_4y;did not ask;-1.160;0.807
-47;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;3;yes;1;1;0.333333333;8;4;4;8;0.5;ID47_AdditionalTask_Foil_f_4y;did not ask;-1.160;0.807
-47;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;4;yes;1;2;0.5;8;4;4;8;0.5;ID47_AdditionalTask_Foil_f_4y;did not ask;-1.160;0.807
-47;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;5;yes;1;3;0.6;8;4;4;8;0.5;ID47_AdditionalTask_Foil_f_4y;did not ask;-1.160;0.807
-47;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;6;yes;1;4;0.666666667;8;4;4;8;0.5;ID47_AdditionalTask_Foil_f_4y;did not ask;-1.160;0.807
-47;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;7;no;0;4;0.571428571;8;4;4;8;0.5;ID47_AdditionalTask_Foil_f_4y;did not ask;-1.160;0.807
-47;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;8;no;0;4;0.5;8;4;4;8;0.5;ID47_AdditionalTask_Foil_f_4y;did not ask;-1.160;0.807
-48;m;42;3;44;3;no;young;no;;no;yes, within 2 trials;1;no;0;0;0;8;3;5;8;0.375;ID48_AdditionalTask_Foil_m_3y;did not ask;-1.120;-0.044
-48;m;42;3;44;3;no;young;no;;no;yes, within 2 trials;2;no;0;0;0;8;3;5;8;0.375;ID48_AdditionalTask_Foil_m_3y;did not ask;-1.120;-0.044
-48;m;42;3;44;3;no;young;no;;no;yes, within 2 trials;3;no;0;0;0;8;3;5;8;0.375;ID48_AdditionalTask_Foil_m_3y;did not ask;-1.120;-0.044
-48;m;42;3;44;3;no;young;no;;no;yes, within 2 trials;4;yes;1;1;0.25;8;3;5;8;0.375;ID48_AdditionalTask_Foil_m_3y;did not ask;-1.120;-0.044
-48;m;42;3;44;3;no;young;no;;no;yes, within 2 trials;5;no;0;1;0.2;8;3;5;8;0.375;ID48_AdditionalTask_Foil_m_3y;did not ask;-1.120;-0.044
-48;m;42;3;44;3;no;young;no;;no;yes, within 2 trials;6;yes;1;2;0.333333333;8;3;5;8;0.375;ID48_AdditionalTask_Foil_m_3y;did not ask;-1.120;-0.044
-48;m;42;3;44;3;no;young;no;;no;yes, within 2 trials;7;yes;1;3;0.428571429;8;3;5;8;0.375;ID48_AdditionalTask_Foil_m_3y;did not ask;-1.120;-0.044
-48;m;42;3;44;3;no;young;no;;no;yes, within 2 trials;8;no;0;3;0.375;8;3;5;8;0.375;ID48_AdditionalTask_Foil_m_3y;did not ask;-1.120;-0.044
+47;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;1;no;0;0;0;8;4;4;8;0.5;ID47_AdditionalTask_Foil_f_4y;did not ask;2.440;-0.969
+47;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;2;no;0;0;0;8;4;4;8;0.5;ID47_AdditionalTask_Foil_f_4y;did not ask;2.440;-0.969
+47;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;3;yes;1;1;0.333333333;8;4;4;8;0.5;ID47_AdditionalTask_Foil_f_4y;did not ask;2.440;-0.969
+47;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;4;yes;1;2;0.5;8;4;4;8;0.5;ID47_AdditionalTask_Foil_f_4y;did not ask;2.440;-0.969
+47;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;5;yes;1;3;0.6;8;4;4;8;0.5;ID47_AdditionalTask_Foil_f_4y;did not ask;2.440;-0.969
+47;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;6;yes;1;4;0.666666667;8;4;4;8;0.5;ID47_AdditionalTask_Foil_f_4y;did not ask;2.440;-0.969
+47;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;7;no;0;4;0.571428571;8;4;4;8;0.5;ID47_AdditionalTask_Foil_f_4y;did not ask;2.440;-0.969
+47;f;51;4;54;4;no;old;no;;no;yes, within 2 trials;8;no;0;4;0.5;8;4;4;8;0.5;ID47_AdditionalTask_Foil_f_4y;did not ask;2.440;-0.969
+48;m;42;3;44;3;no;young;no;;no;yes, within 2 trials;1;no;0;0;0;8;3;5;8;0.375;ID48_AdditionalTask_Foil_m_3y;did not ask;0.654;1.058
+48;m;42;3;44;3;no;young;no;;no;yes, within 2 trials;2;no;0;0;0;8;3;5;8;0.375;ID48_AdditionalTask_Foil_m_3y;did not ask;0.654;1.058
+48;m;42;3;44;3;no;young;no;;no;yes, within 2 trials;3;no;0;0;0;8;3;5;8;0.375;ID48_AdditionalTask_Foil_m_3y;did not ask;0.654;1.058
+48;m;42;3;44;3;no;young;no;;no;yes, within 2 trials;4;yes;1;1;0.25;8;3;5;8;0.375;ID48_AdditionalTask_Foil_m_3y;did not ask;0.654;1.058
+48;m;42;3;44;3;no;young;no;;no;yes, within 2 trials;5;no;0;1;0.2;8;3;5;8;0.375;ID48_AdditionalTask_Foil_m_3y;did not ask;0.654;1.058
+48;m;42;3;44;3;no;young;no;;no;yes, within 2 trials;6;yes;1;2;0.333333333;8;3;5;8;0.375;ID48_AdditionalTask_Foil_m_3y;did not ask;0.654;1.058
+48;m;42;3;44;3;no;young;no;;no;yes, within 2 trials;7;yes;1;3;0.428571429;8;3;5;8;0.375;ID48_AdditionalTask_Foil_m_3y;did not ask;0.654;1.058
+48;m;42;3;44;3;no;young;no;;no;yes, within 2 trials;8;no;0;3;0.375;8;3;5;8;0.375;ID48_AdditionalTask_Foil_m_3y;did not ask;0.654;1.058
 50;f;43;3;45;3;no information;young;yes;stopped in additional trials warm up;yes;no, 3 out of 6 correct;1;;0;;;;;;;;ID50_AdditionalTask_Foil_f_3_Dropout;did not ask;;
-51;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;1;no;0;0;0;8;4;4;8;0.5;ID51_AdditionalTask_Foil_f_3y_Dropout;;0.841;1.397
-51;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;2;yes;1;1;0.5;8;4;4;8;0.5;ID51_AdditionalTask_Foil_f_3y_Dropout;;0.841;1.397
-51;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;4;4;8;0.5;ID51_AdditionalTask_Foil_f_3y_Dropout;;0.841;1.397
-51;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;4;no;0;2;0.5;8;4;4;8;0.5;ID51_AdditionalTask_Foil_f_3y_Dropout;;0.841;1.397
-51;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;5;no;0;2;0.4;8;4;4;8;0.5;ID51_AdditionalTask_Foil_f_3y_Dropout;;0.841;1.397
-51;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;6;yes;1;3;0.5;8;4;4;8;0.5;ID51_AdditionalTask_Foil_f_3y_Dropout;;0.841;1.397
-51;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;7;no;0;3;0.428571429;8;4;4;8;0.5;ID51_AdditionalTask_Foil_f_3y_Dropout;;0.841;1.397
-51;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;8;yes;1;4;0.5;8;4;4;8;0.5;ID51_AdditionalTask_Foil_f_3y_Dropout;;0.841;1.397
+51;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;1;no;0;0;0;8;4;4;8;0.5;ID51_AdditionalTask_Foil_f_3y_Dropout;;0.241;0.944
+51;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;2;yes;1;1;0.5;8;4;4;8;0.5;ID51_AdditionalTask_Foil_f_3y_Dropout;;0.241;0.944
+51;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;4;4;8;0.5;ID51_AdditionalTask_Foil_f_3y_Dropout;;0.241;0.944
+51;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;4;no;0;2;0.5;8;4;4;8;0.5;ID51_AdditionalTask_Foil_f_3y_Dropout;;0.241;0.944
+51;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;5;no;0;2;0.4;8;4;4;8;0.5;ID51_AdditionalTask_Foil_f_3y_Dropout;;0.241;0.944
+51;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;6;yes;1;3;0.5;8;4;4;8;0.5;ID51_AdditionalTask_Foil_f_3y_Dropout;;0.241;0.944
+51;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;7;no;0;3;0.428571429;8;4;4;8;0.5;ID51_AdditionalTask_Foil_f_3y_Dropout;;0.241;0.944
+51;f;41;3;43;3;no information;young;no;;no;yes, within 2 trials;8;yes;1;4;0.5;8;4;4;8;0.5;ID51_AdditionalTask_Foil_f_3y_Dropout;;0.241;0.944
 53;f;42;3;44;3;no;young;no;;no;yes, within 2 trials;1;yes;1;1;1;8;7;1;8;0.875;ID53_AdditionalTask_Foil_f_3y;did not ask;;
 53;f;42;3;44;3;no;young;no;;no;yes, within 2 trials;2;yes;1;2;1;8;7;1;8;0.875;ID53_AdditionalTask_Foil_f_3y;did not ask;;
 53;f;42;3;44;3;no;young;no;;no;yes, within 2 trials;3;yes;1;3;1;8;7;1;8;0.875;ID53_AdditionalTask_Foil_f_3y;did not ask;;
@@ -277,46 +277,46 @@
 67;m;47;3;49;4;no;young;no;;no;yes, within 2 trials;6;yes;1;5;0.833333333;8;6;2;8;0.75;ID67_AdditionalTask_Foil_m_3y;"did not ask, but during testing said ""purple"" even before the sticker was being hidden, so did not understand";;
 67;m;47;3;49;4;no;young;no;;no;yes, within 2 trials;7;no;0;5;0.714285714;8;6;2;8;0.75;ID67_AdditionalTask_Foil_m_3y;"did not ask, but during testing said ""purple"" even before the sticker was being hidden, so did not understand";;
 67;m;47;3;49;4;no;young;no;;no;yes, within 2 trials;8;yes;1;6;0.75;8;6;2;8;0.75;ID67_AdditionalTask_Foil_m_3y;"did not ask, but during testing said ""purple"" even before the sticker was being hidden, so did not understand";;
-68;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;6;2;8;0.75;ID68_AdditionalTask_Foil_f_4y;seemed to understand it, when she made the last error, she clearly did not pay attention. Q1: I don't really know;0.883;-0.02
-68;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;6;2;8;0.75;ID68_AdditionalTask_Foil_f_4y;seemed to understand it, when she made the last error, she clearly did not pay attention. Q1: I don't really know;0.883;-0.02
-68;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;3;yes;1;3;1;8;6;2;8;0.75;ID68_AdditionalTask_Foil_f_4y;seemed to understand it, when she made the last error, she clearly did not pay attention. Q1: I don't really know;0.883;-0.02
-68;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;4;yes;1;4;1;8;6;2;8;0.75;ID68_AdditionalTask_Foil_f_4y;seemed to understand it, when she made the last error, she clearly did not pay attention. Q1: I don't really know;0.883;-0.02
-68;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;5;yes;1;5;1;8;6;2;8;0.75;ID68_AdditionalTask_Foil_f_4y;seemed to understand it, when she made the last error, she clearly did not pay attention. Q1: I don't really know;0.883;-0.02
-68;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;6;yes;1;6;1;8;6;2;8;0.75;ID68_AdditionalTask_Foil_f_4y;seemed to understand it, when she made the last error, she clearly did not pay attention. Q1: I don't really know;0.883;-0.02
-68;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;7;no;0;6;0.857142857;8;6;2;8;0.75;ID68_AdditionalTask_Foil_f_4y;seemed to understand it, when she made the last error, she clearly did not pay attention. Q1: I don't really know;0.883;-0.02
-68;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;8;no;0;6;0.75;8;6;2;8;0.75;ID68_AdditionalTask_Foil_f_4y;seemed to understand it, when she made the last error, she clearly did not pay attention. Q1: I don't really know;0.883;-0.02
-69;m;51;4;54;4;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;5;3;8;0.625;ID69_AdditionalTask_Foil_m_4y;did not ask;0.914;2.552
-69;m;51;4;54;4;no;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;5;3;8;0.625;ID69_AdditionalTask_Foil_m_4y;did not ask;0.914;2.552
-69;m;51;4;54;4;no;old;no;;no;yes, within 2 trials;3;no;0;2;0.666666667;8;5;3;8;0.625;ID69_AdditionalTask_Foil_m_4y;did not ask;0.914;2.552
-69;m;51;4;54;4;no;old;no;;no;yes, within 2 trials;4;no;0;2;0.5;8;5;3;8;0.625;ID69_AdditionalTask_Foil_m_4y;did not ask;0.914;2.552
-69;m;51;4;54;4;no;old;no;;no;yes, within 2 trials;5;no;0;2;0.4;8;5;3;8;0.625;ID69_AdditionalTask_Foil_m_4y;did not ask;0.914;2.552
-69;m;51;4;54;4;no;old;no;;no;yes, within 2 trials;6;yes;1;3;0.5;8;5;3;8;0.625;ID69_AdditionalTask_Foil_m_4y;did not ask;0.914;2.552
-69;m;51;4;54;4;no;old;no;;no;yes, within 2 trials;7;yes;1;4;0.571428571;8;5;3;8;0.625;ID69_AdditionalTask_Foil_m_4y;did not ask;0.914;2.552
-69;m;51;4;54;4;no;old;no;;no;yes, within 2 trials;8;yes;1;5;0.625;8;5;3;8;0.625;ID69_AdditionalTask_Foil_m_4y;did not ask;0.914;2.552
-70;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;3;5;8;0.375;ID70_AdditionalTask_Foil_f_4y;did not ask;-0.197;0.184
-70;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;3;5;8;0.375;ID70_AdditionalTask_Foil_f_4y;did not ask;-0.197;0.184
-70;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;3;no;0;2;0.666666667;8;3;5;8;0.375;ID70_AdditionalTask_Foil_f_4y;did not ask;-0.197;0.184
-70;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;4;no;0;2;0.5;8;3;5;8;0.375;ID70_AdditionalTask_Foil_f_4y;did not ask;-0.197;0.184
-70;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;5;yes;1;3;0.6;8;3;5;8;0.375;ID70_AdditionalTask_Foil_f_4y;did not ask;-0.197;0.184
-70;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;6;no;0;3;0.5;8;3;5;8;0.375;ID70_AdditionalTask_Foil_f_4y;did not ask;-0.197;0.184
-70;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;7;no;0;3;0.428571429;8;3;5;8;0.375;ID70_AdditionalTask_Foil_f_4y;did not ask;-0.197;0.184
-70;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;8;no;0;3;0.375;8;3;5;8;0.375;ID70_AdditionalTask_Foil_f_4y;did not ask;-0.197;0.184
-71;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;4;4;8;0.5;ID71_AdditionalTask_Foil_f_4y;did not ask;-3.066;-1.109
-71;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;4;4;8;0.5;ID71_AdditionalTask_Foil_f_4y;did not ask;-3.066;-1.109
-71;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;3;yes;1;3;1;8;4;4;8;0.5;ID71_AdditionalTask_Foil_f_4y;did not ask;-3.066;-1.109
-71;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;4;no;0;3;0.75;8;4;4;8;0.5;ID71_AdditionalTask_Foil_f_4y;did not ask;-3.066;-1.109
-71;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;5;no;0;3;0.6;8;4;4;8;0.5;ID71_AdditionalTask_Foil_f_4y;did not ask;-3.066;-1.109
-71;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;6;no;0;3;0.5;8;4;4;8;0.5;ID71_AdditionalTask_Foil_f_4y;did not ask;-3.066;-1.109
-71;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;7;yes;1;4;0.571428571;8;4;4;8;0.5;ID71_AdditionalTask_Foil_f_4y;did not ask;-3.066;-1.109
-71;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;8;no;0;4;0.5;8;4;4;8;0.5;ID71_AdditionalTask_Foil_f_4y;did not ask;-3.066;-1.109
-72;m;58;4;60;5;speech is not great and so can be difficult to understand sometimes;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;8;0;8;1;ID72_AdditionalTask_Foil_m_4y;"""I just noticed""";-1.611;-0.366
-72;m;58;4;60;5;speech is not great and so can be difficult to understand sometimes;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;8;0;8;1;ID72_AdditionalTask_Foil_m_4y;"""I just noticed""";-1.611;-0.366
-72;m;58;4;60;5;speech is not great and so can be difficult to understand sometimes;old;no;;no;yes, within 2 trials;3;yes;1;3;1;8;8;0;8;1;ID72_AdditionalTask_Foil_m_4y;"""I just noticed""";-1.611;-0.366
-72;m;58;4;60;5;speech is not great and so can be difficult to understand sometimes;old;no;;no;yes, within 2 trials;4;yes;1;4;1;8;8;0;8;1;ID72_AdditionalTask_Foil_m_4y;"""I just noticed""";-1.611;-0.366
-72;m;58;4;60;5;speech is not great and so can be difficult to understand sometimes;old;no;;no;yes, within 2 trials;5;yes;1;5;1;8;8;0;8;1;ID72_AdditionalTask_Foil_m_4y;"""I just noticed""";-1.611;-0.366
-72;m;58;4;60;5;speech is not great and so can be difficult to understand sometimes;old;no;;no;yes, within 2 trials;6;yes;1;6;1;8;8;0;8;1;ID72_AdditionalTask_Foil_m_4y;"""I just noticed""";-1.611;-0.366
-72;m;58;4;60;5;speech is not great and so can be difficult to understand sometimes;old;no;;no;yes, within 2 trials;7;yes;1;7;1;8;8;0;8;1;ID72_AdditionalTask_Foil_m_4y;"""I just noticed""";-1.611;-0.366
-72;m;58;4;60;5;speech is not great and so can be difficult to understand sometimes;old;no;;no;yes, within 2 trials;8;yes;1;8;1;8;8;0;8;1;ID72_AdditionalTask_Foil_m_4y;"""I just noticed""";-1.611;-0.366
+68;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;6;2;8;0.75;ID68_AdditionalTask_Foil_f_4y;seemed to understand it, when she made the last error, she clearly did not pay attention. Q1: I don't really know;1.758;2.000
+68;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;6;2;8;0.75;ID68_AdditionalTask_Foil_f_4y;seemed to understand it, when she made the last error, she clearly did not pay attention. Q1: I don't really know;1.758;2.000
+68;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;3;yes;1;3;1;8;6;2;8;0.75;ID68_AdditionalTask_Foil_f_4y;seemed to understand it, when she made the last error, she clearly did not pay attention. Q1: I don't really know;1.758;2.000
+68;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;4;yes;1;4;1;8;6;2;8;0.75;ID68_AdditionalTask_Foil_f_4y;seemed to understand it, when she made the last error, she clearly did not pay attention. Q1: I don't really know;1.758;2.000
+68;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;5;yes;1;5;1;8;6;2;8;0.75;ID68_AdditionalTask_Foil_f_4y;seemed to understand it, when she made the last error, she clearly did not pay attention. Q1: I don't really know;1.758;2.000
+68;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;6;yes;1;6;1;8;6;2;8;0.75;ID68_AdditionalTask_Foil_f_4y;seemed to understand it, when she made the last error, she clearly did not pay attention. Q1: I don't really know;1.758;2.000
+68;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;7;no;0;6;0.857142857;8;6;2;8;0.75;ID68_AdditionalTask_Foil_f_4y;seemed to understand it, when she made the last error, she clearly did not pay attention. Q1: I don't really know;1.758;2.000
+68;f;48;4;50;4;no;old;no;;no;yes, within 2 trials;8;no;0;6;0.75;8;6;2;8;0.75;ID68_AdditionalTask_Foil_f_4y;seemed to understand it, when she made the last error, she clearly did not pay attention. Q1: I don't really know;1.758;2.000
+69;m;51;4;54;4;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;5;3;8;0.625;ID69_AdditionalTask_Foil_m_4y;did not ask;1.337;0.046
+69;m;51;4;54;4;no;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;5;3;8;0.625;ID69_AdditionalTask_Foil_m_4y;did not ask;1.337;0.046
+69;m;51;4;54;4;no;old;no;;no;yes, within 2 trials;3;no;0;2;0.666666667;8;5;3;8;0.625;ID69_AdditionalTask_Foil_m_4y;did not ask;1.337;0.046
+69;m;51;4;54;4;no;old;no;;no;yes, within 2 trials;4;no;0;2;0.5;8;5;3;8;0.625;ID69_AdditionalTask_Foil_m_4y;did not ask;1.337;0.046
+69;m;51;4;54;4;no;old;no;;no;yes, within 2 trials;5;no;0;2;0.4;8;5;3;8;0.625;ID69_AdditionalTask_Foil_m_4y;did not ask;1.337;0.046
+69;m;51;4;54;4;no;old;no;;no;yes, within 2 trials;6;yes;1;3;0.5;8;5;3;8;0.625;ID69_AdditionalTask_Foil_m_4y;did not ask;1.337;0.046
+69;m;51;4;54;4;no;old;no;;no;yes, within 2 trials;7;yes;1;4;0.571428571;8;5;3;8;0.625;ID69_AdditionalTask_Foil_m_4y;did not ask;1.337;0.046
+69;m;51;4;54;4;no;old;no;;no;yes, within 2 trials;8;yes;1;5;0.625;8;5;3;8;0.625;ID69_AdditionalTask_Foil_m_4y;did not ask;1.337;0.046
+70;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;3;5;8;0.375;ID70_AdditionalTask_Foil_f_4y;did not ask;-0.44;0.197
+70;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;3;5;8;0.375;ID70_AdditionalTask_Foil_f_4y;did not ask;-0.44;0.197
+70;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;3;no;0;2;0.666666667;8;3;5;8;0.375;ID70_AdditionalTask_Foil_f_4y;did not ask;-0.44;0.197
+70;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;4;no;0;2;0.5;8;3;5;8;0.375;ID70_AdditionalTask_Foil_f_4y;did not ask;-0.44;0.197
+70;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;5;yes;1;3;0.6;8;3;5;8;0.375;ID70_AdditionalTask_Foil_f_4y;did not ask;-0.44;0.197
+70;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;6;no;0;3;0.5;8;3;5;8;0.375;ID70_AdditionalTask_Foil_f_4y;did not ask;-0.44;0.197
+70;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;7;no;0;3;0.428571429;8;3;5;8;0.375;ID70_AdditionalTask_Foil_f_4y;did not ask;-0.44;0.197
+70;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;8;no;0;3;0.375;8;3;5;8;0.375;ID70_AdditionalTask_Foil_f_4y;did not ask;-0.44;0.197
+71;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;4;4;8;0.5;ID71_AdditionalTask_Foil_f_4y;did not ask;0.559;-0.014
+71;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;4;4;8;0.5;ID71_AdditionalTask_Foil_f_4y;did not ask;0.559;-0.014
+71;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;3;yes;1;3;1;8;4;4;8;0.5;ID71_AdditionalTask_Foil_f_4y;did not ask;0.559;-0.014
+71;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;4;no;0;3;0.75;8;4;4;8;0.5;ID71_AdditionalTask_Foil_f_4y;did not ask;0.559;-0.014
+71;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;5;no;0;3;0.6;8;4;4;8;0.5;ID71_AdditionalTask_Foil_f_4y;did not ask;0.559;-0.014
+71;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;6;no;0;3;0.5;8;4;4;8;0.5;ID71_AdditionalTask_Foil_f_4y;did not ask;0.559;-0.014
+71;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;7;yes;1;4;0.571428571;8;4;4;8;0.5;ID71_AdditionalTask_Foil_f_4y;did not ask;0.559;-0.014
+71;f;50;4;52;4;no;old;no;;no;yes, within 2 trials;8;no;0;4;0.5;8;4;4;8;0.5;ID71_AdditionalTask_Foil_f_4y;did not ask;0.559;-0.014
+72;m;58;4;60;5;speech is not great and so can be difficult to understand sometimes;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;8;0;8;1;ID72_AdditionalTask_Foil_m_4y;"""I just noticed""";-1.160;0.807
+72;m;58;4;60;5;speech is not great and so can be difficult to understand sometimes;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;8;0;8;1;ID72_AdditionalTask_Foil_m_4y;"""I just noticed""";-1.160;0.807
+72;m;58;4;60;5;speech is not great and so can be difficult to understand sometimes;old;no;;no;yes, within 2 trials;3;yes;1;3;1;8;8;0;8;1;ID72_AdditionalTask_Foil_m_4y;"""I just noticed""";-1.160;0.807
+72;m;58;4;60;5;speech is not great and so can be difficult to understand sometimes;old;no;;no;yes, within 2 trials;4;yes;1;4;1;8;8;0;8;1;ID72_AdditionalTask_Foil_m_4y;"""I just noticed""";-1.160;0.807
+72;m;58;4;60;5;speech is not great and so can be difficult to understand sometimes;old;no;;no;yes, within 2 trials;5;yes;1;5;1;8;8;0;8;1;ID72_AdditionalTask_Foil_m_4y;"""I just noticed""";-1.160;0.807
+72;m;58;4;60;5;speech is not great and so can be difficult to understand sometimes;old;no;;no;yes, within 2 trials;6;yes;1;6;1;8;8;0;8;1;ID72_AdditionalTask_Foil_m_4y;"""I just noticed""";-1.160;0.807
+72;m;58;4;60;5;speech is not great and so can be difficult to understand sometimes;old;no;;no;yes, within 2 trials;7;yes;1;7;1;8;8;0;8;1;ID72_AdditionalTask_Foil_m_4y;"""I just noticed""";-1.160;0.807
+72;m;58;4;60;5;speech is not great and so can be difficult to understand sometimes;old;no;;no;yes, within 2 trials;8;yes;1;8;1;8;8;0;8;1;ID72_AdditionalTask_Foil_m_4y;"""I just noticed""";-1.160;0.807
 75;f;39;3;40;3;no;young;no;;no;yes, within 2 trials;1;yes;1;1;1;8;4;4;8;0.5;ID75_AdditionalTask_Foil_f_3y;;;
 75;f;39;3;40;3;no;young;no;;no;yes, within 2 trials;2;yes;1;2;1;8;4;4;8;0.5;ID75_AdditionalTask_Foil_f_3y;;;
 75;f;39;3;40;3;no;young;no;;no;yes, within 2 trials;3;yes;1;3;1;8;4;4;8;0.5;ID75_AdditionalTask_Foil_f_3y;;;
@@ -325,27 +325,27 @@
 75;f;39;3;40;3;no;young;no;;no;yes, within 2 trials;6;yes;1;4;0.666666667;8;4;4;8;0.5;ID75_AdditionalTask_Foil_f_3y;;;
 75;f;39;3;40;3;no;young;no;;no;yes, within 2 trials;7;no;0;4;0.571428571;8;4;4;8;0.5;ID75_AdditionalTask_Foil_f_3y;;;
 75;f;39;3;40;3;no;young;no;;no;yes, within 2 trials;8;no;0;4;0.5;8;4;4;8;0.5;ID75_AdditionalTask_Foil_f_3y;;;
-76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;1;yes;1;1;1;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-0.145;-1.562
-76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;2;yes;1;2;1;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-0.145;-1.562
-76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;3;yes;1;3;1;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-0.145;-1.562
-76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;4;no;0;3;0.75;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-0.145;-1.562
-76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;5;yes;1;4;0.8;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-0.145;-1.562
-76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;6;yes;1;5;0.833333333;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-0.145;-1.562
-76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;7;yes;1;6;0.857142857;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-0.145;-1.562
-76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;8;yes;1;7;0.875;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-0.145;-1.562
-76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;9;no;0;7;0.777777778;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-0.145;-1.562
-76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;10;yes;1;8;0.8;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-0.145;-1.562
-76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;11;yes;1;9;0.818181818;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-0.145;-1.562
-76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;12;yes;1;10;0.833333333;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-0.145;-1.562
-76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;13;yes;1;11;0.846153846;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-0.145;-1.562
-77;f;41;3;42;3;no information;young;no;;no;yes, within 2 trials;1;yes;1;1;1;8;2;6;8;0.25;ID77_AdditionalTask_Foil_f_3y;;0.499;-1.133
-77;f;41;3;42;3;no information;young;no;;no;yes, within 2 trials;2;yes;1;2;1;8;2;6;8;0.25;ID77_AdditionalTask_Foil_f_3y;;0.499;-1.133
-77;f;41;3;42;3;no information;young;no;;no;yes, within 2 trials;3;no;0;2;0.666666667;8;2;6;8;0.25;ID77_AdditionalTask_Foil_f_3y;;0.499;-1.133
-77;f;41;3;42;3;no information;young;no;;no;yes, within 2 trials;4;no;0;2;0.5;8;2;6;8;0.25;ID77_AdditionalTask_Foil_f_3y;;0.499;-1.133
-77;f;41;3;42;3;no information;young;no;;no;yes, within 2 trials;5;no;0;2;0.4;8;2;6;8;0.25;ID77_AdditionalTask_Foil_f_3y;;0.499;-1.133
-77;f;41;3;42;3;no information;young;no;;no;yes, within 2 trials;6;no;0;2;0.333333333;8;2;6;8;0.25;ID77_AdditionalTask_Foil_f_3y;;0.499;-1.133
-77;f;41;3;42;3;no information;young;no;;no;yes, within 2 trials;7;no;0;2;0.285714286;8;2;6;8;0.25;ID77_AdditionalTask_Foil_f_3y;;0.499;-1.133
-77;f;41;3;42;3;no information;young;no;;no;yes, within 2 trials;8;no;0;2;0.25;8;2;6;8;0.25;ID77_AdditionalTask_Foil_f_3y;;0.499;-1.133
+76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;1;yes;1;1;1;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-1.120;-0.044
+76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;2;yes;1;2;1;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-1.120;-0.044
+76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;3;yes;1;3;1;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-1.120;-0.044
+76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;4;no;0;3;0.75;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-1.120;-0.044
+76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;5;yes;1;4;0.8;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-1.120;-0.044
+76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;6;yes;1;5;0.833333333;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-1.120;-0.044
+76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;7;yes;1;6;0.857142857;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-1.120;-0.044
+76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;8;yes;1;7;0.875;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-1.120;-0.044
+76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;9;no;0;7;0.777777778;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-1.120;-0.044
+76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;10;yes;1;8;0.8;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-1.120;-0.044
+76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;11;yes;1;9;0.818181818;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-1.120;-0.044
+76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;12;yes;1;10;0.833333333;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-1.120;-0.044
+76;m;51;4;52;4;no;old;yes;saw E bait the cups through the camera;no;yes, within 2 trials;13;yes;1;11;0.846153846;13;11;2;13;0.846153846;ID76_AdditionalTask_Foil_m_4y_Dropout;;-1.120;-0.044
+77;f;41;3;42;3;no information;young;no;;no;yes, within 2 trials;1;yes;1;1;1;8;2;6;8;0.25;ID77_AdditionalTask_Foil_f_3y;;0.841;1.397
+77;f;41;3;42;3;no information;young;no;;no;yes, within 2 trials;2;yes;1;2;1;8;2;6;8;0.25;ID77_AdditionalTask_Foil_f_3y;;0.841;1.397
+77;f;41;3;42;3;no information;young;no;;no;yes, within 2 trials;3;no;0;2;0.666666667;8;2;6;8;0.25;ID77_AdditionalTask_Foil_f_3y;;0.841;1.397
+77;f;41;3;42;3;no information;young;no;;no;yes, within 2 trials;4;no;0;2;0.5;8;2;6;8;0.25;ID77_AdditionalTask_Foil_f_3y;;0.841;1.397
+77;f;41;3;42;3;no information;young;no;;no;yes, within 2 trials;5;no;0;2;0.4;8;2;6;8;0.25;ID77_AdditionalTask_Foil_f_3y;;0.841;1.397
+77;f;41;3;42;3;no information;young;no;;no;yes, within 2 trials;6;no;0;2;0.333333333;8;2;6;8;0.25;ID77_AdditionalTask_Foil_f_3y;;0.841;1.397
+77;f;41;3;42;3;no information;young;no;;no;yes, within 2 trials;7;no;0;2;0.285714286;8;2;6;8;0.25;ID77_AdditionalTask_Foil_f_3y;;0.841;1.397
+77;f;41;3;42;3;no information;young;no;;no;yes, within 2 trials;8;no;0;2;0.25;8;2;6;8;0.25;ID77_AdditionalTask_Foil_f_3y;;0.841;1.397
 78;m;41;3;43;3;no;young;no;;no;yes, within 2 trials;1;yes;1;1;1;8;6;2;8;0.75;ID78_AdditionalTask_Foil_m_3y;Q1: I didn't look in that one. Q2: no answer;;
 78;m;41;3;43;3;no;young;no;;no;yes, within 2 trials;2;no;0;1;0.5;8;6;2;8;0.75;ID78_AdditionalTask_Foil_m_3y;Q1: I didn't look in that one. Q2: no answer;;
 78;m;41;3;43;3;no;young;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;6;2;8;0.75;ID78_AdditionalTask_Foil_m_3y;Q1: I didn't look in that one. Q2: no answer;;
@@ -354,22 +354,22 @@
 78;m;41;3;43;3;no;young;no;;no;yes, within 2 trials;6;yes;1;5;0.833333333;8;6;2;8;0.75;ID78_AdditionalTask_Foil_m_3y;Q1: I didn't look in that one. Q2: no answer;;
 78;m;41;3;43;3;no;young;no;;no;yes, within 2 trials;7;yes;1;6;0.857142857;8;6;2;8;0.75;ID78_AdditionalTask_Foil_m_3y;Q1: I didn't look in that one. Q2: no answer;;
 78;m;41;3;43;3;no;young;no;;no;yes, within 2 trials;8;no;0;6;0.75;8;6;2;8;0.75;ID78_AdditionalTask_Foil_m_3y;Q1: I didn't look in that one. Q2: no answer;;
-79;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;1;yes;1;1;1;8;6;2;8;0.75;ID79_AdditionalTask_Foil_f_3y;gave no answer to question where sticker is, did not get impression that she understood it;-2.566;-2.166
-79;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;2;yes;1;2;1;8;6;2;8;0.75;ID79_AdditionalTask_Foil_f_3y;gave no answer to question where sticker is, did not get impression that she understood it;-2.566;-2.166
-79;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;3;no;0;2;0.666666667;8;6;2;8;0.75;ID79_AdditionalTask_Foil_f_3y;gave no answer to question where sticker is, did not get impression that she understood it;-2.566;-2.166
-79;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;4;no;0;2;0.5;8;6;2;8;0.75;ID79_AdditionalTask_Foil_f_3y;gave no answer to question where sticker is, did not get impression that she understood it;-2.566;-2.166
-79;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;5;yes;1;3;0.6;8;6;2;8;0.75;ID79_AdditionalTask_Foil_f_3y;gave no answer to question where sticker is, did not get impression that she understood it;-2.566;-2.166
-79;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;6;yes;1;4;0.666666667;8;6;2;8;0.75;ID79_AdditionalTask_Foil_f_3y;gave no answer to question where sticker is, did not get impression that she understood it;-2.566;-2.166
-79;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;7;yes;1;5;0.714285714;8;6;2;8;0.75;ID79_AdditionalTask_Foil_f_3y;gave no answer to question where sticker is, did not get impression that she understood it;-2.566;-2.166
-79;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;8;yes;1;6;0.75;8;6;2;8;0.75;ID79_AdditionalTask_Foil_f_3y;gave no answer to question where sticker is, did not get impression that she understood it;-2.566;-2.166
-80;f;43;3;45;3;no information;young;no;;no;yes, within 2 trials;1;no;0;0;0;8;4;4;8;0.5;ID80_AdditionalTask_Foil_f_3y_part1, ID80_AdditionalTask_Foil_f_3y_part2;video stopped because memory card was full;-0.558;-0.326
-80;f;43;3;45;3;no information;young;no;;no;yes, within 2 trials;2;no;0;0;0;8;4;4;8;0.5;ID80_AdditionalTask_Foil_f_3y_part1, ID80_AdditionalTask_Foil_f_3y_part3;video stopped because memory card was full;-0.558;-0.326
-80;f;43;3;45;3;no information;young;no;;no;yes, within 2 trials;3;no;0;0;0;8;4;4;8;0.5;ID80_AdditionalTask_Foil_f_3y_part1, ID80_AdditionalTask_Foil_f_3y_part4;video stopped because memory card was full;-0.558;-0.326
-80;f;43;3;45;3;no information;young;no;;no;yes, within 2 trials;4;no;0;0;0;8;4;4;8;0.5;ID80_AdditionalTask_Foil_f_3y_part1, ID80_AdditionalTask_Foil_f_3y_part5;video stopped because memory card was full;-0.558;-0.326
-80;f;43;3;45;3;no information;young;no;;no;yes, within 2 trials;5;yes;1;1;0.2;8;4;4;8;0.5;ID80_AdditionalTask_Foil_f_3y_part1, ID80_AdditionalTask_Foil_f_3y_part6;video stopped because memory card was full;-0.558;-0.326
-80;f;43;3;45;3;no information;young;no;;no;yes, within 2 trials;6;yes;1;2;0.333333333;8;4;4;8;0.5;ID80_AdditionalTask_Foil_f_3y_part1, ID80_AdditionalTask_Foil_f_3y_part7;video stopped because memory card was full;-0.558;-0.326
-80;f;43;3;45;3;no information;young;no;;no;yes, within 2 trials;7;yes;1;3;0.428571429;8;4;4;8;0.5;ID80_AdditionalTask_Foil_f_3y_part1, ID80_AdditionalTask_Foil_f_3y_part8;video stopped because memory card was full;-0.558;-0.326
-80;f;43;3;45;3;no information;young;no;;no;yes, within 2 trials;8;yes;1;4;0.5;8;4;4;8;0.5;ID80_AdditionalTask_Foil_f_3y_part1, ID80_AdditionalTask_Foil_f_3y_part9;video stopped because memory card was full;-0.558;-0.326
+79;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;1;yes;1;1;1;8;6;2;8;0.75;ID79_AdditionalTask_Foil_f_3y;gave no answer to question where sticker is, did not get impression that she understood it;-2.157;0.678
+79;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;2;yes;1;2;1;8;6;2;8;0.75;ID79_AdditionalTask_Foil_f_3y;gave no answer to question where sticker is, did not get impression that she understood it;-2.157;0.678
+79;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;3;no;0;2;0.666666667;8;6;2;8;0.75;ID79_AdditionalTask_Foil_f_3y;gave no answer to question where sticker is, did not get impression that she understood it;-2.157;0.678
+79;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;4;no;0;2;0.5;8;6;2;8;0.75;ID79_AdditionalTask_Foil_f_3y;gave no answer to question where sticker is, did not get impression that she understood it;-2.157;0.678
+79;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;5;yes;1;3;0.6;8;6;2;8;0.75;ID79_AdditionalTask_Foil_f_3y;gave no answer to question where sticker is, did not get impression that she understood it;-2.157;0.678
+79;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;6;yes;1;4;0.666666667;8;6;2;8;0.75;ID79_AdditionalTask_Foil_f_3y;gave no answer to question where sticker is, did not get impression that she understood it;-2.157;0.678
+79;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;7;yes;1;5;0.714285714;8;6;2;8;0.75;ID79_AdditionalTask_Foil_f_3y;gave no answer to question where sticker is, did not get impression that she understood it;-2.157;0.678
+79;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;8;yes;1;6;0.75;8;6;2;8;0.75;ID79_AdditionalTask_Foil_f_3y;gave no answer to question where sticker is, did not get impression that she understood it;-2.157;0.678
+80;f;43;3;45;3;no information;young;no;;no;yes, within 2 trials;1;no;0;0;0;8;4;4;8;0.5;ID80_AdditionalTask_Foil_f_3y_part1, ID80_AdditionalTask_Foil_f_3y_part2;video stopped because memory card was full;1.449;0.224
+80;f;43;3;45;3;no information;young;no;;no;yes, within 2 trials;2;no;0;0;0;8;4;4;8;0.5;ID80_AdditionalTask_Foil_f_3y_part1, ID80_AdditionalTask_Foil_f_3y_part3;video stopped because memory card was full;1.449;0.224
+80;f;43;3;45;3;no information;young;no;;no;yes, within 2 trials;3;no;0;0;0;8;4;4;8;0.5;ID80_AdditionalTask_Foil_f_3y_part1, ID80_AdditionalTask_Foil_f_3y_part4;video stopped because memory card was full;1.449;0.224
+80;f;43;3;45;3;no information;young;no;;no;yes, within 2 trials;4;no;0;0;0;8;4;4;8;0.5;ID80_AdditionalTask_Foil_f_3y_part1, ID80_AdditionalTask_Foil_f_3y_part5;video stopped because memory card was full;1.449;0.224
+80;f;43;3;45;3;no information;young;no;;no;yes, within 2 trials;5;yes;1;1;0.2;8;4;4;8;0.5;ID80_AdditionalTask_Foil_f_3y_part1, ID80_AdditionalTask_Foil_f_3y_part6;video stopped because memory card was full;1.449;0.224
+80;f;43;3;45;3;no information;young;no;;no;yes, within 2 trials;6;yes;1;2;0.333333333;8;4;4;8;0.5;ID80_AdditionalTask_Foil_f_3y_part1, ID80_AdditionalTask_Foil_f_3y_part7;video stopped because memory card was full;1.449;0.224
+80;f;43;3;45;3;no information;young;no;;no;yes, within 2 trials;7;yes;1;3;0.428571429;8;4;4;8;0.5;ID80_AdditionalTask_Foil_f_3y_part1, ID80_AdditionalTask_Foil_f_3y_part8;video stopped because memory card was full;1.449;0.224
+80;f;43;3;45;3;no information;young;no;;no;yes, within 2 trials;8;yes;1;4;0.5;8;4;4;8;0.5;ID80_AdditionalTask_Foil_f_3y_part1, ID80_AdditionalTask_Foil_f_3y_part9;video stopped because memory card was full;1.449;0.224
 81;m;42;3;44;3;no;young;no;;no;yes, within 7 trials;1;no;0;0;0;8;5;3;8;0.625;ID81_AdditionalTask_Foil_m_3y;video stopped because memory card was full;;
 81;m;42;3;44;3;no;young;no;;no;yes, within 7 trials;2;yes;1;1;0.5;8;5;3;8;0.625;ID81_AdditionalTask_Foil_m_3y;;;
 81;m;42;3;44;3;no;young;no;;no;yes, within 7 trials;3;yes;1;2;0.666666667;8;5;3;8;0.625;ID81_AdditionalTask_Foil_m_3y;;;
@@ -402,14 +402,14 @@
 86;m;49;4;52;4;no;old;no;;no;yes, within 2 trials;6;no;0;2;0.333333333;8;3;5;8;0.375;ID86_AdditionalTask_Foil_m_4y;did not ask;;
 86;m;49;4;52;4;no;old;no;;no;yes, within 2 trials;7;yes;1;3;0.428571429;8;3;5;8;0.375;ID86_AdditionalTask_Foil_m_4y;did not ask;;
 86;m;49;4;52;4;no;old;no;;no;yes, within 2 trials;8;no;0;3;0.375;8;3;5;8;0.375;ID86_AdditionalTask_Foil_m_4y;did not ask;;
-87;f;52;4;54;4;no;old;no;;no;yes, within 2 trials;1;no;0;0;0;8;6;2;8;0.75;ID87_AdditionalTask_Foil_f_4y;forgot to ask;1.329;-1.004
-87;f;52;4;54;4;no;old;no;;no;yes, within 2 trials;2;yes;1;1;0.5;8;6;2;8;0.75;ID87_AdditionalTask_Foil_f_4y;forgot to ask;1.329;-1.004
-87;f;52;4;54;4;no;old;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;6;2;8;0.75;ID87_AdditionalTask_Foil_f_4y;forgot to ask;1.329;-1.004
-87;f;52;4;54;4;no;old;no;;no;yes, within 2 trials;4;yes;1;3;0.75;8;6;2;8;0.75;ID87_AdditionalTask_Foil_f_4y;forgot to ask;1.329;-1.004
-87;f;52;4;54;4;no;old;no;;no;yes, within 2 trials;5;yes;1;4;0.8;8;6;2;8;0.75;ID87_AdditionalTask_Foil_f_4y;forgot to ask;1.329;-1.004
-87;f;52;4;54;4;no;old;no;;no;yes, within 2 trials;6;yes;1;5;0.833333333;8;6;2;8;0.75;ID87_AdditionalTask_Foil_f_4y;forgot to ask;1.329;-1.004
-87;f;52;4;54;4;no;old;no;;no;yes, within 2 trials;7;yes;1;6;0.857142857;8;6;2;8;0.75;ID87_AdditionalTask_Foil_f_4y;forgot to ask;1.329;-1.004
-87;f;52;4;54;4;no;old;no;;no;yes, within 2 trials;8;no;0;6;0.75;8;6;2;8;0.75;ID87_AdditionalTask_Foil_f_4y;forgot to ask;1.329;-1.004
+87;f;52;4;54;4;no;old;no;;no;yes, within 2 trials;1;no;0;0;0;8;6;2;8;0.75;ID87_AdditionalTask_Foil_f_4y;forgot to ask;-2.233;0.569
+87;f;52;4;54;4;no;old;no;;no;yes, within 2 trials;2;yes;1;1;0.5;8;6;2;8;0.75;ID87_AdditionalTask_Foil_f_4y;forgot to ask;-2.233;0.569
+87;f;52;4;54;4;no;old;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;6;2;8;0.75;ID87_AdditionalTask_Foil_f_4y;forgot to ask;-2.233;0.569
+87;f;52;4;54;4;no;old;no;;no;yes, within 2 trials;4;yes;1;3;0.75;8;6;2;8;0.75;ID87_AdditionalTask_Foil_f_4y;forgot to ask;-2.233;0.569
+87;f;52;4;54;4;no;old;no;;no;yes, within 2 trials;5;yes;1;4;0.8;8;6;2;8;0.75;ID87_AdditionalTask_Foil_f_4y;forgot to ask;-2.233;0.569
+87;f;52;4;54;4;no;old;no;;no;yes, within 2 trials;6;yes;1;5;0.833333333;8;6;2;8;0.75;ID87_AdditionalTask_Foil_f_4y;forgot to ask;-2.233;0.569
+87;f;52;4;54;4;no;old;no;;no;yes, within 2 trials;7;yes;1;6;0.857142857;8;6;2;8;0.75;ID87_AdditionalTask_Foil_f_4y;forgot to ask;-2.233;0.569
+87;f;52;4;54;4;no;old;no;;no;yes, within 2 trials;8;no;0;6;0.75;8;6;2;8;0.75;ID87_AdditionalTask_Foil_f_4y;forgot to ask;-2.233;0.569
 88;m;36;3;39;3;no information;young;no;;no;yes, within 2 trials;1;yes;1;1;1;8;4;4;8;0.5;ID88_AdditionalTask_Foil_m_3y;forgot to ask;;
 88;m;36;3;39;3;no information;young;no;;no;yes, within 2 trials;2;no;0;1;0.5;8;4;4;8;0.5;ID88_AdditionalTask_Foil_m_3y;;;
 88;m;36;3;39;3;no information;young;no;;no;yes, within 2 trials;3;no;0;1;0.333333333;8;4;4;8;0.5;ID88_AdditionalTask_Foil_m_3y;;;
@@ -418,30 +418,30 @@
 88;m;36;3;39;3;no information;young;no;;no;yes, within 2 trials;6;yes;1;3;0.5;8;4;4;8;0.5;ID88_AdditionalTask_Foil_m_3y;;;
 88;m;36;3;39;3;no information;young;no;;no;yes, within 2 trials;7;no;0;3;0.428571429;8;4;4;8;0.5;ID88_AdditionalTask_Foil_m_3y;;;
 88;m;36;3;39;3;no information;young;no;;no;yes, within 2 trials;8;yes;1;4;0.5;8;4;4;8;0.5;ID88_AdditionalTask_Foil_m_3y;;;
-89;m;43;3;45;3;no;young;no;;no;yes, within 2 trials;1;no;0;0;0;8;5;3;8;0.625;ID89_AdditionalTask_Foil_m_3y;forgot to ask;0.17;1.985
-89;m;43;3;45;3;no;young;no;;no;yes, within 2 trials;2;yes;1;1;0.5;8;5;3;8;0.625;ID89_AdditionalTask_Foil_m_3y;forgot to ask;0.17;1.985
-89;m;43;3;45;3;no;young;no;;no;yes, within 2 trials;3;no;0;1;0.333333333;8;5;3;8;0.625;ID89_AdditionalTask_Foil_m_3y;forgot to ask;0.17;1.985
-89;m;43;3;45;3;no;young;no;;no;yes, within 2 trials;4;yes;1;2;0.5;8;5;3;8;0.625;ID89_AdditionalTask_Foil_m_3y;forgot to ask;0.17;1.985
-89;m;43;3;45;3;no;young;no;;no;yes, within 2 trials;5;yes;1;3;0.6;8;5;3;8;0.625;ID89_AdditionalTask_Foil_m_3y;forgot to ask;0.17;1.985
-89;m;43;3;45;3;no;young;no;;no;yes, within 2 trials;6;yes;1;4;0.666666667;8;5;3;8;0.625;ID89_AdditionalTask_Foil_m_3y;forgot to ask;0.17;1.985
-89;m;43;3;45;3;no;young;no;;no;yes, within 2 trials;7;yes;1;5;0.714285714;8;5;3;8;0.625;ID89_AdditionalTask_Foil_m_3y;forgot to ask;0.17;1.985
-89;m;43;3;45;3;no;young;no;;no;yes, within 2 trials;8;no;0;5;0.625;8;5;3;8;0.625;ID89_AdditionalTask_Foil_m_3y;forgot to ask;0.17;1.985
-91;f;38;3;40;3;no;young;no;;no;yes, within 7 trials;1;yes;1;1;1;8;4;4;8;0.5;ID91_AdditionalTask_Foil_f_3y;;-0.684;-0.636
-91;f;38;3;40;3;no;young;no;;no;yes, within 7 trials;2;no;0;1;0.5;8;4;4;8;0.5;ID91_AdditionalTask_Foil_f_3y;;-0.684;-0.636
-91;f;38;3;40;3;no;young;no;;no;yes, within 7 trials;3;no;0;1;0.333333333;8;4;4;8;0.5;ID91_AdditionalTask_Foil_f_3y;;-0.684;-0.636
-91;f;38;3;40;3;no;young;no;;no;yes, within 7 trials;4;no;0;1;0.25;8;4;4;8;0.5;ID91_AdditionalTask_Foil_f_3y;;-0.684;-0.636
-91;f;38;3;40;3;no;young;no;;no;yes, within 7 trials;5;yes;1;2;0.4;8;4;4;8;0.5;ID91_AdditionalTask_Foil_f_3y;;-0.684;-0.636
-91;f;38;3;40;3;no;young;no;;no;yes, within 7 trials;6;yes;1;3;0.5;8;4;4;8;0.5;ID91_AdditionalTask_Foil_f_3y;;-0.684;-0.636
-91;f;38;3;40;3;no;young;no;;no;yes, within 7 trials;7;no;0;3;0.428571429;8;4;4;8;0.5;ID91_AdditionalTask_Foil_f_3y;;-0.684;-0.636
-91;f;38;3;40;3;no;young;no;;no;yes, within 7 trials;8;yes;1;4;0.5;8;4;4;8;0.5;ID91_AdditionalTask_Foil_f_3y;;-0.684;-0.636
-92;m;50;4;51;4;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;7;1;8;0.875;ID92_AdditionalTask_Foil_m_4y;"understood task, Q:""Because I keep trying""";0.434;1.126
-92;m;50;4;51;4;no;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;7;1;8;0.875;ID92_AdditionalTask_Foil_m_4y;"understood task, Q:""Because I keep trying""";0.434;1.126
-92;m;50;4;51;4;no;old;no;;no;yes, within 2 trials;3;yes;1;3;1;8;7;1;8;0.875;ID92_AdditionalTask_Foil_m_4y;"understood task, Q:""Because I keep trying""";0.434;1.126
-92;m;50;4;51;4;no;old;no;;no;yes, within 2 trials;4;yes;1;4;1;8;7;1;8;0.875;ID92_AdditionalTask_Foil_m_4y;"understood task, Q:""Because I keep trying""";0.434;1.126
-92;m;50;4;51;4;no;old;no;;no;yes, within 2 trials;5;yes;1;5;1;8;7;1;8;0.875;ID92_AdditionalTask_Foil_m_4y;"understood task, Q:""Because I keep trying""";0.434;1.126
-92;m;50;4;51;4;no;old;no;;no;yes, within 2 trials;6;yes;1;6;1;8;7;1;8;0.875;ID92_AdditionalTask_Foil_m_4y;"understood task, Q:""Because I keep trying""";0.434;1.126
-92;m;50;4;51;4;no;old;no;;no;yes, within 2 trials;7;no;0;6;0.857142857;8;7;1;8;0.875;ID92_AdditionalTask_Foil_m_4y;"understood task, Q:""Because I keep trying""";0.434;1.126
-92;m;50;4;51;4;no;old;no;;no;yes, within 2 trials;8;yes;1;7;0.875;8;7;1;8;0.875;ID92_AdditionalTask_Foil_m_4y;"understood task, Q:""Because I keep trying""";0.434;1.126
+89;m;43;3;45;3;no;young;no;;no;yes, within 2 trials;1;no;0;0;0;8;5;3;8;0.625;ID89_AdditionalTask_Foil_m_3y;forgot to ask;-0.242;-1.139
+89;m;43;3;45;3;no;young;no;;no;yes, within 2 trials;2;yes;1;1;0.5;8;5;3;8;0.625;ID89_AdditionalTask_Foil_m_3y;forgot to ask;-0.242;-1.139
+89;m;43;3;45;3;no;young;no;;no;yes, within 2 trials;3;no;0;1;0.333333333;8;5;3;8;0.625;ID89_AdditionalTask_Foil_m_3y;forgot to ask;-0.242;-1.139
+89;m;43;3;45;3;no;young;no;;no;yes, within 2 trials;4;yes;1;2;0.5;8;5;3;8;0.625;ID89_AdditionalTask_Foil_m_3y;forgot to ask;-0.242;-1.139
+89;m;43;3;45;3;no;young;no;;no;yes, within 2 trials;5;yes;1;3;0.6;8;5;3;8;0.625;ID89_AdditionalTask_Foil_m_3y;forgot to ask;-0.242;-1.139
+89;m;43;3;45;3;no;young;no;;no;yes, within 2 trials;6;yes;1;4;0.666666667;8;5;3;8;0.625;ID89_AdditionalTask_Foil_m_3y;forgot to ask;-0.242;-1.139
+89;m;43;3;45;3;no;young;no;;no;yes, within 2 trials;7;yes;1;5;0.714285714;8;5;3;8;0.625;ID89_AdditionalTask_Foil_m_3y;forgot to ask;-0.242;-1.139
+89;m;43;3;45;3;no;young;no;;no;yes, within 2 trials;8;no;0;5;0.625;8;5;3;8;0.625;ID89_AdditionalTask_Foil_m_3y;forgot to ask;-0.242;-1.139
+91;f;38;3;40;3;no;young;no;;no;yes, within 7 trials;1;yes;1;1;1;8;4;4;8;0.5;ID91_AdditionalTask_Foil_f_3y;;2.300;-1.227
+91;f;38;3;40;3;no;young;no;;no;yes, within 7 trials;2;no;0;1;0.5;8;4;4;8;0.5;ID91_AdditionalTask_Foil_f_3y;;2.300;-1.227
+91;f;38;3;40;3;no;young;no;;no;yes, within 7 trials;3;no;0;1;0.333333333;8;4;4;8;0.5;ID91_AdditionalTask_Foil_f_3y;;2.300;-1.227
+91;f;38;3;40;3;no;young;no;;no;yes, within 7 trials;4;no;0;1;0.25;8;4;4;8;0.5;ID91_AdditionalTask_Foil_f_3y;;2.300;-1.227
+91;f;38;3;40;3;no;young;no;;no;yes, within 7 trials;5;yes;1;2;0.4;8;4;4;8;0.5;ID91_AdditionalTask_Foil_f_3y;;2.300;-1.227
+91;f;38;3;40;3;no;young;no;;no;yes, within 7 trials;6;yes;1;3;0.5;8;4;4;8;0.5;ID91_AdditionalTask_Foil_f_3y;;2.300;-1.227
+91;f;38;3;40;3;no;young;no;;no;yes, within 7 trials;7;no;0;3;0.428571429;8;4;4;8;0.5;ID91_AdditionalTask_Foil_f_3y;;2.300;-1.227
+91;f;38;3;40;3;no;young;no;;no;yes, within 7 trials;8;yes;1;4;0.5;8;4;4;8;0.5;ID91_AdditionalTask_Foil_f_3y;;2.300;-1.227
+92;m;50;4;51;4;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;7;1;8;0.875;ID92_AdditionalTask_Foil_m_4y;"understood task, Q:""Because I keep trying""";-1.028;1.067
+92;m;50;4;51;4;no;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;7;1;8;0.875;ID92_AdditionalTask_Foil_m_4y;"understood task, Q:""Because I keep trying""";-1.028;1.067
+92;m;50;4;51;4;no;old;no;;no;yes, within 2 trials;3;yes;1;3;1;8;7;1;8;0.875;ID92_AdditionalTask_Foil_m_4y;"understood task, Q:""Because I keep trying""";-1.028;1.067
+92;m;50;4;51;4;no;old;no;;no;yes, within 2 trials;4;yes;1;4;1;8;7;1;8;0.875;ID92_AdditionalTask_Foil_m_4y;"understood task, Q:""Because I keep trying""";-1.028;1.067
+92;m;50;4;51;4;no;old;no;;no;yes, within 2 trials;5;yes;1;5;1;8;7;1;8;0.875;ID92_AdditionalTask_Foil_m_4y;"understood task, Q:""Because I keep trying""";-1.028;1.067
+92;m;50;4;51;4;no;old;no;;no;yes, within 2 trials;6;yes;1;6;1;8;7;1;8;0.875;ID92_AdditionalTask_Foil_m_4y;"understood task, Q:""Because I keep trying""";-1.028;1.067
+92;m;50;4;51;4;no;old;no;;no;yes, within 2 trials;7;no;0;6;0.857142857;8;7;1;8;0.875;ID92_AdditionalTask_Foil_m_4y;"understood task, Q:""Because I keep trying""";-1.028;1.067
+92;m;50;4;51;4;no;old;no;;no;yes, within 2 trials;8;yes;1;7;0.875;8;7;1;8;0.875;ID92_AdditionalTask_Foil_m_4y;"understood task, Q:""Because I keep trying""";-1.028;1.067
 93;f;45;3;46;3;no information;young;no;;no;yes, within 2 trials;1;yes;1;1;1;8;3;5;8;0.375;ID93_AdditionalTask_Foil_f_3y;;;
 93;f;45;3;46;3;no information;young;no;;no;yes, within 2 trials;2;no;0;1;0.5;8;3;5;8;0.375;ID93_AdditionalTask_Foil_f_3y;;;
 93;f;45;3;46;3;no information;young;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;3;5;8;0.375;ID93_AdditionalTask_Foil_f_3y;;;
@@ -450,30 +450,30 @@
 93;f;45;3;46;3;no information;young;no;;no;yes, within 2 trials;6;no;0;2;0.333333333;8;3;5;8;0.375;ID93_AdditionalTask_Foil_f_3y;;;
 93;f;45;3;46;3;no information;young;no;;no;yes, within 2 trials;7;yes;1;3;0.428571429;8;3;5;8;0.375;ID93_AdditionalTask_Foil_f_3y;;;
 93;f;45;3;46;3;no information;young;no;;no;yes, within 2 trials;8;no;0;3;0.375;8;3;5;8;0.375;ID93_AdditionalTask_Foil_f_3y;;;
-94;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;1;yes;1;1;1;8;3;5;8;0.375;ID94_AdditionalTask_Foil_f_3y;did not ask, but really did not understand it;-0.882;0.944
-94;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;2;yes;1;2;1;8;3;5;8;0.375;ID94_AdditionalTask_Foil_f_3y;did not ask, but really did not understand it;-0.882;0.944
-94;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;3;no;0;2;0.666666667;8;3;5;8;0.375;ID94_AdditionalTask_Foil_f_3y;did not ask, but really did not understand it;-0.882;0.944
-94;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;4;no;0;2;0.5;8;3;5;8;0.375;ID94_AdditionalTask_Foil_f_3y;did not ask, but really did not understand it;-0.882;0.944
-94;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;5;no;0;2;0.4;8;3;5;8;0.375;ID94_AdditionalTask_Foil_f_3y;did not ask, but really did not understand it;-0.882;0.944
-94;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;6;yes;1;3;0.5;8;3;5;8;0.375;ID94_AdditionalTask_Foil_f_3y;did not ask, but really did not understand it;-0.882;0.944
-94;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;7;no;0;3;0.428571429;8;3;5;8;0.375;ID94_AdditionalTask_Foil_f_3y;did not ask, but really did not understand it;-0.882;0.944
-94;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;8;no;0;3;0.375;8;3;5;8;0.375;ID94_AdditionalTask_Foil_f_3y;did not ask, but really did not understand it;-0.882;0.944
-96;m;54;4;56;4;Speech Therapy;old;no;;no;yes, within 2 trials;1;no;0;0;0;8;4;4;8;0.5;ID96_AdditionalTask_Foil_m_4y;did not ask, but really did not understand it;0.047;0.772
-96;m;54;4;56;4;Speech Therapy;old;no;;no;yes, within 2 trials;2;yes;1;1;0.5;8;4;4;8;0.5;ID96_AdditionalTask_Foil_m_4y;;0.047;0.772
-96;m;54;4;56;4;Speech Therapy;old;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;4;4;8;0.5;ID96_AdditionalTask_Foil_m_4y;;0.047;0.772
-96;m;54;4;56;4;Speech Therapy;old;no;;no;yes, within 2 trials;4;no;0;2;0.5;8;4;4;8;0.5;ID96_AdditionalTask_Foil_m_4y;;0.047;0.772
-96;m;54;4;56;4;Speech Therapy;old;no;;no;yes, within 2 trials;5;no;0;2;0.4;8;4;4;8;0.5;ID96_AdditionalTask_Foil_m_4y;;0.047;0.772
-96;m;54;4;56;4;Speech Therapy;old;no;;no;yes, within 2 trials;6;yes;1;3;0.5;8;4;4;8;0.5;ID96_AdditionalTask_Foil_m_4y;;0.047;0.772
-96;m;54;4;56;4;Speech Therapy;old;no;;no;yes, within 2 trials;7;yes;1;4;0.571428571;8;4;4;8;0.5;ID96_AdditionalTask_Foil_m_4y;;0.047;0.772
-96;m;54;4;56;4;Speech Therapy;old;no;;no;yes, within 2 trials;8;no;0;4;0.5;8;4;4;8;0.5;ID96_AdditionalTask_Foil_m_4y;;0.047;0.772
-97;m;53;4;55;4;no information;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;3;5;8;0.375;ID97_AdditionalTask_Foil_m_4y;;0.296;-0.053
-97;m;53;4;55;4;no information;old;no;;no;yes, within 2 trials;2;no;0;1;0.5;8;3;5;8;0.375;ID97_AdditionalTask_Foil_m_4y;;0.296;-0.053
-97;m;53;4;55;4;no information;old;no;;no;yes, within 2 trials;3;no;0;1;0.333333333;8;3;5;8;0.375;ID97_AdditionalTask_Foil_m_4y;;0.296;-0.053
-97;m;53;4;55;4;no information;old;no;;no;yes, within 2 trials;4;yes;1;2;0.5;8;3;5;8;0.375;ID97_AdditionalTask_Foil_m_4y;;0.296;-0.053
-97;m;53;4;55;4;no information;old;no;;no;yes, within 2 trials;5;no;0;2;0.4;8;3;5;8;0.375;ID97_AdditionalTask_Foil_m_4y;;0.296;-0.053
-97;m;53;4;55;4;no information;old;no;;no;yes, within 2 trials;6;yes;1;3;0.5;8;3;5;8;0.375;ID97_AdditionalTask_Foil_m_4y;;0.296;-0.053
-97;m;53;4;55;4;no information;old;no;;no;yes, within 2 trials;7;no;0;3;0.428571429;8;3;5;8;0.375;ID97_AdditionalTask_Foil_m_4y;;0.296;-0.053
-97;m;53;4;55;4;no information;old;no;;no;yes, within 2 trials;8;no;0;3;0.375;8;3;5;8;0.375;ID97_AdditionalTask_Foil_m_4y;;0.296;-0.053
+94;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;1;yes;1;1;1;8;3;5;8;0.375;ID94_AdditionalTask_Foil_f_3y;did not ask, but really did not understand it;2.392;-1.702
+94;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;2;yes;1;2;1;8;3;5;8;0.375;ID94_AdditionalTask_Foil_f_3y;did not ask, but really did not understand it;2.392;-1.702
+94;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;3;no;0;2;0.666666667;8;3;5;8;0.375;ID94_AdditionalTask_Foil_f_3y;did not ask, but really did not understand it;2.392;-1.702
+94;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;4;no;0;2;0.5;8;3;5;8;0.375;ID94_AdditionalTask_Foil_f_3y;did not ask, but really did not understand it;2.392;-1.702
+94;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;5;no;0;2;0.4;8;3;5;8;0.375;ID94_AdditionalTask_Foil_f_3y;did not ask, but really did not understand it;2.392;-1.702
+94;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;6;yes;1;3;0.5;8;3;5;8;0.375;ID94_AdditionalTask_Foil_f_3y;did not ask, but really did not understand it;2.392;-1.702
+94;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;7;no;0;3;0.428571429;8;3;5;8;0.375;ID94_AdditionalTask_Foil_f_3y;did not ask, but really did not understand it;2.392;-1.702
+94;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;8;no;0;3;0.375;8;3;5;8;0.375;ID94_AdditionalTask_Foil_f_3y;did not ask, but really did not understand it;2.392;-1.702
+96;m;54;4;56;4;Speech Therapy;old;no;;no;yes, within 2 trials;1;no;0;0;0;8;4;4;8;0.5;ID96_AdditionalTask_Foil_m_4y;did not ask, but really did not understand it;-0.747;1.295
+96;m;54;4;56;4;Speech Therapy;old;no;;no;yes, within 2 trials;2;yes;1;1;0.5;8;4;4;8;0.5;ID96_AdditionalTask_Foil_m_4y;;-0.747;1.295
+96;m;54;4;56;4;Speech Therapy;old;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;4;4;8;0.5;ID96_AdditionalTask_Foil_m_4y;;-0.747;1.295
+96;m;54;4;56;4;Speech Therapy;old;no;;no;yes, within 2 trials;4;no;0;2;0.5;8;4;4;8;0.5;ID96_AdditionalTask_Foil_m_4y;;-0.747;1.295
+96;m;54;4;56;4;Speech Therapy;old;no;;no;yes, within 2 trials;5;no;0;2;0.4;8;4;4;8;0.5;ID96_AdditionalTask_Foil_m_4y;;-0.747;1.295
+96;m;54;4;56;4;Speech Therapy;old;no;;no;yes, within 2 trials;6;yes;1;3;0.5;8;4;4;8;0.5;ID96_AdditionalTask_Foil_m_4y;;-0.747;1.295
+96;m;54;4;56;4;Speech Therapy;old;no;;no;yes, within 2 trials;7;yes;1;4;0.571428571;8;4;4;8;0.5;ID96_AdditionalTask_Foil_m_4y;;-0.747;1.295
+96;m;54;4;56;4;Speech Therapy;old;no;;no;yes, within 2 trials;8;no;0;4;0.5;8;4;4;8;0.5;ID96_AdditionalTask_Foil_m_4y;;-0.747;1.295
+97;m;53;4;55;4;no information;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;3;5;8;0.375;ID97_AdditionalTask_Foil_m_4y;;0.883;-0.02
+97;m;53;4;55;4;no information;old;no;;no;yes, within 2 trials;2;no;0;1;0.5;8;3;5;8;0.375;ID97_AdditionalTask_Foil_m_4y;;0.883;-0.02
+97;m;53;4;55;4;no information;old;no;;no;yes, within 2 trials;3;no;0;1;0.333333333;8;3;5;8;0.375;ID97_AdditionalTask_Foil_m_4y;;0.883;-0.02
+97;m;53;4;55;4;no information;old;no;;no;yes, within 2 trials;4;yes;1;2;0.5;8;3;5;8;0.375;ID97_AdditionalTask_Foil_m_4y;;0.883;-0.02
+97;m;53;4;55;4;no information;old;no;;no;yes, within 2 trials;5;no;0;2;0.4;8;3;5;8;0.375;ID97_AdditionalTask_Foil_m_4y;;0.883;-0.02
+97;m;53;4;55;4;no information;old;no;;no;yes, within 2 trials;6;yes;1;3;0.5;8;3;5;8;0.375;ID97_AdditionalTask_Foil_m_4y;;0.883;-0.02
+97;m;53;4;55;4;no information;old;no;;no;yes, within 2 trials;7;no;0;3;0.428571429;8;3;5;8;0.375;ID97_AdditionalTask_Foil_m_4y;;0.883;-0.02
+97;m;53;4;55;4;no information;old;no;;no;yes, within 2 trials;8;no;0;3;0.375;8;3;5;8;0.375;ID97_AdditionalTask_Foil_m_4y;;0.883;-0.02
 98;f;46;3;47;3;speech + language;young;no;;no;yes, within 2 trials;1;no;0;0;0;8;5;3;8;0.625;ID98_AdditionalTask_Foil_f_3y;;;
 98;f;46;3;47;3;speech + language;young;no;;no;yes, within 2 trials;2;no;0;0;0;8;5;3;8;0.625;ID98_AdditionalTask_Foil_f_3y;;;
 98;f;46;3;47;3;speech + language;young;no;;no;yes, within 2 trials;3;yes;1;1;0.333333333;8;5;3;8;0.625;ID98_AdditionalTask_Foil_f_3y;;;
@@ -490,14 +490,14 @@
 99;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;6;no;0;3;0.5;8;4;4;8;0.5;ID99_AdditionalTask_Foil_f_3y;location bias;;
 99;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;7;yes;1;4;0.571428571;8;4;4;8;0.5;ID99_AdditionalTask_Foil_f_3y;location bias;;
 99;f;45;3;47;3;no;young;no;;no;yes, within 2 trials;8;no;0;4;0.5;8;4;4;8;0.5;ID99_AdditionalTask_Foil_f_3y;location bias;;
-100;m;57;4;59;4;no information;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;6;2;8;0.75;ID100_AdditionalTask_Foil_m_4y;did not ask;-0.727;-0.577
-100;m;57;4;59;4;no information;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;6;2;8;0.75;ID100_AdditionalTask_Foil_m_4y;did not ask;-0.727;-0.577
-100;m;57;4;59;4;no information;old;no;;no;yes, within 2 trials;3;no;0;2;0.666666667;8;6;2;8;0.75;ID100_AdditionalTask_Foil_m_4y;did not ask;-0.727;-0.577
-100;m;57;4;59;4;no information;old;no;;no;yes, within 2 trials;4;yes;1;3;0.75;8;6;2;8;0.75;ID100_AdditionalTask_Foil_m_4y;did not ask;-0.727;-0.577
-100;m;57;4;59;4;no information;old;no;;no;yes, within 2 trials;5;yes;1;4;0.8;8;6;2;8;0.75;ID100_AdditionalTask_Foil_m_4y;did not ask;-0.727;-0.577
-100;m;57;4;59;4;no information;old;no;;no;yes, within 2 trials;6;no;0;4;0.666666667;8;6;2;8;0.75;ID100_AdditionalTask_Foil_m_4y;did not ask;-0.727;-0.577
-100;m;57;4;59;4;no information;old;no;;no;yes, within 2 trials;7;yes;1;5;0.714285714;8;6;2;8;0.75;ID100_AdditionalTask_Foil_m_4y;did not ask;-0.727;-0.577
-100;m;57;4;59;4;no information;old;no;;no;yes, within 2 trials;8;yes;1;6;0.75;8;6;2;8;0.75;ID100_AdditionalTask_Foil_m_4y;did not ask;-0.727;-0.577
+100;m;57;4;59;4;no information;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;6;2;8;0.75;ID100_AdditionalTask_Foil_m_4y;did not ask;0.914;2.552
+100;m;57;4;59;4;no information;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;6;2;8;0.75;ID100_AdditionalTask_Foil_m_4y;did not ask;0.914;2.552
+100;m;57;4;59;4;no information;old;no;;no;yes, within 2 trials;3;no;0;2;0.666666667;8;6;2;8;0.75;ID100_AdditionalTask_Foil_m_4y;did not ask;0.914;2.552
+100;m;57;4;59;4;no information;old;no;;no;yes, within 2 trials;4;yes;1;3;0.75;8;6;2;8;0.75;ID100_AdditionalTask_Foil_m_4y;did not ask;0.914;2.552
+100;m;57;4;59;4;no information;old;no;;no;yes, within 2 trials;5;yes;1;4;0.8;8;6;2;8;0.75;ID100_AdditionalTask_Foil_m_4y;did not ask;0.914;2.552
+100;m;57;4;59;4;no information;old;no;;no;yes, within 2 trials;6;no;0;4;0.666666667;8;6;2;8;0.75;ID100_AdditionalTask_Foil_m_4y;did not ask;0.914;2.552
+100;m;57;4;59;4;no information;old;no;;no;yes, within 2 trials;7;yes;1;5;0.714285714;8;6;2;8;0.75;ID100_AdditionalTask_Foil_m_4y;did not ask;0.914;2.552
+100;m;57;4;59;4;no information;old;no;;no;yes, within 2 trials;8;yes;1;6;0.75;8;6;2;8;0.75;ID100_AdditionalTask_Foil_m_4y;did not ask;0.914;2.552
 117;m;64;5;65;5;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;6;2;8;0.75;ID117_AdditionalTask_Foil_m_5y;;;
 117;m;64;5;65;5;no;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;6;2;8;0.75;ID117_AdditionalTask_Foil_m_5y;;;
 117;m;64;5;65;5;no;old;no;;no;yes, within 2 trials;3;yes;1;3;1;8;6;2;8;0.75;ID117_AdditionalTask_Foil_m_5y;;;
@@ -506,14 +506,14 @@
 117;m;64;5;65;5;no;old;no;;no;yes, within 2 trials;6;no;0;5;0.833333333;8;6;2;8;0.75;ID117_AdditionalTask_Foil_m_5y;;;
 117;m;64;5;65;5;no;old;no;;no;yes, within 2 trials;7;yes;1;6;0.857142857;8;6;2;8;0.75;ID117_AdditionalTask_Foil_m_5y;;;
 117;m;64;5;65;5;no;old;no;;no;yes, within 2 trials;8;no;0;6;0.75;8;6;2;8;0.75;ID117_AdditionalTask_Foil_m_5y;;;
-119;f;59;4;61;5;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;5;3;8;0.625;ID119_AdditionalTask_Foil_f_4y;because one had a bigger hole (RA said she made sure the holes were of equal size);-1.014;-0.985
-119;f;59;4;61;5;no;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;5;3;8;0.625;ID119_AdditionalTask_Foil_f_4y;because one had a bigger hole (RA said she made sure the holes were of equal size);-1.014;-0.985
-119;f;59;4;61;5;no;old;no;;no;yes, within 2 trials;3;yes;1;3;1;8;5;3;8;0.625;ID119_AdditionalTask_Foil_f_4y;because one had a bigger hole (RA said she made sure the holes were of equal size);-1.014;-0.985
-119;f;59;4;61;5;no;old;no;;no;yes, within 2 trials;4;yes;1;4;1;8;5;3;8;0.625;ID119_AdditionalTask_Foil_f_4y;because one had a bigger hole (RA said she made sure the holes were of equal size);-1.014;-0.985
-119;f;59;4;61;5;no;old;no;;no;yes, within 2 trials;5;no;0;4;0.8;8;5;3;8;0.625;ID119_AdditionalTask_Foil_f_4y;because one had a bigger hole (RA said she made sure the holes were of equal size);-1.014;-0.985
-119;f;59;4;61;5;no;old;no;;no;yes, within 2 trials;6;no;0;4;0.666666667;8;5;3;8;0.625;ID119_AdditionalTask_Foil_f_4y;because one had a bigger hole (RA said she made sure the holes were of equal size);-1.014;-0.985
-119;f;59;4;61;5;no;old;no;;no;yes, within 2 trials;7;no;0;4;0.571428571;8;5;3;8;0.625;ID119_AdditionalTask_Foil_f_4y;because one had a bigger hole (RA said she made sure the holes were of equal size);-1.014;-0.985
-119;f;59;4;61;5;no;old;no;;no;yes, within 2 trials;8;yes;1;5;0.625;8;5;3;8;0.625;ID119_AdditionalTask_Foil_f_4y;because one had a bigger hole (RA said she made sure the holes were of equal size);-1.014;-0.985
+119;f;59;4;61;5;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;5;3;8;0.625;ID119_AdditionalTask_Foil_f_4y;because one had a bigger hole (RA said she made sure the holes were of equal size);-1.611;-0.366
+119;f;59;4;61;5;no;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;5;3;8;0.625;ID119_AdditionalTask_Foil_f_4y;because one had a bigger hole (RA said she made sure the holes were of equal size);-1.611;-0.366
+119;f;59;4;61;5;no;old;no;;no;yes, within 2 trials;3;yes;1;3;1;8;5;3;8;0.625;ID119_AdditionalTask_Foil_f_4y;because one had a bigger hole (RA said she made sure the holes were of equal size);-1.611;-0.366
+119;f;59;4;61;5;no;old;no;;no;yes, within 2 trials;4;yes;1;4;1;8;5;3;8;0.625;ID119_AdditionalTask_Foil_f_4y;because one had a bigger hole (RA said she made sure the holes were of equal size);-1.611;-0.366
+119;f;59;4;61;5;no;old;no;;no;yes, within 2 trials;5;no;0;4;0.8;8;5;3;8;0.625;ID119_AdditionalTask_Foil_f_4y;because one had a bigger hole (RA said she made sure the holes were of equal size);-1.611;-0.366
+119;f;59;4;61;5;no;old;no;;no;yes, within 2 trials;6;no;0;4;0.666666667;8;5;3;8;0.625;ID119_AdditionalTask_Foil_f_4y;because one had a bigger hole (RA said she made sure the holes were of equal size);-1.611;-0.366
+119;f;59;4;61;5;no;old;no;;no;yes, within 2 trials;7;no;0;4;0.571428571;8;5;3;8;0.625;ID119_AdditionalTask_Foil_f_4y;because one had a bigger hole (RA said she made sure the holes were of equal size);-1.611;-0.366
+119;f;59;4;61;5;no;old;no;;no;yes, within 2 trials;8;yes;1;5;0.625;8;5;3;8;0.625;ID119_AdditionalTask_Foil_f_4y;because one had a bigger hole (RA said she made sure the holes were of equal size);-1.611;-0.366
 120;m;70;5;72;6;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;6;2;8;0.75;ID120_AdditionalTask_Foil_m_5y;did not ask;;
 120;m;70;5;72;6;no;old;no;;no;yes, within 2 trials;2;yes;1;2;1;8;6;2;8;0.75;ID120_AdditionalTask_Foil_m_5y;did not ask;;
 120;m;70;5;72;6;no;old;no;;no;yes, within 2 trials;3;yes;1;3;1;8;6;2;8;0.75;ID120_AdditionalTask_Foil_m_5y;did not ask;;
@@ -522,22 +522,22 @@
 120;m;70;5;72;6;no;old;no;;no;yes, within 2 trials;6;yes;1;4;0.666666667;8;6;2;8;0.75;ID120_AdditionalTask_Foil_m_5y;did not ask;;
 120;m;70;5;72;6;no;old;no;;no;yes, within 2 trials;7;yes;1;5;0.714285714;8;6;2;8;0.75;ID120_AdditionalTask_Foil_m_5y;did not ask;;
 120;m;70;5;72;6;no;old;no;;no;yes, within 2 trials;8;yes;1;6;0.75;8;6;2;8;0.75;ID120_AdditionalTask_Foil_m_5y;did not ask;;
-121;f;58;4;60;5;no;old;no;;no;yes, within 2 trials;1;no;0;0;0;8;5;3;8;0.625;ID121_AdditionalTask_Foil_f_4y;;1.174;-0.45
-121;f;58;4;60;5;no;old;no;;no;yes, within 2 trials;2;no;0;0;0;8;5;3;8;0.625;ID121_AdditionalTask_Foil_f_4y;;1.174;-0.45
-121;f;58;4;60;5;no;old;no;;no;yes, within 2 trials;3;yes;1;1;0.333333333;8;5;3;8;0.625;ID121_AdditionalTask_Foil_f_4y;;1.174;-0.45
-121;f;58;4;60;5;no;old;no;;no;yes, within 2 trials;4;yes;1;2;0.5;8;5;3;8;0.625;ID121_AdditionalTask_Foil_f_4y;;1.174;-0.45
-121;f;58;4;60;5;no;old;no;;no;yes, within 2 trials;5;no;0;2;0.4;8;5;3;8;0.625;ID121_AdditionalTask_Foil_f_4y;;1.174;-0.45
-121;f;58;4;60;5;no;old;no;;no;yes, within 2 trials;6;yes;1;3;0.5;8;5;3;8;0.625;ID121_AdditionalTask_Foil_f_4y;;1.174;-0.45
-121;f;58;4;60;5;no;old;no;;no;yes, within 2 trials;7;yes;1;4;0.571428571;8;5;3;8;0.625;ID121_AdditionalTask_Foil_f_4y;;1.174;-0.45
-121;f;58;4;60;5;no;old;no;;no;yes, within 2 trials;8;yes;1;5;0.625;8;5;3;8;0.625;ID121_AdditionalTask_Foil_f_4y;;1.174;-0.45
-122;f;53;4;54;4;no;old;no;;no;yes, within 2 trials;1;no;0;0;0;8;3;5;8;0.375;ID122_AdditionalTask_Foil_f_4y;did not ask;2.831;0.101
-122;f;53;4;54;4;no;old;no;;no;yes, within 2 trials;2;no;0;0;0;8;3;5;8;0.375;ID122_AdditionalTask_Foil_f_4y;did not ask;2.831;0.101
-122;f;53;4;54;4;no;old;no;;no;yes, within 2 trials;3;yes;1;1;0.333333333;8;3;5;8;0.375;ID122_AdditionalTask_Foil_f_4y;did not ask;2.831;0.101
-122;f;53;4;54;4;no;old;no;;no;yes, within 2 trials;4;no;0;1;0.25;8;3;5;8;0.375;ID122_AdditionalTask_Foil_f_4y;did not ask;2.831;0.101
-122;f;53;4;54;4;no;old;no;;no;yes, within 2 trials;5;yes;1;2;0.4;8;3;5;8;0.375;ID122_AdditionalTask_Foil_f_4y;did not ask;2.831;0.101
-122;f;53;4;54;4;no;old;no;;no;yes, within 2 trials;6;no;0;2;0.333333333;8;3;5;8;0.375;ID122_AdditionalTask_Foil_f_4y;did not ask;2.831;0.101
-122;f;53;4;54;4;no;old;no;;no;yes, within 2 trials;7;no;0;2;0.285714286;8;3;5;8;0.375;ID122_AdditionalTask_Foil_f_4y;did not ask;2.831;0.101
-122;f;53;4;54;4;no;old;no;;no;yes, within 2 trials;8;yes;1;3;0.375;8;3;5;8;0.375;ID122_AdditionalTask_Foil_f_4y;did not ask;2.831;0.101
+121;f;58;4;60;5;no;old;no;;no;yes, within 2 trials;1;no;0;0;0;8;5;3;8;0.625;ID121_AdditionalTask_Foil_f_4y;;-1.169;0.231
+121;f;58;4;60;5;no;old;no;;no;yes, within 2 trials;2;no;0;0;0;8;5;3;8;0.625;ID121_AdditionalTask_Foil_f_4y;;-1.169;0.231
+121;f;58;4;60;5;no;old;no;;no;yes, within 2 trials;3;yes;1;1;0.333333333;8;5;3;8;0.625;ID121_AdditionalTask_Foil_f_4y;;-1.169;0.231
+121;f;58;4;60;5;no;old;no;;no;yes, within 2 trials;4;yes;1;2;0.5;8;5;3;8;0.625;ID121_AdditionalTask_Foil_f_4y;;-1.169;0.231
+121;f;58;4;60;5;no;old;no;;no;yes, within 2 trials;5;no;0;2;0.4;8;5;3;8;0.625;ID121_AdditionalTask_Foil_f_4y;;-1.169;0.231
+121;f;58;4;60;5;no;old;no;;no;yes, within 2 trials;6;yes;1;3;0.5;8;5;3;8;0.625;ID121_AdditionalTask_Foil_f_4y;;-1.169;0.231
+121;f;58;4;60;5;no;old;no;;no;yes, within 2 trials;7;yes;1;4;0.571428571;8;5;3;8;0.625;ID121_AdditionalTask_Foil_f_4y;;-1.169;0.231
+121;f;58;4;60;5;no;old;no;;no;yes, within 2 trials;8;yes;1;5;0.625;8;5;3;8;0.625;ID121_AdditionalTask_Foil_f_4y;;-1.169;0.231
+122;f;53;4;54;4;no;old;no;;no;yes, within 2 trials;1;no;0;0;0;8;3;5;8;0.375;ID122_AdditionalTask_Foil_f_4y;did not ask;-0.55;0.831
+122;f;53;4;54;4;no;old;no;;no;yes, within 2 trials;2;no;0;0;0;8;3;5;8;0.375;ID122_AdditionalTask_Foil_f_4y;did not ask;-0.55;0.831
+122;f;53;4;54;4;no;old;no;;no;yes, within 2 trials;3;yes;1;1;0.333333333;8;3;5;8;0.375;ID122_AdditionalTask_Foil_f_4y;did not ask;-0.55;0.831
+122;f;53;4;54;4;no;old;no;;no;yes, within 2 trials;4;no;0;1;0.25;8;3;5;8;0.375;ID122_AdditionalTask_Foil_f_4y;did not ask;-0.55;0.831
+122;f;53;4;54;4;no;old;no;;no;yes, within 2 trials;5;yes;1;2;0.4;8;3;5;8;0.375;ID122_AdditionalTask_Foil_f_4y;did not ask;-0.55;0.831
+122;f;53;4;54;4;no;old;no;;no;yes, within 2 trials;6;no;0;2;0.333333333;8;3;5;8;0.375;ID122_AdditionalTask_Foil_f_4y;did not ask;-0.55;0.831
+122;f;53;4;54;4;no;old;no;;no;yes, within 2 trials;7;no;0;2;0.285714286;8;3;5;8;0.375;ID122_AdditionalTask_Foil_f_4y;did not ask;-0.55;0.831
+122;f;53;4;54;4;no;old;no;;no;yes, within 2 trials;8;yes;1;3;0.375;8;3;5;8;0.375;ID122_AdditionalTask_Foil_f_4y;did not ask;-0.55;0.831
 123;f;52;4;53;4;no information;old;no;;no;yes, within 2 trials;1;no;0;0;0;8;5;3;8;0.625;ID123_AdditionalTask_Foil_f_4y;At the start the child said 'I know how to do this one, I've played it in my house' ;;
 123;f;52;4;53;4;no information;old;no;;no;yes, within 2 trials;2;no;0;0;0;8;5;3;8;0.625;ID123_AdditionalTask_Foil_f_4y;At the start the child said 'I know how to do this one, I've played it in my house' ;;
 123;f;52;4;53;4;no information;old;no;;no;yes, within 2 trials;3;yes;1;1;0.333333333;8;5;3;8;0.625;ID123_AdditionalTask_Foil_f_4y;At the start the child said 'I know how to do this one, I've played it in my house' ;;
@@ -546,14 +546,14 @@
 123;f;52;4;53;4;no information;old;no;;no;yes, within 2 trials;6;yes;1;4;0.666666667;8;5;3;8;0.625;ID123_AdditionalTask_Foil_f_4y;At the start the child said 'I know how to do this one, I've played it in my house' ;;
 123;f;52;4;53;4;no information;old;no;;no;yes, within 2 trials;7;no;0;4;0.571428571;8;5;3;8;0.625;ID123_AdditionalTask_Foil_f_4y;At the start the child said 'I know how to do this one, I've played it in my house' ;;
 123;f;52;4;53;4;no information;old;no;;no;yes, within 2 trials;8;yes;1;5;0.625;8;5;3;8;0.625;ID123_AdditionalTask_Foil_f_4y;At the start the child said 'I know how to do this one, I've played it in my house' ;;
-124;m;52;4;52;4;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;5;3;8;0.625;ID124_AdditionalTask_Foil_m_4y;;-0.304;0.577
-124;m;52;4;52;4;no;old;no;;no;yes, within 2 trials;2;no;0;1;0.5;8;5;3;8;0.625;ID124_AdditionalTask_Foil_m_4y;;-0.304;0.577
-124;m;52;4;52;4;no;old;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;5;3;8;0.625;ID124_AdditionalTask_Foil_m_4y;;-0.304;0.577
-124;m;52;4;52;4;no;old;no;;no;yes, within 2 trials;4;yes;1;3;0.75;8;5;3;8;0.625;ID124_AdditionalTask_Foil_m_4y;;-0.304;0.577
-124;m;52;4;52;4;no;old;no;;no;yes, within 2 trials;5;yes;1;4;0.8;8;5;3;8;0.625;ID124_AdditionalTask_Foil_m_4y;;-0.304;0.577
-124;m;52;4;52;4;no;old;no;;no;yes, within 2 trials;6;yes;1;5;0.833333333;8;5;3;8;0.625;ID124_AdditionalTask_Foil_m_4y;;-0.304;0.577
-124;m;52;4;52;4;no;old;no;;no;yes, within 2 trials;7;no;0;5;0.714285714;8;5;3;8;0.625;ID124_AdditionalTask_Foil_m_4y;;-0.304;0.577
-124;m;52;4;52;4;no;old;no;;no;yes, within 2 trials;8;no;0;5;0.625;8;5;3;8;0.625;ID124_AdditionalTask_Foil_m_4y;;-0.304;0.577
+124;m;52;4;52;4;no;old;no;;no;yes, within 2 trials;1;yes;1;1;1;8;5;3;8;0.625;ID124_AdditionalTask_Foil_m_4y;;-0.145;-1.562
+124;m;52;4;52;4;no;old;no;;no;yes, within 2 trials;2;no;0;1;0.5;8;5;3;8;0.625;ID124_AdditionalTask_Foil_m_4y;;-0.145;-1.562
+124;m;52;4;52;4;no;old;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;5;3;8;0.625;ID124_AdditionalTask_Foil_m_4y;;-0.145;-1.562
+124;m;52;4;52;4;no;old;no;;no;yes, within 2 trials;4;yes;1;3;0.75;8;5;3;8;0.625;ID124_AdditionalTask_Foil_m_4y;;-0.145;-1.562
+124;m;52;4;52;4;no;old;no;;no;yes, within 2 trials;5;yes;1;4;0.8;8;5;3;8;0.625;ID124_AdditionalTask_Foil_m_4y;;-0.145;-1.562
+124;m;52;4;52;4;no;old;no;;no;yes, within 2 trials;6;yes;1;5;0.833333333;8;5;3;8;0.625;ID124_AdditionalTask_Foil_m_4y;;-0.145;-1.562
+124;m;52;4;52;4;no;old;no;;no;yes, within 2 trials;7;no;0;5;0.714285714;8;5;3;8;0.625;ID124_AdditionalTask_Foil_m_4y;;-0.145;-1.562
+124;m;52;4;52;4;no;old;no;;no;yes, within 2 trials;8;no;0;5;0.625;8;5;3;8;0.625;ID124_AdditionalTask_Foil_m_4y;;-0.145;-1.562
 125;f;40;3;41;3;no;young;no;;no;yes, within 2 trials;1;no;0;0;0;8;4;4;8;0.5;ID125_AdditionalTask_Foil_m_3y;;;
 125;f;40;3;41;3;no;young;no;;no;yes, within 2 trials;2;yes;1;1;0.5;8;4;4;8;0.5;ID125_AdditionalTask_Foil_m_3y;;;
 125;f;40;3;41;3;no;young;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;4;4;8;0.5;ID125_AdditionalTask_Foil_m_3y;;;
@@ -570,14 +570,14 @@
 126;f;53;4;54;4;no information;old;no;;no;yes, within 2 trials;6;no;0;3;0.5;8;3;5;8;0.375;ID126_AdditionalTask_Foil_f_4y;;;
 126;f;53;4;54;4;no information;old;no;;no;yes, within 2 trials;7;no;0;3;0.428571429;8;3;5;8;0.375;ID126_AdditionalTask_Foil_f_4y;;;
 126;f;53;4;54;4;no information;old;no;;no;yes, within 2 trials;8;no;0;3;0.375;8;3;5;8;0.375;ID126_AdditionalTask_Foil_f_4y;;;
-130;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;1;yes;1;1;1;8;4;4;8;0.5;ID130_AdditionalTask_Foil_f_3y;;0.746;-0.75
-130;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;2;no;0;1;0.5;8;4;4;8;0.5;ID130_AdditionalTask_Foil_f_3y;;0.746;-0.75
-130;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;4;4;8;0.5;ID130_AdditionalTask_Foil_f_3y;;0.746;-0.75
-130;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;4;yes;1;3;0.75;8;4;4;8;0.5;ID130_AdditionalTask_Foil_f_3y;;0.746;-0.75
-130;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;5;yes;1;4;0.8;8;4;4;8;0.5;ID130_AdditionalTask_Foil_f_3y;;0.746;-0.75
-130;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;6;no;0;4;0.666666667;8;4;4;8;0.5;ID130_AdditionalTask_Foil_f_3y;;0.746;-0.75
-130;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;7;no;0;4;0.571428571;8;4;4;8;0.5;ID130_AdditionalTask_Foil_f_3y;;0.746;-0.75
-130;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;8;no;0;4;0.5;8;4;4;8;0.5;ID130_AdditionalTask_Foil_f_3y;;0.746;-0.75
+130;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;1;yes;1;1;1;8;4;4;8;0.5;ID130_AdditionalTask_Foil_f_3y;;0.499;-1.133
+130;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;2;no;0;1;0.5;8;4;4;8;0.5;ID130_AdditionalTask_Foil_f_3y;;0.499;-1.133
+130;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;4;4;8;0.5;ID130_AdditionalTask_Foil_f_3y;;0.499;-1.133
+130;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;4;yes;1;3;0.75;8;4;4;8;0.5;ID130_AdditionalTask_Foil_f_3y;;0.499;-1.133
+130;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;5;yes;1;4;0.8;8;4;4;8;0.5;ID130_AdditionalTask_Foil_f_3y;;0.499;-1.133
+130;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;6;no;0;4;0.666666667;8;4;4;8;0.5;ID130_AdditionalTask_Foil_f_3y;;0.499;-1.133
+130;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;7;no;0;4;0.571428571;8;4;4;8;0.5;ID130_AdditionalTask_Foil_f_3y;;0.499;-1.133
+130;f;45;3;46;3;no;young;no;;no;yes, within 2 trials;8;no;0;4;0.5;8;4;4;8;0.5;ID130_AdditionalTask_Foil_f_3y;;0.499;-1.133
 131;m;53;4;53;4;no;old;no;;no;yes, within 2 trials;1;no;0;0;0;8;4;4;8;0.5;ID131_AdditionalTask_Foil_m_4y;;;
 131;m;53;4;53;4;no;old;no;;no;yes, within 2 trials;2;no;0;0;0;8;4;4;8;0.5;ID131_AdditionalTask_Foil_m_4y;;;
 131;m;53;4;53;4;no;old;no;;no;yes, within 2 trials;3;yes;1;1;0.333333333;8;4;4;8;0.5;ID131_AdditionalTask_Foil_m_4y;;;
@@ -594,13 +594,13 @@
 132;f;54;4;58;4;no;old;no;;no;yes, within 2 trials;6;no;0;4;0.666666667;8;6;2;8;0.75;ID132_AdditionalTask_Foil_f_4y;I don't know;;
 132;f;54;4;58;4;no;old;no;;no;yes, within 2 trials;7;yes;1;5;0.714285714;8;6;2;8;0.75;ID132_AdditionalTask_Foil_f_4y;I don't know;;
 132;f;54;4;58;4;no;old;no;;no;yes, within 2 trials;8;yes;1;6;0.75;8;6;2;8;0.75;ID132_AdditionalTask_Foil_f_4y;I don't know;;
-133;f;64;5;64;5;no;old;no;Experimenter error (ran out of tin foil for last trial), but we can still keep the data;yes;yes, within 2 trials;1;yes;1;1;1;7;5;2;7;0.714285714;ID133_AdditionalTask_Foil_f_5y;;1.621;0.135
-133;f;64;5;64;5;no;old;no;Experimenter error (ran out of tin foil for last trial), but we can still keep the data;yes;yes, within 2 trials;2;yes;1;2;1;7;5;2;7;0.714285714;ID133_AdditionalTask_Foil_f_5y;;1.621;0.135
-133;f;64;5;64;5;no;old;no;Experimenter error (ran out of tin foil for last trial), but we can still keep the data;yes;yes, within 2 trials;3;no;0;2;0.666666667;7;5;2;7;0.714285714;ID133_AdditionalTask_Foil_f_5y;;1.621;0.135
-133;f;64;5;64;5;no;old;no;Experimenter error (ran out of tin foil for last trial), but we can still keep the data;yes;yes, within 2 trials;4;yes;1;3;0.75;7;5;2;7;0.714285714;ID133_AdditionalTask_Foil_f_5y;;1.621;0.135
-133;f;64;5;64;5;no;old;no;Experimenter error (ran out of tin foil for last trial), but we can still keep the data;yes;yes, within 2 trials;5;no;0;3;0.6;7;5;2;7;0.714285714;ID133_AdditionalTask_Foil_f_5y;;1.621;0.135
-133;f;64;5;64;5;no;old;no;Experimenter error (ran out of tin foil for last trial), but we can still keep the data;yes;yes, within 2 trials;6;yes;1;4;0.666666667;7;5;2;7;0.714285714;ID133_AdditionalTask_Foil_f_5y;;1.621;0.135
-133;f;64;5;64;5;no;old;no;Experimenter error (ran out of tin foil for last trial), but we can still keep the data;yes;yes, within 2 trials;7;yes;1;5;0.714285714;7;5;2;7;0.714285714;ID133_AdditionalTask_Foil_f_5y;;1.621;0.135
+133;f;64;5;64;5;no;old;no;Experimenter error (ran out of tin foil for last trial), but we can still keep the data;yes;yes, within 2 trials;1;yes;1;1;1;7;5;2;7;0.714285714;ID133_AdditionalTask_Foil_f_5y;;-2.566;-2.166
+133;f;64;5;64;5;no;old;no;Experimenter error (ran out of tin foil for last trial), but we can still keep the data;yes;yes, within 2 trials;2;yes;1;2;1;7;5;2;7;0.714285714;ID133_AdditionalTask_Foil_f_5y;;-2.566;-2.166
+133;f;64;5;64;5;no;old;no;Experimenter error (ran out of tin foil for last trial), but we can still keep the data;yes;yes, within 2 trials;3;no;0;2;0.666666667;7;5;2;7;0.714285714;ID133_AdditionalTask_Foil_f_5y;;-2.566;-2.166
+133;f;64;5;64;5;no;old;no;Experimenter error (ran out of tin foil for last trial), but we can still keep the data;yes;yes, within 2 trials;4;yes;1;3;0.75;7;5;2;7;0.714285714;ID133_AdditionalTask_Foil_f_5y;;-2.566;-2.166
+133;f;64;5;64;5;no;old;no;Experimenter error (ran out of tin foil for last trial), but we can still keep the data;yes;yes, within 2 trials;5;no;0;3;0.6;7;5;2;7;0.714285714;ID133_AdditionalTask_Foil_f_5y;;-2.566;-2.166
+133;f;64;5;64;5;no;old;no;Experimenter error (ran out of tin foil for last trial), but we can still keep the data;yes;yes, within 2 trials;6;yes;1;4;0.666666667;7;5;2;7;0.714285714;ID133_AdditionalTask_Foil_f_5y;;-2.566;-2.166
+133;f;64;5;64;5;no;old;no;Experimenter error (ran out of tin foil for last trial), but we can still keep the data;yes;yes, within 2 trials;7;yes;1;5;0.714285714;7;5;2;7;0.714285714;ID133_AdditionalTask_Foil_f_5y;;-2.566;-2.166
 134;m;58;4;59;4;no information;old;no;;no;yes, within 2 trials;1;no;0;0;0;8;3;5;8;0.375;ID134_AdditionalTask_Foil_m_4y;trial 1 of test was re-done as child punched the foil on the cup when showed the cups after the foil is broken with the pen;;
 134;m;58;4;59;4;no information;old;no;;no;yes, within 2 trials;2;yes;1;1;0.5;8;3;5;8;0.375;ID134_AdditionalTask_Foil_m_4y;trial 1 of test was re-done as child punched the foil on the cup when showed the cups after the foil is broken with the pen;;
 134;m;58;4;59;4;no information;old;no;;no;yes, within 2 trials;3;yes;1;2;0.666666667;8;3;5;8;0.375;ID134_AdditionalTask_Foil_m_4y;trial 1 of test was re-done as child punched the foil on the cup when showed the cups after the foil is broken with the pen;;

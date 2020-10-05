@@ -19,7 +19,7 @@ knitr::opts_knit$set(root.dir = "C:\\")
 ```{r}
 #LOAD DATA AND LIBRARIES
 setwd("C:\\")#sets the working directory, this is where your datafile is
-bing <-read.csv("bing_data.csv", header=TRUE)
+bing <-read.csv("Bing.csv", header=TRUE, sep = ";")
 library(lme4)
 library(readr)
 library(tidyverse)
@@ -36,9 +36,10 @@ library(ggplot2)
 ```{r}
 #OVERVIEW
 str(bing)
+names(bing)[1] <- "ID"
 
 #recode variables
-bing$id <- as.factor(bing$id)
+bing$ID <- as.factor(bing$ID)
 bing$Age_group <- as.factor(bing$Age_group)
 
 levels(bing$Age_group)
@@ -58,10 +59,10 @@ We eventually decided to include children who have completed 75% (i.e., 15 trial
 
 # Removing the dropouts from data
 ```{r}
-bingvalid<-subset(bing, Dropout=="no")
+bingvalid<-subset(bing, Dropout=="no ")
 #aggregating by ID to see the sample size
 bing_individual <- bingvalid %>%
-  group_by(id, Gender, Age_months, Midtesting_age_months, Midtesting_age_group, Median_split_age) %>%
+  group_by(ID, Gender, Age_months, Midtesting_age_months, Midtesting_age_group, Median_split_age) %>%
   summarize(Success_in0and1 = mean(Success_in0and1))%>%
   ungroup()%>%
   group_by(Midtesting_age_group)%>%
@@ -282,15 +283,15 @@ Can children's performance be predicted by age?
 bingvalid$z.age.midtesting=as.vector(scale(bingvalid$Midtesting_age_months))
 bingvalid$z.trialno=as.vector(scale(bingvalid$Trial_nr))
 
-full<-glmer(Success_in0and1 ~ z.age.midtesting + z.trialno + z.age.midtesting:z.trialno + (1+z.trialno|id), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))#singular fit
+full<-glmer(Success_in0and1 ~ z.age.midtesting + z.trialno + z.age.midtesting:z.trialno + (1+z.trialno|ID), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))#singular fit
 summary(full)
 
-full<-glmer(Success_in0and1 ~ z.age.midtesting + z.trialno + z.age.midtesting:z.trialno + (1|id) + (0+z.trialno|id), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
+full<-glmer(Success_in0and1 ~ z.age.midtesting + z.trialno + z.age.midtesting:z.trialno + (1|ID) + (0+z.trialno|ID), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
 ```
 
 Comparison against null model
 ```{r}
-null<-glmer(Success_in0and1 ~ 1 + (1|id) + (0+z.trialno|id), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
+null<-glmer(Success_in0and1 ~ 1 + (1|ID) + (0+z.trialno|ID), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
 
 anova(null, full, test="Chisq")
 ```
@@ -300,14 +301,14 @@ Trial number, age, and the interaction between trial number and age together exp
 Check for significance of terms
 
 ```{r}
-full.nointer<-glmer(Success_in0and1 ~ z.age.midtesting + z.trialno + (1|id) + (0+z.trialno|id), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
+full.nointer<-glmer(Success_in0and1 ~ z.age.midtesting + z.trialno + (1|ID) + (0+z.trialno|ID), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
 
 anova(full.nointer, full, test="Chisq")
 ```
 The interaction effect is not significant, so we remove it from the model.
 
 ```{r}
-full<-glmer(Success_in0and1 ~ z.age.midtesting + z.trialno + (1|id) + (0+z.trialno|id), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
+full<-glmer(Success_in0and1 ~ z.age.midtesting + z.trialno + (1|ID) + (0+z.trialno|ID), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
 
 anova(null, full, test="Chisq")
 ```
@@ -315,7 +316,7 @@ Age and trial number explain the data significantly better than a null model, X2
 
 Effect of age
 ```{r}
-full.noage<-glmer(Success_in0and1 ~  z.trialno + (1|id) + (0+z.trialno|id), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
+full.noage<-glmer(Success_in0and1 ~  z.trialno + (1|ID) + (0+z.trialno|ID), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
 
 anova(full.noage, full, test="Chisq")
 ```
@@ -324,7 +325,7 @@ No age effect, X2(1) = 0.272, p = .602.
 
 Effect of trial number
 ```{r}
-full.notrial<-glmer(Success_in0and1 ~  z.age.midtesting + (1|id) + (0+z.trialno|id), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
+full.notrial<-glmer(Success_in0and1 ~  z.age.midtesting + (1|ID) + (0+z.trialno|ID), data=bingvalid, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
 
 anova(full.notrial, full, test="Chisq")
 ```
@@ -373,3 +374,26 @@ p + geom_line(size=1.2) + geom_errorbar(limits, position = position_dodge(0.9), 
 
 ```
 Performance seems to get better over trials but this is expected in this task as children have no way of knowing where to locate the reward in the first trial.
+
+# Can children's performance be predicted by the principal components?
+```{r}
+bingvalid.PC <- subset(bingvalid, PC1 !="NA")
+bingvalid.PC$z.age.midtesting=as.vector(scale(bingvalid.PC$Midtesting.age.months))
+bingvalid.PC$z.trialno=as.vector(scale(bingvalid.PC$Trial_nr))
+bingvalid.PC$z.PC1=as.vector(scale(bingvalid.PC$PC1))
+bingvalid.PC$z.PC2=as.vector(scale(bingvalid.PC$PC2))
+
+full<-glmer(Success_in0and1 ~ z.PC1 + z.PC2 + z.age.midtesting + z.trialno + (1+z.trialno|ID), data=bingvalid.PC, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))#singular fit
+summary(full)
+
+full<-glmer(Success_in0and1 ~ z.PC1 + z.PC2 +z.age.midtesting + z.trialno+ (1|ID) + (0+z.trialno|ID), data=bingvalid.PC, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))#singular fit
+```
+
+Comparison against null model
+```{r}
+null<-glmer(Success_in0and1 ~ 1 + (1|ID) + (0+z.trialno|ID), data=bingvalid.PC, family = binomial, control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000)))
+
+anova(null, full, test="Chisq")
+```
+Trial number, age, and the two principal components cannot explaint the data better than a null model only containing an intercept, X2(4) = 8.746, p = .068. 
+

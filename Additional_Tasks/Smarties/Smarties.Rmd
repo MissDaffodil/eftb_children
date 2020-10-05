@@ -508,4 +508,4 @@ anova(null, res, test="Chisq")
 
 summary(res)
 ```
-PC1 and PC2 cannot predict the Total score in the Smarties task.
+PC1 and PC2 cannot predict the Total score in the Smarties task, X2(2) = 2.335, p = .471.

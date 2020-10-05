@@ -240,4 +240,4 @@ null <- lm(Testboard.Cupsliftedbeforeswitch ~ 1, data = Worlds.valid.PC)
 
 anova(null, res, test="Chisq")
 ```
-PC1 and PC2 cannot predict performance on number of cups lifted, X2(2) = 38.362, p = .039.
+PC1 and PC2 cannot predict performance on number of cups lifted, X2(2) = 33.473, p = .379.
