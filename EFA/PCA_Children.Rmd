@@ -1,0 +1,186 @@
+---
+title: "PCA_Children"
+author: "Eva Reindl"
+date: "11 9 2020"
+output: html_document
+---
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+Note that we can only include children who have valid data on each task
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+CFA <-read.csv("CombinedFile_CFA_onlyfulldatasets.csv",header=TRUE, sep = ";")
+
+library(tidyverse)
+library(psych)
+library(nFactors)
+library(summarytools)
+library(corrr)
+library(reshape2)
+```
+
+
+# We scale the variables according to testing location
+```{r}
+Edi <- subset(CFA, TestingLocation == "Edinburgh")
+Fife <- subset(CFA, TestingLocation == "Fife")
+Edi$WMUpdating <- scale(Edi$WMUpdating)
+Edi$WMBoxes <- scale(Edi$WMBoxes)
+Edi$WMGrid <- scale(Edi$WMGrid)
+Edi$CD_all <- scale(Edi$CD_all)
+Edi$Tray <- scale(Edi$Tray)
+Edi$Shelf <- scale(Edi$Shelf)
+Edi$GlassCeiling <- scale(Edi$GlassCeiling)
+Edi$Cylinder <- scale(Edi$Cylinder)
+Edi$InhibGrid <- scale(Edi$InhibGrid)
+
+Fife$WMUpdating <- scale(Fife$WMUpdating)
+Fife$WMBoxes <- scale(Fife$WMBoxes)
+Fife$WMGrid <- scale(Fife$WMGrid)
+Fife$CD_all <- scale(Fife$CD_all)
+Fife$Tray <- scale(Fife$Tray)
+Fife$Shelf <- scale(Fife$Shelf)
+Fife$GlassCeiling <- scale(Fife$GlassCeiling)
+Fife$Cylinder <- scale(Fife$Cylinder)
+Fife$InhibGrid <- scale(Fife$InhibGrid)
+
+CFA_new <- rbind(Fife, Edi)
+str(CFA_new)
+
+efa.data.children<-CFA_new%>%
+  select(-1,  -2, -3, -4,-5, -6)
+```  
+
+# Correlation matrix
+```{r}
+  get_upper_tri <- function(cormat){
+    cormat[lower.tri(cormat)]<- NA
+    return(cormat)
+  }
+
+cormat <- round(cor(efa.data.children, method="pearson", use = "pairwise.complete.obs"),2)
+upper_tri <- get_upper_tri(cormat)
+melted_cormat=melt(cormat, na.rm = TRUE)
+ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile()+
+  geom_text(aes(Var2, Var1, label = value), color = "black", size = 2) +
+ scale_fill_gradient2(low = "blue", high = "red", 
+   midpoint = 0, limit = c(-1,1), space = "Lab", 
+   name=" Pearson Correlation") +
+  theme_minimal()+ 
+ theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+    size = 8, hjust = 1))+
+  labs(x="",y="")+
+ coord_fixed()
+```
+
+# Exploratory FA
+```{r}
+KMO(efa.data.children)
+```
+
+## Determine Number of Factors to Extract
+```{r}
+ev <- eigen(cor(efa.data.children)) # get eigenvalues
+ap <- parallel(subject=nrow(efa.data.children),var=ncol(efa.data.children),
+  rep=1000,cent=.1)
+nS <- nScree(x=ev$values, aparallel=ap$eigen$qevpea)
+plotnScree(nS) 
+```
+
+
+```{r}
+cortest.bartlett(efa.data.children)
+```
+
+```{r}
+fit <- factanal(efa.data.children, 3, rotation="varimax")
+print(fit, digits=2, cutoff=.3, sort=TRUE)
+
+fa.diagram(fit$loadings, digits=2,cut=.3, simple=FALSE,  adj = 3)
+
+```
+
+# Amanda asked whether we can run the exploratory factor analysis with the raw scores
+```{r}
+CFA <-read.csv("CombinedFile_CFA_onlyfulldatasets.csv",header=TRUE, sep = ";")
+library(dplyr)
+efa.data.children.raw<-select(CFA, -1, -2, -3, -4, -5, -6)
+```
+
+```{r}
+KMO(efa.data.children.raw)
+```
+
+## Determine Number of Factors to Extract
+```{r}
+ev <- eigen(cor(efa.data.children.raw)) # get eigenvalues
+ap <- parallel(subject=nrow(efa.data.children.raw),var=ncol(efa.data.children.raw),
+  rep=1000,cent=.1)
+nS <- nScree(x=ev$values, aparallel=ap$eigen$qevpea)
+plotnScree(nS) 
+```
+
+
+```{r}
+cortest.bartlett(efa.data.children.raw)
+```
+
+```{r}
+fit <- factanal(efa.data.children.raw, 3, rotation="varimax")
+print(fit, digits=2, cutoff=.3, sort=TRUE)
+
+fa.diagram(fit$loadings, digits=2,cut=.3, simple=FALSE,  adj = 3)
+
+```
+
+
+
+
+
+
+
+# Principal Component Analysis
+```{r}
+library(dplyr)
+pc.data<-select(CFA_new, -1, -2, -3, -4, -5, -6)
+
+fit <- princomp(pc.data, cor=TRUE)
+summary(fit) # print variance accounted for
+loadings(fit) # pc loadings
+plot(fit,type="lines") # scree plot
+#fit$scores # the principal components
+biplot(fit) 
+
+
+
+pca <- prcomp(pc.data)
+loadings <- pca$rotation
+axes <- round(predict(pca, newdata = pc.data), digits = 3)
+
+
+write.table(axes,"C:\\Users/evare/Dropbox/St Andrews Postdoc/Analysis Testbattery/PCA_loadings.txt", row.names = T, sep = "|")
+```  
+
+
+
+```{r}
+library(psych)
+fit <- principal(pc.data, nfactors=3, rotate="varimax")
+fit # print results 
+biplot(fit) 
+KMO(pc.data)
+cortest.bartlett(pc.data)
+```
+
