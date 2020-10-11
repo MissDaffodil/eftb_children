@@ -1,0 +1,378 @@
+---
+title: "CFA_Children_Blavaan"
+author: "Eva Reindl"
+date: "20 8 2020"
+output: word_document
+---
+
+```{r}
+#PREPARE
+R.Version()#for referencing, shows you which R version you are using
+rm(list=ls())#removes any other items in your workspace
+ls()#check whether workspace is empty
+```
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:\\")
+```
+
+```{r}
+#Load packages
+library(lme4)
+library(readr)
+library(tidyverse)
+library(sjPlot)
+library(ggthemes)
+library(gridExtra)
+library(ggpubr)
+library(corrr)
+library(reshape2)
+library(psych)
+library(summarytools)
+library(lavaan)
+library(MVN)
+library(car)
+library(lavaanPlot)
+library(blavaan)
+```
+# Selection of task DVs
+* All DVs have been scaled to values between 0 and 1 with higher values indicating better performance.
+* Inhibition tasks: proportion correct searches in *first trial*. 
+First trial performance shows signature of prepotent response. Comparability to chimpanzees with first session.
+* Shifting tasks: Shifting Boxes: Proportion correct in the CD phase (as measure of susceptibility to interference from anonther stimulus dimension); Shifting Shelf task:  proportion of platform switches; Shifting Trays task: proportion correct. 
+* Working memory: WM Boxes and WM Updating (both platforms): proportion of correct choices; WM Grid: proximity of first choice to the baited compartment (ranging between 0 and 1). DVs capture the test performance (in the presence of a secondary task).
+
+```{r}
+#LOAD DATA
+setwd("C:\\")#sets the working directory, this is where your datafile is
+CFA <-read.csv("CombinedFile_CFA.csv",header=TRUE, sep = ";")
+```
+
+# We scale the variables according to testing location
+```{r}
+Edi <- subset(CFA, TestingLocation == "Edinburgh")
+Fife <- subset(CFA, TestingLocation == "Fife")
+Edi$WMUpdating <- scale(Edi$WMUpdating)
+Edi$WMBoxes <- scale(Edi$WMBoxes)
+Edi$WMGrid <- scale(Edi$WMGrid)
+Edi$CD_all <- scale(Edi$CD_all)
+Edi$Tray <- scale(Edi$Tray)
+Edi$Shelf <- scale(Edi$Shelf)
+Edi$GlassCeiling <- scale(Edi$GlassCeiling)
+Edi$Cylinder <- scale(Edi$Cylinder)
+Edi$InhibGrid <- scale(Edi$InhibGrid)
+
+#check whether it has worked
+mean(Edi$WMUpdating)
+sd(Edi$WMUpdating)
+
+mean(Edi$WMBoxes, na.rm =T)
+sd(Edi$WMBoxes, na.rm =T)
+
+mean(Edi$WMGrid, na.rm =T)
+sd(Edi$WMGrid, na.rm =T)
+
+mean(Edi$CD_all, na.rm =T)
+sd(Edi$CD_all, na.rm =T)
+
+mean(Edi$Tray, na.rm =T)
+sd(Edi$Tray, na.rm =T)
+
+mean(Edi$Shelf, na.rm =T)
+sd(Edi$Shelf, na.rm =T)
+
+mean(Edi$GlassCeiling, na.rm =T)
+sd(Edi$GlassCeiling, na.rm =T)
+
+mean(Edi$Cylinder, na.rm =T)
+sd(Edi$Cylinder, na.rm =T)
+
+mean(Edi$InhibGrid, na.rm =T)
+sd(Edi$InhibGrid, na.rm =T)
+
+
+Fife$WMUpdating <- scale(Fife$WMUpdating)
+Fife$WMBoxes <- scale(Fife$WMBoxes)
+Fife$WMGrid <- scale(Fife$WMGrid)
+Fife$CD_all <- scale(Fife$CD_all)
+Fife$Tray <- scale(Fife$Tray)
+Fife$Shelf <- scale(Fife$Shelf)
+Fife$GlassCeiling <- scale(Fife$GlassCeiling)
+Fife$Cylinder <- scale(Fife$Cylinder)
+Fife$InhibGrid <- scale(Fife$InhibGrid)
+
+CFA_new <- rbind(Fife, Edi)
+```  
+
+# Assumptions
+```{r}
+library(plyr)
+library(psych)
+multi.hist(CFA_new[-1: -6])
+``` 
+
+
+# Entire sample, including children with missing values
+```{r}
+model.3factors <- 'F1_WM =~  WMUpdating + WMBoxes + WMGrid
+                F2_Shifting =~  CD_all + Shelf + Tray
+                  F3_Inhibition =~ Cylinder + InhibGrid + GlassCeiling'
+
+bfit.3factors = bcfa(model.3factors, data = CFA_new, orthogonal=FALSE, adapt = 500, burnin = 2500, sample = 5000, n.chains = 4, control=list(adapt_delta=0.95), bcontrol=list(cores=4))
+    return(bfit.3factors)
+
+
+fit_model = function(model) {
+    fit = bcfa(model, data = CFA_new, orthogonal=TRUE, adapt = 500, burnin = 2500, sample = 5000, n.chains = 4, control=list(adapt_delta=0.95), bcontrol=list(cores=4))
+    return(fit)
+}
+
+
+model.9factors <- 'F1 =~  WMUpdating
+              F2 =~  WMBoxes
+              F3 =~  WMGrid
+              F4 =~  CD_all
+              F5 =~  Shelf
+              F6 =~  Tray
+              F7 =~  InhibGrid
+              F8 =~  Cylinder
+              F9 =~  GlassCeiling'
+
+model.MF2012 <- 'F1_WM =~  WMUpdating   + WMBoxes + WMGrid
+                F2_Shifting =~  CD_all + Shelf + Tray
+                F3_CommonEF =~  Cylinder + InhibGrid + GlassCeiling + Shelf + CD_all + Tray + WMUpdating+ WMBoxes + WMGrid'
+
+model.1factor <- 'F1_CommonEF =~  Cylinder + GlassCeiling + InhibGrid + Shelf + CD_all + Tray + WMUpdating+ WMBoxes + WMGrid'
+
+model.3factors_ind <- 'F1_WM =~  WMUpdating + WMBoxes + WMGrid
+                F2_Shifting =~  CD_all + Shelf + Tray
+                  F3_Inhibition =~ Cylinder + InhibGrid + GlassCeiling'
+
+model.2factors1 <- 'F1_2_WM_Shifting =~  WMUpdating + WMBoxes + WMGrid+ CD_all + Shelf + Tray
+                   F3_Inhibition =~ Cylinder + InhibGrid + GlassCeiling'
+
+model.2factors2 <- 'F1_3_WM_Inh =~  WMUpdating + WMBoxes + WMGrid + InhibGrid + Cylinder + GlassCeiling
+                    F2_Shifting =~  CD_all + Shelf + Tray'
+
+model.2factors3 <- 'F1_WM =~  WMUpdating + WMBoxes + WMGrid
+                    F2_3_Shifting_Inh=~ CD_all + Shelf + Tray + InhibGrid + Cylinder + GlassCeiling'
+
+
+
+
+
+
+# Fit each of the models
+bfit.9factors = fit_model(model.9factors)
+bfit.MF2012 = fit_model(model.MF2012)
+bfit.1factor = fit_model(model.1factor)
+bfit.3factors_ind = fit_model(model.3factors_ind)
+bfit.2factors1 = fit_model(model.2factors1)
+bfit.2factors2 = fit_model(model.2factors2)
+bfit.2factors3 = fit_model(model.2factors3)
+```  
+
+# Compare models to the 9 factor model
+## MF2012
+```{r}
+blavCompare(bfit.9factors, bfit.MF2012)
+``` 
+
+##3 factors
+```{r}
+blavCompare(bfit.9factors, bfit.3factors)
+``` 
+
+## 1 factor
+```{r}
+blavCompare(bfit.9factors, bfit.1factor)
+``` 
+
+## 3 independent factors
+```{r}
+blavCompare(bfit.9factors, bfit.3factors_ind)
+``` 
+
+## 2 factors (WM+Shifting, Inhibition)
+```{r}
+blavCompare(bfit.9factors, bfit.2factors1)
+``` 
+
+
+## 2 factors (WM+Inhibition, Shifting)
+```{r}
+blavCompare(bfit.9factors, bfit.2factors2)
+``` 
+
+## 2 factors (Inhibition + Shifting, WM)
+```{r}
+blavCompare(bfit.9factors, bfit.2factors3)
+``` 
+
+# Calculate WAIC values for the models
+```{r}
+get_waic = function(object1) {
+    lavopt1 <- object1@Options
+    lavopt1$estimator <- "ML"
+    ll1 = case_lls(object1@external$mcmcout, object1@Model, 
+        object1@ParTable, object1@SampleStats, lavopt1, object1@Cache, 
+        object1@Data, make_mcmc(object1@external$mcmcout))
+    return(waic(ll1))
+}
+environment(get_waic) <- asNamespace('blavaan')
+get_waic(bfit.9factors)
+get_waic(bfit.MF2012)
+get_waic(bfit.3factors)
+get_waic(bfit.1factor)
+get_waic(bfit.3factors_ind)
+get_waic(bfit.2factors1)
+get_waic(bfit.2factors2)
+get_waic(bfit.2factors3)
+``` 
+
+# Get fit measures
+```{r}
+fm.MF2012<-fitMeasures(bfit.MF2012)
+fm.3factors<-fitMeasures(bfit.3factors)
+fm.1factor<-fitMeasures(bfit.1factor)
+fm.3factors_ind<-fitMeasures(bfit.3factors_ind)
+fm.2factors1<-fitMeasures(bfit.2factors1)
+fm.2factors2<-fitMeasures(bfit.2factors2)
+fm.2factors3<-fitMeasures(bfit.2factors3)
+fm.9factors<-fitMeasures(bfit.9factors)
+``` 
+
+# Put fit measures into a table
+```{r}
+rbind(fm.MF2012, fm.3factors, fm.3factors_ind,  fm.1factor, fm.2factors1, fm.2factors2, fm.2factors3, fm.9factors)
+```
+
+# Summaries for all models
+## MF 2012
+```{r}
+summary(bfit.MF2012, neff=TRUE)
+```
+
+## 3 factors
+```{r}
+summary(bfit.3factors, neff=TRUE)
+```
+
+## 1 factor
+```{r}
+summary(bfit.1factor, neff=TRUE)
+```
+
+## 3 independent factors
+```{r}
+summary(bfit.3factors_ind)
+```
+
+## 2 factors (WM+Shifting, Inhibition)
+```{r}
+summary(bfit.2factors1)
+```
+
+## 2 factors (WM+Inhibition, Shifting)
+```{r}
+summary(bfit.2factors2)
+```
+
+## 2 factors (Inhibition + Shifting, WM)
+```{r}
+summary(bfit.2factors3)
+```
+
+## 9 factors
+```{r}
+summary(bfit.9factors)
+```
+
+# Take a look at the effective sample sizes by looking at the underlying stan object
+highlights which parameters have a small effective sample size (and how small it is)
+
+## bfit.MF2012
+```{r}
+tmp1 = blavInspect(bfit.MF2012, "mcobj")
+summary(tmp1)
+```
+
+## bfit.3factors
+```{r}
+tmp2 = blavInspect(bfit.3factors, "mcobj")
+summary(tmp2)
+```
+
+## bfit.1factor
+```{r}
+tmp3 = blavInspect(bfit.1factor, "mcobj")
+summary(tmp3)
+```
+
+## bfit.3factors_ind
+```{r}
+tmp4 = blavInspect(bfit.3factors_ind, "mcobj")
+summary(tmp4)
+```
+
+## bfit.2factors1
+```{r}
+tmp4 = blavInspect(bfit.2factors1, "mcobj")
+summary(tmp4)
+```
+
+## bfit.2factors2
+```{r}
+tmp5 = blavInspect(bfit.2factors2, "mcobj")
+summary(tmp5)
+```
+
+## bfit.2factors3
+```{r}
+tmp6 = blavInspect(bfit.2factors3, "mcobj")
+summary(tmp6)
+```
+
+## bfit.9factors
+```{r}
+tmp7 = blavInspect(bfit.9factors, "mcobj")
+summary(tmp7)
+```
+
+
+# Compare models to the 1 factor model
+## MF2012
+```{r}
+blavCompare(bfit.1factor, bfit.MF2012)
+``` 
+
+##3 factors
+```{r}
+blavCompare(bfit.1factor, bfit.3factors)
+``` 
+
+## 3 independent factors
+```{r}
+blavCompare(bfit.1factor, bfit.3factors_ind)
+``` 
+
+## 2 factors (WM+Shifting, Inhibition)
+```{r}
+blavCompare(bfit.1factor, bfit.2factors1)
+``` 
+
+
+## 2 factors (WM+Inhibition, Shifting)
+```{r}
+blavCompare(bfit.1factor, bfit.2factors2)
+``` 
+
+## 2 factors (Inhibition + Shifting, WM)
+```{r}
+blavCompare(bfit.1factor, bfit.2factors3)
+``` 
+
+
+# Plots
+
+p_value = 2*(1-pnorm(abs(MEAN/SE))) 
