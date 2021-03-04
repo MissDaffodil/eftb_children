@@ -62,7 +62,7 @@ table(GC.validT1$Gender)
 There are **67 females** and **59 males**.
 
 ## Age
-### Age at the beginning of testing
+### Age at the beginning of the test battery
 ```{r}
 mean(GC.validT1$Age_months)
 sd(GC.validT1$Age_months)
@@ -71,9 +71,9 @@ max(GC.validT1$Age_months)
 
 table(GC.validT1$Age_group)
 ```
-At the beginning of testing, children included in the glass-ceiling task were on average 48.91 months old (SD = 6.96, range 36-70). There were  57 3-year-olds, 62 4-year-olds, and 7 5-year-olds.
 
-### In the middle of testing
+
+### In the middle of the test battery
 ```{r}
 mean(GC.validT1$AgeMonths_midtesting)
 sd(GC.validT1$AgeMonths_midtesting)
@@ -90,12 +90,7 @@ hist(GC.validT1$AgeMonths_midtesting,
 
 table(GC.validT1$AgeGroup_midtesting)
 ```
-In the middle of testing, children included in the glass-ceiling task were on average **49.95 months old (SD = 6.94, range 36-72)**. There were  
 
-- 55 3-year-olds
-- 60 4-year-olds
-- 10 5-year-olds
-- 1 6-year-old
 
 ### Age mediansplit (based on entire sample)
 ```{r}
@@ -112,12 +107,9 @@ tapply(GC.validT1$AgeMonths_midtesting, GC.validT1$TestingLocation, sd)
 tapply(GC.validT1$AgeMonths_midtesting, GC.validT1$TestingLocation, min)
 tapply(GC.validT1$AgeMonths_midtesting, GC.validT1$TestingLocation, max)
 ```
-There were 58 children from Edinburgh and 69 children from Fife.
 
-- Edinburgh: M = 49.38 months (SD = 5.83, range 36-58)
-- Fife: M = 50.44 months (SD = 7.77, range 38-72)
-
-# First box chosen
+# Dependent Variables
+## First box chosen
 ```{r}
 table(GC.validT1$FirstBoxChosen)
 table(GC.validT1$FirstBoxChosen, GC.validT1$AgeGroup_midtesting)
@@ -134,7 +126,7 @@ table(GC.validT1$FirstBoxChosen, GC.validT1$Mediansplit_midtesting_entiresample)
 - Old children: (n = 62): 54 (87%) picked transparent, 8 opaque
 
 
-# Run length
+## Run length
 ```{r}
 table(GC.validT1$RunLength_ifFirstMoveWasToStickerbox)
 hist(GC.validT1$RunLength_ifFirstMoveWasToStickerbox)
@@ -143,11 +135,13 @@ sd(GC.validT1$RunLength_ifFirstMoveWasToStickerbox, na.rm = T)
 min(GC.validT1$RunLength_ifFirstMoveWasToStickerbox, na.rm = T)
 max(GC.validT1$RunLength_ifFirstMoveWasToStickerbox, na.rm = T)
 
+# by age group
 tapply(GC.validT1$RunLength_ifFirstMoveWasToStickerbox, GC.validT1$AgeGroup_midtesting, mean, na.rm = T)
 tapply(GC.validT1$RunLength_ifFirstMoveWasToStickerbox, GC.validT1$AgeGroup_midtesting, sd, na.rm = T)
 tapply(GC.validT1$RunLength_ifFirstMoveWasToStickerbox, GC.validT1$AgeGroup_midtesting, min, na.rm = T)
 tapply(GC.validT1$RunLength_ifFirstMoveWasToStickerbox, GC.validT1$AgeGroup_midtesting, max, na.rm = T)
 
+# by age mediansplit
 tapply(GC.validT1$RunLength_ifFirstMoveWasToStickerbox, GC.validT1$Mediansplit_midtesting_entiresample, mean, na.rm = T)
 tapply(GC.validT1$RunLength_ifFirstMoveWasToStickerbox, GC.validT1$Mediansplit_midtesting_entiresample, sd, na.rm = T)
 tapply(GC.validT1$RunLength_ifFirstMoveWasToStickerbox, GC.validT1$Mediansplit_midtesting_entiresample, min, na.rm = T)
@@ -163,7 +157,7 @@ Out of the 111 children who chose a transparent box first, 68 children **(61%) t
 - Young: 2.60 (SD = 2.81, range 1-12)
 - Old: 2.35 (SD = 3.02, range 1-12)
 
-# Number of correct trials
+## Number of correct trials
 ```{r}
 mean(GC.validT1$TotalNrCorrecttrials)
 sd(GC.validT1$TotalNrCorrecttrials)
@@ -172,11 +166,13 @@ max(GC.validT1$TotalNrCorrecttrials)
 hist(GC.validT1$TotalNrCorrecttrials)
 shapiro.test(GC.validT1$TotalNrCorrecttrials)
 
+# by age group
 tapply(GC.validT1$TotalNrCorrecttrials, GC.validT1$AgeGroup_midtesting, mean)
 tapply(GC.validT1$TotalNrCorrecttrials, GC.validT1$AgeGroup_midtesting, sd)
 tapply(GC.validT1$TotalNrCorrecttrials, GC.validT1$AgeGroup_midtesting, min)
 tapply(GC.validT1$TotalNrCorrecttrials, GC.validT1$AgeGroup_midtesting, max)
 
+#by age mediansplit
 tapply(GC.validT1$TotalNrCorrecttrials, GC.validT1$Mediansplit_midtesting_entiresample, mean)
 tapply(GC.validT1$TotalNrCorrecttrials, GC.validT1$Mediansplit_midtesting_entiresample, sd)
 tapply(GC.validT1$TotalNrCorrecttrials, GC.validT1$Mediansplit_midtesting_entiresample, min)
@@ -193,7 +189,7 @@ The average number of correct trials was **8.89 (SD = 2.86, range 0-12)**. The v
 - Young: 8.73 (SD = 2.82, range 0-11)
 - Old: 9.05 (SD = 2.92, range 0-12)
 
-# Number of errors
+## Number of errors
 ```{r}
 mean(GC.validT1$TotalNrErrors)
 sd(GC.validT1$TotalNrErrors)
@@ -202,11 +198,13 @@ max(GC.validT1$TotalNrErrors)
 hist(GC.validT1$TotalNrErrors)
 shapiro.test(GC.validT1$TotalNrErrors)
 
+# by age group
 tapply(GC.validT1$TotalNrErrors, GC.validT1$AgeGroup_midtesting, mean)
 tapply(GC.validT1$TotalNrErrors, GC.validT1$AgeGroup_midtesting, sd)
 tapply(GC.validT1$TotalNrErrors, GC.validT1$AgeGroup_midtesting, min)
 tapply(GC.validT1$TotalNrErrors, GC.validT1$AgeGroup_midtesting, max)
 
+#by age mediansplit
 tapply(GC.validT1$TotalNrErrors, GC.validT1$Mediansplit_midtesting_entiresample, mean)
 tapply(GC.validT1$TotalNrErrors, GC.validT1$Mediansplit_midtesting_entiresample, sd)
 tapply(GC.validT1$TotalNrErrors, GC.validT1$Mediansplit_midtesting_entiresample, min)
@@ -222,7 +220,7 @@ The average number of errors was **3.11 (SD = 2.86, range 0-12)**. The variable 
 - Young: 3.26 (SD = 2.82, range 1-12)
 - Old: 2.95 (SD = 2.92, range 0-12)
 
-# Number of mistakes after first reach to opaque box
+## Number of mistakes after first reach to opaque box
 ```{r}
 table(GC.validT1$NrMistakes_after_FirstTimeReachToOpaquebox)
 mean(GC.validT1$NrMistakes_after_FirstTimeReachToOpaquebox, na.rm = T)
@@ -231,18 +229,19 @@ min(GC.validT1$NrMistakes_after_FirstTimeReachToOpaquebox, na.rm = T)
 max(GC.validT1$NrMistakes_after_FirstTimeReachToOpaquebox, na.rm = T)
 hist(GC.validT1$NrMistakes_after_FirstTimeReachToOpaquebox)
 
+# by age group
 table(GC.validT1$NrMistakes_after_FirstTimeReachToOpaquebox, GC.validT1$AgeGroup_midtesting)
 tapply(GC.validT1$NrMistakes_after_FirstTimeReachToOpaquebox, GC.validT1$AgeGroup_midtesting, mean, na.rm = T)
 tapply(GC.validT1$NrMistakes_after_FirstTimeReachToOpaquebox, GC.validT1$AgeGroup_midtesting, sd, na.rm = T)
 tapply(GC.validT1$NrMistakes_after_FirstTimeReachToOpaquebox, GC.validT1$AgeGroup_midtesting, min, na.rm = T)
 tapply(GC.validT1$NrMistakes_after_FirstTimeReachToOpaquebox, GC.validT1$AgeGroup_midtesting, max, na.rm = T)
 
+#by age mediansplit
 table(GC.validT1$NrMistakes_after_FirstTimeReachToOpaquebox, GC.validT1$Mediansplit_midtesting_entiresample)
 tapply(GC.validT1$NrMistakes_after_FirstTimeReachToOpaquebox, GC.validT1$Mediansplit_midtesting_entiresample, mean, na.rm = T)
 tapply(GC.validT1$NrMistakes_after_FirstTimeReachToOpaquebox, GC.validT1$Mediansplit_midtesting_entiresample, sd, na.rm = T)
 tapply(GC.validT1$NrMistakes_after_FirstTimeReachToOpaquebox, GC.validT1$Mediansplit_midtesting_entiresample, min, na.rm = T)
 tapply(GC.validT1$NrMistakes_after_FirstTimeReachToOpaquebox, GC.validT1$Mediansplit_midtesting_entiresample, max, na.rm = T)
-
 ```
 119 children (94%) reached to the opaque (correct) box at least once. For those children, **the average number of mistakes after reaching to the correct box first was 0.97 (SD = 1.52, range 0-8)**. The variable was highly skewed.
 
@@ -254,7 +253,7 @@ tapply(GC.validT1$NrMistakes_after_FirstTimeReachToOpaquebox, GC.validT1$Medians
 - Young (n = 61): 0.98 (SD = 1.59, range 0-8)
 - Old (n = 58): 0.95 (SD = 1.47, range 0-7)
 
-# DV: Proportion of correct trials
+## Main DV: Proportion of correct trials
 ```{r}
 mean(GC.validT1$ProportionCorrect)
 sd(GC.validT1$ProportionCorrect)
@@ -270,9 +269,11 @@ hist(GC.validT1$ProportionCorrect,
      col="grey",
      xlim=c(0,1))
 
+# here both tests are done, but we decided to report the t-tests across tasks and species
 wilcox.test(GC.validT1$ProportionCorrect, mu = 0.5, alternative = "two.sided")
+t.test(GC.validT1$ProportionCorrect, mu = 0.5, alternative = "two.sided")
 
-
+# by age groups
 tapply(GC.validT1$ProportionCorrect, GC.validT1$AgeGroup_midtesting, mean)
 tapply(GC.validT1$ProportionCorrect, GC.validT1$AgeGroup_midtesting, sd)
 tapply(GC.validT1$ProportionCorrect, GC.validT1$AgeGroup_midtesting, min)
@@ -317,7 +318,7 @@ wilcox.test(five$ProportionCorrect, mu = 0.5, alternative = "two.sided")
 Onlythreeandfour <- subset(GC.validT1, AgeGroup_midtesting == "3" | AgeGroup_midtesting == "4")
 wilcox.test(Onlythreeandfour$ProportionCorrect ~ Onlythreeandfour$AgeGroup_midtesting, alternative = "less")
 
-
+#by age mediansplit
 tapply(GC.validT1$ProportionCorrect, GC.validT1$Mediansplit_midtesting_entiresample, mean)
 tapply(GC.validT1$ProportionCorrect, GC.validT1$Mediansplit_midtesting_entiresample, sd)
 tapply(GC.validT1$ProportionCorrect, GC.validT1$Mediansplit_midtesting_entiresample, min)
@@ -355,6 +356,7 @@ tapply(GC.validT1$ProportionCorrect, GC.validT1$TestingLocation, sd)
 tapply(GC.validT1$ProportionCorrect, GC.validT1$TestingLocation, min)
 tapply(GC.validT1$ProportionCorrect, GC.validT1$TestingLocation, max)
 
+# by testing location
 Edi <- subset(GC.validT1, TestingLocation == "Edinburgh")
 Fife <- subset(GC.validT1, TestingLocation == "Fife")
 
@@ -381,6 +383,7 @@ wilcox.test(Edi$ProportionCorrect, mu = 0.5, alternative = "two.sided")
 wilcox.test(Fife$ProportionCorrect, mu = 0.5, alternative = "two.sided")
 
 wilcox.test(GC.validT1$ProportionCorrect ~ GC.validT1$TestingLocation, alternative = "two.sided")
+t.test(GC.validT1$ProportionCorrect ~ GC.validT1$TestingLocation, alternative = "two.sided")
 ```
 The mean proportion of correct trials was **0.74 (SD = 0.24, range 0-1)**. The variable is **not normally distributed**, W = 0.741, p < .001. Children's **performance is significantly higher than what would be expected by chance (0.5)**, two-sided Wilcoxon test, V = 6121, p < .001.
 
@@ -402,6 +405,7 @@ The mean proportion of correct trials was **0.74 (SD = 0.24, range 0-1)**. The v
 
 Children from Edinburgh do not perform differently than children from Fife, two-sided Wilcoxon test, W = 2234.5, p = .188.
 
+## Boxplots
 ```{r}
 #Plot, across ages
 library(ggplot2)
@@ -482,8 +486,6 @@ p1<- ggplot(GC.validT1, aes(x=AgeMonths_midtesting, y=ProportionCorrect)) + geom
 p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 ```
-
-
 
 
 # Cumulative proportion correct
@@ -675,7 +677,7 @@ boot.res=boot.glmm.pred(model.res=res, excl.warnings=T,
 nboots=1000, para=T, resol=12, use="z.Trial_nr")
 ```
 
-Plot the effect of trial number on success
+## Plot the effect of trial number on success
 ```{r}
 par(mar=c(3, 3, 0.2, 0.2), mgp=c(1.7, 0.3, 0), las=1, tcl=-0.15)
 plot(x=GC.valid$Trial.Nr, y=GC.valid$Trial_Correct, pch=19, las=2, ylim=c(0, 1),
@@ -711,3 +713,102 @@ m.stab$summary
 
 
 
+# Including the BPVS score: Can children's success be predicted by trial number, age and testing location?
+```{r}
+GC.valid.BPVS <- subset(GC.valid, BPVS_Score !="NA") 
+
+#we z-transform age and trial number, as we are including them into an interaction
+GC.valid.BPVS$z.age.midtesting=as.vector(scale(GC.valid.BPVS$AgeMonths_midtesting))#transform age to mean of 0 and SD of 1
+mean(GC.valid.BPVS$z.age.midtesting)#check whether it has worked
+sd(GC.valid.BPVS$z.age.midtesting)
+
+GC.valid.BPVS$z.Trial_nr=as.vector(scale(GC.valid.BPVS$Trial.Nr))#transform trial number to mean of 0 and SD of 1
+mean(GC.valid.BPVS$z.Trial_nr)#check whether it has worked
+sd(GC.valid.BPVS$z.Trial_nr)
+
+GC.valid.BPVS$z.BPVS_Score=as.vector(scale(GC.valid.BPVS$BPVS_Score))
+mean(GC.valid.BPVS$z.BPVS_Score)#check whether it has worked
+sd(GC.valid.BPVS$z.BPVS_Score)
+
+#Full model
+contr<-glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=10000000))
+res<-glmer(Trial_Correct ~ z.BPVS_Score + z.age.midtesting + z.Trial_nr + TestingLocation + z.age.midtesting:z.Trial_nr + (1+z.Trial_nr|ID), data=GC.valid.BPVS, family = binomial, control=contr)
+```
+
+Comparison against null model
+```{r}
+null<-glmer(Trial_Correct ~ 1 + (1+z.Trial_nr|ID), data=GC.valid.BPVS, family = binomial, control=contr)
+
+anova(null, res, test="Chisq")
+```
+Together, age, BPVS score, trial number, the interaction between trial number and age, and testing location can explain the data significantly better than a null model only containing the intercept, X2(5) = 110.90, p < .001.
+
+**Effect of the interaction term**
+```{r}
+res.nointer<-glmer(Trial_Correct ~ z.BPVS_Score + z.age.midtesting + z.Trial_nr + TestingLocation + (1+z.Trial_nr|ID), data=GC.valid.BPVS, family = binomial, control=contr)
+anova(res.nointer, res, test="Chisq")
+```
+There is no effect of the interaction term, X2(1) = 0.144, p = .704, so we remove it from the model.
+
+New full model
+```{r}
+res<-glmer(Trial_Correct ~ z.BPVS_Score + z.age.midtesting + z.Trial_nr + TestingLocation + (1+z.Trial_nr|ID), data=GC.valid.BPVS, family = binomial, control=contr)
+anova(null, res, test="Chisq")
+```
+The full model can explain the data significantly better than a null model only containing the intercept, X2(4) = 110.75, p < .001.
+
+**Estimate of testing location**
+```{r}
+res.notest<-glmer(Trial_Correct ~ z.BPVS_Score + z.age.midtesting + z.Trial_nr + (1+z.Trial_nr|ID), data=GC.valid.BPVS, family = binomial, control=contr)
+anova(res.notest, res, test="Chisq")
+```
+Testing location cannot improve model fit, X2(1) = 1.600, p = .206.
+
+**Estimate of BPVS score**
+```{r}
+res.nobpvs<-glmer(Trial_Correct ~ TestingLocation + z.age.midtesting + z.Trial_nr + (1+z.Trial_nr|ID), data=GC.valid.BPVS, family = binomial, control=contr)
+anova(res.nobpvs, res, test="Chisq")
+```
+BPVS score cannot improve model fit, X2(1) = 0.384, p = .535.
+
+# How many mistakes were made in each trial?
+```{r}
+126-sum(GC.trial1$Trial_Correct)
+126-sum(GC.trial2$Trial_Correct)
+126-sum(GC.trial3$Trial_Correct)
+126-sum(GC.trial4$Trial_Correct)
+126-sum(GC.trial5$Trial_Correct)
+126-sum(GC.trial6$Trial_Correct)
+126-sum(GC.trial7$Trial_Correct)
+126-sum(GC.trial8$Trial_Correct)
+126-sum(GC.trial9$Trial_Correct)
+126-sum(GC.trial10$Trial_Correct)
+126-sum(GC.trial11$Trial_Correct)
+126-sum(GC.trial12$Trial_Correct)
+
+#LOAD DATA
+Mistakes <-read.csv("MistakesEachTrial.csv",header=TRUE, sep = ";")
+Mistakes$Trial.number <- factor(Mistakes$Trial.number, levels = c("Trial 1", "Trial 2", "Trial 3", "Trial 4", "Trial 5", "Trial 6", "Trial 7", "Trial 8", "Trial 9", "Trial 10", "Trial 11", "Trial 12"))
+str(Mistakes)
+
+p2 <- ggplot(Mistakes, aes(x=Trial.number, y=Percentage.of.children.who.made.a.mistake)) + geom_bar(stat="identity")
+
+p2 +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+  xlab("Trial number") + ylab("Percentage of children who chose transparent box")
+```
+
+# Test against chance performance
+```{r}
+Trial1wrong <- 1-GC.trial1$Trial_Correct
+mean(Trial1wrong)
+sd(Trial1wrong)
+shapiro.test(Trial1wrong)
+wilcox.test(Trial1wrong, mu=0.5, alternative = "two.sided")
+t.test(Trial1wrong, mu=0.5, alternative = "two.sided")
+
+
+binom.test(111, 126, p = 0.5,
+           alternative = c("two.sided"),
+           conf.level = 0.95)
+```
