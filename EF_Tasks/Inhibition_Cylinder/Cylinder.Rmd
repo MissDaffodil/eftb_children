@@ -1,7 +1,7 @@
 ---
 title: "Cylinder"
 author: "Eva Reindl"
-date: "6 4 2020"
+date: "09 03 2021"
 output: word_document
 ---
 ```{r setup, include=FALSE}
@@ -56,7 +56,7 @@ table(Cyl.valid.Search1$Sex)
 There were 78 girls and 66 boys.
 
 ## Age
-### Age at the beginning of testing
+### Age at the beginning of the test battery
 ```{r}
 mean(Cyl.valid.Search1$Age_months)
 sd(Cyl.valid.Search1$Age_months)
@@ -73,7 +73,7 @@ At the beginning of testing, the children who had valid data on the Cylinder tas
 - 4y: 37 f, 35 m
 - 5y: 4 f, 4 m
 
-### Age in the middle of testing
+### Age in the middle of the test battery
 ```{r}
 mean(Cyl.valid.Search1$Age_months_midtesting)
 sd(Cyl.valid.Search1$Age_months_midtesting)
@@ -144,6 +144,16 @@ There is no difference in the age distribution between the two testing locations
 # Warm-up: Cup chosen
 ```{r}
 table(Cyl.valid.Search1$WarmUp.Cupchosen)
+mean(Cyl.valid.Search1$WarmUpStickerCup, na.rm = T)
+sum(Cyl.valid.Search1$WarmUpStickerCup, na.rm = T)
+
+shapiro.test(Cyl.valid.Search1$WarmUpStickerCup)
+wilcox.test(Cyl.valid.Search1$WarmUpStickerCup, mu = 0.5, alternative = "two.sided")
+t.test(Cyl.valid.Search1$WarmUpStickerCup, mu = 0.5, alternative = "two.sided")
+
+binom.test(122, 130, p = 0.5,
+           alternative = c("two.sided"),
+           conf.level = 0.95)
 ```
 From the 144 children, the choice of cup in the warm-up was known for 130 (90%) children. For the rest of the children, the experimenter missed to take a note of the cup chosen and the video also did not show it.
 From the 130 children of which we know which cup was chosen, 122 (94%) chose the sticker cup (i.e., the wrong cup). This shows that there was indeed a strong pull to reach to the nice sticker cup.
@@ -183,8 +193,8 @@ Altogether:
 
 Taken together: **Out of 144 children, 105 children (73%) got all stickers**, 39 children did not get all stickers.
 
-# DV: Proportion of correct searches out of the first 10, 11 or 12 unique trials
-## Across the sample
+## DV: Proportion of correct searches out of the first 10, 11 or 12 unique trials
+### Across the sample
 ```{r}
 mean(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
 sd(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
@@ -203,10 +213,11 @@ shapiro.test(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)
 
 #test against chance performance
 wilcox.test(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, mu=0.5, alternative = "two.sided")
+t.test(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, mu=0.5, alternative = "two.sided")
 ```
 The mean proportion of correct searches within the first 10, 11 or 12 searches was 0.65 (SD = 0.28, range 0.08-1). The variable is bimodal and not normally distributed, W = 0.891, p < .001. Children's performance is significantly above chance value (0.5), two-sided Wilcoxon test, V = 7001.5, p < .001.
 
-Boxplot:
+#### Boxplot:
 ```{r}
 library(ggplot2)
 
@@ -222,7 +233,7 @@ p<-  ggplot(
 p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") + geom_count()
 ```
 
-## By age groups
+### By age groups
 ```{r}
 tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$Age_group_midtesting, mean)
 tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$Age_group_midtesting, sd)
@@ -278,7 +289,7 @@ wilcox.test(threeandfour$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique ~ thre
 
 4-year-olds perform better than 3-year-olds, one-sided Wilcoxon test, W = 1785, p = .039.
 
-Boxplot:
+#### Boxplot:
 ```{r}
 p1<-ggplot(data=Cyl.valid.Search1, aes(x=Age_group_midtesting,y=ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)) +
   geom_boxplot(aes(group=Age_group_midtesting, fill = as.factor(Cyl.valid.Search1$Age_group_midtesting)), outlier.colour = "black") + 
@@ -295,7 +306,7 @@ p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
   scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 62", "4 years, n = 70", "5 years, n = 11", "6 years, n = 1"))
 ```
 
-## By age mediansplit
+### By age mediansplit
 ```{r}
 tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$Mediansplit_midtesting_entiresample, mean)
 tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$Mediansplit_midtesting_entiresample, sd)
@@ -338,7 +349,7 @@ wilcox.test(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique ~
 
 Older children are better than younger children, one-sided Wilcoxon test, W = 3289.5, p = .002.
 
-Boxplot:
+#### Boxplot:
 ```{r}
 library(forcats)
 
@@ -361,7 +372,7 @@ p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
   scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young (36-49 months), n = 72", "old (50-72 months), n = 72"))
 ```
 
-## By testing location
+### By testing location
 ```{r}
 tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$TestingLocation, mean)
 tapply(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique, Cyl.valid.Search1$TestingLocation, sd)
@@ -407,6 +418,7 @@ p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
   scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 60", "Fife, n = 84"))
 
 wilcox.test(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique ~ Cyl.valid.Search1$TestingLocation, alternative = "two.sided")
+t.test(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique ~ Cyl.valid.Search1$TestingLocation, alternative = "two.sided")
 ```
 
 - Edinburgh: M = 0.66 (SD = 0.30, range 0.08-1), significantly above chance (V = 1287, p < .001)
@@ -414,7 +426,7 @@ wilcox.test(Cyl.valid.Search1$ProportionCorrectTrialsOutOfMaxFirstTwelveUnique ~
 
 There is no difference in performance between testing locations, W = 2666, p = .553.
 
-# Plot proportion correct against age as continuous variable
+## Plot proportion correct against age as continuous variable
 ```{r}
 p1<- ggplot(Cyl.valid.Search1, aes(x=Age_months_midtesting, y=ProportionCorrectTrialsOutOfMaxFirstTwelveUnique)) + geom_point()+
  labs(x="Age in months",y="Proportion correct")
@@ -424,7 +436,6 @@ p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
 ```
 
 # Proportion of correct searches as calculated for each cumulative number of trials
-Amanda asked to show the "proportion of correct searches as calculated for each cumulative number of unique trials"
 ```{r}
 Trial1<-subset(Cyl.valid, Trialnr_OnlyValidTrials == "1")
 Trial2<-subset(Cyl.valid, Trialnr_OnlyValidTrials == "2")
@@ -630,3 +641,16 @@ res.noBPVS<-glmer(GotSticker ~ z.age + z.trial + (1+z.trial|ID), data=Cyl.validt
 anova(res.noBPVS, res, test="Chisq")
 ```
 There is no effect of the BPVS score, X2(1) = 0.179, p = .672.
+
+# How many children chose the sticker cup in the first search of the test?
+```{r}
+sum(Cyl.valid.Search1$GotSticker)
+
+mean(Cyl.valid.Search1$GotSticker)
+shapiro.test(Cyl.valid.Search1$GotSticker)
+wilcox.test(Cyl.valid.Search1$GotSticker, mu = 0.5, alternative = "two.sided")
+
+binom.test(69, 144, p = 0.5,
+           alternative = c("two.sided"),
+           conf.level = 0.95)
+```
