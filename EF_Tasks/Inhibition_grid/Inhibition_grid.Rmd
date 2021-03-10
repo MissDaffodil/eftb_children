@@ -27,6 +27,7 @@ Grid <-read.csv("Inhib_Grid.csv",header=TRUE, sep = ";")
 #recode variables
 names(Grid)[1] <- "ID"
 
+Grid$TriedTransparentBox <- as.numeric(as.character(Grid$TriedTransparentBox))
 str(Grid)
 ```
 
@@ -55,7 +56,7 @@ There are 155 remaining children in the dataset.
 ```{r}
 table(Grid.valid.T1$Sex)
 ```
-There are 79 girls and 76 boys.
+There are 64 girls and 62 boys.
 
 ## Age
 ### Age at the beginning of testing
@@ -146,6 +147,23 @@ table(Grid.valid.T1$CleanData, Grid.valid.T1$TestingLocation)
 - very inattentive: 1
 
 # Trial 1
+
+## How many children chose the transparent box in the first search?
+```{r}
+sum(Grid.valid.T1$TriedTransparentBox)
+
+mean(Grid.valid.T1$TriedTransparentBox,na.rm = T)
+
+shapiro.test(Grid.valid.T1$TriedTransparentBox)
+wilcox.test(Grid.valid.T1$TriedTransparentBox, mu = 0.5, alternative = "two.sided")
+t.test(Grid.valid.T1$TriedTransparentBox, mu = 0.5, alternative = "two.sided")
+
+binom.test(127, 155, p = 0.5,
+           alternative = c("two.sided"),
+           conf.level = 0.95)
+```
+
+
 
 ## 6 searches after the first toy was found
 ### How many transparent doors were touched in the 6 searches after the first toy was found (here, these 6 searches are counted by ignoring repeated visits to opaque doors, but punishing for repeated visits to transparent doors)
@@ -401,6 +419,7 @@ hist(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches)
 shapiro.test(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches)
 
 wilcox.test(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches, mu = 0.5, alternative = "two.sided")
+t.test(Grid.valid.T1$ProportionCorrectOutOfFirstSixUniqueSearches, mu = 0.5, alternative = "two.sided")
 
 
 #age groups
@@ -443,6 +462,7 @@ shapiro.test(Edi$ProportionCorrectOutOfFirstSixUniqueSearches)#not normally dist
 shapiro.test(Fife$ProportionCorrectOutOfFirstSixUniqueSearches)#not normally distributed
 
 wilcox.test(Edi$ProportionCorrectOutOfFirstSixUniqueSearches, Fife$ProportionCorrectOutOfFirstSixUniqueSearches, alternative = "two.sided")
+t.test(Edi$ProportionCorrectOutOfFirstSixUniqueSearches, Fife$ProportionCorrectOutOfFirstSixUniqueSearches, alternative = "two.sided")
 
 
 
@@ -488,7 +508,7 @@ There is no difference between Edinburgh children and Fife children in the propo
 
 There is no difference between children tested by Zeynep and children tested by other experimenters in the proportion correct, W = 3339, p = .139.
 
-Boxplots
+### Boxplots
 ```{r}
 library(ggplot2)
 
@@ -504,7 +524,7 @@ p<-  ggplot(
 p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") + geom_count()
 ```
 
-Boxplot by age groups:
+### Boxplot by age groups:
 ```{r}
 p1<-ggplot(data=Grid.valid.T1, aes(x=Midtesting_age_group,y=ProportionCorrectOutOfFirstSixUniqueSearches)) +
   geom_boxplot(aes(group=Midtesting_age_group, fill = as.factor(Midtesting_age_group)), outlier.colour = "black") + 
@@ -521,7 +541,7 @@ p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
   scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 69", "4 years, n = 75", "5 years, n = 10", "6 years, n = 1"))
 ```
 
-By age mediansplit
+### By age mediansplit
 ```{r}
 library(forcats)
 
@@ -544,7 +564,7 @@ p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
   scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young, n = 79", "old, n = 76"))
 ```
 
-by testing location
+### by testing location
 ```{r}
 p1<-  ggplot(
   data=Grid.valid.T1, aes(x=rep(1, 155), y=ProportionCorrectOutOfFirstSixUniqueSearches, fill = TestingLocation))+
@@ -1102,7 +1122,7 @@ There is no difference between testing locations, W = 2704.5.5, p = .453.
 
 There is no difference between children tested by Zeynep and children tested by other experimenters in the proportion correct, W = 2664, p = .339.
 
-Boxplots
+### Boxplots
 ```{r}
 library(ggplot2)
 
@@ -1118,7 +1138,7 @@ p<-  ggplot(
 p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") + geom_count()
 ```
 
-Boxplot by age groups:
+### Boxplot by age groups:
 ```{r}
 p1<-ggplot(data=Grid.valid.T2, aes(x=Midtesting_age_group,y=ProportionCorrectOutOfFirstSixUniqueSearches)) +
   geom_boxplot(aes(group=Midtesting_age_group, fill = as.factor(Midtesting_age_group)), outlier.colour = "black") + 
@@ -1135,7 +1155,7 @@ p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
   scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 68", "4 years, n = 75", "5 years, n = 10", "6 years, n = 1"))
 ```
 
-By age mediansplit
+### By age mediansplit
 ```{r}
 library(forcats)
 
@@ -1158,7 +1178,7 @@ p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
   scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young, n = 78", "old, n = 76"))
 ```
 
-by testing location
+### by testing location
 ```{r}
 p1<-  ggplot(
   data=Grid.valid.T2, aes(x=rep(1, 154), y=ProportionCorrectOutOfFirstSixUniqueSearches, fill = TestingLocation))+
