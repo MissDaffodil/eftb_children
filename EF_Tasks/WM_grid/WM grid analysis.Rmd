@@ -1,5 +1,5 @@
 ---
-title: "WM_grid"
+title: "WM_Grid"
 author: "Eva Reindl"
 date: "31 3 2020"
 output: word_document
@@ -341,6 +341,39 @@ max(GotToy$GotToy)
 ```
 In the two warm-up trials, children won on average 1.87 (SD = 0.36, range 0-2) toys.
 
+## Distance
+```{r}
+mean(warm.up$distance_c01)
+sd(warm.up$distance_c01)
+min(warm.up$distance_c01)
+max(warm.up$distance_c01)
+
+#recode the distance variable to a range of 0-1
+library(scales)
+warm.up$distance_newrange <- rescale(warm.up$distance_c01, to=c(0, 1), from=c(0, 3.605551))
+
+#revert scale, so that high numbers mean closeness to reward
+warm.up$revertdistance_newrange <- 1-warm.up$distance_newrange
+
+meandistancewarmup.revertnewrange<- aggregate(revertdistance_newrange ~ ID, warm.up, mean)
+
+mean(meandistancewarmup.revertnewrange$revertdistance_newrange)
+sd(meandistancewarmup.revertnewrange$revertdistance_newrange)
+min(meandistancewarmup.revertnewrange$revertdistance_newrange)
+max(meandistancewarmup.revertnewrange$revertdistance_newrange)
+
+#rescale chance value
+chance_grid_allcells <- rescale(1.954, to=c(0, 1), from=c(3.605551, 0))
+chance_grid_allcells
+#0.46
+
+t.test(meandistancewarmup.revertnewrange$revertdistance_newrange, mu=0.46, alternative = "two.sided")
+```
+Mean closeness to reward in the warm-up trials was 0.94 (SD = 0.09, range 0.56-1).
+
+
+
+
 ## Mean number of searches in the two warm-up trials
 ```{r}
 #select those trials where children actually found the toy
@@ -413,6 +446,7 @@ table(test.trials$SecondTaskCorrect, test.trials$Mediansplit_midtesting_entiresa
 
 # DV: Average distance across test trials
 ## Across the sample
+### Original scale
 ```{r}
 #the aggregate function says: for each ID, calculate the mean for the variable distance_c01. 
 #the output is another dataframe
@@ -451,6 +485,7 @@ p<-  ggplot(
 p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=1.667, linetype="dashed", color = "red") + geom_count()
 ```
 
+### Recoded
 Rescaling the DV to a range between 0 and 1
 ```{r}
 library(scales)
@@ -503,7 +538,7 @@ hist(meandistance.revertnewrange$revertdistance_newrange,
      xlim=c(0,1))
 ```
 
-#rescaled Mean
+## rescaled Mean
 ```{r}
 mean(meandistance.revertnewrange$revertdistance_newrange)
 sd(meandistance.revertnewrange$revertdistance_newrange)
@@ -513,25 +548,26 @@ max(meandistance.revertnewrange$revertdistance_newrange)
 
 
 ### Do children perform significantly below chance?
-#### Test against all cells
+#### Across ages
+##### Test against all cells
 Christoph's simulation is based on 1000000 iterations of 12 random choices of a cell on the 4x4 grid. The distance between these random choices and the hiding location of the reward was then calculated. The mean distance of the these random choices from the  reward is used as the hypothetical chance value.
 ```{r}
 t.test(meandistance$distance_c01, mu=1.954, alternative = "two.sided")
 
-#rescaled
-0.5376574
-t.test(meandistance.revertnewrange$revertdistance_newrange, mu=0.5376574, alternative = "two.sided")
+t.test(meandistance.revertnewrange$revertdistance_newrange, mu=0.46, alternative = "two.sided")
 ```
 Mean distance vs chance value (1.954): M = 0.84 (SD = 0.31, range 0.17-1.60) is significantly better than chance, t(126) = -40.65, p < .001.
 
-#### Test against inner cell preference
+##### Test against inner cell preference
 The simulation is identical to the aforementioned one but only the inner cells are sampled, resulting in a smaller average distance from the reward.
 ```{r}
 t.test(meandistance$distance_c01, mu=1.667, alternative = "two.sided")
+
+t.test(meandistance.revertnewrange$revertdistance_newrange, mu=0.54, alternative = "two.sided")
 ```
 Mean distance between chosen box and baited cell vs chance value (inner cells only: 1.667): M = 0.84 (SD = 0.31, range 0.17-1.60) is significantly better than chance, t(126) = -30.14, p < .001.
 
-## By age groups
+#### By age groups
 We would like to display the boxplot split by age groups. For this, we will need data in the wide format. So we load the dataframa (with fewer columns) which we can easily convert. In that dataframe, we made a new column that groups all the children aged 49 months or younger as "young" and all children above 49 months as "old".
 ```{r}
 #LOAD DATA
@@ -620,8 +656,8 @@ tapply(Grid.short$distance_newrange, Grid.short$AgeGroup_midtesting, max)
 
 Four-year-olds perform significantly better than 3-year-olds, t(113,79) = 2.585, p = .011.
 
-### Do children perform significantly below chance?
-#### Test against all cells
+Do children perform significantly below chance?
+##### Test against all cells
 ```{r}
 t.test(three$distance, mu=1.954, alternative = "two.sided")
 t.test(four$distance, mu=1.954, alternative = "two.sided")
@@ -633,7 +669,7 @@ t.test(five$distance, mu=1.954, alternative = "two.sided")
 - 5y: Mean distance (0.72) vs chance value (1.954): significantly better than chance, t(9) = -12.19, p < .001.
 
 
-#### Test against inner cell preference
+##### Test against inner cell preference
 The simulation is identical to the aforementioned one but only the inner cells are sampled, resulting in a smaller average distance from the reward.
 ```{r}
 t.test(three$distance, mu=1.667, alternative = "two.sided")
@@ -644,7 +680,7 @@ t.test(five$distance, mu=1.667, alternative = "two.sided")
 - 4y: Mean distance (0.79) vs chance value (1.954): significantly better than chance, t(60) = -22.37, p < .001.
 - 5y: Mean distance (0.72) vs chance value (1.954): significantly better than chance, t(9) = -9.36, p < .001.
 
-Boxplot:
+##### Boxplot:
 ```{r}
 library(ggplot2)
 
@@ -663,7 +699,7 @@ p1 +  geom_hline(yintercept=1.667, linetype="dashed", color = "red") +
   scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 55", "4 years, n = 61", "5 years, n = 10", "6 years, n = 1"))
 ```
 
-Make Boxplot with scale converted to 0 and 1:
+##### Make Boxplot with scale converted to 0 and 1:
 ```{r}
 Grid.short$distance_newrange <- rescale(Grid.short$distance, to=c(0, 1), from=c(0, 3.6))
 
@@ -686,7 +722,7 @@ p1  +
 ```
 
 
-## By mediansplit
+#### By mediansplit
 ```{r}
 table(Grid.short$Mediansplit_midtesting_entiresample)
 
@@ -732,8 +768,8 @@ t.test(Grid.short$distance_newrange ~ Grid.short$Mediansplit_midtesting_entiresa
 
 Older children were significantly better than younger children, t(123) = - 3.22, p < .001.
 
-### Do children perform significantly below chance?
-#### Test against all cells
+Do children perform significantly below chance?
+##### Test against all cells
 
 ```{r}
 t.test(young$distance, mu=1.954, alternative = "two.sided")
@@ -743,7 +779,7 @@ t.test(old$distance, mu=1.954, alternative = "two.sided")
 - young: M = 0.93 vs chance value (1.954): significantly better than chance, t(64) = -29.05, p < .001
 - old: M = 0.76 vs chance value (1.954): significantly better than chance, t(61) = -30.53, p < .001
 
-#### Test against inner cell preference
+##### Test against inner cell preference
 The simulation is identical to the aforementioned one but only the inner cells are sampled from resulting in a smaller average distance from the food reward.
 ```{r}
 t.test(young$distance, mu=1.667, alternative = "two.sided")
@@ -752,7 +788,7 @@ t.test(old$distance, mu=1.667, alternative = "two.sided")
 - young: M = 0.93 vs chance value (1.667): significantly better than chance, t(64) = -20.94, p < .001
 - old: M = 0.76 vs chance value (1.667): significantly better than chance, t(61) = -23.21, p < .001
 
-Boxplot:
+##### Boxplot:
 ```{r}
 library(forcats)
 
@@ -777,7 +813,7 @@ p1 +  geom_hline(yintercept=1.667, linetype="dashed", color = "red") +
   scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young (36-49 months), n = 65", "old (50-72 months), n = 62"))
 ```
 
-Make Boxplot with scale converted to 0 and 1:
+##### Make Boxplot with scale converted to 0 and 1:
 ```{r}
 p1<-  ggplot(
   data=Grid.short, aes(x=rep(1, 127), y=revertdistance_newrange, fill = Mediansplit_midtesting_entiresample))+
@@ -848,7 +884,7 @@ hist(Edinburgh$distance,
      col="grey",
      xlim=c(0,3.7))
 
-t.test(Grid.short$distance ~ Grid.short$TestingLocation, paired = FALSE, alternative = "less")
+t.test(Grid.short$distance ~ Grid.short$TestingLocation, paired = FALSE, alternative = "two.sided")
 
 
 #rescaled
@@ -866,7 +902,7 @@ t.test(Grid.short$distance_newrange ~ Grid.short$TestingLocation, paired = FALSE
 
 Children in Edinburgh are significantly better than children in Fife, one-sided t-test, t(109.5) = -1.66, p = .05.
 
-Boxplot:
+### Boxplot:
 ```{r}
 p1<-  ggplot(
   data=Grid.short, aes(x=rep(1, 127), y=distance, fill = TestingLocation))+
@@ -883,7 +919,7 @@ p1 +  geom_hline(yintercept=1.667, linetype="dashed", color = "red") +
   scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 58", "Fife, n = 69"))
 ```
 
-Make Boxplot with scale converted to 0 and 1:
+### Make Boxplot with scale converted to 0 and 1:
 ```{r}
 p1<-  ggplot(
   data=Grid.short, aes(x=rep(1, 127), y=revertdistance_newrange, fill = TestingLocation))+
@@ -1055,8 +1091,7 @@ ggplot(CumulAvDist, aes(x=Trial_nr, y=Mean_AverageDistance)) +
 ```
 
 
-# Can the distance be predicted by age?
-We aim to investigate the potential role of testing location.
+# Can the distance be predicted by age and testing location?
 ```{r}
 library(lme4)
 
@@ -1273,13 +1308,7 @@ geom_line(data=boot.res$ci.predicted, aes(x = plot.xvals, y=boot.res$ci.predicte
 ```
 
 
-
-
-
-
-
-# Considering BPVS: Can the distance be predicted by age?
-We aim to investigate the potential role of testing location.
+# Considering BPVS: Can the distance be predicted by age and testing location?
 ```{r}
 library(lme4)
 
