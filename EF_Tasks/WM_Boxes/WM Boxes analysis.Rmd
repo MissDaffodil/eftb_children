@@ -22,8 +22,8 @@ setwd("C:\\")#sets the working directory, this is where your datafile is
 WM.boxes <-read.csv("WM_Boxes.csv",header=TRUE, sep = ";")
 ```
 
+# Overview
 ```{r} 
-#OVERVIEW
 #recode variables
 WM.boxes$Age_group <- as.factor(WM.boxes$Age_group)#this converts a variable classified as continuous into a categorical variable
 WM.boxes$AgeGroup_midtesting <- as.factor(WM.boxes$AgeGroup_midtesting)
@@ -86,13 +86,13 @@ table(WM.boxes.valid.TT1$Mediansplit_midtesting_entiresample)
 ```
 There were **74 young** and **74 old** children.
 
-# Testing Location
+## Testing Location
 ```{r}
 table(WM.boxes.valid.TT1$TestingLocation)
 ```
 88 children were from the Fife area, 60 children were from Edinburgh.
 
-## Testing location and age
+### Testing location and age
 ```{r}
 table(WM.boxes.valid.TT1$TestingLocation, WM.boxes.valid.TT1$AgeGroup_midtesting)
 ```
@@ -116,6 +116,24 @@ table(WM.boxes.valid.TT1$Warm.up_NrCorrectTrials)
 ```
 Out of the 148 children, *1**05 children (71%) had both warm-up trials correct**, 42 (28%) had 1 trial correct and 1 child had no warm-up trial correct.
 
+```{r}
+WM.boxes.valid.warmup <- subset(WM.boxes.valid, Condition == "warmup")
+
+PropCorrectWarmup <- aggregate(Correct_P1 ~ ID, WM.boxes.valid.warmup, mean)
+
+mean(PropCorrectWarmup$Correct_P1)
+sd(PropCorrectWarmup$Correct_P1)
+min(PropCorrectWarmup$Correct_P1)
+max(PropCorrectWarmup$Correct_P1)
+
+shapiro.test(PropCorrectWarmup$Correct_P1)
+wilcox.test(PropCorrectWarmup$Correct_P1, mu = 0.25, alternative = "two.sided")
+t.test(PropCorrectWarmup$Correct_P1, mu = 0.25, alternative = "two.sided")
+```
+The mean proportion of correct trials in the warm-up was 0.85 (SD = 0.24, range 0-1).
+
+
+
 ## By age groups (at midtesting)
 ```{r}
 table(WM.boxes.valid.TT1$Warm.up_NrCorrectTrials, WM.boxes.valid.TT1$AgeGroup_midtesting)
@@ -135,7 +153,7 @@ table(WM.boxes.valid.TT1$Warm.up_NrCorrectTrials, WM.boxes.valid.TT1$Mediansplit
 - **old (n = 74): 57 (77%)** had both trials correct, 16 (22%) had 1 trial correct, 1 child had no trial correct
 
 
-# Number of correct searches
+# Test: Number of correct searches
 ## Across the sample
 ```{r}
 mean(WM.boxes.valid.TT1$Test.NrCorrectSearches)
@@ -151,7 +169,7 @@ shapiro.test(WM.boxes.valid.TT1$Test.NrCorrectSearches)
 ```
 The mean number of correct searches in the test trials is 4.09 (SD = 1.44, range 1-8). 50% of the children have 4 searches or less correct. The DV is not normally distributed, W = 0.942, p < .001.
 
-### And the boxplot:
+### Boxplot:
 ```{r}
 library(ggplot2)
 
@@ -405,6 +423,7 @@ p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = el
 The percentage of success if choosing completely randomly would be 0.25 (one would get 2 out of 8 trials right, which is 2/8 = 1/4 = 0.25)
 ```{r}
 wilcox.test(WM.boxes.valid.TT1$ProportionCorrectinTest, mu = 0.25)
+t.test(WM.boxes.valid.TT1$ProportionCorrectinTest, mu = 0.25)
 ```
 Children's average proportion of trials correct (51.10%, SD = 17.97, range 12.5-100%) is **significantly higher than the proportion we would expect by chance (0.25)**, V = 7967, p < .001.
 
@@ -544,7 +563,8 @@ shapiro.test(Fife$ProportionCorrectinTest)#not normally distributed
 hist(Edinburgh$ProportionCorrectinTest)
 shapiro.test(Edinburgh$ProportionCorrectinTest)#not normally distributed
 
-wilcox.test(WM.boxes.valid.TT1$ProportionCorrectinTest ~ WM.boxes.valid.TT1$TestingLocation, paired = FALSE, alternative = "greater")
+wilcox.test(WM.boxes.valid.TT1$ProportionCorrectinTest ~ WM.boxes.valid.TT1$TestingLocation, paired = FALSE, alternative = "two.sided")
+t.test(WM.boxes.valid.TT1$ProportionCorrectinTest ~ WM.boxes.valid.TT1$TestingLocation, paired = FALSE, alternative = "two.sided")
 ```
 The variable "proportion of correct searches" is not normally distributed (Fife: W = 0.933, p < .001; Edinburgh: W = 0.936, p = .003).
 Edinburgh children perform significantly better than Fife children (one-tailed Wilcoxon rank sum test, W = 3428, p = .001).
@@ -610,6 +630,11 @@ The number of mistakes made on platform 1 (1.74, SD = 1.02, range 0-4) is signif
 ```{r}
 #first look up the mean number of correct searches
 WM.boxes.meannr.correctsearches.P1 <- aggregate(Correct_P1 ~ ID, WM.boxes.valid.test, mean)
+mean(WM.boxes.meannr.correctsearches.P1$Correct_P1)
+sd(WM.boxes.meannr.correctsearches.P1$Correct_P1)
+min(WM.boxes.meannr.correctsearches.P1$Correct_P1)
+max(WM.boxes.meannr.correctsearches.P1$Correct_P1)
+t.test(WM.boxes.meannr.correctsearches.P1$Correct_P1, mu = 0.25)
 
 #then calculate 4 - "mean number of correct searches" to get mean number of mistakes
 WM_Boxes_MeanNumberMistakesP1<-1-WM.boxes.meannr.correctsearches.P1
@@ -627,6 +652,9 @@ In the test trials, on platform 1, the mean number of mistakes was 0.43 (SD = 0.
 ### Does this performance deviate from chance?
 On platform 1, if one would choose completely randomly, the propbability of making an error in each trial is 0.75.
 ```{r}
+wilcox.test(WM_Boxes_MeanNumberMistakesP1$Correct_P1, mu = 0.75)
+t.test(WM_Boxes_MeanNumberMistakesP1$Correct_P1, mu = 0.75)
+
 wilcox.test(WM_Boxes_MeanNumberMistakesP1$Correct_P1, mu = 0.75)
 ```
 The mean number of mistakes made on platform 1 (0.43, SD = 0.25, range 0-1) is significantly smaller than what would be expected by chance (1), V = 108, p < .001.
@@ -675,7 +703,7 @@ sd(WM.boxes.valid.TT1$z.age)
 res <- lm(ProportionCorrectinTest ~ z.age + TestingLocation + z.age:TestingLocation, data = WM.boxes.valid.TT1)
 ```
 
-#### Check of assumptions
+## Check of assumptions
 1) Normality of residuals
 ```{r}
 hist(residuals(res), probability=T)
