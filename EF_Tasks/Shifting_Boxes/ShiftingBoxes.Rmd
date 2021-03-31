@@ -1,7 +1,7 @@
 ---
 title: "Shifting Boxes"
 author: "Eva Reindl"
-date: "16 6 2020"
+date: "31 3 2021"
 output: word_document
 ---
 
@@ -22,8 +22,8 @@ setwd("C:\\")#sets the working directory, this is where your datafile is
 ShiftingBoxes <-read.csv("ShiftingBoxes.csv",header=TRUE, sep = ";")
 ```
 
+#Overview
 ```{r}
-#OVERVIEW
 names(ShiftingBoxes)[1] <- "ID"
 
 #recode variables
@@ -54,7 +54,7 @@ ShiftingBoxes.SD.Trial1.valid <- subset(ShiftingBoxes.SD.Trial1, Dropout == "no"
 ```
 **141 children** have valid data on the SD phase.
 
-# Description of sample on SD
+# Description of sample in SD
 ## Description of gender distribution in SD
 ```{r}
 table(ShiftingBoxes.SD.Trial1.valid$Gender)
@@ -260,6 +260,7 @@ max(ShiftingBoxes.SD.Trial1.valid$Proportion_Correct)
 hist(ShiftingBoxes.SD.Trial1.valid$Proportion_Correct)
 shapiro.test(ShiftingBoxes.SD.Trial1.valid$Proportion_Correct)
 wilcox.test(ShiftingBoxes.SD.Trial1.valid$Proportion_Correct, mu = 0.5, alternative = "two.sided")
+t.test(ShiftingBoxes.SD.Trial1.valid$Proportion_Correct, mu = 0.5, alternative = "two.sided")
 
 tapply(ShiftingBoxes.SD.Trial1.valid$Proportion_Correct, ShiftingBoxes.SD.Trial1.valid$AgeGroup_midtesting, mean)
 tapply(ShiftingBoxes.SD.Trial1.valid$Proportion_Correct, ShiftingBoxes.SD.Trial1.valid$AgeGroup_midtesting, sd)
@@ -357,7 +358,8 @@ There is **no difference between young and old children** in their performance, 
 
 There is **no difference between Fife and Edinburgh children**.
 
-Boxplot: Mean proportion correct, across ages
+### Boxplots
+Mean proportion correct, across ages
 ```{r}
 library(ggplot2)
 
@@ -412,6 +414,7 @@ p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
   geom_count(colour = "black", position = position_jitterdodge(0,0,1.5), alpha = 0.5) + scale_size_area(max_size=10)+
   scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young, n = 70", "old, n = 71"))
 ```
+
 Split by testing location
 ```{r}
 p1<-  ggplot(
@@ -1219,7 +1222,7 @@ ggplot(CumShiftBoxRev, aes(x=Trial_nr, y=Mean_CumulativeProportionCorrect)) +
 ```
 
 
-# CD: All children who started that phase, independent of whether or not they reached criterion in SD (this will not be used for the actual analysis, is here just for sake of completion)
+# CD: All children who started that phase, independent of whether or not they reached criterion in SD 
 ## How many children started the task?
 ```{r}
 ShiftingBoxes.CD <- subset(ShiftingBoxes, Phase == "Compound Discrimination")
@@ -1455,6 +1458,8 @@ shapiro.test(ShiftingBoxes.CD.Trial1.valid$Proportion_Correct)
 
 wilcox.test(ShiftingBoxes.CD.Trial1.valid$Proportion_Correct, mu = 0.5, alternative = "two.sided")
 
+t.test(ShiftingBoxes.CD.Trial1.valid$Proportion_Correct, mu = 0.5, alternative = "two.sided")
+
 tapply(ShiftingBoxes.CD.Trial1.valid$Proportion_Correct, ShiftingBoxes.CD.Trial1.valid$AgeGroup_midtesting, mean)
 tapply(ShiftingBoxes.CD.Trial1.valid$Proportion_Correct, ShiftingBoxes.CD.Trial1.valid$AgeGroup_midtesting, sd)
 tapply(ShiftingBoxes.CD.Trial1.valid$Proportion_Correct, ShiftingBoxes.CD.Trial1.valid$AgeGroup_midtesting, min)
@@ -1548,6 +1553,7 @@ wilcox.test(Edi$Proportion_Correct, mu = 0.5, alternative = "two.sided")
 wilcox.test(Fife$Proportion_Correct, mu = 0.5, alternative = "two.sided")
 
 wilcox.test(ShiftingBoxes.CD.Trial1.valid$Proportion_Correct ~ ShiftingBoxes.CD.Trial1.valid$TestingLocation, alternative = "two.sided")
+t.test(ShiftingBoxes.CD.Trial1.valid$Proportion_Correct ~ ShiftingBoxes.CD.Trial1.valid$TestingLocation, alternative = "two.sided")
 ```
 In the CD phase, the mean proportion of correct trials was **0.56 (SD = 0.18, range 0.21-1)**. The distribution of this variable has 1 large peak on the left and a smaller one on the right and is not normally distributed, W = 0.908, p < .001. Performance is significantly **above chance**, V = .438, p = .020.
 
@@ -2367,7 +2373,7 @@ p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
   scale_fill_discrete(name = "Testing location", labels = c("Edinburgh, n = 42", "Fife, n = 59"))
 ```
 
-# Plot age as continuous variable against proportion correct
+## Plot age as continuous variable against proportion correct
 ```{r}
 p1<- ggplot(ShiftingBoxes.CD.Trial1.valid, aes(x=AgeMonths_midtesting, y=Proportion_Correct)) + geom_point()+
  labs(x="Age in months",y="Proportion correct")
@@ -3718,7 +3724,7 @@ ggplot(data = PropCorrect, aes(x = Phase, y = Proportion_Correct)) +
   geom_hline(yintercept=0.5, linetype="dashed", color = "red")
 ```
 
-# What is the effect of age and trial number on performance in CD (only children who reached criterion in CD)?
+# What is the effect of age and trial number on performance in CD (only children who reached criterion in SD)?
 ```{r}
 library(lme4)
 #we z-transform age and trial number, as we are including them into an interaction
