@@ -22,8 +22,8 @@ setwd("C:\\")#sets the working directory, this is where your datafile is
 Tray <-read.csv("Shifting_Tray_Long.csv",header=TRUE, sep = ";")
 ```
 
-```{r}
 #OVERVIEW
+```{r}
 #recode variables
 Tray$Age_group <- as.factor(Tray$Age_group)#this converts a variable classified as continuous into a categorical variable
 levels(Tray$Age_group)
@@ -54,8 +54,8 @@ table(Tray.T1$Gender)
 ```
 There are 77 females and 71 males.
 
-# Age
-## Age at beginning of testing
+## Age
+### Age at beginning of testing
 ```{r}
 mean(Tray.T1$Age_months)
 sd(Tray.T1$Age_months)
@@ -68,7 +68,7 @@ table(Tray.T1$Age_group)
 At the beginning of testing, children taking part in the Shifting Tray task were on average 48.57 months (SD = 6.64, range 36-64) old. There were 68 3-year-olds, 73 4-year-olds, and 7 5-year-olds.
 
 
-## Age in the middle of testing
+### Age in the middle of testing
 ```{r}
 mean(Tray.T1$AgeMonths_midtesting)
 sd(Tray.T1$AgeMonths_midtesting)
@@ -84,13 +84,13 @@ In the middle of testing, children taking part in the Shifting Tray task were on
 - 72 4-year-olds
 - 11 5-year-olds
 
-## Age mediansplit (based on entire sample)
+### Age mediansplit (based on entire sample)
 ```{r}
 table(Tray.T1$Mediansplit_midtesting_entiresample)
 ```
 There were **75 young** and **73 old** children.
 
-# Testing location
+## Testing location
 ```{r}
 table(Tray.T1$TestingLocation)
 
@@ -212,6 +212,56 @@ Thus, numerically, 3- and 4-year-olds were perfoming equally, while 5-year-olds 
 - old children: 10.14 (SD = 4.73, range 6-24)
 So using the median split, there was no difference between the groups.
 
+# Is there a preference for the purple or yellow cup?
+```{r}
+table(Tray.valid$Box_on_redpaper)
+binom.test(1105, 2129, p = 0.5,
+           alternative = c("two.sided"),
+           conf.level = 0.95)
+
+BoxPreference <- aggregate(Box_on_redpaper.numeric ~ ID, Tray.valid, mean)
+
+mean(BoxPreference$Box_on_redpaper.numeric)
+sd(BoxPreference$Box_on_redpaper.numeric)
+min(BoxPreference$Box_on_redpaper.numeric)
+max(BoxPreference$Box_on_redpaper.numeric)
+
+# in first 6 trials
+Tray.valid.firstsix <- subset(Tray.valid, Trial_no == 1 | Trial_no ==2 | Trial_no ==3 | Trial_no ==4 | Trial_no ==5 | Trial_no ==6)
+
+BoxPreference <- aggregate(Box_on_redpaper.numeric ~ ID, Tray.valid.firstsix, mean)
+
+mean(BoxPreference$Box_on_redpaper.numeric)
+sd(BoxPreference$Box_on_redpaper.numeric)
+min(BoxPreference$Box_on_redpaper.numeric)
+max(BoxPreference$Box_on_redpaper.numeric)
+```
+
+```{r}
+Tray.valid.boxknown <- subset(Tray.valid, Box_on_redpaper.numeric == "1" | Box_on_redpaper == "0")
+
+#First block (trials 1-12)
+Tray.valid.boxknown.firstblock <- subset(Tray.valid.boxknown, Trial_no >= 1 | Trial_no <=12)
+
+plot_individual_distractor1 <- Tray.valid.boxknown.firstblock %>%
+  group_by(Box_on_redpaper.numeric, ID) %>% 
+  count(Box_on_redpaper.numeric)  %>%
+  mutate(n = n/12)
+  
+
+p1<-ggplot(plot_individual_distractor1, aes(x=n, fill=Box_on_redpaper.numeric)) +
+    geom_histogram(binwidth=0.05, alpha=.5, position="identity")+
+#scale_color_brewer(palette="Dark2")+
+ # scale_fill_brewer(palette="Dark2")+
+   ylim(0,17)+
+   xlim(0,1)+
+   labs(x="",y="Distractor choices")+
+   theme_few()+
+   #theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  theme(legend.position="none")+
+  #scale_y_continuous(breaks=seq(0,1,0.25))+
+   ggtitle("Session 1 - first half")
+```
 
 # DV: Proportion correct
 ```{r}
@@ -232,6 +282,8 @@ hist(Tray.T1$ProportionCorrect,
 
 shapiro.test(Tray.T1$ProportionCorrect)#not normally distributed
 wilcox.test(Tray.T1$ProportionCorrect, mu = 0.5, alternative = "two.sided")
+
+t.test(Tray.T1$ProportionCorrect, mu = 0.5, alternative = "two.sided")
 
 #by age groups
 tapply(Tray.T1$ProportionCorrect, Tray.T1$AgeGroup_midtesting, mean)
@@ -356,8 +408,8 @@ So using the median split, there was no difference between the groups, W = 2902.
 - Edinburgh: **75.04 (SD = 12.17, range 47.22-100%), performance significantly above chance** (0.5), t(60) = 16.072, p < .001
 - Fife: **74.12 (SD = 13.06, range 25-100%), performance significantly above chance** (0.5), V = 3687.5, p < .001
 
-Boxplots:
-Across the sample
+##Boxplots:
+###Across the sample
 ```{r}
 library(ggplot2)
 
@@ -373,7 +425,7 @@ p<-  ggplot(
 p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") + geom_count()
 ```
 
-Split by the three age groups:
+###Split by the three age groups:
 ```{r}
 p1<-ggplot(data=Tray.T1, aes(x=AgeGroup_midtesting,y=ProportionCorrect)) +
   geom_boxplot(aes(group=AgeGroup_midtesting, fill = as.factor(Tray.T1$AgeGroup_midtesting)), outlier.colour = "black") + 
@@ -390,7 +442,7 @@ p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
   scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 65", "4 years, n = 72", "5 years, n = 11")) 
 ```
 
-Split by age mediansplit:
+###Split by age mediansplit:
 ```{r}
 library(forcats)
 
@@ -413,7 +465,7 @@ p1 +  geom_hline(yintercept=0.5, linetype="dashed", color = "red") +
   scale_fill_discrete(name = "Age group midtesting (median split)", labels = c("young (36-49 months), n = 75", "old (50-65 months), n = 73"))
 ```
 
-Split by testing location
+###Split by testing location
 ```{r}
 p1<-  ggplot(
   data=Tray.T1, aes(x=rep(1, 148), y=ProportionCorrect, fill = TestingLocation))+
@@ -506,7 +558,6 @@ Thus, numerically, there was a slight age effect.
 So using the median split, there was no difference between the groups.
 
 # Cumulative proportion correct
-
 
 Then we calculate the cumulative proportion correct.
 For this, we first need to select each trial
@@ -639,7 +690,7 @@ p<-ggplot(Tray.cumul, aes(x=Trial_nr, y=Mean_proportionCorrect)) +
 p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 ```
 
-# For each trial number, what is the mean success?
+# Mean success in each trial
 ```{r}
 mean(Tray.trial1$Trial_Got_sticker)
 mean(Tray.trial2$Trial_Got_sticker)
@@ -814,7 +865,7 @@ lines(x=plot.xvals, y=boot.res$ci.predicted$upper.cl,
 lty=3)
 ```
 
-## Model assumptions
+Model assumptions
 ```{r}
 source("diagnostic_fcns.r")
 ranef.diagn.plot(res)
@@ -832,14 +883,14 @@ m.stab$summary
 
 # Box change
 First we need to add new variables to the datasheet.
-Out of all trials where the sticker was hidden underneath a different box then before ("box change"), how many trials were correct?
+Out of all trials where the sticker was hidden underneath a different box than before ("box change"), how many trials were correct?
 ```{r}
 box.change<-subset(Tray.valid, Box_change == "yes")
 box.change.howmanystickers<- aggregate(Trial_Got_sticker ~ ID, box.change, sum)
 ```
 We manually add this new variable to our datasheet.
 
-How many total trials did each child have where the sticker was hidden underneath a different box then before ("box change)?
+How many total trials did each child have where the sticker was hidden underneath a different box than before ("box change)?
 ```{r}
 box.change.howmanytrials<- aggregate(Trial_no ~ ID, box.change, length)
 ```
@@ -847,14 +898,14 @@ We manually add this new variable to our datasheet.
 In the datasheet, we calculate a new variable for Proportion of Correct Trials when there was a Box Change. This will be analysed further below.
 
 
-Out of all trials where the sticker was hidden underneath the same box then before ("no box change), how many trials were correct?
+Out of all trials where the sticker was hidden underneath the same box than before ("no box change), how many trials were correct?
 ```{r}
 no.box.change<-subset(Tray.valid, Box_change == "no")
 no.box.change.howmanystickers<- aggregate(Trial_Got_sticker ~ ID, no.box.change, sum)
 ```
 We manually add this new variable to our datasheet. 
 
-How many total trials did each child have where the sticker was hidden underneath the same box then before ("no box change)?
+How many total trials did each child have where the sticker was hidden underneath the same box than before ("no box change)?
 ```{r}
 no.box.change.howmanytrials<- aggregate(Trial_no ~ ID, no.box.change, length)
 ```

@@ -1120,6 +1120,30 @@ Children from Edinburgh and Fife did not differ in the number of shifts.
 
 **172 children proceeded to Day 2.**
 
+## Mean number of errors
+```{r}
+Training2a <- subset(CompletedT1, Phase == "training_2a")
+
+Training2a_NumberErrors<- aggregate(Error ~ID, Training2a, mean)
+
+mean(Training2a_NumberErrors$Error)
+sd(Training2a_NumberErrors$Error)
+min(Training2a_NumberErrors$Error)
+max(Training2a_NumberErrors$Error)
+```
+On average, the proportion of errors in training 2a was 0.27 (SD = 0.13, range 0-1).
+
+## Mean number of choosing the wrong level on the platform
+```{r}
+Training2a_ChoseWrongLevel<- aggregate(ChoseWrongLevel ~ID, Training2a, mean)
+
+mean(Training2a_ChoseWrongLevel$ChoseWrongLevel)
+sd(Training2a_ChoseWrongLevel$ChoseWrongLevel)
+min(Training2a_ChoseWrongLevel$ChoseWrongLevel)
+max(Training2a_ChoseWrongLevel$ChoseWrongLevel)
+```
+On average, the proportion of errors involving picking one of the distractor cups in training 2a was 0.20 (SD = 0.08, range 0-0.4), demonstrating that children initially tried one of the distractor cups.
+
 # Training 2b
 ```{r}
 Training2b_NrShifts<-aggregate(Warmup_NrShifts ~ ID, Training2_CritReached, mean)
@@ -1438,6 +1462,77 @@ Young and old children did not differ in the number of shifts.
 
 Children from Edinburgh and Fife did not differ in the number of shifts.
 
+## Mean number of errors
+```{r}
+Training2b <- subset(Training2b_CritReached, Phase == "training_2b")
+
+Training2b_NumberErrors<- aggregate(Error ~ID, Training2b, mean)
+
+mean(Training2b_NumberErrors$Error)
+sd(Training2b_NumberErrors$Error)
+min(Training2b_NumberErrors$Error)
+max(Training2b_NumberErrors$Error)
+```
+On average, the proportion of errors in training 2b was 0.14 (SD = 0.12, range 0-0.4).
+
+## Mean number of choosing the wrong level on the platform
+```{r}
+Training2b_ChoseWrongLevel<- aggregate(ChoseWrongLevel ~ID, Training2b, mean)
+
+mean(Training2b_ChoseWrongLevel$ChoseWrongLevel)
+sd(Training2b_ChoseWrongLevel$ChoseWrongLevel)
+min(Training2b_ChoseWrongLevel$ChoseWrongLevel)
+max(Training2b_ChoseWrongLevel$ChoseWrongLevel)
+```
+On average, the proportion of errors involving picking one of the distractor cups in training 2a was 0.07 (SD = 0.09, range 0-0.31).
+
+## Mean proportion of choosing the wrong level on the platform out of all mistakes
+```{r}
+#Select training 2a and 2b
+Training2aand2b <- subset(Shelf, Phase == "training_2a" | Phase == "training_2b")
+
+#select those trials in which an error was made
+Training2aand2b_error <- subset(Training2aand2b, Error == "1")
+
+Training2aand2b_switchingerror<- aggregate(ProportionofWrongLevelReachesOutofAllErrors ~ID, Training2aand2b_error, mean)
+
+mean(Training2aand2b_switchingerror$ProportionofWrongLevelReachesOutofAllErrors)
+sd(Training2aand2b_switchingerror$ProportionofWrongLevelReachesOutofAllErrors)
+min(Training2aand2b_switchingerror$ProportionofWrongLevelReachesOutofAllErrors)
+max(Training2aand2b_switchingerror$ProportionofWrongLevelReachesOutofAllErrors)
+
+# and separate for both phases
+
+#Select training 2a
+Training2a <- subset(Shelf, Phase == "training_2a")
+
+#select those trials in which an error was made
+Training2a_error <- subset(Training2a, Error == "1")
+
+Training2a_switchingerror<- aggregate(ChoseWrongLevel ~ID, Training2a_error, mean)
+
+mean(Training2a_switchingerror$ChoseWrongLevel)
+sd(Training2a_switchingerror$ChoseWrongLevel)
+min(Training2a_switchingerror$ChoseWrongLevel)
+max(Training2a_switchingerror$ChoseWrongLevel)
+
+
+#Select training 2b
+Training2b <- subset(Shelf, Phase == "training_2b")
+
+#select those trials in which an error was made
+Training2b_error <- subset(Training2b, Error == "1")
+
+
+Training2b_switchingerror<- aggregate(ChoseWrongLevel ~ID, Training2b_error, mean)
+
+mean(Training2b_switchingerror$ChoseWrongLevel)
+sd(Training2b_switchingerror$ChoseWrongLevel)
+min(Training2b_switchingerror$ChoseWrongLevel)
+max(Training2b_switchingerror$ChoseWrongLevel)
+```
+
+
 # Test
 ## Dropouts
 167 children reached the learning criterion in training 2b and thus proceeded to the test. How many dropouts where there in the test session?
@@ -1611,7 +1706,14 @@ hist(Prop_Switches$ProportionSwitches,
 
 shapiro.test(Prop_Switches$ProportionSwitches)# not normally distributed
 
-wilcox.test(Prop_Switches$ProportionSwitches, mu = 0.2242245, alternative = "two.sided")
+test.data=subset(Prop_Switches, ProportionSwitches !=0.2242245)
+N=nrow(test.data)
+
+res=wilcox.exact(Prop_Switches$ProportionSwitches, mu = 0.2242245, paired = F, exact = T, alternative = c("two.sided"))
+
+wT = res$statistic
+wT = max(c(res$statistic, (N*(N+1)/2)-res$statistic))
+P=res$p.value
 ```
 Of the 152 children, the proportion of switches achieved out of the possible number of switches (given the number of trials administered) was 0.57 (SD = 0.26, range 0-1). The variable is not normally distributed, W = 0.959, p < .001.
 Chance level: 0.2242245
@@ -1628,6 +1730,17 @@ min(ThreeYears.Prop_Switches$ProportionSwitches)
 max(ThreeYears.Prop_Switches$ProportionSwitches)
 shapiro.test(ThreeYears.Prop_Switches$ProportionSwitches)#not normally distributed
 wilcox.test(ThreeYears.Prop_Switches$ProportionSwitches, mu = 0.2242245, alternative = "two.sided")
+
+test.data=subset(ThreeYears.Prop_Switches, ProportionSwitches !=0.2242245)
+N=nrow(test.data)
+
+res=wilcox.exact(ThreeYears.Prop_Switches$ProportionSwitches, mu = 0.2242245, paired = F, exact = T, alternative = c("two.sided"))
+
+wT = res$statistic
+wT = max(c(res$statistic, (N*(N+1)/2)-res$statistic))
+P=res$p.value
+
+
 
 hist(ThreeYears.Prop_Switches$ProportionSwitches,
      main="3-year-olds", 
@@ -1727,6 +1840,7 @@ shapiro.test(Edi.ProportionSwitches$ProportionSwitches)#not normally distributed
 wilcox.test(Edi.ProportionSwitches$ProportionSwitches, mu = 0.2242245, alternative = "two.sided")
 
 wilcox.test(Edi.ProportionSwitches$ProportionSwitches, Fife.ProportionSwitches$ProportionSwitches, alternative = "two.sided")
+t.test(Edi.ProportionSwitches$ProportionSwitches, Fife.ProportionSwitches$ProportionSwitches, alternative = "two.sided")
 
 ```
 Proportion of achieved switches:
@@ -1761,27 +1875,32 @@ p<-  ggplot(
   ylim(0,1)+
   xlim(0,2)+
   labs(x="",y="Proportion of switches")+
-  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
-  ggtitle("Shifting Shelf")
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())
 
-p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=0.2242245, linetype="dashed", color = "red") + geom_count()
+p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +  geom_hline(yintercept=0.2242245, linetype="dashed", color = "red") + geom_count(alpha = 0.5)
 ```
 
 Split by the three age groups:
 ```{r}
-p1<-ggplot(data=Shelf.clean.test.T1, aes(x=AgeGroup_midtesting,y=ProportionSwitches)) +
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+ageplot<-ggplot(data=Shelf.clean.test.T1, aes(x=AgeGroup_midtesting,y=ProportionSwitches)) +
   geom_boxplot(aes(group=AgeGroup_midtesting, fill = as.factor(Shelf.clean.test.T1$AgeGroup_midtesting)), outlier.colour = "black") + 
       ylim(0,1)+
   xlim(2.5,6.5)+
   geom_point(alpha=0.3) +
-  labs(x="",y="Proportion of switches")+
+  labs(x="",y="")+
   theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
-  ggtitle("Shifting Shelf")
-
-p1 +  geom_hline(yintercept=0.2242245, linetype="dashed", color = "red") +
+  theme(axis.text.y=element_blank())+
+ # ggtitle("Shifting Shelf")+
+  geom_hline(yintercept=0.2242245, linetype="dashed", color = "red") +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ theme(axis.text.x = element_blank()) + theme(axis.ticks.x = element_blank()) +
   geom_count(colour = "black", position = position_jitterdodge(0,0,1), alpha = 0.5) +
-  scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 68", "4 years, n = 72", "5 years, n = 11", "6 years, n = 1")) 
+  #scale_fill_discrete(name = "Age group midtesting", labels = c("3 years, n = 68", "4 years, n = 72", "5 years, n = 11", "6 years, n = 1")) 
+scale_fill_manual(name = "Age group", labels = c("3 years", "4 years", "5 years", "6 years"), values= c("#999999", "#E69F00", "#56B4E9", "#009E73")) +
+    theme(axis.text=element_text(size=14))+
+  theme(axis.title=element_text(size=20))+
+theme(legend.text=element_text(size=rel(0.9)))
 ```
 
 Split by age mediansplit:
@@ -1827,13 +1946,34 @@ p1 +  geom_hline(yintercept=0.2242245, linetype="dashed", color = "red") +
 
 ## Plot age as continuous variable against proportion of switches
 ```{r}
-p1<- ggplot(Shelf.clean.test.T1, aes(x=AgeMonths_midtesting, y=ProportionSwitches)) + geom_point()+
- labs(x="Age in months",y="Proportion correct switches")
-
-p1 +  geom_hline(yintercept=0.2242245, linetype="dashed", color = "red") +
-  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+p2<- ggplot(Shelf.clean.test.T1, aes(x=AgeMonths_midtesting, y=ProportionSwitches)) + 
+  #geom_point()+
+ labs(x="Age in months",y="Proportion of achieved switches")+
+geom_hline(yintercept=0.2242245, linetype="dashed", color = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+ theme(axis.text=element_text(size=14),
+        axis.title=element_text(size=16))+
+  geom_count(alpha = 0.5)+
+  #scale_size_continuous(breaks = round)+
+      theme(axis.title.y=element_blank())+
+scale_size_continuous(range = c(2,5), breaks = c(1, 3, 5))
 ```
 
+##Effect of age on Proportion of switches
+```{r}
+library(betareg)
+
+##code to remove 1 and 0 from the distribution of the response variable
+Shelf.clean.test.T1$ProportionSwitches2 <- (Shelf.clean.test.T1$ProportionSwitches*(length(Shelf.clean.test.T1$ProportionSwitches) - 1) + 0.5)/length(Shelf.clean.test.T1$ProportionSwitches) 
+
+min(Shelf.clean.test.T1$ProportionSwitches2, na.rm = T)
+max(Shelf.clean.test.T1$ProportionSwitches2, na.rm = T)
+
+res <- betareg(ProportionSwitches2 ~ AgeMonths_midtesting, data = Shelf.clean.test.T1, link = "logit")
+
+summary(res)
+
+```
 
 ## How many switches were possible?
 ```{r}
@@ -1904,6 +2044,9 @@ Number of achieved switches:
 
 ## Number of errors
 ```{r}
+#How many children did not make any error?
+table(Shelf.clean.test.T1$Test_TotalNrMistakes)
+
 Nr_Errors<-aggregate(Test_TotalNrMistakes ~ ID, Shelf.clean, mean)
 
 mean(Nr_Errors$Test_TotalNrMistakes)
@@ -2014,6 +2157,69 @@ Young made more mistakes than older children, W = 2667.5, p = .002.
 
 Children from Edinburgh and Fife did not differ in the number of mistakes.
 
+
+## Proportion of errors out of all administered trials
+```{r}
+#How many children did not make any error?
+table(Shelf.clean.test.T1$PropMistakesOutOfAllTrials)
+
+PropMistakesOutOfAllTrials<-aggregate(PropMistakesOutOfAllTrials ~ ID, Shelf.clean, mean)
+
+mean(PropMistakesOutOfAllTrials$PropMistakesOutOfAllTrials)
+sd(PropMistakesOutOfAllTrials$PropMistakesOutOfAllTrials)
+min(PropMistakesOutOfAllTrials$PropMistakesOutOfAllTrials)
+max(PropMistakesOutOfAllTrials$PropMistakesOutOfAllTrials)
+```
+
+
+
+## What is the proportion of wrong trials directly after a switch?
+```{r}
+PropMistakes_AfterSwitch<-aggregate(Test_PropMistakesDirectlyAfterASwitch_outofallmadeswitches ~ ID, Shelf.clean, mean)
+
+mean(PropMistakes_AfterSwitch$Test_PropMistakesDirectlyAfterASwitch_outofallmadeswitches)
+sd(PropMistakes_AfterSwitch$Test_PropMistakesDirectlyAfterASwitch_outofallmadeswitches)
+min(PropMistakes_AfterSwitch$Test_PropMistakesDirectlyAfterASwitch_outofallmadeswitches)
+max(PropMistakes_AfterSwitch$Test_PropMistakesDirectlyAfterASwitch_outofallmadeswitches)
+
+#predicted by age?
+#regression
+##code to remove 1 and 0 from the distribution of the response variable
+Shelf.clean.test.T1$Test_PropMistakesDirectlyAfterASwitch_outofallmadeswitches2 <- (Shelf.clean.test.T1$Test_PropMistakesDirectlyAfterASwitch_outofallmadeswitches*(length(Shelf.clean.test.T1$Test_PropMistakesDirectlyAfterASwitch_outofallmadeswitches) - 1) + 0.5)/length(Shelf.clean.test.T1$Test_PropMistakesDirectlyAfterASwitch_outofallmadeswitches) 
+
+min(Shelf.clean.test.T1$Test_PropMistakesDirectlyAfterASwitch_outofallmadeswitches2)
+max(Shelf.clean.test.T1$Test_PropMistakesDirectlyAfterASwitch_outofallmadeswitches2)
+
+res <- betareg(Test_PropMistakesDirectlyAfterASwitch_outofallmadeswitches2 ~ AgeMonths_midtesting, data = Shelf.clean.test.T1, link = "logit")
+
+summary(res)
+```
+
+## Plot age as continuous variable against proportion of mistakes directly after a switch
+```{r}
+
+p4<- ggplot(Shelf.clean.test.T1, aes(x=AgeMonths_midtesting, y=Test_PropMistakesDirectlyAfterASwitch_outofallmadeswitches)) + 
+  #geom_point()+
+ labs(x="Age in months",y="Proportion of incorrect trials after a switch")+
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+ theme(axis.text=element_text(size=14),
+        axis.title=element_text(size=16))+
+  geom_count(alpha = 0.5)+
+ # scale_size_continuous(breaks = round)+
+      theme(axis.title.y=element_blank())+
+  scale_size_continuous(range = c(2,3.5), breaks = c(1, 3, 5))
+```
+
+## Number of switching mistakes 
+```{r}
+NumberSwitchingMistakes_OutofallTrials<-aggregate(Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform ~ ID, Shelf.clean, mean)
+
+mean(NumberSwitchingMistakes_OutofallTrials$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+sd(NumberSwitchingMistakes_OutofallTrials$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+min(NumberSwitchingMistakes_OutofallTrials$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+max(NumberSwitchingMistakes_OutofallTrials$Test_NrMistakes_WrongLevel_ChoseCupThatIsRewardedOnOtherPlatform)
+```
+
 ## Proportion of switching mistakes out of all administered trials
 ```{r}
 ProportionSwitchingMistakes_OutofallTrials<-aggregate(Proportion_SwitchingMistakes ~ ID, Shelf.clean, mean)
@@ -2098,8 +2304,52 @@ max(ProportionSwitchingMistakes_OutofallMistakes$ProportionSwitchMistakesOutofAl
 hist(ProportionSwitchingMistakes_OutofallMistakes$ProportionSwitchMistakesOutofAllMistakes)
 
 shapiro.test(ProportionSwitchingMistakes_OutofallMistakes$ProportionSwitchMistakesOutofAllMistakes)
+
+#effect of age on proportion of switching mistakes
+
+library(betareg)
+
+##code to remove 1 and 0 from the distribution of the response variable
+Shelf.clean.test.T1$ProportionSwitchMistakesOutofAllMistakes2 <- (Shelf.clean.test.T1$ProportionSwitchMistakesOutofAllMistakes*(length(Shelf.clean.test.T1$ProportionSwitchMistakesOutofAllMistakes) - 1) + 0.5)/length(Shelf.clean.test.T1$ProportionSwitchMistakesOutofAllMistakes) 
+
+min(Shelf.clean.test.T1$ProportionSwitchMistakesOutofAllMistakes2, na.rm = T)
+max(Shelf.clean.test.T1$ProportionSwitchMistakesOutofAllMistakes2, na.rm = T)
+
+res <- betareg(ProportionSwitchMistakesOutofAllMistakes2 ~ AgeMonths_midtesting, data = Shelf.clean.test.T1, link = "logit")
+
+summary(res)
 ```
 The proportion of switching errors out of all errors is 0.76 (SD = 0.19, range 0.21-1). 
+
+
+## Plot age as continuous variable against proportion of switching mistakes out of all mistakes
+```{r}
+table(Shelf.clean.test.T1$ProportionSwitchMistakesOutofAllMistakes, Shelf.clean.test.T1$AgeMonths_midtesting)
+p3<- ggplot(Shelf.clean.test.T1, aes(x=AgeMonths_midtesting, y=ProportionSwitchMistakesOutofAllMistakes)) + 
+  #geom_point()+
+ labs(x="Age in months",y="Proportion of switching mistakes")+
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+ theme(axis.text=element_text(size=14),
+        axis.title=element_text(size=16))+
+  geom_count(alpha = 0.5)+
+  #scale_size_continuous(breaks = round)+
+      theme(axis.title.y=element_blank())+
+  scale_size_continuous(range = c(2,4), breaks = c(1, 2, 4))
+```
+
+
+
+
+
+## Proportion of mistakes of reaching towards the wrong level
+```{r}
+PropReachesToWrongLevel<-aggregate(ProportionofWrongLevelReachesOutofAllErrors ~ ID, Shelf.clean.test, mean)
+
+mean(PropReachesToWrongLevel$ProportionofWrongLevelReachesOutofAllErrors)
+sd(PropReachesToWrongLevel$ProportionofWrongLevelReachesOutofAllErrors)
+min(PropReachesToWrongLevel$ProportionofWrongLevelReachesOutofAllErrors)
+max(PropReachesToWrongLevel$ProportionofWrongLevelReachesOutofAllErrors)
+```
 
 ## Number of switching mistakes
 ```{r}
@@ -2334,64 +2584,38 @@ Test: Performance significantly above chance (0.5), V = 9705.5, p < .001
 
 
 
-# In the test phase, can age and trial number and the interaction between age and trial number predict success?
+# In the test phase, can age and trial number predict success?
 ```{r}
 library(lme4)
 
-#we z-transform age and trial number, as we are including them into an interaction
+#we z-transform age 
 Shelf.clean.test$z.age.midtesting=as.vector(scale(Shelf.clean.test$AgeMonths_midtesting))#transform age to mean of 0 and SD of 1
 mean(Shelf.clean.test$z.age.midtesting)#check whether it has worked
 sd(Shelf.clean.test$z.age.midtesting)
 
-Shelf.clean.test$z.Trial_nr=as.vector(scale(Shelf.clean.test$Trial_nr))#transform trial number to mean of 0 and SD of 1
-mean(Shelf.clean.test$z.Trial_nr)#check whether it has worked
-sd(Shelf.clean.test$z.Trial_nr)
-
 #Full model
 control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=100000))
 
-res<-glmer(Success ~ z.age.midtesting + z.Trial_nr + z.age.midtesting:z.Trial_nr + (1+z.Trial_nr|ID), data=Shelf.clean.test, family = binomial, control = control)
+res<-glmer(Success ~ z.age.midtesting + Trial_nr + (1+Trial_nr|ID), data=Shelf.clean.test, family = binomial, control = control)
 
-null<-glmer(Success ~ 1 + (1+z.Trial_nr|ID), data=Shelf.clean.test, family = binomial, control=control)
-
-anova(null, res, test="Chisq")
-```
-The full model explains the data significantly better than the null model only consisting of the intercept, X2(3) = 50.714, p < .001.
-
-Effect of interaction
-```{r}
-res.nointer<-glmer(Success ~ z.age.midtesting + z.Trial_nr + (1+z.Trial_nr|ID), data=Shelf.clean.test, family = binomial, control=control)
-
-anova(res.nointer, res, test="Chisq")
-
-```
-There is only a marginally significant interaction effect, X2(1) = 3.557, p = .059, so we remove it from the model.
-
-
-```{r}
-res<-glmer(Success ~ z.age.midtesting + z.Trial_nr + (1+z.Trial_nr|ID), data=Shelf.clean.test, family = binomial, control=control)
+null<-glmer(Success ~ Trial_nr + (1+Trial_nr|ID), data=Shelf.clean.test, family = binomial, control=control)
 
 anova(null, res, test="Chisq")
-
-summary(res)
 ```
-The full model explains the data significantly better than the null model only consisting of the intercept, X2(2) = 47.157, p < .001.
 
 Effect of trial number
 ```{r}
-res.notrial<-glmer(Success ~ z.age.midtesting + (1+z.Trial_nr|ID), data=Shelf.clean.test, family = binomial, control=control)
+res.notrial<-glmer(Success ~ z.age.midtesting + (1+Trial_nr|ID), data=Shelf.clean.test, family = binomial, control=control)
 
 anova(res.notrial, res, test="Chisq")
 ```
-Trial number has a significant effect, X2(1) = 28.231, p < .001.
 
 Effect of age
 ```{r}
-res.noage<-glmer(Success ~ z.Trial_nr + (1+z.Trial_nr|ID), data=Shelf.clean.test, family = binomial, control=control)
+res.noage<-glmer(Success ~ Trial_nr + (1+Trial_nr|ID), data=Shelf.clean.test, family = binomial, control=control)
 
 anova(res.noage, res, test="Chisq")
 ```
-Age has a significant effect, X2(1) = 16.943, p < .001.
 
 ```{r}
 summary(res)
@@ -2657,6 +2881,336 @@ ggplot(Shelf.trialbytrial, aes(x=Trial, y=Mean_Success)) +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 ```
 
+# Examining the error patterns on a trial-by-trial basis
+## Training 2a
+```{r}
+Training2a_T1<- subset(Training2a, Trial_nr == "1")
+Training2a_T2<- subset(Training2a, Trial_nr == "2")
+Training2a_T3<- subset(Training2a, Trial_nr == "3")
+Training2a_T4<- subset(Training2a, Trial_nr == "4")
+Training2a_T5<- subset(Training2a, Trial_nr == "5")
+Training2a_T6<- subset(Training2a, Trial_nr == "6")
+Training2a_T7<- subset(Training2a, Trial_nr == "7")
+Training2a_T8<- subset(Training2a, Trial_nr == "8")
+Training2a_T9<- subset(Training2a, Trial_nr == "9")
+Training2a_T10<- subset(Training2a, Trial_nr == "10")
+Training2a_T11<- subset(Training2a, Trial_nr == "11")
+Training2a_T12<- subset(Training2a, Trial_nr == "12")
+Training2a_T13<- subset(Training2a, Trial_nr == "13")
+Training2a_T14<- subset(Training2a, Trial_nr == "14")
+Training2a_T15<- subset(Training2a, Trial_nr == "15")
+Training2a_T16<- subset(Training2a, Trial_nr == "16")
+Training2a_T17<- subset(Training2a, Trial_nr == "17")
+Training2a_T18<- subset(Training2a, Trial_nr == "18")
+Training2a_T19<- subset(Training2a, Trial_nr == "19")
+Training2a_T20<- subset(Training2a, Trial_nr == "20")
+Training2a_T21<- subset(Training2a, Trial_nr == "21")
+Training2a_T22<- subset(Training2a, Trial_nr == "22")
+Training2a_T23<- subset(Training2a, Trial_nr == "23")
+Training2a_T24<- subset(Training2a, Trial_nr == "24")
+Training2a_T25<- subset(Training2a, Trial_nr == "25")
+Training2a_T26<- subset(Training2a, Trial_nr == "26")
+Training2a_T27<- subset(Training2a, Trial_nr == "27")
+Training2a_T28<- subset(Training2a, Trial_nr == "28")
+Training2a_T29<- subset(Training2a, Trial_nr == "29")
+Training2a_T30<- subset(Training2a, Trial_nr == "30")
+Training2a_T31<- subset(Training2a, Trial_nr == "31")
+Training2a_T32<- subset(Training2a, Trial_nr == "32")
+Training2a_T33<- subset(Training2a, Trial_nr == "33")
+Training2a_T34<- subset(Training2a, Trial_nr == "34")
+Training2a_T35<- subset(Training2a, Trial_nr == "35")
+Training2a_T36<- subset(Training2a, Trial_nr == "36")
+
+mean(Training2a_T1$ChoseWrongLevel)
+mean(Training2a_T2$ChoseWrongLevel)
+mean(Training2a_T3$ChoseWrongLevel)
+mean(Training2a_T4$ChoseWrongLevel)
+mean(Training2a_T5$ChoseWrongLevel)
+mean(Training2a_T6$ChoseWrongLevel)
+mean(Training2a_T7$ChoseWrongLevel)
+mean(Training2a_T8$ChoseWrongLevel)
+mean(Training2a_T9$ChoseWrongLevel)
+mean(Training2a_T10$ChoseWrongLevel)
+mean(Training2a_T11$ChoseWrongLevel)
+mean(Training2a_T12$ChoseWrongLevel)
+mean(Training2a_T13$ChoseWrongLevel)
+mean(Training2a_T14$ChoseWrongLevel)
+mean(Training2a_T15$ChoseWrongLevel)
+mean(Training2a_T16$ChoseWrongLevel)
+mean(Training2a_T17$ChoseWrongLevel)
+mean(Training2a_T18$ChoseWrongLevel)
+mean(Training2a_T19$ChoseWrongLevel)
+mean(Training2a_T20$ChoseWrongLevel)
+mean(Training2a_T21$ChoseWrongLevel)
+mean(Training2a_T22$ChoseWrongLevel)
+mean(Training2a_T23$ChoseWrongLevel)
+mean(Training2a_T24$ChoseWrongLevel)
+mean(Training2a_T25$ChoseWrongLevel)
+mean(Training2a_T26$ChoseWrongLevel)
+mean(Training2a_T27$ChoseWrongLevel)
+mean(Training2a_T28$ChoseWrongLevel)
+mean(Training2a_T29$ChoseWrongLevel)
+mean(Training2a_T30$ChoseWrongLevel)
+mean(Training2a_T31$ChoseWrongLevel)
+mean(Training2a_T32$ChoseWrongLevel)
+mean(Training2a_T33$ChoseWrongLevel)
+mean(Training2a_T34$ChoseWrongLevel)
+mean(Training2a_T35$ChoseWrongLevel)
+mean(Training2a_T36$ChoseWrongLevel)
+
+sd(Training2a_T1$ChoseWrongLevel)
+sd(Training2a_T2$ChoseWrongLevel)
+sd(Training2a_T3$ChoseWrongLevel)
+sd(Training2a_T4$ChoseWrongLevel)
+sd(Training2a_T5$ChoseWrongLevel)
+sd(Training2a_T6$ChoseWrongLevel)
+sd(Training2a_T7$ChoseWrongLevel)
+sd(Training2a_T8$ChoseWrongLevel)
+sd(Training2a_T9$ChoseWrongLevel)
+sd(Training2a_T10$ChoseWrongLevel)
+sd(Training2a_T11$ChoseWrongLevel)
+sd(Training2a_T12$ChoseWrongLevel)
+sd(Training2a_T13$ChoseWrongLevel)
+sd(Training2a_T14$ChoseWrongLevel)
+sd(Training2a_T15$ChoseWrongLevel)
+sd(Training2a_T16$ChoseWrongLevel)
+sd(Training2a_T17$ChoseWrongLevel)
+sd(Training2a_T18$ChoseWrongLevel)
+sd(Training2a_T19$ChoseWrongLevel)
+sd(Training2a_T20$ChoseWrongLevel)
+sd(Training2a_T21$ChoseWrongLevel)
+sd(Training2a_T22$ChoseWrongLevel)
+sd(Training2a_T23$ChoseWrongLevel)
+sd(Training2a_T24$ChoseWrongLevel)
+sd(Training2a_T25$ChoseWrongLevel)
+sd(Training2a_T26$ChoseWrongLevel)
+sd(Training2a_T27$ChoseWrongLevel)
+sd(Training2a_T28$ChoseWrongLevel)
+sd(Training2a_T29$ChoseWrongLevel)
+sd(Training2a_T30$ChoseWrongLevel)
+sd(Training2a_T31$ChoseWrongLevel)
+sd(Training2a_T32$ChoseWrongLevel)
+sd(Training2a_T33$ChoseWrongLevel)
+sd(Training2a_T34$ChoseWrongLevel)
+sd(Training2a_T35$ChoseWrongLevel)
+sd(Training2a_T36$ChoseWrongLevel)
+
+
+```
+
+```{r}
+Training2a_WrongLevelChosen <-read.csv("Training2a_WrongLevelChosen.csv",header=TRUE, sep = ";")
+names(Training2a_WrongLevelChosen)[1] <- "Trial"
+
+library(ggplot2)
+
+T2aplot <- ggplot(Training2a_WrongLevelChosen, aes(x=Trial, y=Mean_T2a_ChoseWrongLevel)) + 
+    geom_errorbar(aes(ymin=Mean_T2a_ChoseWrongLevel-SD_T2a_ChoseWrongLevel, ymax=Mean_T2a_ChoseWrongLevel+SD_T2a_ChoseWrongLevel), width=.1) +
+    geom_line() +
+    geom_point()+
+    ylim(-0.3,1.3)+
+  ylab("Mean proportion of choices to wrong level")+
+    geom_hline(yintercept=.5, colour = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+## Training 2b
+```{r}
+Training2b_T1<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "1")
+Training2b_T2<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "2")
+Training2b_T3<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "3")
+Training2b_T4<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "4")
+Training2b_T5<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "5")
+Training2b_T6<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "6")
+Training2b_T7<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "7")
+Training2b_T8<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "8")
+Training2b_T9<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "9")
+Training2b_T10<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "10")
+Training2b_T11<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "11")
+Training2b_T12<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "12")
+Training2b_T13<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "13")
+Training2b_T14<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "14")
+Training2b_T15<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "15")
+Training2b_T16<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "16")
+Training2b_T17<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "17")
+Training2b_T18<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "18")
+Training2b_T19<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "19")
+Training2b_T20<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "20")
+Training2b_T21<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "21")
+Training2b_T22<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "22")
+Training2b_T23<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "23")
+Training2b_T24<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "24")
+Training2b_T25<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "25")
+Training2b_T26<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "26")
+Training2b_T27<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "27")
+Training2b_T28<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "28")
+Training2b_T29<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "29")
+Training2b_T30<- subset(Training2_CritReached, Phase == "training_2b" & Trial_nr == "30")
+
+
+
+mean(Training2b_T1$ChoseWrongLevel)
+mean(Training2b_T2$ChoseWrongLevel)
+mean(Training2b_T3$ChoseWrongLevel)
+mean(Training2b_T4$ChoseWrongLevel)
+mean(Training2b_T5$ChoseWrongLevel)
+mean(Training2b_T6$ChoseWrongLevel)
+mean(Training2b_T7$ChoseWrongLevel)
+mean(Training2b_T8$ChoseWrongLevel)
+mean(Training2b_T9$ChoseWrongLevel)
+mean(Training2b_T10$ChoseWrongLevel)
+mean(Training2b_T11$ChoseWrongLevel)
+mean(Training2b_T12$ChoseWrongLevel)
+mean(Training2b_T13$ChoseWrongLevel)
+mean(Training2b_T14$ChoseWrongLevel)
+mean(Training2b_T15$ChoseWrongLevel)
+mean(Training2b_T16$ChoseWrongLevel)
+mean(Training2b_T17$ChoseWrongLevel)
+mean(Training2b_T18$ChoseWrongLevel)
+mean(Training2b_T19$ChoseWrongLevel)
+mean(Training2b_T20$ChoseWrongLevel)
+mean(Training2b_T21$ChoseWrongLevel)
+mean(Training2b_T22$ChoseWrongLevel)
+mean(Training2b_T23$ChoseWrongLevel)
+mean(Training2b_T24$ChoseWrongLevel)
+mean(Training2b_T25$ChoseWrongLevel)
+mean(Training2b_T26$ChoseWrongLevel)
+mean(Training2b_T27$ChoseWrongLevel)
+mean(Training2b_T28$ChoseWrongLevel)
+mean(Training2b_T29$ChoseWrongLevel)
+mean(Training2b_T30$ChoseWrongLevel)
+
+
+sd(Training2b_T1$ChoseWrongLevel)
+sd(Training2b_T2$ChoseWrongLevel)
+sd(Training2b_T3$ChoseWrongLevel)
+sd(Training2b_T4$ChoseWrongLevel)
+sd(Training2b_T5$ChoseWrongLevel)
+sd(Training2b_T6$ChoseWrongLevel)
+sd(Training2b_T7$ChoseWrongLevel)
+sd(Training2b_T8$ChoseWrongLevel)
+sd(Training2b_T9$ChoseWrongLevel)
+sd(Training2b_T10$ChoseWrongLevel)
+sd(Training2b_T11$ChoseWrongLevel)
+sd(Training2b_T12$ChoseWrongLevel)
+sd(Training2b_T13$ChoseWrongLevel)
+sd(Training2b_T14$ChoseWrongLevel)
+sd(Training2b_T15$ChoseWrongLevel)
+sd(Training2b_T16$ChoseWrongLevel)
+sd(Training2b_T17$ChoseWrongLevel)
+sd(Training2b_T18$ChoseWrongLevel)
+sd(Training2b_T19$ChoseWrongLevel)
+sd(Training2b_T20$ChoseWrongLevel)
+sd(Training2b_T21$ChoseWrongLevel)
+sd(Training2b_T22$ChoseWrongLevel)
+sd(Training2b_T23$ChoseWrongLevel)
+sd(Training2b_T24$ChoseWrongLevel)
+sd(Training2b_T25$ChoseWrongLevel)
+sd(Training2b_T26$ChoseWrongLevel)
+sd(Training2b_T27$ChoseWrongLevel)
+sd(Training2b_T28$ChoseWrongLevel)
+sd(Training2b_T29$ChoseWrongLevel)
+sd(Training2b_T30$ChoseWrongLevel)
+
+```
+
+```{r}
+Training2b_WrongLevelChosen <-read.csv("Training2b_WrongLevelChosen.csv",header=TRUE, sep = ";")
+names(Training2b_WrongLevelChosen)[1] <- "Trial"
+
+library(ggplot2)
+
+T2bplot <- ggplot(Training2b_WrongLevelChosen, aes(x=Trial, y=Mean_T2b_ChoseWrongLevel)) + 
+    geom_errorbar(aes(ymin=Mean_T2b_ChoseWrongLevel-SD_T2b_ChoseWrongLevel, ymax=Mean_T2b_ChoseWrongLevel+SD_T2b_ChoseWrongLevel), width=.1) +
+    geom_line() +
+    geom_point()+
+    ylim(-0.3,1.3)+
+  ylab("Mean proportion of choices to wrong level")+
+    geom_hline(yintercept=.5, colour = "red") +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+```{r}
+##Test phase
+mean(Shelf.clean.trial1$Test_NrMistakes_WrongLevel)
+mean(Shelf.clean.trial2$Test_NrMistakes_WrongLevel)
+mean(Shelf.clean.trial3$Test_NrMistakes_WrongLevel)
+mean(Shelf.clean.trial4$Test_NrMistakes_WrongLevel)
+mean(Shelf.clean.trial5$Test_NrMistakes_WrongLevel)
+mean(Shelf.clean.trial6$ChoseWrongLevel)
+mean(Shelf.clean.trial7$ChoseWrongLevel)
+mean(Shelf.clean.trial8$ChoseWrongLevel)
+mean(Shelf.clean.trial9$ChoseWrongLevel)
+mean(Shelf.clean.trial10$ChoseWrongLevel)
+mean(Shelf.clean.trial11$ChoseWrongLevel)
+mean(Shelf.clean.trial12$ChoseWrongLevel)
+mean(Shelf.clean.trial13$ChoseWrongLevel)
+mean(Shelf.clean.trial14$ChoseWrongLevel)
+mean(Shelf.clean.trial15$ChoseWrongLevel)
+mean(Shelf.clean.trial16$ChoseWrongLevel)
+mean(Shelf.clean.trial17$ChoseWrongLevel)
+mean(Shelf.clean.trial18$ChoseWrongLevel)
+mean(Shelf.clean.trial19$ChoseWrongLevel)
+mean(Shelf.clean.trial20$ChoseWrongLevel)
+mean(Shelf.clean.trial21$ChoseWrongLevel)
+mean(Shelf.clean.trial22$ChoseWrongLevel)
+mean(Shelf.clean.trial23$ChoseWrongLevel)
+mean(Shelf.clean.trial24$ChoseWrongLevel)
+mean(Shelf.clean.trial25$ChoseWrongLevel)
+mean(Shelf.clean.trial26$ChoseWrongLevel)
+mean(Shelf.clean.trial27$ChoseWrongLevel)
+mean(Shelf.clean.trial28$ChoseWrongLevel)
+mean(Shelf.clean.trial29$ChoseWrongLevel)
+mean(Shelf.clean.trial30$ChoseWrongLevel)
+mean(Shelf.clean.trial31$ChoseWrongLevel)
+mean(Shelf.clean.trial32$ChoseWrongLevel)
+mean(Shelf.clean.trial33$ChoseWrongLevel)
+mean(Shelf.clean.trial34$ChoseWrongLevel)
+mean(Shelf.clean.trial35$ChoseWrongLevel)
+mean(Shelf.clean.trial36$ChoseWrongLevel)
+
+
+sd(Shelf.clean.trial1$ChoseWrongLevel)
+sd(Shelf.clean.trial2$ChoseWrongLevel)
+sd(Shelf.clean.trial3$ChoseWrongLevel)
+sd(Shelf.clean.trial4$ChoseWrongLevel)
+sd(Shelf.clean.trial5$ChoseWrongLevel)
+sd(Shelf.clean.trial6$ChoseWrongLevel)
+sd(Shelf.clean.trial7$ChoseWrongLevel)
+sd(Shelf.clean.trial8$ChoseWrongLevel)
+sd(Shelf.clean.trial9$ChoseWrongLevel)
+sd(Shelf.clean.trial10$ChoseWrongLevel)
+sd(Shelf.clean.trial11$ChoseWrongLevel)
+sd(Shelf.clean.trial12$ChoseWrongLevel)
+sd(Shelf.clean.trial13$ChoseWrongLevel)
+sd(Shelf.clean.trial14$ChoseWrongLevel)
+sd(Shelf.clean.trial15$ChoseWrongLevel)
+sd(Shelf.clean.trial16$ChoseWrongLevel)
+sd(Shelf.clean.trial17$ChoseWrongLevel)
+sd(Shelf.clean.trial18$ChoseWrongLevel)
+sd(Shelf.clean.trial19$ChoseWrongLevel)
+sd(Shelf.clean.trial20$ChoseWrongLevel)
+sd(Shelf.clean.trial21$ChoseWrongLevel)
+sd(Shelf.clean.trial22$ChoseWrongLevel)
+sd(Shelf.clean.trial23$ChoseWrongLevel)
+sd(Shelf.clean.trial24$ChoseWrongLevel)
+sd(Shelf.clean.trial25$ChoseWrongLevel)
+sd(Shelf.clean.trial26$ChoseWrongLevel)
+sd(Shelf.clean.trial27$ChoseWrongLevel)
+sd(Shelf.clean.trial28$ChoseWrongLevel)
+sd(Shelf.clean.trial29$ChoseWrongLevel)
+sd(Shelf.clean.trial30$ChoseWrongLevel)
+sd(Shelf.clean.trial31$ChoseWrongLevel)
+sd(Shelf.clean.trial32$ChoseWrongLevel)
+sd(Shelf.clean.trial33$ChoseWrongLevel)
+sd(Shelf.clean.trial34$ChoseWrongLevel)
+sd(Shelf.clean.trial35$ChoseWrongLevel)
+sd(Shelf.clean.trial36$ChoseWrongLevel)
+
+```
+
+
+
 
 # Including BPVS score: In the test phase, can age and trial number and the interaction between age and trial number predict success?
 ```{r}
@@ -2685,7 +3239,6 @@ null<-glmer(Success ~ 1 + (1+z.Trial_nr|ID), data=Shelf.clean.test.BPVS, family 
 
 anova(null, res, test="Chisq")
 ```
-The full model explains the data significantly better than the null model only consisting of the intercept, X2(4) = 39.015, p < .001.
 
 Effect of interaction
 ```{r}
@@ -2694,7 +3247,6 @@ res.nointer<-glmer(Success ~ z.BPVS_Score+ z.age.midtesting + z.Trial_nr + (1+z.
 anova(res.nointer, res, test="Chisq")
 
 ```
-There is no significant interaction effect, X2(1) = 0.968, p = .325, so we remove it from the model.
 
 
 ```{r}
@@ -2704,7 +3256,6 @@ anova(null, res, test="Chisq")
 
 summary(res)
 ```
-The full model explains the data significantly better than the null model only consisting of the intercept, X2(3) = 38.047, p < .001.
 
 Effect of trial number
 ```{r}
@@ -2712,7 +3263,6 @@ res.notrial<-glmer(Success ~ z.BPVS_Score + z.age.midtesting + (1+z.Trial_nr|ID)
 
 anova(res.notrial, res, test="Chisq")
 ```
-Trial number has a significant effect, X2(1) = 21.391, p < .001.
 
 Effect of age
 ```{r}
@@ -2720,7 +3270,6 @@ res.noage<-glmer(Success ~ z.BPVS_Score + z.Trial_nr + (1+z.Trial_nr|ID), data=S
 
 anova(res.noage, res, test="Chisq")
 ```
-Age has a significant effect, X2(1) = 14.889, p < .001.
 
 Effect of BPVS score
 ```{r}
@@ -2728,5 +3277,42 @@ res.nobpvs<-glmer(Success ~ z.age.midtesting + z.Trial_nr + (1+z.Trial_nr|ID), d
 
 anova(res.nobpvs, res, test="Chisq")
 ```
-There is no effect of the BPVS score, X2(1) = 0.00, p = .992.
 
+# 3 different error types
+```{r}
+GraphTest <-read.csv("Graph_Testbattery.csv",header=TRUE, sep = ";")
+
+str(GraphTest)
+
+names(GraphTest)[1] <- "ID"
+names(GraphTest)[2] <- "SwitchingMistake"
+names(GraphTest)[3] <- "CorrectLevelWrongCup"
+names(GraphTest)[4] <- "WrongLevelDistractor"
+
+library(tidyverse)
+library(dplyr)
+GraphTest.long <- gather(GraphTest, error_type, proportion, SwitchingMistake:WrongLevelDistractor)
+
+str(GraphTest.long)
+GraphTest.long$error_type <- as.factor(GraphTest.long$error_type)
+
+
+library(ggplot2)
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+b<- ggplot(data=GraphTest.long, aes(x=error_type,y=proportion)) +
+  geom_boxplot(aes(group=error_type, fill=error_type), outlier.shape = NA) +
+labs(x="Error type",y="Proportion out of all made mistakes")+
+    theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ 
+   scale_fill_manual(values=cbPalette)+
+   scale_colour_manual(values=cbPalette)+
+   theme(legend.position = "none")+
+   geom_count(alpha = 0.5) + 
+  scale_size_continuous(range = c(2,9), breaks = c(1, 10, 30, 50))+
+  theme(axis.title.y = element_blank()) +
+  theme(axis.text=element_text(size=18),
+        axis.title=element_text(size=20))+
+  scale_x_discrete(labels=c("CorrectLevelWrongCup" = "Correct level, wrong cup", "SwitchingMistake" = "Wrong level, switching mistake", "WrongLevelDistractor" = "Wrong level, distractor"))
+ 
+  
+```
